@@ -1,4 +1,14 @@
 *.class
+*~
+
+# IDEs
+.idea
+*.iml
+.classpath
+.project
+
+# Maven
+/target/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
