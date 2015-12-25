@@ -9,8 +9,12 @@ import java.util.Map.Entry;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.RootDoc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExtractDocumentationAsJsonDoclet {
+
+    private final static Logger log = LoggerFactory.getLogger(ExtractDocumentationAsJsonDoclet.class);
 
     public static boolean start(RootDoc root) {
         for (ClassDoc classDoc : root.classes()) {
@@ -63,8 +67,7 @@ public class ExtractDocumentationAsJsonDoclet {
             try (FileWriter fw = new FileWriter(fileName)) {
                 fw.append(toJson());
             } catch (IOException e) {
-                System.err.println("Failed to write " + fileName);
-                e.printStackTrace();
+                log.error("Failed to write file", e);
             }
         }
 
