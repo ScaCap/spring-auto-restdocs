@@ -1,0 +1,106 @@
+[[resources-items]]
+== Items
+
+[[resources-items-get]]
+=== Get an item
+
+`GET /items/{id}`
+
+==== Request structure
+
+include::{snippets}/items/get/request-fields.adoc[]
+
+We do not have to care whether to include a snippet or not,
+because the template returns "No data." instead of an empty table.
+
+==== Response structure
+
+include::{snippets}/items/get/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/get/curl-request.adoc[]
+include::{snippets}/items/get/http-response.adoc[]
+
+
+[[resources-items-all]]
+=== Get all item
+
+`GET /items`
+
+As AsciiDoc is used, any additional information can be placed here and you don't have to care about formatting.
+
+This endpoint really returns all items and that is always 100.
+
+==== Request structure
+
+include::{snippets}/items/all/request-fields.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/all/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/all/curl-request.adoc[]
+
+The array shortening feature intercepted here and reduced the 100 items to 3.
+
+include::{snippets}/items/all/http-response.adoc[]
+
+
+[[resources-items-add]]
+=== Add an item
+
+`POST /items`
+
+==== Request structure
+
+include::{snippets}/items/add/request-fields.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/add/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/add/curl-request.adoc[]
+include::{snippets}/items/add/http-response.adoc[]
+
+
+[[resources-items-update]]
+=== Update an item
+
+`PUT /items/{id}`
+
+==== Request structure
+
+include::{snippets}/items/update/request-fields.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/update/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/update/curl-request.adoc[]
+include::{snippets}/items/update/http-response.adoc[]
+
+
+[[resources-items-delete]]
+=== Delete an item
+
+`DELETE /items/{id}`
+
+==== Request structure
+
+include::{snippets}/items/delete/request-fields.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/delete/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/delete/curl-request.adoc[]
+include::{snippets}/items/delete/http-response.adoc[]

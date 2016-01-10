@@ -1,0 +1,44 @@
+= Example API Documentation
+:doctype: book
+:compat-mode:
+:page-layout!:
+:toc: right
+:toclevels: 2
+:sectanchors:
+:sectlinks:
+:sectnums:
+:linkattrs:
+:source-highlighter: highlightjs
+
+
+[[overview]]
+= Overview
+
+[[overview-general]]
+== General
+
+[[overview-http-verbs]]
+=== HTTP verbs
+
+An example of static AsciiDoc.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource (idempotent)
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update an existing resource (idempotent)
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[resources]]
+= Resources
+
+include::items.adoc[]

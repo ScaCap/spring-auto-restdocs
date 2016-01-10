@@ -28,7 +28,8 @@ public class ArrayLimitingJsonContentModifier extends JsonContentModifier {
         return new JsonNodeConsumer() {
             @Override
             public void accept(JsonNode node) {
-                for (int i = maxElements; i < node.size(); i++) {
+                final int originalSize = node.size();
+                for (int i = maxElements; i < originalSize; i++) {
                     ((ArrayNode) node).remove(maxElements);
                 }
             }
