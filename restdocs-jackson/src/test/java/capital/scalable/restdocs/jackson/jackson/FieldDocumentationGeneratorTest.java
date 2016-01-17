@@ -11,11 +11,14 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -25,13 +28,13 @@ public class FieldDocumentationGeneratorTest {
     @Test
     public void testGenerateDocumentationForPrimitiveTypes() throws Exception {
         // given
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(objectMapper.writer());
+                new FieldDocumentationGenerator(mapper.writer());
         Type type = PrimitiveTypes.class;
         // when
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
-                .generateDocumentation(type, objectMapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(fieldDescriptions.get(0), is(descriptor("stringField", STRING, "", false)));
         assertThat(fieldDescriptions.get(1), is(descriptor("booleanField", BOOLEAN, "", true)));
@@ -42,13 +45,13 @@ public class FieldDocumentationGeneratorTest {
     @Test
     public void testGenerateDocumentationForComposedTypes() throws Exception {
         // given
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(objectMapper.writer());
+                new FieldDocumentationGenerator(mapper.writer());
         Type type = ComposedTypes.class;
         // when
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
-                .generateDocumentation(type, objectMapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(fieldDescriptions.get(0), is(descriptor("objectField", OBJECT, "", false)));
         assertThat(fieldDescriptions.get(1),
@@ -61,22 +64,39 @@ public class FieldDocumentationGeneratorTest {
     @Test
     public void testGenerateDocumentationForNestedTypes() throws Exception {
         // given
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(objectMapper.writer());
+                new FieldDocumentationGenerator(mapper.writer());
         Type type = FirstLevel.class;
         // when
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
-                .generateDocumentation(type, objectMapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(fieldDescriptions.get(0), is(descriptor("second", OBJECT, "", true)));
-        assertThat(fieldDescriptions.get(1), is(descriptor("second.third", ARRAY, "", true)));
+        assertThat(fieldDescriptions.get(1), is(descriptor("second.third", ARRAY, "", false)));
         assertThat(fieldDescriptions.get(2),
                 is(descriptor("second.third[].fourth", OBJECT, "", true)));
         assertThat(fieldDescriptions.get(3),
                 is(descriptor("second.third[].fourth.fifth", ARRAY, "", true)));
         assertThat(fieldDescriptions.get(4),
                 is(descriptor("second.third[].fourth.fifth[].last", NUMBER, "", true)));
+    }
+
+    @Test
+    public void testGenerateDocumentationForExternalSerializer() throws Exception {
+        // given
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule testModule = new SimpleModule("TestModule");
+        testModule.addSerializer(new BigDecimalSerializer());
+        mapper.registerModule(testModule);
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer());
+        Type type = ExternalSerializer.class;
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(fieldDescriptions.get(0), is(descriptor("bigDecimal", NUMBER, "", true)));
     }
 
 
@@ -148,6 +168,7 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class SecondLevel {
+        @NotEmpty
         private List<ThirdLevel> third;
 
         public List<ThirdLevel> getThird() {
@@ -176,6 +197,14 @@ public class FieldDocumentationGeneratorTest {
 
         public Integer getLast() {
             return last;
+        }
+    }
+
+    private static class ExternalSerializer {
+        private BigDecimal bigDecimal;
+
+        public BigDecimal getBigDecimal() {
+            return bigDecimal;
         }
     }
 }
