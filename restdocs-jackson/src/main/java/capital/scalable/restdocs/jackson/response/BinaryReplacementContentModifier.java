@@ -14,7 +14,7 @@ import org.springframework.restdocs.operation.preprocess.ContentModifier;
 
 public class BinaryReplacementContentModifier implements ContentModifier {
 
-    private static final Set<MediaType> BINARY_ENUM_TYPES = ImmutableSet.<MediaType>builder()
+    public static final Set<MediaType> BINARY_ENUM_TYPES = ImmutableSet.<MediaType>builder()
             .add(MediaType.valueOf("application/pdf"))
             .add(APPLICATION_OCTET_STREAM)
             .add(IMAGE_JPEG)
