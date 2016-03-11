@@ -23,16 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.jackson.FieldDocumentationGenerator;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.method.HandlerMethod;
-
-import capital.scalable.restdocs.jackson.jackson.FieldDocumentationGenerator;
 
 /**
  * @author Florian Benz, Juraj Misur
@@ -49,17 +47,13 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
 
     @Override
     protected Map<String, Object> createModel(Operation operation) {
-        MvcResult result = (MvcResult) operation.getAttributes().get(MvcResult.class.getName());
-        ObjectMapper objectMapper =
-                (ObjectMapper) operation.getAttributes().get(ObjectMapper.class.getName());
+        HandlerMethod handlerMethod = getHandlerMethod(operation);
 
         List<FieldDescriptor> fieldDescriptors = new ArrayList<>();
-        Object handler = result.getHandler();
-        if (handler != null && handler instanceof HandlerMethod) {
-            HandlerMethod method = (HandlerMethod) handler;
-
-            Type type = getType(method);
+        if (handlerMethod != null) {
+            Type type = getType(handlerMethod);
             if (type != null) {
+                ObjectMapper objectMapper = getObjectMapper(operation);
                 try {
                     fieldDescriptors.addAll(new FieldDocumentationGenerator(objectMapper.writer())
                             .generateDocumentation(type, objectMapper.getTypeFactory()));
@@ -70,7 +64,7 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
         }
 
         Map<String, Object> model = new HashMap<>();
-        enrichModel(result, model);
+        enrichModel(model, handlerMethod);
 
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("fields", fields);
@@ -80,6 +74,14 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
         model.put("hasFields", !fieldDescriptors.isEmpty());
         model.put("noFields", fieldDescriptors.isEmpty());
         return model;
+    }
+
+    private ObjectMapper getObjectMapper(Operation operation) {
+        return (ObjectMapper) operation.getAttributes().get(ObjectMapper.class.getName());
+    }
+
+    private HandlerMethod getHandlerMethod(Operation operation) {
+        return (HandlerMethod) operation.getAttributes().get(HandlerMethod.class.getName());
     }
 
     /**
@@ -103,7 +105,7 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
 
     protected abstract Type getType(HandlerMethod method);
 
-    protected void enrichModel(MvcResult result, Map<String, Object> model) {
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
         // can be used to add additional fields
     }
 }

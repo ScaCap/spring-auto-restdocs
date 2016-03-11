@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippetTest {
 
@@ -48,7 +49,7 @@ public class JacksonResponseFieldSnippetTest {
 
         new JacksonResponseFieldSnippet().document(new OperationBuilder(
                 "map-response", this.snippet.getOutputDirectory())
-                .attribute(MvcResult.class.getName(), mvcResult)
+                .attribute(HandlerMethod.class.getName(), mvcResult.getHandler())
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
                 .build());

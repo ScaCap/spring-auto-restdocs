@@ -29,6 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippetTest {
 
@@ -49,7 +50,7 @@ public class JacksonRequestFieldSnippetTest {
 
         new JacksonRequestFieldSnippet().document(new OperationBuilder(
                 "map-request", this.snippet.getOutputDirectory())
-                .attribute(MvcResult.class.getName(), mvcResult)
+                .attribute(HandlerMethod.class.getName(), mvcResult.getHandler())
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
                 .content("{\"field1\":\"test\"}")
