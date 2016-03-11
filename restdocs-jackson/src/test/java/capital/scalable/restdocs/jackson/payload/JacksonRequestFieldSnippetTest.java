@@ -16,64 +16,50 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
-import static capital.scalable.restdocs.jackson.test.SnippetMatchers.tableWithHeader;
+import static org.springframework.util.ClassUtils.getMethod;
 
-import java.lang.reflect.Method;
-
-import capital.scalable.restdocs.jackson.test.ExpectedSnippet;
-import capital.scalable.restdocs.jackson.test.FakeMvcResult;
-import capital.scalable.restdocs.jackson.test.OperationBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
-import org.junit.Rule;
 import org.junit.Test;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.restdocs.AbstractSnippetTests;
+import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
-public class JacksonRequestFieldSnippetTest {
+public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
-    @Rule
-    public final ExpectedSnippet snippet = new ExpectedSnippet();
+    private ObjectMapper mapper = new ObjectMapper();
+
+    public JacksonRequestFieldSnippetTest(String name, TemplateFormat templateFormat) {
+        super(name, templateFormat);
+    }
 
     @Test
     public void simpleRequest() throws Exception {
-        TestResource bean = new TestResource();
-        Method method = method(TestResource.class, "addItem");
-        MvcResult mvcResult = FakeMvcResult.build(bean, method);
-        ObjectMapper mapper = new ObjectMapper();
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(),
+                getMethod(TestResource.class, "addItem", Item.class));
 
         this.snippet.expectRequestFields("map-request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "")
                         .row("field2", "Number", "true", ""));
 
-        new JacksonRequestFieldSnippet().document(new OperationBuilder(
-                "map-request", this.snippet.getOutputDirectory())
-                .attribute(HandlerMethod.class.getName(), mvcResult.getHandler())
+        new JacksonRequestFieldSnippet().document(operationBuilder("map-request")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
                 .content("{\"field1\":\"test\"}")
                 .build());
     }
 
-    private Method method(Class<?> clazz, String name) {
-        for (Method m : clazz.getMethods()) {
-            if (m.getName().equals(name)) {
-                return m;
-            }
-        }
-        throw new IllegalArgumentException("Unknown method " + name);
-    }
-
-    private class TestResource {
+    private static class TestResource {
 
         public void addItem(@RequestBody Item item) {
             // NOOP
         }
     }
 
-    private class Item {
+    private static class Item {
         @NotBlank
         private String field1;
         private Integer field2;
