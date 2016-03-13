@@ -1,4 +1,10 @@
 /*
+ * Copied from
+ * https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/test/java/org/springframework/restdocs/test/OperationBuilder.java
+ * Happy for a better solution.
+ */
+
+/*
  * Copyright 2014-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
