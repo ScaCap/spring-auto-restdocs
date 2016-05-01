@@ -16,16 +16,18 @@
 
 package capital.scalable.example.testsupport;
 
+import static capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.jackson.payload.AutoPayloadDocumentation.requestFields;
 import static capital.scalable.restdocs.jackson.payload.AutoPayloadDocumentation.responseFields;
-import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.shortenContent;
+import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
+        .shortenContent;
 import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+        .documentationConfiguration;
 
 import capital.scalable.example.Application;
-import capital.scalable.restdocs.jackson.ExtendedResultHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -68,6 +70,7 @@ public abstract class MockMvcBase {
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
+                .alwaysDo(prepareJackson(objectMapper))
                 .apply(documentationConfiguration(restDocumentation)
                         .uris()
                         .withScheme("http")
@@ -80,7 +83,7 @@ public abstract class MockMvcBase {
     }
 
     public ResultHandler document(String identifier, Snippet... snippets) {
-        return new ExtendedResultHandler(MockMvcRestDocumentation.document(identifier,
-                shortenContent(objectMapper), snippets), objectMapper);
+        return MockMvcRestDocumentation.document(identifier, shortenContent(objectMapper),
+                snippets);
     }
 }

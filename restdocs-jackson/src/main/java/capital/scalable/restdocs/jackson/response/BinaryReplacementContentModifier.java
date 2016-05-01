@@ -22,9 +22,9 @@ import static org.springframework.http.MediaType.IMAGE_GIF;
 import static org.springframework.http.MediaType.IMAGE_JPEG;
 import static org.springframework.http.MediaType.IMAGE_PNG;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.ContentModifier;
 
@@ -33,13 +33,15 @@ import org.springframework.restdocs.operation.preprocess.ContentModifier;
  */
 public class BinaryReplacementContentModifier implements ContentModifier {
 
-    public static final Set<MediaType> BINARY_ENUM_TYPES = ImmutableSet.<MediaType>builder()
-            .add(MediaType.valueOf("application/pdf"))
-            .add(APPLICATION_OCTET_STREAM)
-            .add(IMAGE_JPEG)
-            .add(IMAGE_GIF)
-            .add(IMAGE_PNG)
-            .build();
+    public static final Set<MediaType> BINARY_ENUM_TYPES = new HashSet<>();
+
+    static {
+        BINARY_ENUM_TYPES.add(MediaType.valueOf("application/pdf"));
+        BINARY_ENUM_TYPES.add(APPLICATION_OCTET_STREAM);
+        BINARY_ENUM_TYPES.add(IMAGE_JPEG);
+        BINARY_ENUM_TYPES.add(IMAGE_GIF);
+        BINARY_ENUM_TYPES.add(IMAGE_PNG);
+    }
 
     @Override
     public byte[] modifyContent(byte[] originalContent, MediaType contentType) {

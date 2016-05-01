@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.method.HandlerMethod;
 
 /**
@@ -56,16 +55,18 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected void enrichModel(MvcResult result, Map<String, Object> model) {
-        Object handler = result.getHandler();
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
         final String infoText;
-        if (handler != null && handler instanceof HandlerMethod
-                && ((HandlerMethod) handler).getReturnType().getParameterType() == Page.class) {
+        if (handlerMethod != null && isPageResponse(handlerMethod)) {
             infoText = "Standard <<overview-pagination,Paging>> response where `content` field"
                     + " is list of following objects:";
         } else {
             infoText = "";
         }
         model.put("paginationInfo", infoText);
+    }
+
+    private boolean isPageResponse(HandlerMethod handlerMethod) {
+        return handlerMethod.getReturnType().getParameterType() == Page.class;
     }
 }
