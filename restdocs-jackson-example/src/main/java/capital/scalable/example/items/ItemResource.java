@@ -16,20 +16,28 @@
 
 package capital.scalable.example.items;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import capital.scalable.example.items.ItemResponse.NestedInformation;
+import capital.scalable.example.items.ItemResponse.Attributes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * Simple REST resource with CRUD operations.
@@ -40,35 +48,106 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/items")
 public class ItemResource {
 
+    private static final ItemResponse CHILD =
+            new ItemResponse("child-1", "first child", null, null);
+
+    private static final ItemResponse ITEM =
+            new ItemResponse("1", "main item",
+                    new Attributes("first item", 1, true, new BigDecimal("1.11")),
+                    singletonList(CHILD));
+
+    /**
+     * Returns item by id.
+     *
+     * @param id id of the item
+     */
     @RequestMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") String id) {
-        return new ItemResponse(id, "Information for " + id, new NestedInformation("text", 1, true),
-                singletonList(new NestedInformation("more text", 42, false)));
-    }
-
-    @RequestMapping()
-    public List<ItemResponse> allItems() {
-        List<ItemResponse> items = new ArrayList<>(100);
-        for (int i = 0; i < 100; i++) {
-            items.add(new ItemResponse("" + i, "Information for " + i, null, null));
+        if ("1".equals(id)) {
+            return ITEM;
+        } else {
+            throw new NotFoundException();
         }
-        return items;
     }
 
+    /**
+     * Lists all items.
+     */
+    @RequestMapping
+    public ItemResponse[] allItems() {
+        return new ItemResponse[]{ITEM, CHILD};
+    }
+
+    /**
+     * Adds new item.
+     *
+     * @param itemUpdate item information
+     */
     @RequestMapping(method = POST)
-    public ItemResponse addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate) {
+    public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate)
+            throws URISyntaxException {
         // New item with unique ID is stored and returned.
-        return new ItemResponse("newRandomId", itemUpdate.getInformation(), null, null);
+        URI location = ServletUriComponentsBuilder
+                .fromUriString("/items")
+                .path("/{id}")
+                .buildAndExpand("2")
+                .toUri();
+
+        return ResponseEntity
+                .created(location)
+                .body(null);
     }
 
+    /**
+     * Updates existing item.
+     *
+     * @param id         item id
+     * @param itemUpdate item information
+     */
     @RequestMapping(value = "{id}", method = PUT)
-    public void updateItem(@PathVariable("id") String id,
+    public ItemResponse updateItem(@PathVariable("id") String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        // Item with the given ID is updated.
+        return new ItemResponse(id, itemUpdate.getDescription(), null, null);
     }
 
     @RequestMapping(value = "{id}", method = DELETE)
     public void deleteItem(@PathVariable("id") String id) {
         // Item with the given ID is deleted.
+    }
+
+    /**
+     * Retrieves a child of specified item.
+     *
+     * @param id      item id
+     * @param childId child id
+     */
+    @RequestMapping("{id}/{child}")
+    public ItemResponse getChild(@PathVariable String id,
+            @PathVariable("child") String childId) {
+        if ("1".equals(id) && "child-1".equals(childId)) {
+            return CHILD;
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    /**
+     * Searches for item based on lookup parameters.
+     *
+     * @param descMatch lookup on description field
+     * @param hint      lookup hint
+     */
+    @RequestMapping("search")
+    public List<ItemResponse> searchItem(@RequestParam("desc") String descMatch,
+            @RequestParam(required = false) Integer hint) {
+        if (ITEM.getDescription().contains(descMatch)) {
+            return singletonList(ITEM);
+        } else {
+            return emptyList();
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    static class NotFoundException extends RuntimeException {
     }
 }

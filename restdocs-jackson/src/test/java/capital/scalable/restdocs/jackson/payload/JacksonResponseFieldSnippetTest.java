@@ -38,7 +38,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectResponseFields("map-response").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "")
-                        .row("field2", "Number", "true", ""));
+                        .row("field2", "Integer", "true", ""));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("map-response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

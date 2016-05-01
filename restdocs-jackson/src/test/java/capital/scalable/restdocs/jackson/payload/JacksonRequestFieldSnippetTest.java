@@ -39,7 +39,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectRequestFields("map-request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "")
-                        .row("field2", "Number", "true", ""));
+                        .row("field2", "Integer", "true", ""));
 
         new JacksonRequestFieldSnippet().document(operationBuilder("map-request")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

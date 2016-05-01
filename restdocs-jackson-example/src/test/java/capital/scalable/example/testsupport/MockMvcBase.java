@@ -16,9 +16,11 @@
 
 package capital.scalable.example.testsupport;
 
-import static capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson;
-import static capital.scalable.restdocs.jackson.payload.AutoPayloadDocumentation.requestFields;
-import static capital.scalable.restdocs.jackson.payload.AutoPayloadDocumentation.responseFields;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.pathParameters;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.queryParameters;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.requestFields;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
+import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
         .shortenContent;
 import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
@@ -78,7 +80,8 @@ public abstract class MockMvcBase {
                         .withPort(8080)
                         .and().snippets()
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
-                                requestFields(), responseFields()))
+                                requestFields(), responseFields(), pathParameters(),
+                                queryParameters()))
                 .build();
     }
 

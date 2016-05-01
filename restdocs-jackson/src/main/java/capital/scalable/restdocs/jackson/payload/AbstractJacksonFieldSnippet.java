@@ -19,23 +19,22 @@ package capital.scalable.restdocs.jackson.payload;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.jackson.jackson.FieldDocumentationGenerator;
+import capital.scalable.restdocs.jackson.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 /**
  * @author Florian Benz, Juraj Misur
  */
-abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
+abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
 
     protected AbstractJacksonFieldSnippet(String type) {
         this(type, null);
@@ -45,58 +44,27 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
         super(type + "-fields", attributes);
     }
 
-    @Override
-    protected Map<String, Object> createModel(Operation operation) {
-        HandlerMethod handlerMethod = getHandlerMethod(operation);
-
+    protected List<FieldDescriptor> createFieldDescriptors(Operation operation,
+            HandlerMethod handlerMethod) {
         List<FieldDescriptor> fieldDescriptors = new ArrayList<>();
-        if (handlerMethod != null) {
-            Type type = getType(handlerMethod);
-            if (type != null) {
-                ObjectMapper objectMapper = getObjectMapper(operation);
-                try {
-                    fieldDescriptors.addAll(new FieldDocumentationGenerator(objectMapper.writer())
-                            .generateDocumentation(type, objectMapper.getTypeFactory()));
-                } catch (JsonMappingException e) {
-                    throw new JacksonFieldProcessingException("Error while parsing fields", e);
-                }
+
+        Type type = getType(handlerMethod);
+        if (type != null) {
+            ObjectMapper objectMapper = getObjectMapper(operation);
+
+            try {
+                fieldDescriptors.addAll(new FieldDocumentationGenerator(objectMapper.writer())
+                        .generateDocumentation(type, objectMapper.getTypeFactory()));
+            } catch (JsonMappingException e) {
+                throw new JacksonFieldProcessingException("Error while parsing fields", e);
             }
         }
 
-        Map<String, Object> model = new HashMap<>();
-        enrichModel(model, handlerMethod);
-
-        List<Map<String, Object>> fields = new ArrayList<>();
-        model.put("fields", fields);
-        for (FieldDescriptor descriptor : fieldDescriptors) {
-            fields.add(createModelForDescriptor(descriptor));
-        }
-        model.put("hasFields", !fieldDescriptors.isEmpty());
-        model.put("noFields", fieldDescriptors.isEmpty());
-        return model;
+        return fieldDescriptors;
     }
 
     private ObjectMapper getObjectMapper(Operation operation) {
         return (ObjectMapper) operation.getAttributes().get(ObjectMapper.class.getName());
-    }
-
-    private HandlerMethod getHandlerMethod(Operation operation) {
-        return (HandlerMethod) operation.getAttributes().get(HandlerMethod.class.getName());
-    }
-
-    /**
-     * Returns a model for the given {@code descriptor}
-     *
-     * @param descriptor the descriptor
-     * @return the model
-     */
-    protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("path", descriptor.getPath());
-        model.put("type", descriptor.getType().toString());
-        model.put("optional", descriptor.isOptional());
-        model.put("description", descriptor.getDescription().toString());
-        return model;
     }
 
     protected Type firstGenericType(MethodParameter param) {
@@ -104,8 +72,4 @@ abstract class AbstractJacksonFieldSnippet extends TemplatedSnippet {
     }
 
     protected abstract Type getType(HandlerMethod method);
-
-    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
-        // can be used to add additional fields
-    }
 }

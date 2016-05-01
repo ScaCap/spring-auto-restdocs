@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.jackson.payload;
+package capital.scalable.restdocs.jackson;
 
+import capital.scalable.restdocs.jackson.payload.JacksonRequestFieldSnippet;
+import capital.scalable.restdocs.jackson.payload.JacksonResponseFieldSnippet;
+import capital.scalable.restdocs.jackson.request.PathParametersSnippet;
+import capital.scalable.restdocs.jackson.request.QueryParametersSnippet;
 import org.springframework.restdocs.snippet.Snippet;
 
 /**
  * @author Florian Benz, Juraj Misur
  */
-public abstract class AutoPayloadDocumentation {
+public abstract class AutoDocumentation {
 
-    private AutoPayloadDocumentation() {
+    private AutoDocumentation() {
 
     }
 
@@ -33,5 +37,13 @@ public abstract class AutoPayloadDocumentation {
 
     public static Snippet responseFields() {
         return new JacksonResponseFieldSnippet();
+    }
+
+    public static Snippet pathParameters() {
+        return new PathParametersSnippet();
+    }
+
+    public static Snippet queryParameters() {
+        return new QueryParametersSnippet();
     }
 }

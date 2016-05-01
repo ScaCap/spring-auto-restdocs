@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.RootDoc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ExtractDocumentationAsJsonDoclet {
 
-    private final static Logger log = LoggerFactory.getLogger(ExtractDocumentationAsJsonDoclet.class);
+    private final static Logger log = LoggerFactory.getLogger(
+            ExtractDocumentationAsJsonDoclet.class);
 
     public static boolean start(RootDoc root) {
         for (ClassDoc classDoc : root.classes()) {
@@ -50,6 +53,7 @@ public class ExtractDocumentationAsJsonDoclet {
     private static class ClassDocumentation {
         private String comment;
         private Map<String, String> fields = new HashMap<>();
+        private Map<String, MethodDocumentation> methods = new HashMap<>();
 
         private ClassDocumentation() {
             // enforce usage of static factory method
@@ -61,6 +65,9 @@ public class ExtractDocumentationAsJsonDoclet {
             for (FieldDoc fieldDoc : classDoc.fields(false)) {
                 cd.addField(fieldDoc.name(), fieldDoc.commentText());
             }
+            for (MethodDoc methodDoc : classDoc.methods(false)) {
+                cd.addMethod(methodDoc);
+            }
             return cd;
         }
 
@@ -70,6 +77,10 @@ public class ExtractDocumentationAsJsonDoclet {
 
         private void addField(String name, String comment) {
             this.fields.put(name, escape(comment));
+        }
+
+        private void addMethod(MethodDoc methodDoc) {
+            this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
         }
 
         public boolean containsAtLeastOneComment() {
@@ -107,12 +118,58 @@ public class ExtractDocumentationAsJsonDoclet {
             if (builder.charAt(builder.length() - 1) == ',') {
                 builder.deleteCharAt(builder.length() - 1);
             }
+            builder.append("}");
+            builder.append(",\"methods\":{");
+            for (Entry<String, MethodDocumentation> e : methods.entrySet()) {
+                builder.append("\"");
+                builder.append(e.getKey());
+                builder.append("\": ");
+                builder.append(e.getValue().toJson());
+                builder.append(",");
+            }
+            if (builder.charAt(builder.length() - 1) == ',') {
+                builder.deleteCharAt(builder.length() - 1);
+            }
             builder.append("}}");
             return builder.toString();
         }
+    }
 
-        private String escape(String text) {
-            return text.replace("\"", "\\\"").replace("\n", "\\n");
+    private static class MethodDocumentation {
+        private String comment;
+        private Map<String, String> fields = new HashMap<>();
+
+        private static MethodDocumentation fromMethodDoc(MethodDoc methodDoc) {
+            MethodDocumentation md = new MethodDocumentation();
+            md.comment = escape(methodDoc.commentText());
+
+            for (ParamTag param : methodDoc.paramTags()) {
+                md.fields.put(param.parameterName(), escape(param.parameterComment()));
+            }
+            return md;
         }
+
+        public String toJson() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{ \"comment\":\"");
+            builder.append(comment);
+            builder.append("\", \"fields\":{");
+            for (Entry<String, String> e : fields.entrySet()) {
+                builder.append("\"");
+                builder.append(e.getKey());
+                builder.append("\":\"");
+                builder.append(e.getValue());
+                builder.append("\",");
+            }
+            if (builder.charAt(builder.length() - 1) == ',') {
+                builder.deleteCharAt(builder.length() - 1);
+            }
+            builder.append("}}");
+            return builder.toString();
+        }
+    }
+
+    static String escape(String text) {
+        return text.replace("\"", "\\\"").replace("\n", "\\n");
     }
 }

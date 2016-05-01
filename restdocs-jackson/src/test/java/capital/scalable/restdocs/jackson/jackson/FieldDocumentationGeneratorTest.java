@@ -18,11 +18,6 @@ package capital.scalable.restdocs.jackson.jackson;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
-import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
-import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 import javax.validation.constraints.NotNull;
@@ -37,7 +32,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 public class FieldDocumentationGeneratorTest {
 
@@ -52,10 +46,10 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.get(0), is(descriptor("stringField", STRING, "", false)));
-        assertThat(fieldDescriptions.get(1), is(descriptor("booleanField", BOOLEAN, "", true)));
-        assertThat(fieldDescriptions.get(2), is(descriptor("numberField1", NUMBER, "", false)));
-        assertThat(fieldDescriptions.get(3), is(descriptor("numberField2", NUMBER, "", true)));
+        assertThat(fieldDescriptions.get(0), is(descriptor("stringField", "String", "", false)));
+        assertThat(fieldDescriptions.get(1), is(descriptor("booleanField", "Boolean", "", true)));
+        assertThat(fieldDescriptions.get(2), is(descriptor("numberField1", "Integer", "", false)));
+        assertThat(fieldDescriptions.get(3), is(descriptor("numberField2", "Decimal", "", true)));
     }
 
     @Test
@@ -69,12 +63,11 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.get(0), is(descriptor("objectField", OBJECT, "", false)));
+        assertThat(fieldDescriptions.size(), is(6));
+        assertThat(fieldDescriptions.get(0), is(descriptor("objectField", "Object", "", false)));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("objectField.stringField", STRING, "", false)));
-        assertThat(fieldDescriptions.get(5), is(descriptor("arrayField", ARRAY, "", true)));
-        assertThat(fieldDescriptions.get(6),
-                is(descriptor("arrayField[].stringField", STRING, "", false)));
+                is(descriptor("objectField.stringField", "String", "", false)));
+        assertThat(fieldDescriptions.get(5), is(descriptor("arrayField", "Array", "", true)));
     }
 
     @Test
@@ -88,14 +81,14 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.get(0), is(descriptor("second", OBJECT, "", true)));
-        assertThat(fieldDescriptions.get(1), is(descriptor("second.third", ARRAY, "", false)));
+        assertThat(fieldDescriptions.get(0), is(descriptor("second", "Object", "", true)));
+        assertThat(fieldDescriptions.get(1), is(descriptor("second.third", "Array", "", false)));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("second.third[].fourth", OBJECT, "", true)));
+                is(descriptor("second.third[].fourth", "Object", "", true)));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("second.third[].fourth.fifth", ARRAY, "", true)));
+                is(descriptor("second.third[].fourth.fifth", "Array", "", true)));
         assertThat(fieldDescriptions.get(4),
-                is(descriptor("second.third[].fourth.fifth[].last", NUMBER, "", true)));
+                is(descriptor("second.third[].fourth.fifth[].last", "Integer", "", true)));
     }
 
     @Test
@@ -112,15 +105,14 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.get(0), is(descriptor("bigDecimal", NUMBER, "", true)));
+        assertThat(fieldDescriptions.get(0), is(descriptor("bigDecimal", "Decimal", "", true)));
     }
 
 
-    private ExtendedFieldDescriptor descriptor(String path, JsonFieldType jsonFieldType,
-            String comment,
-            boolean optional) {
+    private ExtendedFieldDescriptor descriptor(String path, Object fieldType,
+            String comment, boolean optional) {
         FieldDescriptor fieldDescriptor = fieldWithPath(path)
-                .type(jsonFieldType)
+                .type(fieldType)
                 .description(comment);
         if (optional) {
             fieldDescriptor.optional();

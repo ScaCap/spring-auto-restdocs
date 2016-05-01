@@ -30,5 +30,5 @@ class ItemUpdateRequest {
      * Some information about the item.
      */
     @NotBlank
-    private String information;
+    private String description;
 }
