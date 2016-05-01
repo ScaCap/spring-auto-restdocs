@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
-import static org.springframework.util.ClassUtils.getMethod;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
@@ -35,8 +33,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void simpleResponse() throws Exception {
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(),
-                getMethod(TestResource.class, "getItem"));
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItem");
 
         this.snippet.expectResponseFields("map-response").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
