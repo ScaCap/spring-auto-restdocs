@@ -16,6 +16,7 @@
 
 package capital.scalable.example.items;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Value;
@@ -37,16 +38,38 @@ class ItemResponse {
      * Some information about the item.
      */
     @NotBlank
-    private String information;
+    private String description;
 
-    private NestedInformation nestedInformation;
+    /**
+     * Item attributes.
+     */
+    private Attributes attributes;
 
-    private List<NestedInformation> nestedList;
+    /**
+     * Child items.
+     */
+    private List<ItemResponse> children;
 
+    /**
+     * Various attributes about the item.
+     */
     @Value
-    static class NestedInformation {
-        private String optionalText;
-        private Integer someNumber;
-        private Boolean someBoolean;
+    static class Attributes {
+        /**
+         * Textual attribute.
+         */
+        private String text;
+        /**
+         * Integer attribute.
+         */
+        private Integer number;
+        /**
+         * Boolean attribute.
+         */
+        private Boolean bool;
+        /**
+         * Decimal attribute.
+         */
+        private BigDecimal decimal;
     }
 }

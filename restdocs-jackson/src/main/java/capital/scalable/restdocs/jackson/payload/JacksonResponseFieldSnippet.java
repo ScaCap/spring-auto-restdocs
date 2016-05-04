@@ -30,7 +30,7 @@ import org.springframework.web.method.HandlerMethod;
  */
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
-    protected JacksonResponseFieldSnippet() {
+    public JacksonResponseFieldSnippet() {
         super("response");
     }
 

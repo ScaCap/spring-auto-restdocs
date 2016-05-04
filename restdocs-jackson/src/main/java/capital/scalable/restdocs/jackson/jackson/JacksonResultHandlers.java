@@ -1,4 +1,4 @@
-package capital.scalable.restdocs.jackson;
+package capital.scalable.restdocs.jackson.jackson;
 
 import java.util.Map;
 

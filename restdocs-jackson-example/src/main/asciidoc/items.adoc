@@ -104,3 +104,38 @@ include::{snippets}/items/delete/response-fields.adoc[]
 
 include::{snippets}/items/delete/curl-request.adoc[]
 include::{snippets}/items/delete/http-response.adoc[]
+[[resources-items-delete]]
+
+=== Get child item
+
+`GET /items/{id}/{child}`
+
+==== Path parameters
+
+include::{snippets}/items/child/path-parameters.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/child/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/child/curl-request.adoc[]
+include::{snippets}/items/child/http-response.adoc[]
+
+=== Search item
+
+`GET /search`
+
+==== Query parameters
+
+include::{snippets}/items/search/request-parameters.adoc[]
+
+==== Response structure
+
+include::{snippets}/items/search/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/items/search/curl-request.adoc[]
+include::{snippets}/items/search/http-response.adoc[]

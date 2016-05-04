@@ -29,7 +29,6 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNullFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNumberFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonStringFormatVisitor;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 /**
  * @author Florian Benz
@@ -70,55 +69,60 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
 
     @Override
     public JsonObjectFormatVisitor expectObjectFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.OBJECT);
-        return new FieldDocumentationObjectVisitor(provider, type.getRawClass(), context, path);
+        addFieldIfPresent("Object");
+        if (context.wasAnalyzed(type.getRawClass())) {
+            return null;
+        } else {
+            context.addAnalyzedClass(type.getRawClass());
+            return new FieldDocumentationObjectVisitor(provider, type.getRawClass(), context, path);
+        }
     }
 
     @Override
     public JsonArrayFormatVisitor expectArrayFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.ARRAY);
+        addFieldIfPresent("Array");
         return new FieldDocumentationArrayVisitor(provider, context, path);
     }
 
     @Override
     public JsonStringFormatVisitor expectStringFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.STRING);
+        addFieldIfPresent("String");
         return new JsonStringFormatVisitor.Base();
     }
 
     @Override
     public JsonNumberFormatVisitor expectNumberFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.NUMBER);
+        addFieldIfPresent("Decimal");
         return new JsonNumberFormatVisitor.Base();
     }
 
     @Override
     public JsonIntegerFormatVisitor expectIntegerFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.NUMBER);
+        addFieldIfPresent("Integer");
         return new JsonIntegerFormatVisitor.Base();
     }
 
     @Override
     public JsonBooleanFormatVisitor expectBooleanFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.BOOLEAN);
+        addFieldIfPresent("Boolean");
         return new JsonBooleanFormatVisitor.Base();
     }
 
     @Override
     public JsonNullFormatVisitor expectNullFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.NULL);
+        addFieldIfPresent("null");
         return new JsonNullFormatVisitor.Base();
     }
 
     @Override
     public JsonAnyFormatVisitor expectAnyFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.VARIES);
+        addFieldIfPresent("Var");
         return new JsonAnyFormatVisitor.Base();
     }
 
     @Override
     public JsonMapFormatVisitor expectMapFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent(JsonFieldType.OBJECT);
+        addFieldIfPresent("Map");
         return new JsonMapFormatVisitor.Base(provider);
     }
 
@@ -126,7 +130,7 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         return context;
     }
 
-    private void addFieldIfPresent(JsonFieldType fieldType) {
+    private void addFieldIfPresent(Object fieldType) {
         if (fieldInfo != null) {
             context.addField(fieldInfo, fieldType);
         }
