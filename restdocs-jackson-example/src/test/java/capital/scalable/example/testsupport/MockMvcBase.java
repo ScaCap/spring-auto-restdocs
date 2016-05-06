@@ -16,10 +16,13 @@
 
 package capital.scalable.example.testsupport;
 
+import static capital.scalable.restdocs.jackson.AutoDocumentation.description;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.pathParameters;
-import static capital.scalable.restdocs.jackson.AutoDocumentation.queryParameters;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.requestFields;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
+import static capital.scalable.restdocs.jackson.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
         .shortenContent;
@@ -81,7 +84,8 @@ public abstract class MockMvcBase {
                         .and().snippets()
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
-                                queryParameters()))
+                                requestParameters(), description(), methodAndPath(),
+                                section()))
                 .build();
     }
 

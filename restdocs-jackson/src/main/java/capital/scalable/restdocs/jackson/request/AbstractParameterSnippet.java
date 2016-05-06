@@ -1,5 +1,6 @@
 package capital.scalable.restdocs.jackson.request;
 
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getJavadocReader;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
 
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import capital.scalable.restdocs.jackson.javadoc.ClassJavadoc;
-import capital.scalable.restdocs.jackson.javadoc.MethodJavadoc;
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import capital.scalable.restdocs.jackson.snippet.StandardTableSnippet;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
@@ -24,29 +24,30 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     @Override
     protected List<FieldDescriptor> createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod) {
+        JavadocReader javadocReader = getJavadocReader(operation);
+
         List<FieldDescriptor> fieldDescriptors = new ArrayList<>();
         for (MethodParameter param : handlerMethod.getMethodParameters()) {
             A annot = getAnnotation(param);
             if (annot != null) {
-                addFieldDescriptor(handlerMethod, fieldDescriptors, param, annot);
+                addFieldDescriptor(handlerMethod, javadocReader, fieldDescriptors, param, annot);
             }
         }
         return fieldDescriptors;
     }
 
     private void addFieldDescriptor(HandlerMethod handlerMethod,
-            List<FieldDescriptor> fieldDescriptors, MethodParameter param, A annot) {
+            JavadocReader javadocReader, List<FieldDescriptor> fieldDescriptors,
+            MethodParameter param, A annot) {
 
-        String javaName = param.getParameterName();
+        String javaParameterName = param.getParameterName();
         String pathName = getPath(annot);
 
-        String parameterName = hasLength(pathName) ? pathName : javaName;
+        String parameterName = hasLength(pathName) ? pathName : javaParameterName;
         String parameterType = param.getParameterType().getSimpleName();
-        String description = "";
-        MethodJavadoc method = resolveMethodJavadoc(handlerMethod);
-        if (method != null) {
-            description = method.getFields().get(javaName);
-        }
+        String description = javadocReader.resolveMethodParameterComment(
+                handlerMethod.getBeanType(), handlerMethod.getMethod().getName(),
+                javaParameterName);
 
         FieldDescriptor descriptor = fieldWithPath(parameterName)
                 .type(parameterType)
@@ -57,20 +58,6 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         }
 
         fieldDescriptors.add(descriptor);
-    }
-
-    private MethodJavadoc resolveMethodJavadoc(HandlerMethod handlerMethod) {
-        ClassJavadoc description = javadocReader
-                .loadClass(handlerMethod.getMethod().getDeclaringClass());
-        if (description != null) {
-            MethodJavadoc method = description.getMethods()
-                    .get(handlerMethod.getMethod().getName());
-            if (method != null) {
-                return method;
-            }
-        }
-
-        return null;
     }
 
     protected abstract boolean isRequired(A annot);

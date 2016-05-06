@@ -17,7 +17,11 @@
 package capital.scalable.restdocs.jackson.request;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.junit.Test;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
@@ -27,11 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 
-public class QueryParametersSnippetTest extends AbstractSnippetTests {
+public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
-    private ObjectMapper mapper = new ObjectMapper();
-
-    public QueryParametersSnippetTest(String name, TemplateFormat templateFormat) {
+    public RequestParametersSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
     }
 
@@ -41,15 +43,37 @@ public class QueryParametersSnippetTest extends AbstractSnippetTests {
                 "searchItem", Integer.class, String.class);
         initParameters(handlerMethod);
 
-        this.snippet.expectRequestParameters("map-query").withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("type", "Integer", "false", "")
-                        .row("text", "String", "true", ""));
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader
+                .resolveMethodParameterComment(TestResource.class, "searchItem", "type"))
+                .thenReturn("An integer");
+        when(javadocReader
+                .resolveMethodParameterComment(TestResource.class, "searchItem", "description"))
+                .thenReturn("A string");
 
-        new QueryParametersSnippet().document(operationBuilder("map-query")
+
+        this.snippet.expectRequestParameters("request-params").withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("type", "Integer", "false", "An integer")
+                        .row("text", "String", "true", "A string"));
+
+        new RequestParametersSnippet().document(operationBuilder("request-params")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/items/search?type=main&text=myItem")
+                .build());
+    }
+
+    @Test
+    public void noParameters() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "items");
+
+        this.snippet.expectRequestParameters("request-params").withContents(
+                equalTo("No parameters."));
+
+        new RequestParametersSnippet().document(operationBuilder("request-params")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .request("http://localhost/items")
                 .build());
     }
 
@@ -64,6 +88,10 @@ public class QueryParametersSnippetTest extends AbstractSnippetTests {
         @RequestMapping(value = "/items/search")
         public void searchItem(@RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
+            // NOOP
+        }
+
+        public void items() {
             // NOOP
         }
     }

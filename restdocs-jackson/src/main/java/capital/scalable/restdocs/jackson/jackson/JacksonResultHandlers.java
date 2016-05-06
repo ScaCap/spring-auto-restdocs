@@ -1,15 +1,17 @@
 package capital.scalable.restdocs.jackson.jackson;
 
-import java.util.Map;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.initRequestPattern;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setHandlerMethod;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setJavadocReader;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setObjectMapper;
 
+import capital.scalable.restdocs.jackson.javadoc.JavadocReaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.web.method.HandlerMethod;
 
 public abstract class JacksonResultHandlers {
-
-    static final String ATTRIBUTE_NAME_CONFIGURATION = "org.springframework.restdocs.configuration";
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper) {
         return new JacksonPreparingResultHandler(objectMapper);
@@ -25,13 +27,10 @@ public abstract class JacksonResultHandlers {
 
         @Override
         public void handle(MvcResult result) throws Exception {
-            Object handler = result.getHandler();
-            if (handler != null && handler instanceof HandlerMethod) {
-                ((Map) result.getRequest().getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                        .put(HandlerMethod.class.getName(), handler);
-            }
-            ((Map) result.getRequest().getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                    .put(ObjectMapper.class.getName(), objectMapper);
+            setHandlerMethod(result.getRequest(), (HandlerMethod) result.getHandler());
+            setObjectMapper(result.getRequest(), objectMapper);
+            initRequestPattern(result.getRequest());
+            setJavadocReader(result.getRequest(), new JavadocReaderImpl());
         }
     }
 }

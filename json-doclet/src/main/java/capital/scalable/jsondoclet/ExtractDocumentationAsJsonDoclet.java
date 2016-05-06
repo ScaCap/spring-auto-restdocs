@@ -27,8 +27,6 @@ import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.RootDoc;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * JavaDoc to JSON doclet.
@@ -36,9 +34,6 @@ import org.slf4j.LoggerFactory;
  * @author Florian Benz
  */
 public class ExtractDocumentationAsJsonDoclet {
-
-    private final static Logger log = LoggerFactory.getLogger(
-            ExtractDocumentationAsJsonDoclet.class);
 
     public static boolean start(RootDoc root) {
         for (ClassDoc classDoc : root.classes()) {
@@ -99,7 +94,7 @@ public class ExtractDocumentationAsJsonDoclet {
             try (FileWriter fw = new FileWriter(fileName)) {
                 fw.append(toJson());
             } catch (IOException e) {
-                log.error("Failed to write file", e);
+                e.printStackTrace();
             }
         }
 
@@ -137,14 +132,14 @@ public class ExtractDocumentationAsJsonDoclet {
 
     private static class MethodDocumentation {
         private String comment;
-        private Map<String, String> fields = new HashMap<>();
+        private Map<String, String> parameters = new HashMap<>();
 
         private static MethodDocumentation fromMethodDoc(MethodDoc methodDoc) {
             MethodDocumentation md = new MethodDocumentation();
             md.comment = escape(methodDoc.commentText());
 
             for (ParamTag param : methodDoc.paramTags()) {
-                md.fields.put(param.parameterName(), escape(param.parameterComment()));
+                md.parameters.put(param.parameterName(), escape(param.parameterComment()));
             }
             return md;
         }
@@ -153,8 +148,8 @@ public class ExtractDocumentationAsJsonDoclet {
             StringBuilder builder = new StringBuilder();
             builder.append("{ \"comment\":\"");
             builder.append(comment);
-            builder.append("\", \"fields\":{");
-            for (Entry<String, String> e : fields.entrySet()) {
+            builder.append("\", \"parameters\":{");
+            for (Entry<String, String> e : parameters.entrySet()) {
                 builder.append("\"");
                 builder.append(e.getKey());
                 builder.append("\":\"");

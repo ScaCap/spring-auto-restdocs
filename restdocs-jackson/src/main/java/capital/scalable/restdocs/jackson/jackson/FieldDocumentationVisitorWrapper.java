@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -52,9 +53,9 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         this.fieldInfo = fieldInfo;
     }
 
-    public static FieldDocumentationVisitorWrapper create() {
-        return new FieldDocumentationVisitorWrapper(new FieldDocumentationVisitorContext(), "",
-                null);
+    public static FieldDocumentationVisitorWrapper create(JavadocReader javadocReader) {
+        return new FieldDocumentationVisitorWrapper(
+                new FieldDocumentationVisitorContext(javadocReader), "", null);
     }
 
     @Override

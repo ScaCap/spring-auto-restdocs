@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author Juraj Misur
  */
-public class QueryParametersSnippet extends AbstractParameterSnippet<RequestParam> {
+public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
-    public QueryParametersSnippet() {
+    public RequestParametersSnippet() {
         super("request-parameters", null);
     }
 

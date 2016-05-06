@@ -16,6 +16,12 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
@@ -25,22 +31,48 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
-    private ObjectMapper mapper = new ObjectMapper();
-
     public JacksonResponseFieldSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
     }
 
     @Test
     public void simpleResponse() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItem");
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(Item.class, "field1"))
+                .thenReturn("A string");
+        when(javadocReader.resolveFieldComment(Item.class, "field2"))
+                .thenReturn("An integer");
 
-        this.snippet.expectResponseFields("map-response").withContents(
+        this.snippet.expectResponseFields("response").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "")
-                        .row("field2", "Integer", "true", ""));
+                        .row("field1", "String", "false", "A string")
+                        .row("field2", "Integer", "true", "An integer"));
 
-        new JacksonResponseFieldSnippet().document(operationBuilder("map-response")
+        new JacksonResponseFieldSnippet().document(operationBuilder("response")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost")
+                .build());
+    }
+
+    @Test
+    public void noResponseBody() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "noItem");
+
+        this.snippet.expectResponseFields("response").withContents(
+                equalTo("No response body."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
@@ -52,6 +84,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         public Item getItem() {
             return new Item("test");
         }
+
+        public void noItem() {
+        }
     }
 
     private static class Item {
@@ -61,14 +96,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         public Item(String field1) {
             this.field1 = field1;
-        }
-
-        public String getField1() {
-            return field1;
-        }
-
-        public Integer getField2() {
-            return field2;
         }
     }
 }

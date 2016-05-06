@@ -17,7 +17,11 @@
 package capital.scalable.restdocs.jackson.request;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.junit.Test;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
@@ -29,8 +33,6 @@ import org.springframework.web.method.HandlerMethod;
 
 public class PathParametersSnippetTest extends AbstractSnippetTests {
 
-    private ObjectMapper mapper = new ObjectMapper();
-
     public PathParametersSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
     }
@@ -41,15 +43,34 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                 "addItem", Integer.class, String.class);
         initParameters(handlerMethod);
 
-        this.snippet.expectPathParameters("map-path").withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("id", "Integer", "false", "")
-                        .row("subid", "String", "false", ""));
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveMethodParameterComment(TestResource.class, "addItem", "id"))
+                .thenReturn("An integer");
+        when(javadocReader.resolveMethodParameterComment(TestResource.class, "addItem", "otherId"))
+                .thenReturn("A string");
 
-        new PathParametersSnippet().document(operationBuilder("map-path")
+        this.snippet.expectPathParameters("path-params").withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("id", "Integer", "false", "An integer")
+                        .row("subid", "String", "false", "A string"));
+
+        new PathParametersSnippet().document(operationBuilder("path-params")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/items/123/subitem/myItem")
+                .build());
+    }
+
+    @Test
+    public void noParameters() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem");
+
+        this.snippet.expectPathParameters("path-params").withContents(
+                equalTo("No parameters."));
+
+        new PathParametersSnippet().document(operationBuilder("path-params")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .request("http://localhost/items")
                 .build());
     }
 
@@ -63,6 +84,11 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
         @RequestMapping(value = "/items/{id}/subitem/{subid}")
         public void addItem(@PathVariable Integer id, @PathVariable("subid") String otherId) {
+            // NOOP
+        }
+
+        @RequestMapping(value = "/items")
+        public void addItem() {
             // NOOP
         }
     }

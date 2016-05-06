@@ -89,9 +89,9 @@
                         <org.springframework.restdocs.outputDir>
                             ${snippetsDirectory}
                         </org.springframework.restdocs.outputDir>
-                        <org.springframework.restdocs.javaDocJsonDir>
+                        <org.springframework.restdocs.javadocJsonDir>
                             ${project.build.directory}/generated-javadoc-json
-                        </org.springframework.restdocs.javaDocJsonDir>
+                        </org.springframework.restdocs.javadocJsonDir>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
