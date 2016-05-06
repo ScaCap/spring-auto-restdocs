@@ -20,8 +20,9 @@ and by replacing binary data with a short description.
 * more documentation, but not required for initial release
 
 ## TODO impl
-* make things more robust, stable, generic, commented
-* add autodoc of endpoint URL (`GET /items` section)
-* add autodoc of endpoint text (Endpoint documentation section - from method javadoc)
-* add autodoc of entire endpoint docs (joining all sections into one file: url, params, request, response, example) so index.adoc would only need to include that one
 * add authentication section
+* use json parser for javadocs
+* pageable section
+* shared data model section
+* log warn for unresolvable comment
+* maven logger?
