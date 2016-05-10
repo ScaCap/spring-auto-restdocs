@@ -148,7 +148,7 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>aggregate</goal>
+                            <goal>javadoc-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
