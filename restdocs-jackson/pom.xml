@@ -91,6 +91,43 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <org.springframework.restdocs.javadocJsonDir>
+                            ${project.build.directory}/generated-javadoc-json
+                        </org.springframework.restdocs.javadocJsonDir>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>test-javadoc-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                    <docletArtifact>
+                        <groupId>capital.scalable</groupId>
+                        <artifactId>json-doclet</artifactId>
+                        <version>1.0.1-SNAPSHOT</version>
+                    </docletArtifact>
+                    <destDir>generated-javadoc-json</destDir>
+                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    <show>package</show>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

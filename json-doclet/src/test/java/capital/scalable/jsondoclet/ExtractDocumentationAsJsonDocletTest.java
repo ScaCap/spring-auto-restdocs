@@ -15,7 +15,7 @@ public class ExtractDocumentationAsJsonDocletTest {
     @Test
     public void testDocumentedClass() throws IOException {
         String generated = IOUtils.toString(new FileInputStream(new File(
-                "target/generated-javadoc-json/capital.scalable.jsondoclet.DocumentedClass.json")));
+                "target/generated-javadoc-json/capital/scalable/jsondoclet/DocumentedClass.json")));
         String expected = IOUtils.toString(
                 this.getClass().getClassLoader()
                         .getResourceAsStream("capital/scalable/jsondoclet/DocumentedClass.json"));
