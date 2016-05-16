@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  */
 public class DocumentedClass {
     /**
-     * Location of resoruce
+     * Location of resource
      */
     public String location;
 

@@ -22,16 +22,18 @@ class ClassJavadoc {
         MethodJavadoc methodJavadoc = methods.get(methodName);
         if (methodJavadoc != null) {
             return methodJavadoc.getComment();
+        } else {
+            return "";
         }
-        return "";
     }
 
     public String getMethodParameterComment(String methodName, String parameterName) {
         MethodJavadoc methodJavadoc = methods.get(methodName);
         if (methodJavadoc != null) {
             return methodJavadoc.getParameterComment(parameterName);
+        } else {
+            return "";
         }
-        return "";
     }
 
     private static String trimToEmpty(String value) {
