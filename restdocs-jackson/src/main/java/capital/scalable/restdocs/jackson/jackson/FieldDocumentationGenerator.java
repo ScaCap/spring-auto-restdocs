@@ -16,9 +16,12 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import static capital.scalable.restdocs.jackson.jackson.FieldDocumentationVisitorWrapper.create;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -31,9 +34,11 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 public class FieldDocumentationGenerator {
 
     private final ObjectWriter writer;
+    private final JavadocReader javadocReader;
 
-    public FieldDocumentationGenerator(ObjectWriter writer) {
+    public FieldDocumentationGenerator(ObjectWriter writer, JavadocReader javadocReader) {
         this.writer = writer;
+        this.javadocReader = javadocReader;
     }
 
     public List<FieldDescriptor> generateDocumentation(Type type, TypeFactory typeFactory)
@@ -42,7 +47,7 @@ public class FieldDocumentationGenerator {
     }
 
     public List<FieldDescriptor> generateDocumentation(JavaType type) throws JsonMappingException {
-        FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create();
+        FieldDocumentationVisitorWrapper visitorWrapper = create(javadocReader);
         writer.acceptJsonFormatVisitor(type, visitorWrapper);
         return visitorWrapper.getContext().getFields();
     }

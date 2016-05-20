@@ -1,5 +1,6 @@
 package capital.scalable.restdocs.jackson.snippet;
 
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getHandlerMethod;
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
@@ -7,15 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public abstract class StandardTableSnippet extends TemplatedSnippet {
-    protected final JavadocReader javadocReader = new JavadocReader();
-
     protected StandardTableSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -39,22 +37,18 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         // can be used to add additional fields
     }
 
-    private HandlerMethod getHandlerMethod(Operation operation) {
-        return (HandlerMethod) operation.getAttributes().get(HandlerMethod.class.getName());
-    }
-
     private Map<String, Object> createModel(HandlerMethod handlerMethod,
             List<FieldDescriptor> fieldDescriptors) {
         Map<String, Object> model = new HashMap<>();
         enrichModel(model, handlerMethod);
 
         List<Map<String, Object>> fields = new ArrayList<>();
-        model.put("fields", fields);
+        model.put("content", fields);
         for (FieldDescriptor descriptor : fieldDescriptors) {
             fields.add(createModelForDescriptor(descriptor));
         }
-        model.put("hasFields", !fieldDescriptors.isEmpty());
-        model.put("noFields", fieldDescriptors.isEmpty());
+        model.put("hasContent", !fieldDescriptors.isEmpty());
+        model.put("noContent", fieldDescriptors.isEmpty());
         return model;
     }
 

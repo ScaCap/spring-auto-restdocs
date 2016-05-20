@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "simpleField": "Simple field comment"
+  },
+  "methods": {
+    "simpleMethod": {
+      "comment": "Simple method comment",
+      "parameters": {
+        "simpleParameter": "Simple parameter comment"
+      }
+    }
+  }
+}

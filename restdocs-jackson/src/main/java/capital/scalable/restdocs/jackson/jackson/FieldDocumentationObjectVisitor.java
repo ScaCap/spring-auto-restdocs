@@ -48,9 +48,13 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
 
     @Override
     public void optionalProperty(BeanProperty prop) throws JsonMappingException {
+        String jsonName = prop.getName();
+        String fieldName = prop.getMember().getName();
+
         JavaType type = prop.getType();
         if (type == null) {
-            throw new IllegalStateException("Missing type for property '" + prop.getName() + "'");
+            throw new IllegalStateException("Missing type for property '" + jsonName + "', " +
+                    "field '" + fieldName + "'");
         }
 
         JsonSerializer<?> ser = getSer(prop);
@@ -58,9 +62,9 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
             return;
         }
 
-        String fieldPath = path + (path.isEmpty() ? "" : ".") + prop.getName();
+        String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         InternalFieldInfo fieldInfo =
-                new InternalFieldInfo(javaBaseClass, prop.getName(), fieldPath, isOptional(prop));
+                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, isOptional(prop));
         JsonFormatVisitorWrapper visitor =
                 new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
 

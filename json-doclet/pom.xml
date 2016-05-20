@@ -24,9 +24,22 @@
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.13</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -39,6 +52,32 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>test-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                    <docletArtifact>
+                        <groupId>capital.scalable</groupId>
+                        <artifactId>json-doclet</artifactId>
+                        <version>1.0.1-SNAPSHOT</version>
+                    </docletArtifact>
+                    <destDir>generated-javadoc-json</destDir>
+                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    <show>package</show>
                 </configuration>
             </plugin>
         </plugins>

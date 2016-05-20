@@ -16,6 +16,9 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getObjectMapper;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.jackson.jackson.FieldDocumentationGenerator;
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import capital.scalable.restdocs.jackson.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,20 +55,22 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
         Type type = getType(handlerMethod);
         if (type != null) {
             ObjectMapper objectMapper = getObjectMapper(operation);
+            JavadocReader javadocReader = getJavadocReader(operation);
 
             try {
-                fieldDescriptors.addAll(new FieldDocumentationGenerator(objectMapper.writer())
-                        .generateDocumentation(type, objectMapper.getTypeFactory()));
+                FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
+                        objectMapper.writer(), javadocReader);
+
+                List<FieldDescriptor> descriptors = generator
+                        .generateDocumentation(type, objectMapper.getTypeFactory());
+
+                fieldDescriptors.addAll(descriptors);
             } catch (JsonMappingException e) {
                 throw new JacksonFieldProcessingException("Error while parsing fields", e);
             }
         }
 
         return fieldDescriptors;
-    }
-
-    private ObjectMapper getObjectMapper(Operation operation) {
-        return (ObjectMapper) operation.getAttributes().get(ObjectMapper.class.getName());
     }
 
     protected Type firstGenericType(MethodParameter param) {

@@ -16,6 +16,12 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
@@ -26,26 +32,52 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
-    private ObjectMapper mapper = new ObjectMapper();
-
     public JacksonRequestFieldSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
     }
 
     @Test
     public void simpleRequest() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem", Item.class);
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(Item.class, "field1"))
+                .thenReturn("A string");
+        when(javadocReader.resolveFieldComment(Item.class, "field2"))
+                .thenReturn("An integer");
 
-        this.snippet.expectRequestFields("map-request").withContents(
+        this.snippet.expectRequestFields("request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "")
-                        .row("field2", "Integer", "true", ""));
+                        .row("field1", "String", "false", "A string")
+                        .row("field2", "Integer", "true", "An integer"));
 
-        new JacksonRequestFieldSnippet().document(operationBuilder("map-request")
+        new JacksonRequestFieldSnippet().document(operationBuilder("request")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost")
+                .content("{\"field1\":\"test\"}")
+                .build());
+    }
+
+    @Test
+    public void noRequestBody() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
+
+        this.snippet.expectRequestFields("request-2").withContents(
+                equalTo("No request body."));
+
+        new JacksonRequestFieldSnippet().document(operationBuilder("request-2")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
-                .content("{\"field1\":\"test\"}")
                 .build());
     }
 
@@ -54,19 +86,15 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         public void addItem(@RequestBody Item item) {
             // NOOP
         }
+
+        public void addItem2() {
+            // NOOP
+        }
     }
 
     private static class Item {
         @NotBlank
         private String field1;
         private Integer field2;
-
-        public String getField1() {
-            return field1;
-        }
-
-        public Integer getField2() {
-            return field2;
-        }
     }
 }

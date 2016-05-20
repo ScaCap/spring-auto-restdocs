@@ -17,13 +17,13 @@
 package capital.scalable.restdocs.jackson.jackson;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.util.StringUtils.hasLength;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import capital.scalable.restdocs.jackson.javadoc.ClassJavadoc;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
@@ -32,31 +32,37 @@ import org.springframework.restdocs.payload.FieldDescriptor;
  */
 public class FieldDocumentationVisitorContext {
 
-    private final JavadocReader javadocReader = new JavadocReader();
-
     private final Set<Class<?>> analyzedClasses = new HashSet<>();
 
     private final List<FieldDescriptor> fields = new ArrayList<>();
+    private JavadocReader javadocReader;
+
+    public FieldDocumentationVisitorContext(JavadocReader javadocReader) {
+        this.javadocReader = javadocReader;
+    }
 
     public List<FieldDescriptor> getFields() {
         return fields;
     }
 
     public void addField(InternalFieldInfo info, Object jsonFieldType) {
-        ClassJavadoc javaDoc = javadocReader.loadClass(info.getJavaBaseClass());
-        String comment = null;
-        if (javaDoc != null) {
-            comment = javaDoc.getFields().get(info.getJavaFieldName());
-        }
-        if (comment == null) {
-            comment = "";
-        }
+        String fieldComment = javadocReader
+                .resolveFieldComment(info.getJavaBaseClass(), info.getJavaFieldName());
+        // fallback if field is getter
+        String methodComment = javadocReader
+                .resolveMethodComment(info.getJavaBaseClass(), info.getJavaFieldName());
+
+        String comment = hasLength(fieldComment) ? fieldComment
+                : (hasLength(methodComment) ? methodComment : "");
+
         FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
                 .type(jsonFieldType)
                 .description(comment);
+
         if (info.getOptional()) {
             fieldDescriptor.optional();
         }
+
         fields.add(fieldDescriptor);
     }
 
