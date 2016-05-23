@@ -63,7 +63,7 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>test-aggregate</goal>
+                            <goal>test-javadoc-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>

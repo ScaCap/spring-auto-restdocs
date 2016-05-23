@@ -16,8 +16,12 @@
 
 package capital.scalable.jsondoclet;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,14 +39,23 @@ import com.sun.javadoc.RootDoc;
  */
 public class ExtractDocumentationAsJsonDoclet {
 
-    public static boolean start(RootDoc root) {
+    public static boolean start(RootDoc root) throws IOException {
         for (ClassDoc classDoc : root.classes()) {
             ClassDocumentation cd = ClassDocumentation.fromClassDoc(classDoc);
             if (cd.containsAtLeastOneComment()) {
-                cd.writeToFile(classDoc.qualifiedName() + ".json");
+                writeToFile(cd, classDoc);
             }
         }
         return true;
+    }
+
+    private static void writeToFile(ClassDocumentation cd, ClassDoc classDoc) throws IOException {
+        String fileName = classDoc.name() + ".json";
+        String packageName = classDoc.containingPackage().name();
+        String packageDir = packageName.replace(".", File.separator);
+        Path packagePath = Paths.get(packageDir);
+        Files.createDirectories(packagePath);
+        cd.writeToFile(packagePath.resolve(fileName).toFile());
     }
 
     private static class ClassDocumentation {
@@ -90,8 +103,8 @@ public class ExtractDocumentationAsJsonDoclet {
             return false;
         }
 
-        public void writeToFile(String fileName) {
-            try (FileWriter fw = new FileWriter(fileName)) {
+        public void writeToFile(File file) {
+            try (FileWriter fw = new FileWriter(file)) {
                 fw.append(toJson());
             } catch (IOException e) {
                 e.printStackTrace();

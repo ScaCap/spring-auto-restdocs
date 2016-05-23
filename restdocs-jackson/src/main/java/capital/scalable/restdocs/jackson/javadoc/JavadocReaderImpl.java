@@ -39,7 +39,10 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     private ClassJavadoc getClass(Class<?> clazz) {
-        String fileName = clazz.getCanonicalName() + ".json";
+        String packageName = clazz.getPackage().getName();
+        String packageDir = packageName.replace(".", File.separator);
+        String className = clazz.getCanonicalName().replaceAll(packageName + "\\.?", "");
+        String fileName = packageDir + "/" + className + ".json";
 
         ClassJavadoc classJavadoc = classCache.get(fileName);
         if (classJavadoc != null) {
