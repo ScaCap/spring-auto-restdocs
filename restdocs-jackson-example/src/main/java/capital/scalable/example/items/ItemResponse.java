@@ -19,26 +19,28 @@ package capital.scalable.example.items;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
+import org.javamoney.moneta.Money;
 
 /**
  * Java object for a single JSON item.
  *
  * @author Florian Benz
  */
-@Value
+@AllArgsConstructor
 class ItemResponse {
     /**
      * Unique ID. This text comes directly from JavaDoc.
      */
     @NotBlank
     private String id;
-    /**
-     * Some information about the item.
-     */
+
+    @JsonIgnore
     @NotBlank
-    private String description;
+    private String desc;
 
     /**
      * Item attributes.
@@ -71,5 +73,16 @@ class ItemResponse {
          * Decimal attribute.
          */
         private BigDecimal decimal;
+        /**
+         * Amount attribute.
+         */
+        private Money amount;
+    }
+
+    /**
+     * Some information about the item.
+     */
+    public String getDescription(){
+        return desc;
     }
 }

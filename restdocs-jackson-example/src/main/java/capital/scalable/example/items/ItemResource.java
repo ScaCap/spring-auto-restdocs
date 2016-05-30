@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import capital.scalable.example.items.ItemResponse.Attributes;
+import org.javamoney.moneta.Money;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,8 @@ public class ItemResource {
 
     private static final ItemResponse ITEM =
             new ItemResponse("1", "main item",
-                    new Attributes("first item", 1, true, new BigDecimal("1.11")),
+                    new Attributes("first item", 1, true, new BigDecimal("1.11"),
+                            Money.of(new BigDecimal("3.14"), "EUR")),
                     singletonList(CHILD));
 
     /**
