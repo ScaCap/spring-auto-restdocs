@@ -210,10 +210,17 @@ public class FieldDocumentationGeneratorTest {
                 .withFieldVisibility(JsonAutoDetect.Visibility.PUBLIC_ONLY));
 
         JavadocReader javadocReader = mock(JavadocReader.class);
+        // comment on field directly
         when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "location"))
                 .thenReturn("A location");
+        // comment on getter instead of field
         when(javadocReader.resolveMethodComment(FieldCommentResolution.class, "getType"))
                 .thenReturn("A type");
+        // comment on field instead of getter
+        when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "uri"))
+                .thenReturn("A uri");
+        when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "secured"))
+                .thenReturn("A secured flag");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), javadocReader);
@@ -224,13 +231,18 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(2));
+        assertThat(fieldDescriptions.size(), is(4));
         // field comment
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("location", "String", "A location", true)));
         // getter comment
         assertThat(fieldDescriptions.get(1),
                 is(descriptor("type", "String", "A type", true)));
+        // field comment
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("uri", "String", "A uri", true)));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("secured", "Boolean", "A secured flag", true)));
     }
 
     private ObjectMapper createMapper() {
@@ -323,11 +335,21 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class FieldCommentResolution {
-        public String location;
-        private String type;
+        public String location; // doc is here
+        public String type;
+        private String uri; // doc is here
+        private boolean secured;// doc is here
 
-        public String getType() {
+        public String getType() { // doc is here
             return type;
+        }
+
+        public String getUri() {
+            return uri;
+        }
+
+        public boolean isSecured() {
+            return secured;
         }
     }
 }

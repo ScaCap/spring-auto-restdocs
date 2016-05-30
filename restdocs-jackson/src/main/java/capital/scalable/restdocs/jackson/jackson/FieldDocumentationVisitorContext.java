@@ -16,8 +16,9 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.util.StringUtils.hasLength;
+import static org.springframework.util.StringUtils.uncapitalize;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,14 +47,18 @@ public class FieldDocumentationVisitorContext {
     }
 
     public void addField(InternalFieldInfo info, Object jsonFieldType) {
-        String fieldComment = javadocReader
-                .resolveFieldComment(info.getJavaBaseClass(), info.getJavaFieldName());
-        // fallback if field is getter
-        String methodComment = javadocReader
-                .resolveMethodComment(info.getJavaBaseClass(), info.getJavaFieldName());
+        Class<?> javaFieldClass = info.getJavaBaseClass();
+        String javaFieldName = info.getJavaFieldName();
 
-        String comment = hasLength(fieldComment) ? fieldComment
-                : (hasLength(methodComment) ? methodComment : "");
+        String comment = javadocReader.resolveFieldComment(javaFieldClass, javaFieldName);
+        if (isBlank(comment)) {
+            // fallback if fieldName is getter method and comment is on the method itself
+            comment = javadocReader.resolveMethodComment(javaFieldClass, javaFieldName);
+        }
+        if (isBlank(comment) && isGetter(javaFieldName)) {
+            // fallback if fieldName is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldComment(javaFieldClass, fromGetter(javaFieldName));
+        }
 
         FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
                 .type(jsonFieldType)
@@ -64,6 +69,15 @@ public class FieldDocumentationVisitorContext {
         }
 
         fields.add(fieldDescriptor);
+    }
+
+    private String fromGetter(String javaMethodName) {
+        int cut = javaMethodName.startsWith("get") ? 3 : 2;
+        return uncapitalize(javaMethodName.substring(cut, javaMethodName.length()));
+    }
+
+    private boolean isGetter(String javaFieldName) {
+        return javaFieldName.startsWith("get") || javaFieldName.startsWith("is");
     }
 
     public void addAnalyzedClass(Class<?> clazz) {
