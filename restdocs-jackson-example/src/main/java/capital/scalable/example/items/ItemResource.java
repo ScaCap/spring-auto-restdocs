@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import capital.scalable.example.items.ItemResponse.Attributes;
+import capital.scalable.example.items.ItemResponse.Metadata;
 import org.javamoney.moneta.Money;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,10 +51,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class ItemResource {
 
     private static final ItemResponse CHILD =
-            new ItemResponse("child-1", "first child", null, null);
+            new ItemResponse("child-1", "first child", null, null, null);
 
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item",
+            new ItemResponse("1", "main item", new Metadata("meta1", 22),
                     new Attributes("first item", 1, true, new BigDecimal("1.11"),
                             Money.of(new BigDecimal("3.14"), "EUR")),
                     singletonList(CHILD));
@@ -109,7 +110,7 @@ public class ItemResource {
     @RequestMapping(value = "{id}", method = PUT)
     public ItemResponse updateItem(@PathVariable("id") String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        return new ItemResponse(id, itemUpdate.getDescription(), null, null);
+        return new ItemResponse(id, itemUpdate.getDescription(), null,null, null);
     }
 
     @RequestMapping(value = "{id}", method = DELETE)

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
@@ -43,6 +44,12 @@ class ItemResponse {
     private String desc;
 
     /**
+     * Metadata.
+     */
+    @JsonUnwrapped
+    private Metadata meta;
+
+    /**
      * Item attributes.
      */
     private Attributes attributes;
@@ -51,6 +58,13 @@ class ItemResponse {
      * Child items.
      */
     private List<ItemResponse> children;
+
+    /**
+     * Some information about the item.
+     */
+    public String getDescription() {
+        return desc;
+    }
 
     /**
      * Various attributes about the item.
@@ -79,10 +93,15 @@ class ItemResponse {
         private Money amount;
     }
 
-    /**
-     * Some information about the item.
-     */
-    public String getDescription(){
-        return desc;
+    @AllArgsConstructor
+    static class Metadata {
+        /**
+         * Custom meta attribute 1
+         */
+        private String custom1;
+        /**
+         * Custom meta attribute 2
+         */
+        private Integer custom2;
     }
 }

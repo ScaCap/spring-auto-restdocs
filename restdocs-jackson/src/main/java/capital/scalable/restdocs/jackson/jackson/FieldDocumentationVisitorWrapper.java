@@ -75,7 +75,7 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
             return null;
         } else {
             context.addAnalyzedClass(type.getRawClass());
-            return new FieldDocumentationObjectVisitor(provider, type.getRawClass(), context, path);
+            return new FieldDocumentationObjectVisitor(provider, context, path);
         }
     }
 

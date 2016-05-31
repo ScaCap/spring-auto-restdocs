@@ -27,6 +27,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -36,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.hibernate.validator.constraints.NotBlank;
@@ -180,6 +182,8 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn("A uri");
         when(javadocReader.resolveMethodComment(JsonAnnotations.class, "getParameter"))
                 .thenReturn("A parameter");
+        when(javadocReader.resolveFieldComment(JsonAnnotations.Meta.class, "headers"))
+                .thenReturn("A header map");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), javadocReader);
@@ -190,7 +194,7 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(3));
+        assertThat(fieldDescriptions.size(), is(4));
         // @JsonPropertyOrder puts it to first place
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("uri", "String", "A uri", true)));
@@ -200,6 +204,9 @@ public class FieldDocumentationGeneratorTest {
         // @JsonGetter
         assertThat(fieldDescriptions.get(2),
                 is(descriptor("param", "String", "A parameter", true)));
+        // @JsonUnwrapped
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("headers", "Map", "A header map", true)));
     }
 
     @Test
@@ -328,9 +335,16 @@ public class FieldDocumentationGeneratorTest {
 
         private String param;
 
+        @JsonUnwrapped
+        private Meta meta;
+
         @JsonGetter("param")
         public String getParameter() {
             return param;
+        }
+
+        private class Meta {
+            private Map<String, String> headers;
         }
     }
 
