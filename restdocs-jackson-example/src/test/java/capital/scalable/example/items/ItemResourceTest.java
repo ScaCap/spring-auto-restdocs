@@ -47,6 +47,7 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.attributes.number", is(1)))
                 .andExpect(jsonPath("$.attributes.bool", is(true)))
                 .andExpect(jsonPath("$.attributes.decimal", is(1.11)))
+                .andExpect(jsonPath("$.attributes.amount", is("3.14 EUR")))
                 .andExpect(jsonPath("$.children").isArray())
                 .andExpect(jsonPath("$.children", hasSize(1)))
                 .andExpect(jsonPath("$.children[0].id", is("child-1")))
