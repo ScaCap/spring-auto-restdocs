@@ -14,7 +14,7 @@ and by replacing binary data with a short description.
 ### Get spring-restdocs-core test JAR
 
 The test JAR is not published, but this project relies on it.
-If you want to build this project yourself, you firsr have to build and copy the test JAR on your system.
+If you want to build this project yourself, you first have to build and copy the test JAR on your system.
 
 We use version 1.1.0.RC1 of Spring Restdocs in this example.
 
