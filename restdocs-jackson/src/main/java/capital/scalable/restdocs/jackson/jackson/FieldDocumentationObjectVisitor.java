@@ -34,14 +34,12 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
 
-    private final Class<?> javaBaseClass;
     private final FieldDocumentationVisitorContext context;
     private final String path;
 
-    public FieldDocumentationObjectVisitor(SerializerProvider provider, Class<?> javaBaseClass,
+    public FieldDocumentationObjectVisitor(SerializerProvider provider,
             FieldDocumentationVisitorContext context, String path) {
         super(provider);
-        this.javaBaseClass = javaBaseClass;
         this.context = context;
         this.path = path;
     }
@@ -63,8 +61,11 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
         }
 
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
+        Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
+
         InternalFieldInfo fieldInfo =
                 new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, isOptional(prop));
+
         JsonFormatVisitorWrapper visitor =
                 new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
 
