@@ -72,7 +72,7 @@ public class FieldDocumentationVisitorContext {
     }
 
     private String fromGetter(String javaMethodName) {
-        int cut = javaMethodName.startsWith("get") ? 3 : 2;
+        int cut = javaMethodName.startsWith("get") ? "get".length() : "is".length();
         return uncapitalize(javaMethodName.substring(cut, javaMethodName.length()));
     }
 
