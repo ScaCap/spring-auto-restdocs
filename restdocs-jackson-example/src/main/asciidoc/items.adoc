@@ -8,19 +8,19 @@
 
 ==== Request structure
 
-include::{snippets}/items/get/request-fields.adoc[]
+include::{snippets}/item-resource-test/add-item/request-fields.adoc[]
 
 We do not have to care whether to include a snippet or not,
 because the template returns "No data." instead of an empty table.
 
 ==== Response structure
 
-include::{snippets}/items/get/response-fields.adoc[]
+include::{snippets}/item-resource-test/add-item/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/items/get/curl-request.adoc[]
-include::{snippets}/items/get/http-response.adoc[]
+include::{snippets}/item-resource-test/add-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/add-item/http-response.adoc[]
 
 
 [[resources-items-all]]
@@ -34,19 +34,19 @@ This endpoint really returns all items and that is always 100.
 
 ==== Request structure
 
-include::{snippets}/items/all/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/request-fields.adoc[]
 
 ==== Response structure
 
-include::{snippets}/items/all/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/items/all/curl-request.adoc[]
+include::{snippets}/item-resource-test/get-all-items/curl-request.adoc[]
 
 The array shortening feature intercepted here and reduced the 100 items to 3.
 
-include::{snippets}/items/all/http-response.adoc[]
+include::{snippets}/item-resource-test/get-all-items/http-response.adoc[]
 
 
 [[resources-items-add]]
@@ -56,16 +56,16 @@ include::{snippets}/items/all/http-response.adoc[]
 
 ==== Request structure
 
-include::{snippets}/items/add/request-fields.adoc[]
+include::{snippets}/item-resource-test/add-item/request-fields.adoc[]
 
 ==== Response structure
 
-include::{snippets}/items/add/response-fields.adoc[]
+include::{snippets}/item-resource-test/add-item/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/items/add/curl-request.adoc[]
-include::{snippets}/items/add/http-response.adoc[]
+include::{snippets}/item-resource-test/add-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/add-item/http-response.adoc[]
 
 
 [[resources-items-update]]
@@ -75,16 +75,16 @@ include::{snippets}/items/add/http-response.adoc[]
 
 ==== Request structure
 
-include::{snippets}/items/update/request-fields.adoc[]
+include::{snippets}/item-resource-test/update-item/request-fields.adoc[]
 
 ==== Response structure
 
-include::{snippets}/items/update/response-fields.adoc[]
+include::{snippets}/item-resource-test/update-item/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/items/update/curl-request.adoc[]
-include::{snippets}/items/update/http-response.adoc[]
+include::{snippets}/item-resource-test/update-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/update-item/http-response.adoc[]
 
 
 [[resources-items-delete]]
@@ -94,17 +94,17 @@ include::{snippets}/items/update/http-response.adoc[]
 
 ==== Request structure
 
-include::{snippets}/items/delete/request-fields.adoc[]
+include::{snippets}/item-resource-test/delete-item/request-fields.adoc[]
 
 ==== Response structure
 
-include::{snippets}/items/delete/response-fields.adoc[]
+include::{snippets}/item-resource-test/delete-item/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/items/delete/curl-request.adoc[]
-include::{snippets}/items/delete/http-response.adoc[]
+include::{snippets}/item-resource-test/delete-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/delete-item/http-response.adoc[]
 [[resources-items-delete]]
 
-include::{snippets}/items/child/section.adoc[]
-include::{snippets}/items/search/section.adoc[]
+include::{snippets}/item-resource-test/get-child-item/section.adoc[]
+include::{snippets}/item-resource-test/search/section.adoc[]

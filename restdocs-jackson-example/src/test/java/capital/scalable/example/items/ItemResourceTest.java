@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,7 +39,7 @@ import org.springframework.http.MediaType;
 public class ItemResourceTest extends MockMvcBase {
 
     @Test
-    public void testGetItem() throws Exception {
+    public void getItem() throws Exception {
         mockMvc.perform(get("/items/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("1")))
@@ -53,65 +54,59 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.children[0].id", is("child-1")))
                 .andExpect(jsonPath("$.children[0].description", is("first child")))
                 .andExpect(jsonPath("$.children[0].attributes", nullValue()))
-                .andExpect(jsonPath("$.children[0].children", nullValue()))
-                .andDo(document("items/get"));
+                .andExpect(jsonPath("$.children[0].children", nullValue()));
     }
 
     @Test
-    public void testAllItems() throws Exception {
+    public void getAllItems() throws Exception {
         mockMvc.perform(get("/items"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[*].id", hasItems("1", "child-1")))
-                .andDo(document("items/all"));
+                .andExpect(jsonPath("$[*].id", hasItems("1", "child-1")));
     }
 
     @Test
-    public void testAddItem() throws Exception {
+    public void addItem() throws Exception {
         mockMvc.perform(post("/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"description\":\"Hot News\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("location", is("/items/2")))
-                .andDo(document("items/add"));
+                .andExpect(header().string("location", is("/items/2")));
     }
 
     @Test
-    public void testUpdateItem() throws Exception {
+    public void updateItem() throws Exception {
         mockMvc.perform(put("/items/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"description\":\"Hot News\"}"))
                 .andExpect(jsonPath("$.id", is("1")))
                 .andExpect(jsonPath("$.description", is("Hot News")))
-                .andExpect(status().isOk())
-                .andDo(document("items/update"));
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteItem() throws Exception {
+    public void deleteItem() throws Exception {
         mockMvc.perform(delete("/items/1"))
-                .andExpect(status().isOk())
-                .andDo(document("items/delete"));
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void testGetChildItem() throws Exception {
+    public void getChildItem() throws Exception {
         mockMvc.perform(get("/items/1/child-1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("child-1")))
-                .andExpect(jsonPath("$.description", is("first child")))
-                .andDo(document("items/child"));
+                .andExpect(jsonPath("$.description", is("first child")));
     }
 
     @Test
-    public void testSearchItem() throws Exception {
+    public void searchItems() throws Exception {
         mockMvc.perform(get("/items/search?desc=main&hint=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0].id", is("1")))
                 .andExpect(jsonPath("$.[0].description", is("main item")))
-                .andDo(document("items/search"));
+                .andDo(document("{class-name}/search", commonResponsePreprocessor()));
     }
 }
