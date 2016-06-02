@@ -7,6 +7,7 @@ import java.util.Map;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.restdocs.RestDocumentationContext;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
 
@@ -58,5 +59,10 @@ public class OperationAttributeHelper {
             JavadocReader javadocReader) {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(JavadocReader.class.getName(), javadocReader);
+    }
+
+    public static RestDocumentationContext getDocumentationContext(Operation operation) {
+        return (RestDocumentationContext) operation
+                .getAttributes().get(RestDocumentationContext.class.getName());
     }
 }
