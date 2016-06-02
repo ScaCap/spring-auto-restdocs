@@ -107,6 +107,7 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0].id", is("1")))
                 .andExpect(jsonPath("$.[0].description", is("main item")))
+                // example for overriding path and preprocessors
                 .andDo(document("{class-name}/search", commonResponsePreprocessor()));
     }
 }
