@@ -16,6 +16,7 @@
 
 package capital.scalable.example.testsupport;
 
+import static capital.scalable.restdocs.jackson.AutoDocumentation.authorization;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.description;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.pathParameters;
@@ -24,32 +25,32 @@ import static capital.scalable.restdocs.jackson.AutoDocumentation.requestParamet
 import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
-import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
-        .limitJsonArrayLength;
-import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
-        .replaceBinaryContent;
+import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
+import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-        .documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import capital.scalable.example.Application;
+import capital.scalable.restdocs.jackson.misc.AuthorizationSnippet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -91,12 +92,24 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section()))
+                                section(), authorization("Resource is public.")))
                 .build();
     }
 
     protected OperationResponsePreprocessor commonResponsePreprocessor() {
         return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper),
                 prettyPrint());
+    }
+
+    protected RequestPostProcessor userToken() {
+        return new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                // TODO add code to login a user if required for the tests and extend the
+                // request with the authorization information (authorization header or cookie)
+                return AuthorizationSnippet
+                        .addAuthorization(request, "User access token required.");
+            }
+        };
     }
 }

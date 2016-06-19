@@ -6,6 +6,10 @@
 
 `GET /items/{id}`
 
+==== Authorization
+
+include::{snippets}/item-resource-test/get-item/authorization.adoc[]
+
 ==== Request structure
 
 include::{snippets}/item-resource-test/add-item/request-fields.adoc[]
@@ -32,6 +36,10 @@ As AsciiDoc is used, any additional information can be placed here and you don't
 
 This endpoint really returns all items and that is always 100.
 
+==== Authorization
+
+include::{snippets}/item-resource-test/get-all-items/authorization.adoc[]
+
 ==== Request structure
 
 include::{snippets}/item-resource-test/get-all-items/request-fields.adoc[]
@@ -54,6 +62,10 @@ include::{snippets}/item-resource-test/get-all-items/http-response.adoc[]
 
 `POST /items`
 
+==== Authorization
+
+include::{snippets}/item-resource-test/add-item/authorization.adoc[]
+
 ==== Request structure
 
 include::{snippets}/item-resource-test/add-item/request-fields.adoc[]
@@ -72,6 +84,10 @@ include::{snippets}/item-resource-test/add-item/http-response.adoc[]
 === Update an item
 
 `PUT /items/{id}`
+
+==== Authorization
+
+include::{snippets}/item-resource-test/update-item/authorization.adoc[]
 
 ==== Request structure
 
@@ -92,6 +108,10 @@ include::{snippets}/item-resource-test/update-item/http-response.adoc[]
 
 `DELETE /items/{id}`
 
+==== Authorization
+
+include::{snippets}/item-resource-test/delete-item/authorization.adoc[]
+
 ==== Request structure
 
 include::{snippets}/item-resource-test/delete-item/request-fields.adoc[]
@@ -104,7 +124,7 @@ include::{snippets}/item-resource-test/delete-item/response-fields.adoc[]
 
 include::{snippets}/item-resource-test/delete-item/curl-request.adoc[]
 include::{snippets}/item-resource-test/delete-item/http-response.adoc[]
-[[resources-items-delete]]
 
+// Use of all in one section snippets
 include::{snippets}/item-resource-test/get-child-item/section.adoc[]
 include::{snippets}/item-resource-test/search/section.adoc[]
