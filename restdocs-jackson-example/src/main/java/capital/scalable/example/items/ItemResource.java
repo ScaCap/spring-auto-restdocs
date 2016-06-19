@@ -121,8 +121,8 @@ public class ItemResource {
     /**
      * Retrieves a child of specified item.
      *
-     * @param id      item id
-     * @param childId child id
+     * @param id      Item ID.
+     * @param childId Child ID.
      */
     @RequestMapping("{id}/{child}")
     public ItemResponse getChild(@PathVariable String id,
@@ -137,8 +137,8 @@ public class ItemResource {
     /**
      * Searches for item based on lookup parameters.
      *
-     * @param descMatch lookup on description field
-     * @param hint      lookup hint
+     * @param descMatch Lookup on description field.
+     * @param hint      Lookup hint.
      */
     @RequestMapping("search")
     public List<ItemResponse> searchItem(@RequestParam("desc") String descMatch,
