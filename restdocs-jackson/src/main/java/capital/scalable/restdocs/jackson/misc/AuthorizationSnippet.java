@@ -35,7 +35,7 @@ public class AuthorizationSnippet extends TemplatedSnippet {
         }
     }
 
-    public static MockHttpServletRequest addAuthorization(MockHttpServletRequest request,
+    public static MockHttpServletRequest documentAuthorization(MockHttpServletRequest request,
             String authorization) {
         setAuthorization(request, authorization);
         return request;

@@ -25,6 +25,7 @@ import static capital.scalable.restdocs.jackson.AutoDocumentation.requestParamet
 import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
+import static capital.scalable.restdocs.jackson.misc.AuthorizationSnippet.documentAuthorization;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
@@ -37,7 +38,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import capital.scalable.example.Application;
-import capital.scalable.restdocs.jackson.misc.AuthorizationSnippet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -63,6 +63,8 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringApplicationConfiguration(classes = {Application.class})
 @WebAppConfiguration
 public abstract class MockMvcBase {
+
+    private static final String DEFAULT_AUTHORIZATION = "Resource is public.";
 
     @Autowired
     private WebApplicationContext context;
@@ -92,7 +94,7 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section(), authorization("Resource is public.")))
+                                section(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }
 
@@ -105,10 +107,9 @@ public abstract class MockMvcBase {
         return new RequestPostProcessor() {
             @Override
             public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-                // TODO add code to login a user if required for the tests and extend the
-                // request with the authorization information (authorization header or cookie)
-                return AuthorizationSnippet
-                        .addAuthorization(request, "User access token required.");
+                // If the tests requires setup logic for users, you can place it here.
+                // Authorization headers or cookies for users should be added here as well.
+                return documentAuthorization(request, "User access token required.");
             }
         };
     }
