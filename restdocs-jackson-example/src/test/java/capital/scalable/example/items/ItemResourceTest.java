@@ -68,17 +68,16 @@ public class ItemResourceTest extends MockMvcBase {
 
     @Test
     public void addItem() throws Exception {
-        mockMvc.perform(post("/items")
+        mockMvc.perform(post("/items").with(userToken())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"description\":\"Hot News\"}")
-                .with(userToken()))
+                .content("{\"description\":\"Hot News\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", is("/items/2")));
     }
 
     @Test
     public void updateItem() throws Exception {
-        mockMvc.perform(put("/items/1")
+        mockMvc.perform(put("/items/1").with(userToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"description\":\"Hot News\"}"))
                 .andExpect(jsonPath("$.id", is("1")))
@@ -88,7 +87,7 @@ public class ItemResourceTest extends MockMvcBase {
 
     @Test
     public void deleteItem() throws Exception {
-        mockMvc.perform(delete("/items/1"))
+        mockMvc.perform(delete("/items/1").with(userToken()))
                 .andExpect(status().isOk());
     }
 
