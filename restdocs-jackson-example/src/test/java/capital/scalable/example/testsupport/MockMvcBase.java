@@ -24,16 +24,13 @@ import static capital.scalable.restdocs.jackson.AutoDocumentation.requestParamet
 import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
-import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
-        .limitJsonArrayLength;
-import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors
-        .replaceBinaryContent;
-import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
+import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
+import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.replaceBinaryContent;
+import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-        .documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
