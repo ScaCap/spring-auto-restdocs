@@ -20,9 +20,14 @@ public class DescriptionSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
 
-        String methodComment = getJavadocReader(operation)
-                .resolveMethodComment(handlerMethod.getBeanType(),
-                        handlerMethod.getMethod().getName());
+        final String methodComment;
+        if (handlerMethod != null) {
+            methodComment = getJavadocReader(operation)
+                    .resolveMethodComment(handlerMethod.getBeanType(),
+                            handlerMethod.getMethod().getName());
+        } else {
+            methodComment = "";
+        }
 
         Map<String, Object> model = new HashMap<>();
         model.put("description", methodComment);
