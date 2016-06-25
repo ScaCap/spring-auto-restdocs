@@ -28,7 +28,7 @@ import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.pr
 import static capital.scalable.restdocs.jackson.misc.AuthorizationSnippet.documentAuthorization;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.replaceBinaryContent;
-import static org.springframework.restdocs.curl.CurlDocumentation.curlRequest;
+import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

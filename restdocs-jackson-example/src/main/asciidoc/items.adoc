@@ -12,19 +12,19 @@ include::{snippets}/item-resource-test/get-item/authorization.adoc[]
 
 ==== Request structure
 
-include::{snippets}/item-resource-test/add-item/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/request-fields.adoc[]
 
 We do not have to care whether to include a snippet or not,
 because the template returns "No data." instead of an empty table.
 
 ==== Response structure
 
-include::{snippets}/item-resource-test/add-item/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/response-fields.adoc[]
 
 ==== Example request/response
 
-include::{snippets}/item-resource-test/add-item/curl-request.adoc[]
-include::{snippets}/item-resource-test/add-item/http-response.adoc[]
+include::{snippets}/item-resource-test/get-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/get-item/http-response.adoc[]
 
 
 [[resources-items-all]]
