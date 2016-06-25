@@ -25,6 +25,8 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 .append("=== Get Item By Id\n\n")
                 .append("include::{snippets}/items/id/method-path.adoc[]\n\n")
                 .append("include::{snippets}/items/id/description.adoc[]\n\n")
+                .append("==== Authorization\n\n")
+                .append("include::{snippets}/items/id/authorization.adoc[]\n\n")
                 .append("==== Path parameters\n\n")
                 .append("include::{snippets}/items/id/path-parameters.adoc[]\n\n")
                 .append("==== Query parameters\n\n")

@@ -16,6 +16,7 @@
 
 package capital.scalable.example.testsupport;
 
+import static capital.scalable.restdocs.jackson.AutoDocumentation.authorization;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.description;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.pathParameters;
@@ -24,6 +25,7 @@ import static capital.scalable.restdocs.jackson.AutoDocumentation.requestParamet
 import static capital.scalable.restdocs.jackson.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.jackson.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.jackson.JacksonResultHandlers.prepareJackson;
+import static capital.scalable.restdocs.jackson.misc.AuthorizationSnippet.documentAuthorization;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
 import static capital.scalable.restdocs.jackson.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
@@ -42,11 +44,13 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -59,6 +63,8 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringApplicationConfiguration(classes = {Application.class})
 @WebAppConfiguration
 public abstract class MockMvcBase {
+
+    private static final String DEFAULT_AUTHORIZATION = "Resource is public.";
 
     @Autowired
     private WebApplicationContext context;
@@ -88,12 +94,23 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section()))
+                                section(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }
 
     protected OperationResponsePreprocessor commonResponsePreprocessor() {
         return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper),
                 prettyPrint());
+    }
+
+    protected RequestPostProcessor userToken() {
+        return new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                // If the tests requires setup logic for users, you can place it here.
+                // Authorization headers or cookies for users should be added here as well.
+                return documentAuthorization(request, "User access token required.");
+            }
+        };
     }
 }

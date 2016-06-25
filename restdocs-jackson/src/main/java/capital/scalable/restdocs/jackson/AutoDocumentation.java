@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.jackson;
 
+import capital.scalable.restdocs.jackson.misc.AuthorizationSnippet;
 import capital.scalable.restdocs.jackson.misc.DescriptionSnippet;
 import capital.scalable.restdocs.jackson.misc.MethodAndPathSnippet;
 import capital.scalable.restdocs.jackson.misc.SectionSnippet;
@@ -59,5 +60,9 @@ public abstract class AutoDocumentation {
 
     public static Snippet section() {
         return new SectionSnippet();
+    }
+
+    public static Snippet authorization(String defaultAuthorization) {
+        return new AuthorizationSnippet(defaultAuthorization);
     }
 }
