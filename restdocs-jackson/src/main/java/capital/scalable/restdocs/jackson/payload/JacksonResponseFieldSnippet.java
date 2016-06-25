@@ -59,7 +59,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         final String infoText;
         if (handlerMethod != null && isPageResponse(handlerMethod)) {
             infoText = "Standard <<overview-pagination,Paging>> response where `content` field"
-                    + " is list of following objects:";
+                    + " is list of following objects:\n";
         } else {
             infoText = "";
         }
