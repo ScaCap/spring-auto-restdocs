@@ -70,8 +70,7 @@ public class ItemResourceTest extends MockMvcBase {
     public void addItem() throws Exception {
         mockMvc.perform(post("/items").with(userToken())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"description\":\"Hot News\"}")
-                .with(userToken()))
+                .content("{\"description\":\"Hot News\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", is("/items/2")));
     }
