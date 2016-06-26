@@ -18,7 +18,6 @@ public class TableWithPrefixMatcher extends BaseMatcher<String> {
     public boolean matches(Object item) {
         if (item instanceof String) {
             String content = (String) item;
-            System.out.println(content.substring(prefix.length()));
             return content.startsWith(prefix) &&
                     tableMatcher.matches(content.substring(prefix.length()));
         } else {
