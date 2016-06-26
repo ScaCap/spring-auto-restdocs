@@ -16,7 +16,6 @@
 
 package capital.scalable.example.items;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -26,11 +25,13 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
+import java.util.Collections;
 
 import capital.scalable.example.items.ItemResponse.Attributes;
 import capital.scalable.example.items.ItemResponse.Metadata;
 import org.javamoney.moneta.Money;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -141,12 +142,12 @@ public class ItemResource {
      * @param hint      Lookup hint.
      */
     @RequestMapping("search")
-    public List<ItemResponse> searchItem(@RequestParam("desc") String descMatch,
+    public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch,
             @RequestParam(required = false) Integer hint) {
         if (ITEM.getDescription().contains(descMatch)) {
-            return singletonList(ITEM);
+            return new PageImpl<>(singletonList(ITEM));
         } else {
-            return emptyList();
+            return new PageImpl<>(Collections.<ItemResponse>emptyList());
         }
     }
 

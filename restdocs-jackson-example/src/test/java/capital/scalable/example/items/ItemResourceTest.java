@@ -104,10 +104,10 @@ public class ItemResourceTest extends MockMvcBase {
     public void searchItems() throws Exception {
         mockMvc.perform(get("/items/search?desc=main&hint=1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].id", is("1")))
-                .andExpect(jsonPath("$.[0].description", is("main item")))
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].id", is("1")))
+                .andExpect(jsonPath("$.content[0].description", is("main item")))
                 // example for overriding path and preprocessors
                 .andDo(document("{class-name}/search", commonResponsePreprocessor()));
     }
