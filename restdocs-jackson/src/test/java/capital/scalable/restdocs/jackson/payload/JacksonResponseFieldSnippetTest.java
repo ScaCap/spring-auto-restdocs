@@ -53,9 +53,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn("An integer");
 
         this.snippet.expectResponseFields("response").withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true", "An integer"));
+                tableWithPrefix(this.templateFormat, "\n", "\n",
+                        tableWithHeader("Path", "Type", "Optional", "Description")
+                                .row("field1", "String", "false", "A string")
+                                .row("field2", "Integer", "true", "An integer")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -97,8 +98,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn("An integer");
 
         this.snippet.expectResponseFields("response").withContents(
-                tableWithPrefix("Standard <<overview-pagination,Paging>> response where `content`"
-                                + " field is list of following objects:\n",
+                tableWithPrefix(this.templateFormat,
+                        "Standard <<overview-pagination,paging>> response where `content` field is"
+                                + " list of following objects:\n",
+                        "Standard [paging](#overview-pagination) response where `content` field is"
+                                + " list of following objects:\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
                                 .row("field2", "Integer", "true", "An integer")));

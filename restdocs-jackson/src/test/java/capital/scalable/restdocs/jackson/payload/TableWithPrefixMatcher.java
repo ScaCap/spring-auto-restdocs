@@ -2,22 +2,32 @@ package capital.scalable.restdocs.jackson.payload;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.springframework.restdocs.test.SnippetMatchers;
+import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.test.SnippetMatchers.TableMatcher;
 
 public class TableWithPrefixMatcher extends BaseMatcher<String> {
 
-    private final String prefix;
+    private final TemplateFormat templateFormat;
 
-    private final SnippetMatchers.TableMatcher<?> tableMatcher;
+    private final String asciiDocPrefix;
 
-    private TableWithPrefixMatcher(String prefix, SnippetMatchers.TableMatcher<?> tableMatcher) {
-        this.prefix = prefix;
+    private final String markdownDocPrefix;
+
+    private final TableMatcher<?> tableMatcher;
+
+    private TableWithPrefixMatcher(TemplateFormat templateFormat, String asciiDocPrefix,
+            String markdownDocPrefix, TableMatcher<?> tableMatcher) {
+        this.templateFormat = templateFormat;
+        this.asciiDocPrefix = asciiDocPrefix;
+        this.markdownDocPrefix = markdownDocPrefix;
         this.tableMatcher = tableMatcher;
     }
 
+    @Override
     public boolean matches(Object item) {
         if (item instanceof String) {
             String content = (String) item;
+            String prefix = prefix();
             return content.startsWith(prefix) &&
                     tableMatcher.matches(content.substring(prefix.length()));
         } else {
@@ -25,12 +35,22 @@ public class TableWithPrefixMatcher extends BaseMatcher<String> {
         }
     }
 
+    private String prefix() {
+        if ("adoc".equals(templateFormat.getFileExtension())) {
+            return asciiDocPrefix;
+        } else {
+            return markdownDocPrefix;
+        }
+    }
+
+    @Override
     public void describeTo(Description description) {
         tableMatcher.describeTo(description);
     }
 
-    public static TableWithPrefixMatcher tableWithPrefix(String prefix,
-            SnippetMatchers.TableMatcher<?> tableMatcher) {
-        return new TableWithPrefixMatcher(prefix, tableMatcher);
+    public static TableWithPrefixMatcher tableWithPrefix(TemplateFormat templateFormat,
+            String asciiDocPrefix, String markdownDocPrefix, TableMatcher<?> tableMatcher) {
+        return new TableWithPrefixMatcher(templateFormat, asciiDocPrefix, markdownDocPrefix,
+                tableMatcher);
     }
 }
