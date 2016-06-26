@@ -213,7 +213,7 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForFieldResolution() throws Exception {
         // given
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.PUBLIC_ONLY));
 
         JavadocReader javadocReader = mock(JavadocReader.class);
@@ -254,7 +254,7 @@ public class FieldDocumentationGeneratorTest {
 
     private ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         return mapper;
     }

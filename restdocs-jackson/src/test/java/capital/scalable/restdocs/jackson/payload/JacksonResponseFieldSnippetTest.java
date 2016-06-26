@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static capital.scalable.restdocs.jackson.payload.TableWithPrefixMatcher.tableWithPrefix;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -25,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
@@ -38,7 +42,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleResponse() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItem");
@@ -64,7 +68,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     @Test
     public void noResponseBody() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "noItem");
@@ -79,6 +83,34 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void pageResponse() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "pagedItems");
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(Item.class, "field1"))
+                .thenReturn("A string");
+        when(javadocReader.resolveFieldComment(Item.class, "field2"))
+                .thenReturn("An integer");
+
+        this.snippet.expectResponseFields("response").withContents(
+                tableWithPrefix("Standard <<overview-pagination,Paging>> response where `content`"
+                                + " field is list of following objects:\n",
+                        tableWithHeader("Path", "Type", "Optional", "Description")
+                                .row("field1", "String", "false", "A string")
+                                .row("field2", "Integer", "true", "An integer")));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder("response")
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost")
+                .build());
+    }
+
     private static class TestResource {
 
         public Item getItem() {
@@ -86,6 +118,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
 
         public void noItem() {
+        }
+
+        public Page<Item> pagedItems() {
+            return new PageImpl<>(singletonList(new Item("test")));
         }
     }
 

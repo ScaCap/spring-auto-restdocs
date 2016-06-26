@@ -39,7 +39,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem", Item.class);
@@ -66,7 +66,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     @Test
     public void noRequestBody() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
