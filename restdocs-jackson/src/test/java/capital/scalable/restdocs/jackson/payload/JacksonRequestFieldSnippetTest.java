@@ -21,6 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
+import capital.scalable.restdocs.jackson.validation.DocumentedClass;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,11 +49,14 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn("A string");
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
                 .thenReturn("An integer");
+        when(javadocReader.resolveFieldComment(Item.class, "field3"))
+                .thenReturn("Another integer");
 
         this.snippet.expectRequestFields("request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true", "An integer"));
+                        .row("field2", "Integer", "true", "An integer; constraint on field2")
+                        .row("field3", "Integer", "true", "Another integer; constraint on field3"));
 
         new JacksonRequestFieldSnippet().document(operationBuilder("request")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -95,6 +99,17 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private static class Item {
         @NotBlank
         private String field1;
+        @DocumentedTestConstraint1(documentation = "constraint on field2")
         private Integer field2;
+        @DocumentedTestConstraint2(documentation = ConstraintDocumentation.class)
+        private Integer field3;
+    }
+
+    public static class ConstraintDocumentation implements DocumentedClass {
+
+        @Override
+        public String documentation() {
+            return "constraint on field3";
+        }
     }
 }

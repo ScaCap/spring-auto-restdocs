@@ -23,14 +23,16 @@ class InternalFieldInfo {
     private final Class<?> javaBaseClass;
     private final String javaFieldName;
     private final String jsonFieldPath;
-    private final Boolean optional;
+    private final boolean optional;
+    private final String validationInformation;
 
     public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName,
-            String jsonFieldPath, Boolean optional) {
+            String jsonFieldPath, boolean optional, String validationInformation) {
         this.javaBaseClass = javaBaseClass;
         this.javaFieldName = javaFieldName;
         this.jsonFieldPath = jsonFieldPath;
         this.optional = optional;
+        this.validationInformation = validationInformation;
     }
 
     public Class<?> getJavaBaseClass() {
@@ -45,7 +47,11 @@ class InternalFieldInfo {
         return jsonFieldPath;
     }
 
-    public Boolean getOptional() {
+    public boolean getOptional() {
         return optional;
+    }
+
+    public String getValidationInformation() {
+        return validationInformation;
     }
 }
