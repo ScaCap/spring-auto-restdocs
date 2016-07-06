@@ -30,8 +30,13 @@ public class SectionSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
-        String title = join(splitByCharacterTypeCamelCase(
-                capitalize(handlerMethod.getMethod().getName())), ' ');
+        final String title;
+        if (handlerMethod != null) {
+            title = join(splitByCharacterTypeCamelCase(
+                    capitalize(handlerMethod.getMethod().getName())), ' ');
+        } else {
+            title = "";
+        }
 
         // resolve path
         String path = propertyPlaceholderHelper.replacePlaceholders(operation.getName(),
