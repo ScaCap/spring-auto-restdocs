@@ -38,6 +38,77 @@ An example of static AsciiDoc.
 | Used to delete an existing resource
 |===
 
+[[overview-pagination]]
+=== Pagination
+
+Spring pagination facilities offer following:
+
+|===
+| Path | Type | Optional | Description
+
+| page
+| Integer
+| false
+| Page you want to retrieve. Starts at 0.
+
+| size
+| Integer
+| false
+| Size of the page you want to retrieve.
+
+| sort
+| String
+| false
+| Properties that should be sorted by in the format `property,property(,ASC\|DESC)`.
+Default sort direction is ascending. Use multiple sort parameters if you want to
+switch directions, e.g. `?sort=firstname&sort=lastname,asc`.
+
+| content
+| Object Array
+| false
+| Actual items.
+
+| totalElements
+| Integer
+| false
+| Total count.
+
+| totalPages
+| Integer
+| false
+| Total pages with current page size.
+
+| last
+| Boolean
+| false
+| If this page is the last one.
+
+| numberOfElements
+| Integer
+| false
+| Actual size of content array (number of items).
+
+| first
+| Boolean
+| false
+| If this page is the first one.
+
+| sort
+| Object
+| true
+| Sort information object.
+
+| size
+| Integer
+| false
+| Requested size of the page.
+
+| number
+| Integer
+| false
+| Page number.
+|===
+
 [[resources]]
 = Resources
 

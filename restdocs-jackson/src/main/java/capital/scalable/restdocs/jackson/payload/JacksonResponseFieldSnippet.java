@@ -56,14 +56,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
-        final String infoText;
-        if (handlerMethod != null && isPageResponse(handlerMethod)) {
-            infoText = "Standard <<overview-pagination,Paging>> response where `content` field"
-                    + " is list of following objects:";
-        } else {
-            infoText = "";
-        }
-        model.put("paginationInfo", infoText);
+        model.put("isPagedResponse", handlerMethod != null && isPageResponse(handlerMethod));
     }
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
