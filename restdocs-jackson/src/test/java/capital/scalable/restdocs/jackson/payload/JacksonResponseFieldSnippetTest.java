@@ -53,7 +53,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn("An integer");
 
         this.snippet.expectResponseFields("response").withContents(
-                tableWithPrefix(this.templateFormat, "\n", "\n",
+                tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
                                 .row("field2", "Integer", "true", "An integer")));
@@ -98,11 +98,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn("An integer");
 
         this.snippet.expectResponseFields("response").withContents(
-                tableWithPrefix(this.templateFormat,
-                        "Standard <<overview-pagination,paging>> response where `content` field is"
-                                + " list of following objects:\n",
-                        "Standard [paging](#overview-pagination) response where `content` field is"
-                                + " list of following objects:\n",
+                tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
                                 .row("field2", "Integer", "true", "An integer")));
@@ -113,6 +109,16 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost")
                 .build());
+    }
+
+    private String paginationPrefix() {
+        if ("adoc".equals(templateFormat.getFileExtension())) {
+            return "Standard <<overview-pagination,paging>> response where `content` field is"
+                    + " list of following objects:\n";
+        } else {
+            return "Standard [paging](#overview-pagination) response where `content` field is"
+                    + " list of following objects:\n";
+        }
     }
 
     private static class TestResource {
