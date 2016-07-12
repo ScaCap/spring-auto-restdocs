@@ -60,6 +60,10 @@ public class FieldDocumentationVisitorContext {
             comment = javadocReader.resolveFieldComment(javaFieldClass, fromGetter(javaFieldName));
         }
 
+        if (!isBlank(info.getValidationInformation())) {
+            comment = addValidationInformation(info, comment);
+        }
+
         FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
                 .type(jsonFieldType)
                 .description(comment);
@@ -67,8 +71,16 @@ public class FieldDocumentationVisitorContext {
         if (info.getOptional()) {
             fieldDescriptor.optional();
         }
-
         fields.add(fieldDescriptor);
+    }
+
+    private String addValidationInformation(InternalFieldInfo info, String comment) {
+        if (isBlank(comment)) {
+            comment = info.getValidationInformation();
+        } else {
+            comment = comment + "; " + info.getValidationInformation();
+        }
+        return comment;
     }
 
     private String fromGetter(String javaMethodName) {
