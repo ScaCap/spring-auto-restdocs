@@ -16,7 +16,10 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
-import javax.validation.constraints.NotNull;
+import static org.apache.commons.collections.IteratorUtils.toList;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
@@ -26,8 +29,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author Florian Benz
@@ -62,9 +63,10 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
 
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
+        List<Annotation> annotations = getAnnotations(prop);
 
         InternalFieldInfo fieldInfo =
-                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, isOptional(prop));
+                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, annotations);
 
         JsonFormatVisitorWrapper visitor =
                 new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
@@ -72,10 +74,8 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
         ser.acceptJsonFormatVisitor(visitor, type);
     }
 
-    private boolean isOptional(BeanProperty prop) {
-        return prop.getAnnotation(NotNull.class) == null
-                && prop.getAnnotation(NotEmpty.class) == null
-                && prop.getAnnotation(NotBlank.class) == null;
+    private List<Annotation> getAnnotations(BeanProperty prop) {
+        return toList(prop.getMember().annotations().iterator());
     }
 
     protected JsonSerializer<?> getSer(BeanProperty prop) throws JsonMappingException {

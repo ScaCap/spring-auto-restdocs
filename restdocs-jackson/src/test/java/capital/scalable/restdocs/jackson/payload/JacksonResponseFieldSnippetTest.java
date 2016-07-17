@@ -17,11 +17,17 @@
 package capital.scalable.restdocs.jackson.payload;
 
 import static capital.scalable.restdocs.jackson.payload.TableWithPrefixMatcher.tableWithPrefix;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import java.math.BigDecimal;
+
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,18 +56,24 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field1"))
                 .thenReturn("A string");
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("An integer");
+                .thenReturn("A decimal");
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+        when(constraintReader.getConstraintMessages(Item.class, "field2"))
+                .thenReturn(asList(new String[]{"A constraint"}));
 
         this.snippet.expectResponseFields("response").withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
-                                .row("field2", "Integer", "true", "An integer")));
+                                .row("field2", "Decimal", "true", "A decimal A constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .request("http://localhost")
                 .build());
     }
@@ -95,18 +107,24 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field1"))
                 .thenReturn("A string");
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("An integer");
+                .thenReturn("A decimal");
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+        when(constraintReader.getConstraintMessages(Item.class, "field2"))
+                .thenReturn(asList(new String[]{"A constraint"}));
 
         this.snippet.expectResponseFields("response").withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
-                                .row("field2", "Integer", "true", "An integer")));
+                                .row("field2", "Decimal", "true", "A decimal A constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .request("http://localhost")
                 .build());
     }
@@ -138,7 +156,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private static class Item {
         @NotBlank
         private String field1;
-        private Integer field2;
+        @DecimalMin("1")
+        @DecimalMax("10")
+        private BigDecimal field2;
 
         public Item(String field1) {
             this.field1 = field1;

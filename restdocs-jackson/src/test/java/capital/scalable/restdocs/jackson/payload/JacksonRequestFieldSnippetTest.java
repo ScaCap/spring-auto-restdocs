@@ -16,10 +16,14 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import javax.validation.constraints.Size;
+
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,15 +53,21 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
                 .thenReturn("An integer");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+        when(constraintReader.getConstraintMessages(Item.class, "field2"))
+                .thenReturn(asList(new String[]{"A constraint"}));
+
         this.snippet.expectRequestFields("request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true", "An integer"));
+                        .row("field2", "Integer", "true", "An integer A constraint."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder("request")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .request("http://localhost")
                 .content("{\"field1\":\"test\"}")
                 .build());
@@ -95,6 +105,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private static class Item {
         @NotBlank
         private String field1;
+        @Size(max = 10)
         private Integer field2;
     }
 }

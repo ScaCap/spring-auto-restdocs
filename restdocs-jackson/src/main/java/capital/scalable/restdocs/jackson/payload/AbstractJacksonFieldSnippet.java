@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getConstraintReader;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getObjectMapper;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import capital.scalable.restdocs.jackson.snippet.StandardTableSnippet;
@@ -56,10 +58,11 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
         if (type != null) {
             ObjectMapper objectMapper = getObjectMapper(operation);
             JavadocReader javadocReader = getJavadocReader(operation);
+            ConstraintReader constraintReader = getConstraintReader(operation);
 
             try {
                 FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
-                        objectMapper.writer(), javadocReader);
+                        objectMapper.writer(), javadocReader, constraintReader);
 
                 List<FieldDescriptor> descriptors = generator
                         .generateDocumentation(type, objectMapper.getTypeFactory());

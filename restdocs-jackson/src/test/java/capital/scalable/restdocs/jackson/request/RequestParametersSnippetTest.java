@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.junit.Test;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -51,6 +52,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .resolveMethodParameterComment(TestResource.class, "searchItem", "description"))
                 .thenReturn("A string");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         this.snippet.expectRequestParameters("request-params").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
@@ -60,6 +62,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         new RequestParametersSnippet().document(operationBuilder("request-params")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .request("http://localhost/items/search?type=main&text=myItem")
                 .build());
     }
