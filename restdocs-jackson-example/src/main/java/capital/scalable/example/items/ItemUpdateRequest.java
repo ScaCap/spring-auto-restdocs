@@ -16,6 +16,7 @@
 
 package capital.scalable.example.items;
 
+import capital.scalable.example.constraints.OneOf;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -30,5 +31,6 @@ class ItemUpdateRequest {
      * Some information about the item.
      */
     @NotBlank
+    @OneOf({"male", "female"})
     private String description;
 }

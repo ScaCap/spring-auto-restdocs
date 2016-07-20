@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
+import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 import org.springframework.restdocs.constraints.ValidatorConstraintResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
@@ -28,8 +29,10 @@ public class ConstraintReaderImpl implements ConstraintReader {
     @Override
     public List<String> getConstraintMessages(Class<?> javaBaseClass, String javaFieldName) {
         ConstraintDescriptions constraints = new ConstraintDescriptions(javaBaseClass,
-                new SkippableConstraintResolver(new ValidatorConstraintResolver(),
-                        MANDATORY_VALUE_ANNOTATIONS));
+                new HumanReadableConstraintResolver(
+                        new SkippableConstraintResolver(new ValidatorConstraintResolver(),
+                                MANDATORY_VALUE_ANNOTATIONS)),
+                new ResourceBundleConstraintDescriptionResolver());
         return constraints.descriptionsForProperty(javaFieldName);
     }
 
