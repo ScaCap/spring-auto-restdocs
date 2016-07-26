@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
+import org.springframework.restdocs.constraints.ConstraintResolver;
 import org.springframework.restdocs.constraints.ValidatorConstraintResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
@@ -17,9 +18,10 @@ public class ConstraintReaderImpl implements ConstraintReader {
     public static final Class<?>[] MANDATORY_VALUE_ANNOTATIONS =
             {NotNull.class, NotEmpty.class, NotBlank.class};
 
-    private SkippableConstraintResolver constraintResolver =
-            new SkippableConstraintResolver(new ValidatorConstraintResolver(),
-                    MANDATORY_VALUE_ANNOTATIONS);
+    private ConstraintResolver constraintResolver =
+            new HumanReadableConstraintResolver(
+                    new SkippableConstraintResolver(new ValidatorConstraintResolver(),
+                            MANDATORY_VALUE_ANNOTATIONS));
 
     @Override
     public boolean isMandatory(Class<?> annotation) {

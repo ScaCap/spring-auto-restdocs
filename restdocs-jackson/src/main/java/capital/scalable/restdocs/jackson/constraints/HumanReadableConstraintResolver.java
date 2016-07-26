@@ -1,5 +1,7 @@
 package capital.scalable.restdocs.jackson.constraints;
 
+import static org.springframework.util.StringUtils.arrayToDelimitedString;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.Map;
 
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintResolver;
-import org.springframework.util.StringUtils;
 
 class HumanReadableConstraintResolver implements ConstraintResolver {
     private final ConstraintResolver delegate;
@@ -29,16 +30,14 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
     private Map<String, Object> extendConfiguration(Map<String, Object> configuration) {
         Map<String, Object> extendedConfiguration = new HashMap<>();
         for (Map.Entry<String, Object> e : configuration.entrySet()) {
-            extendedConfiguration.put(e.getKey(), e.getValue());
-            extendedConfiguration
-                    .put(e.getKey() + "HumanReadable", humanReadableString(e.getValue()));
+            extendedConfiguration.put(e.getKey(), humanReadableString(e.getValue()));
         }
         return extendedConfiguration;
     }
 
     private String humanReadableString(Object o) {
         if (o instanceof Object[]) {
-            return StringUtils.arrayToDelimitedString((Object[]) o, ", ");
+            return "[" + arrayToDelimitedString((Object[]) o, ", ") + "]";
         } else if (o instanceof Class) {
             try {
                 return ((Class) o).newInstance().toString();
