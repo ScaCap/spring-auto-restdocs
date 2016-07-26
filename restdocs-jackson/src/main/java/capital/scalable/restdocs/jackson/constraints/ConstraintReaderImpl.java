@@ -1,10 +1,11 @@
 package capital.scalable.restdocs.jackson.constraints;
 
+import static org.apache.commons.lang3.ArrayUtils.contains;
+
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.MethodParameter;
@@ -22,7 +23,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     @Override
     public boolean isMandatory(Class<?> annotation) {
-        return ArrayUtils.contains(MANDATORY_VALUE_ANNOTATIONS, annotation);
+        return contains(MANDATORY_VALUE_ANNOTATIONS, annotation);
     }
 
     @Override
