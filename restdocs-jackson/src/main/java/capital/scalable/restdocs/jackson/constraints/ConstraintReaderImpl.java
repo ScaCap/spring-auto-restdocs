@@ -1,5 +1,7 @@
 package capital.scalable.restdocs.jackson.constraints;
 
+import static org.apache.commons.lang3.ArrayUtils.contains;
+
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,31 +10,26 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
-import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 import org.springframework.restdocs.constraints.ValidatorConstraintResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
-    public static final List<Class<?>> MANDATORY_VALUE_ANNOTATIONS;
+    // TODO support for composed constraints
+    public static final Class<?>[] MANDATORY_VALUE_ANNOTATIONS =
+            {NotNull.class, NotEmpty.class, NotBlank.class};
 
-    static {
-        MANDATORY_VALUE_ANNOTATIONS = new ArrayList<>();
-        MANDATORY_VALUE_ANNOTATIONS.add(NotNull.class);
-        MANDATORY_VALUE_ANNOTATIONS.add(NotEmpty.class);
-        MANDATORY_VALUE_ANNOTATIONS.add(NotBlank.class);
-    }
+    private SkippableConstraintResolver constraintResolver =
+            new SkippableConstraintResolver(new ValidatorConstraintResolver(),
+                    MANDATORY_VALUE_ANNOTATIONS);
 
     @Override
     public boolean isMandatory(Class<?> annotation) {
-        return MANDATORY_VALUE_ANNOTATIONS.contains(annotation);
+        return contains(MANDATORY_VALUE_ANNOTATIONS, annotation);
     }
 
     @Override
     public List<String> getConstraintMessages(Class<?> javaBaseClass, String javaFieldName) {
         ConstraintDescriptions constraints = new ConstraintDescriptions(javaBaseClass,
-                new HumanReadableConstraintResolver(
-                        new SkippableConstraintResolver(new ValidatorConstraintResolver(),
-                                MANDATORY_VALUE_ANNOTATIONS)),
-                new ResourceBundleConstraintDescriptionResolver());
+                constraintResolver);
         return constraints.descriptionsForProperty(javaFieldName);
     }
 

@@ -12,7 +12,7 @@ class SkippableConstraintResolver implements ConstraintResolver {
     private final Collection<String> skippableConstraints;
 
     public SkippableConstraintResolver(ConstraintResolver delegate,
-            List<Class<?>> skippableConstraints) {
+            Class<?>... skippableConstraints) {
         this.delegate = delegate;
         this.skippableConstraints = new ArrayList<>();
         for (Class<?> a : skippableConstraints) {
