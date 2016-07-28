@@ -1,7 +1,9 @@
 package capital.scalable.restdocs.jackson.snippet;
 
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.join;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public abstract class StandardTableSnippet extends TemplatedSnippet {
+
     protected StandardTableSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -53,11 +56,21 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("path", descriptor.getPath());
-        model.put("type", stringOrEmpty(descriptor.getType()));
-        model.put("optional", descriptor.isOptional());
-        model.put("description", stringOrEmpty(descriptor.getDescription()));
+        String path = descriptor.getPath();
+        String type = stringOrEmpty(descriptor.getType());
+        boolean optional = descriptor.isOptional();
+        String description = stringOrEmpty(descriptor.getDescription());
+        List<String> constraints = (List<String>) descriptor.getAttributes().get(
+                CONSTRAINTS_ATTRIBUTE);
+        if (constraints != null && !constraints.isEmpty()) {
+            description += " " + join(constraints, ", ") + ".";
+        }
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("path", path);
+        model.put("type", type);
+        model.put("optional", optional);
+        model.put("description", description);
         return model;
     }
 

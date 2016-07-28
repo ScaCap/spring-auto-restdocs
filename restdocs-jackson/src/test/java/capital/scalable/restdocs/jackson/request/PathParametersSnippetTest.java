@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.junit.Test;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -49,6 +50,8 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveMethodParameterComment(TestResource.class, "addItem", "otherId"))
                 .thenReturn("A string");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
         this.snippet.expectPathParameters("path-params").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer")
@@ -57,6 +60,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         new PathParametersSnippet().document(operationBuilder("path-params")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .request("http://localhost/items/123/subitem/myItem")
                 .build());
     }

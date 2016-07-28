@@ -16,30 +16,36 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.util.FieldUtil.fromGetter;
+import static capital.scalable.restdocs.jackson.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.util.StringUtils.uncapitalize;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.snippet.Attributes.Attribute;
 
 /**
  * @author Florian Benz
  */
 public class FieldDocumentationVisitorContext {
-
     private final Set<Class<?>> analyzedClasses = new HashSet<>();
-
     private final List<FieldDescriptor> fields = new ArrayList<>();
     private JavadocReader javadocReader;
+    private ConstraintReader constraintReader;
 
-    public FieldDocumentationVisitorContext(JavadocReader javadocReader) {
+    public FieldDocumentationVisitorContext(JavadocReader javadocReader,
+            ConstraintReader constraintReader) {
         this.javadocReader = javadocReader;
+        this.constraintReader = constraintReader;
     }
 
     public List<FieldDescriptor> getFields() {
@@ -50,6 +56,24 @@ public class FieldDocumentationVisitorContext {
         Class<?> javaFieldClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
 
+        String comment = resolveComment(javaFieldClass, javaFieldName);
+
+        FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
+                .type(jsonFieldType)
+                .description(comment);
+
+        if (isOptional(info)) {
+            fieldDescriptor.optional();
+        }
+
+        Attribute constraints = constraintAttribute(info.getJavaBaseClass(),
+                info.getJavaFieldName());
+        fieldDescriptor.attributes(constraints);
+
+        fields.add(fieldDescriptor);
+    }
+
+    private String resolveComment(Class<?> javaFieldClass, String javaFieldName) {
         String comment = javadocReader.resolveFieldComment(javaFieldClass, javaFieldName);
         if (isBlank(comment)) {
             // fallback if fieldName is getter method and comment is on the method itself
@@ -59,25 +83,34 @@ public class FieldDocumentationVisitorContext {
             // fallback if fieldName is getter method but comment is on field itself
             comment = javadocReader.resolveFieldComment(javaFieldClass, fromGetter(javaFieldName));
         }
+        return comment;
+    }
 
-        FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
-                .type(jsonFieldType)
-                .description(comment);
+    private boolean isOptional(InternalFieldInfo info) {
+        for (Annotation annotation : info.getAnnotations()) {
+            if (constraintReader.isMandatory(annotation.annotationType())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-        if (info.getOptional()) {
-            fieldDescriptor.optional();
+    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return new Attribute(CONSTRAINTS_ATTRIBUTE, resolveConstraintDescriptions(
+                javaBaseClass, javaFieldName));
+    }
+
+    private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,
+            String javaFieldName) {
+        List<String> descriptions = constraintReader
+                .getConstraintMessages(javaBaseClass, javaFieldName);
+
+        // fallback to field itself if we got a getter and no annotation on it
+        if (descriptions.isEmpty() && isGetter(javaFieldName)) {
+            descriptions = resolveConstraintDescriptions(javaBaseClass, fromGetter(javaFieldName));
         }
 
-        fields.add(fieldDescriptor);
-    }
-
-    private String fromGetter(String javaMethodName) {
-        int cut = javaMethodName.startsWith("get") ? "get".length() : "is".length();
-        return uncapitalize(javaMethodName.substring(cut, javaMethodName.length()));
-    }
-
-    private boolean isGetter(String javaFieldName) {
-        return javaFieldName.startsWith("get") || javaFieldName.startsWith("is");
+        return descriptions;
     }
 
     public void addAnalyzedClass(Class<?> clazz) {

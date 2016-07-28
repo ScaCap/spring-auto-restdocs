@@ -16,6 +16,13 @@
 
 package capital.scalable.example.items;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.javamoney.moneta.Money;
 
 /**
@@ -40,7 +48,6 @@ class ItemResponse {
     private String id;
 
     @JsonIgnore
-    @NotBlank
     private String desc;
 
     /**
@@ -57,6 +64,8 @@ class ItemResponse {
     /**
      * Child items.
      */
+    @Valid
+    @NotEmpty
     private List<ItemResponse> children;
 
     /**
@@ -70,14 +79,19 @@ class ItemResponse {
      * Various attributes about the item.
      */
     @Value
-    static class Attributes {
+    public static class Attributes {
         /**
          * Textual attribute.
          */
+        @NotBlank
+        @Size(min = 2, max = 20)
         private String text;
         /**
          * Integer attribute.
          */
+        @NotNull
+        @Min(1)
+        @Max(10)
         private Integer number;
         /**
          * Boolean attribute.
@@ -86,10 +100,13 @@ class ItemResponse {
         /**
          * Decimal attribute.
          */
+        @DecimalMin("1")
+        @DecimalMax("10")
         private BigDecimal decimal;
         /**
          * Amount attribute.
          */
+        @NotNull
         private Money amount;
     }
 

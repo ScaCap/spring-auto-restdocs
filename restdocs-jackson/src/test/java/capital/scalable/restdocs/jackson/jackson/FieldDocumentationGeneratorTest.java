@@ -16,19 +16,27 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -40,10 +48,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.snippet.Attributes.Attribute;
 
 public class FieldDocumentationGeneratorTest {
 
@@ -61,8 +71,10 @@ public class FieldDocumentationGeneratorTest {
         when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "numberField2"))
                 .thenReturn("A decimal");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = PrimitiveTypes.class;
 
         // when
@@ -70,11 +82,11 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("stringField", "String", "A string", false)));
+                is(descriptor("stringField", "String", "A string", true)));
         assertThat(fieldDescriptions.get(1),
                 is(descriptor("booleanField", "Boolean", "A boolean", true)));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", false)));
+                is(descriptor("numberField1", "Integer", "An integer", true)));
         assertThat(fieldDescriptions.get(3),
                 is(descriptor("numberField2", "Decimal", "A decimal", true)));
     }
@@ -91,8 +103,10 @@ public class FieldDocumentationGeneratorTest {
         when(javadocReader.resolveFieldComment(ComposedTypes.class, "arrayField"))
                 .thenReturn("An array");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = ComposedTypes.class;
 
         // when
@@ -101,9 +115,9 @@ public class FieldDocumentationGeneratorTest {
         // then
         assertThat(fieldDescriptions.size(), is(6));
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("objectField", "Object", "An object", false)));
+                is(descriptor("objectField", "Object", "An object", true)));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("objectField.stringField", "String", "A string", false)));
+                is(descriptor("objectField.stringField", "String", "A string", true)));
         assertThat(fieldDescriptions.get(5),
                 is(descriptor("arrayField", "Array", "An array", true)));
     }
@@ -124,8 +138,10 @@ public class FieldDocumentationGeneratorTest {
         when(javadocReader.resolveFieldComment(FifthLevel.class, "last"))
                 .thenReturn("An integer");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = FirstLevel.class;
 
         // when
@@ -136,7 +152,7 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("second", "Object", "2nd level", true)));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("second.third", "Array", "3rd level", false)));
+                is(descriptor("second.third", "Array", "3rd level", true)));
         assertThat(fieldDescriptions.get(2),
                 is(descriptor("second.third[].fourth", "Object", "4th level", true)));
         assertThat(fieldDescriptions.get(3),
@@ -150,16 +166,19 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForExternalSerializer() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
+
         JavadocReader javadocReader = mock(JavadocReader.class);
         when(javadocReader.resolveFieldComment(ExternalSerializer.class, "bigDecimal"))
                 .thenReturn("A decimal");
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         SimpleModule testModule = new SimpleModule("TestModule");
         testModule.addSerializer(new BigDecimalSerializer());
         mapper.registerModule(testModule);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = ExternalSerializer.class;
 
         // when
@@ -175,6 +194,7 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForJacksonAnnotations() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
+
         JavadocReader javadocReader = mock(JavadocReader.class);
         when(javadocReader.resolveFieldComment(JsonAnnotations.class, "location"))
                 .thenReturn("A location");
@@ -185,8 +205,10 @@ public class FieldDocumentationGeneratorTest {
         when(javadocReader.resolveFieldComment(JsonAnnotations.Meta.class, "headers"))
                 .thenReturn("A header map");
 
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = JsonAnnotations.class;
 
         // when
@@ -212,9 +234,12 @@ public class FieldDocumentationGeneratorTest {
     @Test
     public void testGenerateDocumentationForFieldResolution() throws Exception {
         // given
+        // different mapper for custom field resolution
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.PUBLIC_ONLY));
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         JavadocReader javadocReader = mock(JavadocReader.class);
         // comment on field directly
@@ -230,7 +255,7 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn("A secured flag");
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader);
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
         Type type = FieldCommentResolution.class;
 
         // when
@@ -252,6 +277,49 @@ public class FieldDocumentationGeneratorTest {
                 is(descriptor("secured", "Boolean", "A secured flag", true)));
     }
 
+    @Test
+    public void testGenerateDocumentationForConstraints() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+
+        JavadocReader javadocReader = mock(JavadocReader.class);
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        when(constraintReader.isMandatory(NotNull.class)).thenReturn(true);
+        when(constraintReader.isMandatory(NotEmpty.class)).thenReturn(true);
+        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+
+        when(constraintReader.getConstraintMessages(ConstraintResolution.class, "location"))
+                .thenReturn(asList(new String[]{"A constraint for location"}));
+        when(constraintReader.getConstraintMessages(ConstraintResolution.class, "type"))
+                .thenReturn(asList(new String[]{"A constraint for type"}));
+        when(constraintReader.getConstraintMessages(ConstraintField.class, "value"))
+                .thenReturn(asList(
+                        new String[]{"A constraint1 for value", "A constraint2 for value"}));
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+        Type type = ConstraintResolution.class;
+
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+
+        // then
+        assertThat(fieldDescriptions.size(), is(5));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("location", "String", null, true, "A constraint for location")));
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("type", "Integer", null, false, "A constraint for type")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("params", "Array", null, false)));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("params[].value", "String", null, false,
+                        "A constraint1 for value", "A constraint2 for value")));
+        assertThat(fieldDescriptions.get(4),
+                is(descriptor("flags", "Array", null, true)));
+    }
+
     private ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
@@ -260,16 +328,19 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private ExtendedFieldDescriptor descriptor(String path, Object fieldType,
-            String comment, boolean optional) {
+            String comment, boolean optional, String... constraints) {
         FieldDescriptor fieldDescriptor = fieldWithPath(path)
                 .type(fieldType)
                 .description(comment);
         if (optional) {
             fieldDescriptor.optional();
         }
+        if (constraints != null) {
+            fieldDescriptor.attributes(
+                    new Attribute(CONSTRAINTS_ATTRIBUTE, Arrays.asList(constraints)));
+        }
         return new ExtendedFieldDescriptor(fieldDescriptor);
     }
-
 
     private List<ExtendedFieldDescriptor> cast(List<FieldDescriptor> original) {
         List<ExtendedFieldDescriptor> casted = new ArrayList<>(original.size());
@@ -280,16 +351,13 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class PrimitiveTypes {
-        @NotBlank
         private String stringField;
         private Boolean booleanField;
-        @NotNull
         private Integer numberField1;
         private Double numberField2;
     }
 
     private static class ComposedTypes {
-        @NotNull
         private PrimitiveTypes objectField;
         private List<PrimitiveTypes> arrayField;
     }
@@ -299,7 +367,6 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class SecondLevel {
-        @NotEmpty
         private List<ThirdLevel> third;
     }
 
@@ -365,5 +432,24 @@ public class FieldDocumentationGeneratorTest {
         public boolean isSecured() {
             return secured;
         }
+    }
+
+    private static class ConstraintResolution {
+        @Length(min = 1, max = 255)
+        private String location;
+        @NotNull
+        @Min(1)
+        @Max(10)
+        private Integer type;
+        @Valid
+        @NotEmpty
+        private List<ConstraintField> params;
+        private List<Boolean> flags;
+    }
+
+    private static class ConstraintField {
+        @NotBlank
+        @Size(max = 20)
+        private String value;
     }
 }

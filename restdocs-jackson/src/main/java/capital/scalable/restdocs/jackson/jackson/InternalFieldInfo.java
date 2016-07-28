@@ -16,6 +16,9 @@
 
 package capital.scalable.restdocs.jackson.jackson;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 /**
  * @author Florian Benz
  */
@@ -23,14 +26,14 @@ class InternalFieldInfo {
     private final Class<?> javaBaseClass;
     private final String javaFieldName;
     private final String jsonFieldPath;
-    private final Boolean optional;
+    private List<Annotation> annotations;
 
     public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName,
-            String jsonFieldPath, Boolean optional) {
+            String jsonFieldPath, List<Annotation> annotations) {
         this.javaBaseClass = javaBaseClass;
         this.javaFieldName = javaFieldName;
         this.jsonFieldPath = jsonFieldPath;
-        this.optional = optional;
+        this.annotations = annotations;
     }
 
     public Class<?> getJavaBaseClass() {
@@ -45,7 +48,7 @@ class InternalFieldInfo {
         return jsonFieldPath;
     }
 
-    public Boolean getOptional() {
-        return optional;
+    public List<Annotation> getAnnotations() {
+        return annotations;
     }
 }

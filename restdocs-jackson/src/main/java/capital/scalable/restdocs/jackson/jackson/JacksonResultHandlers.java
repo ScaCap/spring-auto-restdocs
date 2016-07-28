@@ -1,10 +1,12 @@
 package capital.scalable.restdocs.jackson.jackson;
 
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.initRequestPattern;
+import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setConstraintReader;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setHandlerMethod;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setJavadocReader;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.setObjectMapper;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReaderImpl;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,6 +33,7 @@ public abstract class JacksonResultHandlers {
             setObjectMapper(result.getRequest(), objectMapper);
             initRequestPattern(result.getRequest());
             setJavadocReader(result.getRequest(), new JavadocReaderImpl());
+            setConstraintReader(result.getRequest(), new ConstraintReaderImpl());
         }
     }
 }

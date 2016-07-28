@@ -4,6 +4,7 @@ import static org.springframework.web.servlet.HandlerMapping.BEST_MATCHING_PATTE
 
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import capital.scalable.restdocs.jackson.misc.AuthorizationSnippet;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,4 +77,15 @@ public class OperationAttributeHelper {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(AuthorizationSnippet.class.getName(), authorization);
     }
+
+    public static ConstraintReader getConstraintReader(Operation operation) {
+        return (ConstraintReader) operation.getAttributes().get(ConstraintReader.class.getName());
+    }
+
+    public static void setConstraintReader(MockHttpServletRequest request,
+            ConstraintReader constraintReader) {
+        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
+                .put(ConstraintReader.class.getName(), constraintReader);
+    }
+
 }
