@@ -44,8 +44,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * Simple REST resource with CRUD operations.
- *
- * @author Florian Benz
  */
 @RestController
 @RequestMapping("/items")

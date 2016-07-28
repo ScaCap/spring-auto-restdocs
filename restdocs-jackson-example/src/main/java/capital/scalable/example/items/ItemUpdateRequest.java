@@ -16,13 +16,12 @@
 
 package capital.scalable.example.items;
 
+import capital.scalable.example.constraints.OneOf;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Java object for the JSON request.
- *
- * @author Florian Benz
  */
 @Data
 class ItemUpdateRequest {
@@ -31,4 +30,7 @@ class ItemUpdateRequest {
      */
     @NotBlank
     private String description;
+
+    @OneOf({"small", "big"})
+    private String type;
 }
