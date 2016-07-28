@@ -1,6 +1,6 @@
 package capital.scalable.restdocs.jackson.constraints;
 
-import static org.springframework.util.StringUtils.arrayToDelimitedString;
+import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
 
     private String humanReadableString(Object o) {
         if (o instanceof Object[]) {
-            return "[" + arrayToDelimitedString((Object[]) o, ", ") + "]";
+            return asList(o).toString();
         } else if (o instanceof Class) {
             try {
                 return ((Class) o).newInstance().toString();
