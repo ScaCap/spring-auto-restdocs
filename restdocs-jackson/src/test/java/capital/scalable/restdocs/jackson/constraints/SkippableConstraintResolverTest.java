@@ -23,7 +23,7 @@ public class SkippableConstraintResolverTest {
     private static final String NOTEMPTY_NAME = NotEmpty.class.getCanonicalName();
 
     private static final String PROPERTY = "prop";
-    private static final Class<?> CLAZZ = ConstraintResolver.class;
+    private static final Class<?> CLAZZ = Object.class;
     private static final List<Constraint> CONSTRAINTS = asList(
             new Constraint(NOTNULL_NAME, null),
             new Constraint(SIZE_NAME, null),
