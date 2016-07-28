@@ -1,5 +1,6 @@
 package capital.scalable.restdocs.jackson.constraints;
 
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 import java.util.ArrayList;
@@ -7,10 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintResolver;
 
 class HumanReadableConstraintResolver implements ConstraintResolver {
+    private static final Logger log = getLogger(HumanReadableConstraintResolver.class);
+
     private final ConstraintResolver delegate;
 
     public HumanReadableConstraintResolver(ConstraintResolver delegate) {
@@ -42,7 +46,7 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
             try {
                 return ((Class) o).newInstance().toString();
             } catch (InstantiationException | IllegalAccessException e) {
-                // TODO log
+                log.error("Failed to create an instance of {}", ((Class) o).getCanonicalName(), e);
                 return "Failed to create an instance of " + ((Class) o).getCanonicalName() +
                         ". Does the class have a no args constructor?";
             }
