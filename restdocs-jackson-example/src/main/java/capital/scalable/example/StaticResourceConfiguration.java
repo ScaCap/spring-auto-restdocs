@@ -24,8 +24,6 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 /**
  * Serve generated documentation at /docs.
- *
- * @author Florian Benz
  */
 @Configuration
 public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {

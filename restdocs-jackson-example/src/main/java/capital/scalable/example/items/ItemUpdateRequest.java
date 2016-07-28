@@ -22,8 +22,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Java object for the JSON request.
- *
- * @author Florian Benz
  */
 @Data
 class ItemUpdateRequest {
@@ -31,6 +29,8 @@ class ItemUpdateRequest {
      * Some information about the item.
      */
     @NotBlank
-    @OneOf({"male", "female"})
     private String description;
+
+    @OneOf({"small", "big"})
+    private String type;
 }

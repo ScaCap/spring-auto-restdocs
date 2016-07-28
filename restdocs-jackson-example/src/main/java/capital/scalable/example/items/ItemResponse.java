@@ -36,8 +36,6 @@ import org.javamoney.moneta.Money;
 
 /**
  * Java object for a single JSON item.
- *
- * @author Florian Benz
  */
 @AllArgsConstructor
 class ItemResponse {
