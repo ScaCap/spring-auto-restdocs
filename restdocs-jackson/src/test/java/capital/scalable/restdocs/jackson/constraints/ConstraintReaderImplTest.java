@@ -30,6 +30,7 @@ public class ConstraintReaderImplTest {
         // sanity check
         assertThat(reader.isMandatory(Size.class), is(false));
         assertThat(reader.isMandatory(Override.class), is(false));
+        assertThat(reader.isMandatory(OneOf.class), is(false));
     }
 
     @Test
@@ -51,6 +52,10 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(Constraintz.class, "items");
         assertThat(messages.size(), is(0));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "type");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [big, small]"));
     }
 
     static class Constraintz {
@@ -68,6 +73,9 @@ public class ConstraintReaderImplTest {
         @DecimalMin("10")
         @DecimalMax("1000")
         private BigDecimal amount;
+
+        @OneOf({"big", "small"})
+        private String type;
 
         private long num;
     }
