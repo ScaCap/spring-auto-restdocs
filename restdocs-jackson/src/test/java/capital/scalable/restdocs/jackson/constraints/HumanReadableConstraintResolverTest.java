@@ -24,6 +24,7 @@ public class HumanReadableConstraintResolverTest {
     @Before
     public void setup() {
         delegate = mock(ConstraintResolver.class);
+        resolver = new HumanReadableConstraintResolver(delegate);
     }
 
     @Test
@@ -41,9 +42,6 @@ public class HumanReadableConstraintResolverTest {
 
         when(delegate.resolveForProperty("prop", this.getClass()))
                 .thenReturn(singletonList(constraint));
-
-        resolver = new HumanReadableConstraintResolver(delegate);
-
         // when
         List<Constraint> constraints = resolver.resolveForProperty("prop", this.getClass());
 
