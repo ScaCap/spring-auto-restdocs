@@ -34,8 +34,6 @@ import com.sun.javadoc.RootDoc;
 
 /**
  * JavaDoc to JSON doclet.
- *
- * @author Florian Benz
  */
 public class ExtractDocumentationAsJsonDoclet {
 

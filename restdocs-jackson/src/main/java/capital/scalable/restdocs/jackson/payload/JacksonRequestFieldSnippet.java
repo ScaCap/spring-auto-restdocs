@@ -24,9 +24,6 @@ import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
-/**
- * @author Florian Benz, Juraj Misur
- */
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public JacksonRequestFieldSnippet() {

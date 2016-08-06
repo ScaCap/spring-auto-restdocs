@@ -18,9 +18,6 @@ package capital.scalable.restdocs.jackson.response;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-/**
- * @author Juraj Misur
- */
 public interface JsonNodeConsumer {
 
     void accept(JsonNode node);

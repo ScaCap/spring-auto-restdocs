@@ -25,9 +25,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
-/**
- * @author Florian Benz, Juraj Misur
- */
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public JacksonResponseFieldSnippet() {

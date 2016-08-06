@@ -37,9 +37,6 @@ import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.web.method.HandlerMethod;
 
-/**
- * @author Florian Benz, Juraj Misur
- */
 abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
 
     protected AbstractJacksonFieldSnippet(String type) {

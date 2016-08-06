@@ -16,9 +16,6 @@
 
 package capital.scalable.restdocs.jackson.response;
 
-/**
- * @author Juraj Misur
- */
 public class JsonModifyingException extends RuntimeException {
 
     public JsonModifyingException(String message, Throwable e) {

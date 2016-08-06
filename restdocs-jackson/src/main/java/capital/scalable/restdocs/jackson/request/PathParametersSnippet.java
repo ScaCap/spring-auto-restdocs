@@ -19,9 +19,6 @@ package capital.scalable.restdocs.jackson.request;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 
-/**
- * @author Juraj Misur
- */
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
 
     public PathParametersSnippet() {

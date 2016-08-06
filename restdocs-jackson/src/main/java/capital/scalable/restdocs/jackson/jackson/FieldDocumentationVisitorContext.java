@@ -33,9 +33,6 @@ import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
-/**
- * @author Florian Benz
- */
 public class FieldDocumentationVisitorContext {
     private final Set<Class<?>> analyzedClasses = new HashSet<>();
     private final List<FieldDescriptor> fields = new ArrayList<>();

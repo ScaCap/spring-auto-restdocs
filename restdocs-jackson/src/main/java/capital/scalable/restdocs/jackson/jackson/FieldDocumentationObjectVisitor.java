@@ -30,9 +30,6 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrappe
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 
-/**
- * @author Florian Benz
- */
 public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
 
     private final FieldDocumentationVisitorContext context;

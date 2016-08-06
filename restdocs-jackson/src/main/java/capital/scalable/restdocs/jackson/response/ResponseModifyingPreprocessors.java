@@ -22,9 +22,6 @@ import org.springframework.restdocs.operation.preprocess.OperationPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 
-/**
- * @author Juraj Misur
- */
 public class ResponseModifyingPreprocessors {
 
     /**

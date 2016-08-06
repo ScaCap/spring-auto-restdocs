@@ -26,9 +26,6 @@ import capital.scalable.restdocs.jackson.request.PathParametersSnippet;
 import capital.scalable.restdocs.jackson.request.RequestParametersSnippet;
 import org.springframework.restdocs.snippet.Snippet;
 
-/**
- * @author Florian Benz, Juraj Misur
- */
 public abstract class AutoDocumentation {
 
     private AutoDocumentation() {
