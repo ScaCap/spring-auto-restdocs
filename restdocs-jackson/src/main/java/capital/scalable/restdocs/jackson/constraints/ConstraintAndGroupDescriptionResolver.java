@@ -18,6 +18,7 @@ package capital.scalable.restdocs.jackson.constraints;
 
 import static java.util.Collections.emptyList;
 import static org.springframework.util.StringUtils.collectionToDelimitedString;
+import static org.springframework.util.StringUtils.hasText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +40,9 @@ public class ConstraintAndGroupDescriptionResolver implements
     @Override
     public String resolveDescription(Constraint constraint) {
         String constraintDescription = delegate.resolveDescription(constraint);
+        if (!hasText(constraintDescription)) {
+            return "";
+        }
         List<String> groupDescriptions = groupDescriptions(constraint);
         if (groupDescriptions.isEmpty()) {
             return constraintDescription;
@@ -66,7 +70,7 @@ public class ConstraintAndGroupDescriptionResolver implements
         // a description.
         String description = delegate.resolveDescription(
                 new Constraint(clazz.getName(), Collections.<String, Object>emptyMap()));
-        if (StringUtils.hasText(description)) {
+        if (hasText(description)) {
             groupDescriptions.add(description);
         }
     }

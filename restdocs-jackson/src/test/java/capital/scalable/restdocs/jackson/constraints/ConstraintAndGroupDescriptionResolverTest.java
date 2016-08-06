@@ -114,4 +114,18 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // then
         assertThat(description, is("Must be it"));
     }
+
+    @Test
+    public void groupDescriptionButNoConstraintDescriptionShouldBeResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put("groups", new Class<?>[]{ExampleConstraintGroup.class});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("");
+        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is(""));
+    }
 }
