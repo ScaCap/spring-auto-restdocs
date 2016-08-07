@@ -17,19 +17,22 @@
 package capital.scalable.restdocs.jackson.constraints;
 
 import static java.util.Collections.emptyList;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.StringUtils.collectionToDelimitedString;
 import static org.springframework.util.StringUtils.hasText;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.MissingResourceException;
 
+import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
-import org.springframework.util.StringUtils;
 
 public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver {
+    private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
 
     private final ConstraintDescriptionResolver delegate;
 
@@ -68,10 +71,14 @@ public class ConstraintAndGroupDescriptionResolver implements
     private void addGroupDescriptionIfPresent(List<String> groupDescriptions, Class clazz) {
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
-        String description = delegate.resolveDescription(
-                new Constraint(clazz.getName(), Collections.<String, Object>emptyMap()));
-        if (hasText(description)) {
-            groupDescriptions.add(description);
+        try {
+            String description = delegate.resolveDescription(
+                    new Constraint(clazz.getName(), Collections.<String, Object>emptyMap()));
+            if (hasText(description)) {
+                groupDescriptions.add(description);
+            }
+        } catch (MissingResourceException e) {
+            log.info("No description found for constraint group {}", clazz.getName(), e);
         }
     }
 }
