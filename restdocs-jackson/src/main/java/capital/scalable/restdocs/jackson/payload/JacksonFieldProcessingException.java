@@ -16,9 +16,6 @@
 
 package capital.scalable.restdocs.jackson.payload;
 
-/**
- * @author Florian Benz, Juraj Misur
- */
 public class JacksonFieldProcessingException extends RuntimeException {
 
     public JacksonFieldProcessingException(String message, Throwable e) {

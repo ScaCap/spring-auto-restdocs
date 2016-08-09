@@ -68,8 +68,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Required set up code for MockMvc tests.
- *
- * @author Florian Benz
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})

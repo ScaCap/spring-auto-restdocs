@@ -29,9 +29,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-/**
- * @author Florian Benz
- */
 public class FieldDocumentationGenerator {
 
     private final ObjectWriter writer;

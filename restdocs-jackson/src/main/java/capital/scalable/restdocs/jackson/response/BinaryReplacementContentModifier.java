@@ -28,9 +28,6 @@ import java.util.Set;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.ContentModifier;
 
-/**
- * @author Florian Benz
- */
 public class BinaryReplacementContentModifier implements ContentModifier {
 
     public static final Set<MediaType> BINARY_ENUM_TYPES = new HashSet<>();

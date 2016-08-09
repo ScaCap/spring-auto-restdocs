@@ -19,9 +19,6 @@ package capital.scalable.restdocs.jackson.request;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * @author Juraj Misur
- */
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
     public RequestParametersSnippet() {

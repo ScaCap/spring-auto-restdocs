@@ -23,9 +23,6 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitable;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
 
-/**
- * @author Florian Benz
- */
 public class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base {
 
     private final FieldDocumentationVisitorContext context;

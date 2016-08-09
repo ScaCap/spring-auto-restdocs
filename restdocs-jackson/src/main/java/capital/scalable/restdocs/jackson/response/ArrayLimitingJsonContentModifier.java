@@ -20,9 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-/**
- * @author Juraj Misur
- */
 public class ArrayLimitingJsonContentModifier extends JsonContentModifier {
 
     protected ArrayLimitingJsonContentModifier(ObjectMapper objectMapper) {

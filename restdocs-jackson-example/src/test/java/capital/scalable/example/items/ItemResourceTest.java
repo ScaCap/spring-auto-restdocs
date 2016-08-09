@@ -33,9 +33,6 @@ import capital.scalable.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
-/**
- * @author Florian Benz
- */
 public class ItemResourceTest extends MockMvcBase {
 
     @Test

@@ -32,9 +32,6 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNumberFormatVisitor
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonStringFormatVisitor;
 
-/**
- * @author Florian Benz
- */
 public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     private SerializerProvider provider;
     private final FieldDocumentationVisitorContext context;
