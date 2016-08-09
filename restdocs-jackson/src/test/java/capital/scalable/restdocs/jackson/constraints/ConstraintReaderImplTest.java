@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -56,6 +57,16 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "type");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [big, small]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "amountWithGroup");
+        assertThat(messages.size(), is(2));
+        assertThat(messages.get(0), is("Must be at least 10 (only for this example)"));
+        assertThat(messages.get(1),
+                is("Must be at most 1000 (only for this example, only for this group)"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "indexWithGroup");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be null (only for this example)"));
     }
 
     static class Constraintz {
@@ -76,6 +87,15 @@ public class ConstraintReaderImplTest {
 
         @OneOf({"big", "small"})
         private String type;
+
+        @DecimalMin(value = "10", groups = ExampleConstraintGroup.class)
+        @DecimalMax(value = "1000", groups = {ExampleConstraintGroup.class,
+                AnotherConstraintGroup.class})
+        private BigDecimal amountWithGroup;
+
+        @Null(groups = ExampleConstraintGroup.class)
+        @NotNull(groups = AnotherConstraintGroup.class)
+        private Integer indexWithGroup;
 
         private long num;
     }

@@ -5,8 +5,10 @@ import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
@@ -15,10 +17,18 @@ import org.springframework.restdocs.constraints.ConstraintResolver;
 class HumanReadableConstraintResolver implements ConstraintResolver {
     private static final Logger log = getLogger(HumanReadableConstraintResolver.class);
 
+    private static final String[] IGNORED_FIELDS = new String[]{"groups", "payload"};
+
     private final ConstraintResolver delegate;
+
+    private final Set<String> ignoredFields;
 
     public HumanReadableConstraintResolver(ConstraintResolver delegate) {
         this.delegate = delegate;
+        this.ignoredFields = new HashSet<>();
+        for (String field : IGNORED_FIELDS) {
+            this.ignoredFields.add(field);
+        }
     }
 
     @Override
@@ -34,7 +44,11 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
     private Map<String, Object> extendConfiguration(Map<String, Object> configuration) {
         Map<String, Object> extendedConfiguration = new HashMap<>();
         for (Map.Entry<String, Object> e : configuration.entrySet()) {
-            extendedConfiguration.put(e.getKey(), humanReadableString(e.getValue()));
+            if (ignoredFields.contains(e.getKey())) {
+                extendedConfiguration.put(e.getKey(), e.getValue());
+            } else {
+                extendedConfiguration.put(e.getKey(), humanReadableString(e.getValue()));
+            }
         }
         return extendedConfiguration;
     }
