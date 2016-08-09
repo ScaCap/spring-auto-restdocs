@@ -1,4 +1,4 @@
-# restdocs-jackson
+# TODO-restdocs
 
 Preparation for open sourcing our Spring REST Dos extensions.
 
@@ -16,18 +16,18 @@ and by replacing binary data with a short description.
 The test JAR is not published, but this project relies on it.
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.
 
-We use version v1.1.1 of Spring Restdocs in this example.
+We use version v1.1.1 of Spring REST Docs in this example.
 
 You find the currently required version in `restdocs-jackson/pom.xml`:
 
 ```
-        <dependency>
-            <groupId>org.springframework.restdocs</groupId>
-            <artifactId>spring-restdocs-core</artifactId>
-            <version>v1.1.1.RELEASE</version>
-            <classifier>test</classifier>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>org.springframework.restdocs</groupId>
+    <artifactId>spring-restdocs-core</artifactId>
+    <version>v1.1.1.RELEASE</version>
+    <classifier>test</classifier>
+    <scope>test</scope>
+</dependency>
 ```
 
 Clone and build a specific version of Spring Restdocs:
@@ -54,10 +54,10 @@ mvn install -f restdocs-jackson/pom.xml
 
 ## TODO
 
-* Move to a new GitHub repo: ScaCap/scalable-restdocs-jackson
+* Move to a new GitHub repo: ScaCap/scalable-TODO-restdocs
   * one initial commit
   * make public
-* Release Maven packages: restdocs-jackson, json-doclet
+* Release Maven packages: TODO-restdocs, json-doclet
   * https://maven.apache.org/guides/mini/guide-central-repository-upload.html
   * http://central.sonatype.org/pages/ossrh-guide.html
   * Example pom.xml: https://github.com/codecentric/spring-boot-admin/blob/master/pom.xml
