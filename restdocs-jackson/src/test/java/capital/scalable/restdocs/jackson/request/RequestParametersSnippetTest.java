@@ -55,7 +55,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         this.snippet.expectRequestParameters("request-params").withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("type", "Integer", "false", "An integer")
                         .row("text", "String", "true", "A string"));
 

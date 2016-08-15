@@ -1,8 +1,13 @@
-*~
+# Maven
+target/
 
-# IDEs
-.idea
-*.iml
+# Eclipse
+.settings/
 .classpath
 .project
+.factorypath
 
+# Intellij
+.idea/
+*.iml
+*.iws

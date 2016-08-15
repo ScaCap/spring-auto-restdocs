@@ -1,4 +1,4 @@
-# restdocs-jackson
+# TODO-restdocs
 
 Preparation for open sourcing our Spring REST Dos extensions.
 
@@ -16,32 +16,33 @@ and by replacing binary data with a short description.
 The test JAR is not published, but this project relies on it.
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.
 
-We use version 1.1.0.RC1 of Spring Restdocs in this example.
+We use version v1.1.1 of Spring REST Docs in this example.
 
 You find the currently required version in `restdocs-jackson/pom.xml`:
 
 ```
-        <dependency>
-            <groupId>org.springframework.restdocs</groupId>
-            <artifactId>spring-restdocs-core</artifactId>
-            <version>1.1.0.RC1</version>
-            <classifier>test</classifier>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>org.springframework.restdocs</groupId>
+    <artifactId>spring-restdocs-core</artifactId>
+    <version>v1.1.1.RELEASE</version>
+    <classifier>test</classifier>
+    <scope>test</scope>
+</dependency>
 ```
 
 Clone and build a specific version of Spring Restdocs:
 ```
 git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
-git checkout tags/v1.1.0.RC1
+git fetch --tags
+git checkout tags/v1.1.1.RELEASE
 ./gradlew build
 ```
 
 Afterwards you copy
-`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.0.RC1-test.jar`
+`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.1.RELEASE-test.jar`
 to
-`~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.0.RC1`
+`~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.1.RELEASE`
 so that the test JAR is available to Maven.
 
 ### Build
@@ -53,18 +54,16 @@ mvn install -f restdocs-jackson/pom.xml
 
 ## TODO
 
-* Move to a new GitHub repo: ScaCap/scalable-restdocs-jackson
+* Move to a new GitHub repo: ScaCap/scalable-TODO-restdocs
   * one initial commit
   * make public
-* Release Maven packages
-  * restdocs-jackson
-  * json-doclet
+* Release Maven packages: TODO-restdocs, json-doclet
+  * https://maven.apache.org/guides/mini/guide-central-repository-upload.html
+  * http://central.sonatype.org/pages/ossrh-guide.html
+  * Example pom.xml: https://github.com/codecentric/spring-boot-admin/blob/master/pom.xml
 * more documentation, but not required for initial release
 
 ## TODO impl
-* add authentication section
 * use json parser for javadocs
-* pageable section
 * shared data model section
-* log warn for unresolvable comment
 * maven logger?

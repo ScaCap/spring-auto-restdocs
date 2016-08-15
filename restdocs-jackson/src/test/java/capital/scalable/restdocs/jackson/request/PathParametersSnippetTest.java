@@ -53,7 +53,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         this.snippet.expectPathParameters("path-params").withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer")
                         .row("subid", "String", "false", "A string"));
 
