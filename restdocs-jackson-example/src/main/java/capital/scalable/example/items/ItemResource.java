@@ -59,9 +59,9 @@ public class ItemResource {
                     singletonList(CHILD));
 
     /**
-     * Returns item by id.
+     * Returns item by ID.
      *
-     * @param id id of the item
+     * @param id ID of the item.
      */
     @RequestMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") String id) {
@@ -103,8 +103,8 @@ public class ItemResource {
     /**
      * Updates existing item.
      *
-     * @param id         item id
-     * @param itemUpdate item information
+     * @param id         Item ID.
+     * @param itemUpdate Item information.
      */
     @RequestMapping(value = "{id}", method = PUT)
     public ItemResponse updateItem(@PathVariable("id") String id,
