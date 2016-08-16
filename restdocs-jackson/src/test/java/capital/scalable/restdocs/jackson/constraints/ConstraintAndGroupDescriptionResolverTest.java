@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.jackson.constraints;
 
+import static capital.scalable.restdocs.jackson.constraints.ConstraintAndGroupDescriptionResolver
+        .GROUPS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.AdditionalMatchers.not;
@@ -24,6 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
+import java.util.MissingResourceException;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.junit.Before;
@@ -44,10 +47,95 @@ public class ConstraintAndGroupDescriptionResolverTest {
     }
 
     @Test
-    public void noGroupDescriptionShouldBeResolved() {
+    public void noGroupDescriptionIsResolved() {
         // given
         Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups", new Class<?>[]{});
+        configuration.put(GROUPS, new Class<?>[]{});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Must be it"));
+    }
+
+    @Test
+    public void noDescriptionIsNotResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, new Class<?>[]{});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint)))
+                .thenThrow(MissingResourceException.class);
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Constraint"));
+    }
+
+    @Test
+    public void noDescriptionWithGroupsIsResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, new Class<?>[]{Update.class});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint)))
+                .thenThrow(MissingResourceException.class);
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Constraint (groups: [Update])"));
+    }
+
+    @Test
+    public void singleGroupDescriptionIsResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, new Class<?>[]{Update.class});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
+        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("Must be it (update)");
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Must be it (update)"));
+    }
+
+    @Test
+    public void multipleGroupDescriptionsAreResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, new Class<?>[]{Update.class, Create.class});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
+        when(delegate.resolveDescription(not(eq(constraint))))
+                .thenReturn("Must be it (create)", "Must be it (update)");
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Must be it (create), Must be it (update)"));
+    }
+
+    @Test
+    public void groupDescriptionIsNotResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, new Class<?>[]{Update.class});
+        Constraint constraint = new Constraint("Constraint", configuration);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
+        when(delegate.resolveDescription(not(eq(constraint))))
+                .thenThrow(MissingResourceException.class);
+        // when
+        String description = resolver.resolveDescription(constraint);
+        // then
+        assertThat(description, is("Must be it (groups: [Update])"));
+    }
+
+    @Test
+    public void strangeGroupConfigurationIsResolved() {
+        // given
+        Map<String, Object> configuration = new HashedMap();
+        configuration.put(GROUPS, "no group");
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
         when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
@@ -58,74 +146,15 @@ public class ConstraintAndGroupDescriptionResolverTest {
     }
 
     @Test
-    public void singleGroupDescriptionShouldBeResolved() {
+    public void noConstraintDescriptionIsResolved() {
         // given
         Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups", new Class<?>[]{ExampleConstraintGroup.class});
-        Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
-        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
-        // when
-        String description = resolver.resolveDescription(constraint);
-        // then
-        assertThat(description, is("Must be it (here)"));
-    }
-
-    @Test
-    public void multipleGroupDescriptionShouldBeResolved() {
-        // given
-        Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups",
-                new Class<?>[]{ExampleConstraintGroup.class, ExampleConstraintGroup.class,
-                        ExampleConstraintGroup.class});
-        Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
-        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
-        // when
-        String description = resolver.resolveDescription(constraint);
-        // then
-        assertThat(description, is("Must be it (here, here, here)"));
-    }
-
-    @Test
-    public void groupWithoutDescriptionShouldBeResolved() {
-        // given
-        Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups",
-                new Class<?>[]{ExampleConstraintGroup.class});
-        Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
-        // when
-        String description = resolver.resolveDescription(constraint);
-        // then
-        assertThat(description, is("Must be it"));
-    }
-
-    @Test
-    public void strangeGroupConfigurationShouldBeResolved() {
-        // given
-        Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups", "no group");
-        Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
-        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
-        // when
-        String description = resolver.resolveDescription(constraint);
-        // then
-        assertThat(description, is("Must be it"));
-    }
-
-    @Test
-    public void groupDescriptionButNoConstraintDescriptionShouldBeResolved() {
-        // given
-        Map<String, Object> configuration = new HashedMap();
-        configuration.put("groups", new Class<?>[]{ExampleConstraintGroup.class});
+        configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("");
-        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("here");
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is(""));
+        assertThat(description, is("Constraint (groups: [Update])"));
     }
 }

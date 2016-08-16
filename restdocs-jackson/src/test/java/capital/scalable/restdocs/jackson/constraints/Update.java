@@ -16,6 +16,6 @@
 
 package capital.scalable.restdocs.jackson.constraints;
 
-interface ExampleConstraintGroup {
+interface Update {
     // Constraint groups are just marker interfaces.
 }

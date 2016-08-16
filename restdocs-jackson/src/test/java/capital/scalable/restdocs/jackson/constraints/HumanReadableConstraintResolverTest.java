@@ -52,7 +52,7 @@ public class HumanReadableConstraintResolverTest {
         configuration.put("object", new CustomObj("Peter"));
         configuration.put("array", new Object[]{"value1", "value2"});
         configuration.put("class", CustomConstraint.class);
-        configuration.put("groups", new Class<?>[]{ExampleConstraintGroup.class});
+        configuration.put("groups", new Class<?>[]{Update.class});
         configuration.put("payload", new Class<?>[0]);
         Constraint constraint = new Constraint("Custom", configuration);
 
