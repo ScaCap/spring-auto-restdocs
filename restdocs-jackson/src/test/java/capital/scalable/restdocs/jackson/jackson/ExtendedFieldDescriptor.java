@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.jackson.jackson;
 
 import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ExtendedFieldDescriptor {
 
     private final Object type;
 
-    private final boolean optional;
+    private final List<String> optionals;
 
     private final Object description;
 
@@ -41,7 +42,7 @@ public class ExtendedFieldDescriptor {
     public ExtendedFieldDescriptor(FieldDescriptor descriptor) {
         this.path = descriptor.getPath();
         this.type = descriptor.getType();
-        this.optional = descriptor.isOptional();
+        this.optionals = (List<String>) descriptor.getAttributes().get(OPTIONAL_ATTRIBUTE);
         this.description = descriptor.getDescription();
         this.constraints = (List<String>) descriptor.getAttributes().get(CONSTRAINTS_ATTRIBUTE);
     }
@@ -55,13 +56,13 @@ public class ExtendedFieldDescriptor {
 
         ExtendedFieldDescriptor that = (ExtendedFieldDescriptor) o;
 
-        if (optional != that.optional)
-            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (type != null ? !type.equals(that.type) : that.type != null)
             return false;
         if (description != null ? !description.equals(that.description) : that.description != null)
+            return false;
+        if (optionals != null ? !optionals.equals(that.optionals) : that.optionals != null)
             return false;
         if (constraints != null ? !constraints.equals(that.constraints) : that.constraints != null)
             return false;
@@ -73,8 +74,8 @@ public class ExtendedFieldDescriptor {
     public int hashCode() {
         int result = path != null ? path.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (optional ? 1 : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (optionals != null ? optionals.hashCode() : 0);
         result = 31 * result + (constraints != null ? constraints.hashCode() : 0);
         return result;
     }
@@ -84,7 +85,7 @@ public class ExtendedFieldDescriptor {
         return "ExtendedFieldDescriptor{" +
                 "path='" + path + '\'' +
                 ", type=" + type +
-                ", optional=" + optional +
+                ", optional=" + optionals +
                 ", description=" + description +
                 ", constraints=" + constraints +
                 '}';

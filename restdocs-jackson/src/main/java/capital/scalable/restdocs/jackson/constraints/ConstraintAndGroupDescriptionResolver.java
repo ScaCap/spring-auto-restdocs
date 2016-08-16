@@ -31,7 +31,7 @@ import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
 
 public class ConstraintAndGroupDescriptionResolver implements
-        ConstraintDescriptionResolver {
+        ConstraintDescriptionResolver, GroupDescriptionResolver {
     private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
     static final String GROUPS = "groups";
 
@@ -62,7 +62,8 @@ public class ConstraintAndGroupDescriptionResolver implements
         return result.toString();
     }
 
-    private List<Class> getGroups(Constraint constraint) {
+    @Override
+    public List<Class> getGroups(Constraint constraint) {
         Object rawGroups = constraint.getConfiguration().get(GROUPS);
         if (!(rawGroups instanceof Class[])) {
             return emptyList();
@@ -76,7 +77,8 @@ public class ConstraintAndGroupDescriptionResolver implements
         return result;
     }
 
-    private String resolveGroupDescription(Class group, String constraintDescription) {
+    @Override
+    public String resolveGroupDescription(Class group, String constraintDescription) {
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
         Constraint groupConstraint = new Constraint(group.getName(),

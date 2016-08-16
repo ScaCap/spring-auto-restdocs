@@ -17,12 +17,12 @@
 package capital.scalable.restdocs.jackson.jackson;
 
 import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.jackson.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.jackson.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,18 +54,15 @@ public class FieldDocumentationVisitorContext {
         String javaFieldName = info.getJavaFieldName();
 
         String comment = resolveComment(javaFieldClass, javaFieldName);
+        String jsonFieldPath = info.getJsonFieldPath();
 
-        FieldDescriptor fieldDescriptor = fieldWithPath(info.getJsonFieldPath())
+        FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
                 .type(jsonFieldType)
                 .description(comment);
 
-        if (isOptional(info)) {
-            fieldDescriptor.optional();
-        }
-
-        Attribute constraints = constraintAttribute(info.getJavaBaseClass(),
-                info.getJavaFieldName());
-        fieldDescriptor.attributes(constraints);
+        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName);
+        Attribute optionals = optionalAttribute(javaFieldClass, javaFieldName);
+        fieldDescriptor.attributes(constraints, optionals);
 
         fields.add(fieldDescriptor);
     }
@@ -83,18 +80,32 @@ public class FieldDocumentationVisitorContext {
         return comment;
     }
 
-    private boolean isOptional(InternalFieldInfo info) {
-        for (Annotation annotation : info.getAnnotations()) {
-            if (constraintReader.isMandatory(annotation.annotationType())) {
-                return false;
-            }
-        }
-        return true;
+    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return new Attribute(CONSTRAINTS_ATTRIBUTE,
+                resolveConstraintDescriptions(javaBaseClass, javaFieldName));
     }
 
-    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
-        return new Attribute(CONSTRAINTS_ATTRIBUTE, resolveConstraintDescriptions(
-                javaBaseClass, javaFieldName));
+    private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return new Attribute(OPTIONAL_ATTRIBUTE,
+                resolveOptionalMessages(javaBaseClass, javaFieldName));
+    }
+
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
+        List<String> optionalMessages = constraintReader.getOptionalMessages(javaBaseClass,
+                javaFieldName);
+
+        // fallback to field itself if we got a getter and no annotation on it
+        if (optionalMessages.isEmpty() && isGetter(javaFieldName)) {
+            optionalMessages = resolveOptionalMessages(javaBaseClass, fromGetter(javaFieldName));
+        }
+
+        // if there was no default constraint resolved at all, default to optional=true
+        if (!optionalMessages.contains("false")
+                && !optionalMessages.contains("true")) {
+            optionalMessages.add(0, "true");
+        }
+
+        return optionalMessages;
     }
 
     private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,

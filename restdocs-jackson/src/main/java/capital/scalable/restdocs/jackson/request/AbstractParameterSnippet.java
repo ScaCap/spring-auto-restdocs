@@ -19,6 +19,8 @@ package capital.scalable.restdocs.jackson.request;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getConstraintReader;
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static java.util.Collections.singletonList;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
 
@@ -74,18 +76,20 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
                 .type(parameterType)
                 .description(description);
 
-        if (!isRequired(annot)) {
-            descriptor = descriptor.optional();
-        }
-
-        descriptor.attributes(constraintAttribute(constraintReader, param));
+        Attribute constraints = constraintAttribute(param, constraintReader);
+        Attribute optionals = optionalsAttribute(param, annot);
+        descriptor.attributes(constraints, optionals);
 
         fieldDescriptors.add(descriptor);
     }
 
-    protected Attribute constraintAttribute(ConstraintReader constraintReader,
-            MethodParameter param) {
+    protected Attribute constraintAttribute(MethodParameter param,
+            ConstraintReader constraintReader) {
         return new Attribute(CONSTRAINTS_ATTRIBUTE, constraintReader.getConstraintMessages(param));
+    }
+
+    protected Attribute optionalsAttribute(MethodParameter param, A annot) {
+        return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(annot)));
     }
 
     protected abstract boolean isRequired(A annot);

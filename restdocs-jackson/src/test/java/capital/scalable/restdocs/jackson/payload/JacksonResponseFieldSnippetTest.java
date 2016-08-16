@@ -17,7 +17,6 @@
 package capital.scalable.restdocs.jackson.payload;
 
 import static capital.scalable.restdocs.jackson.payload.TableWithPrefixMatcher.tableWithPrefix;
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
@@ -60,8 +59,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
         when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+        when(constraintReader.getOptionalMessages(Item.class, "field1"))
+                .thenReturn(singletonList("false"));
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
-                .thenReturn(asList(new String[]{"A constraint"}));
+                .thenReturn(singletonList("A constraint"));
 
         this.snippet.expectResponseFields("response").withContents(
                 tableWithPrefix("\n",
@@ -111,8 +112,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
         when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
+        when(constraintReader.getOptionalMessages(Item.class, "field1"))
+                .thenReturn(singletonList("false"));
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
-                .thenReturn(asList(new String[]{"A constraint"}));
+                .thenReturn(singletonList("A constraint"));
 
         this.snippet.expectResponseFields("response").withContents(
                 tableWithPrefix(paginationPrefix(),

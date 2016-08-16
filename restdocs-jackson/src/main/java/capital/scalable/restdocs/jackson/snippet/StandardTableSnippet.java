@@ -18,6 +18,7 @@ package capital.scalable.restdocs.jackson.snippet;
 
 import static capital.scalable.restdocs.jackson.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.join;
 
@@ -74,7 +75,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor) {
         String path = descriptor.getPath();
         String type = stringOrEmpty(descriptor.getType());
-        boolean optional = descriptor.isOptional();
+        List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
+                OPTIONAL_ATTRIBUTE);
+        String optional = "" + join(optionalMessages, ", ");
         String description = stringOrEmpty(descriptor.getDescription());
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);

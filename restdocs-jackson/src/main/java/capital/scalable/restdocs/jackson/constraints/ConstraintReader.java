@@ -22,10 +22,13 @@ import org.springframework.core.MethodParameter;
 
 public interface ConstraintReader {
     String CONSTRAINTS_ATTRIBUTE = "constraints";
+    String OPTIONAL_ATTRIBUTE = "optionals";
 
     boolean isMandatory(Class<?> annotation);
 
     List<String> getConstraintMessages(Class<?> javaBaseClass, String javaFieldName);
 
     List<String> getConstraintMessages(MethodParameter param);
+
+    List<String> getOptionalMessages(Class<?> javaBaseClass, String javaFieldName);
 }

@@ -29,7 +29,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = OneOfValidator.class)
@@ -42,5 +42,13 @@ public @interface OneOf {
     Class<? extends Payload>[] payload() default {};
 
     String[] value();
+
+    @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+    @Retention(RUNTIME)
+    @Documented
+    @interface List {
+
+        OneOf[] value();
+    }
 }
 
