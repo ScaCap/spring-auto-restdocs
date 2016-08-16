@@ -34,6 +34,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public abstract class StandardTableSnippet extends TemplatedSnippet {
 
+    private static final String TABLE_LINE_BREAK = " +\n";
+
     protected StandardTableSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -75,14 +77,16 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor) {
         String path = descriptor.getPath();
         String type = stringOrEmpty(descriptor.getType());
+        String description = stringOrEmpty(descriptor.getDescription());
+
         List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
                 OPTIONAL_ATTRIBUTE);
-        String optional = "" + join(optionalMessages, ", ");
-        String description = stringOrEmpty(descriptor.getDescription());
+        String optional = "" + join(optionalMessages, TABLE_LINE_BREAK);
+
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);
         if (constraints != null && !constraints.isEmpty()) {
-            description += " " + join(constraints, ", ") + ".";
+            description += TABLE_LINE_BREAK + join(constraints, TABLE_LINE_BREAK);
         }
 
         Map<String, Object> model = new HashMap<>();
