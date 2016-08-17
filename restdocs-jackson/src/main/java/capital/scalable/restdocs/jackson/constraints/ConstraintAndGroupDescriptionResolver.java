@@ -34,6 +34,7 @@ public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver, GroupDescriptionResolver {
     private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
     static final String GROUPS = "groups";
+    static final String VALUE = "value";
 
     private final ConstraintDescriptionResolver delegate;
 
@@ -82,7 +83,7 @@ public class ConstraintAndGroupDescriptionResolver implements
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
         Constraint groupConstraint = new Constraint(group.getName(),
-                singletonMap("value", (Object) constraintDescription));
+                singletonMap(VALUE, (Object) constraintDescription));
         String result = resolvePlainDescription(groupConstraint);
         return isBlank(result) ? fallbackGroupDescription(group, constraintDescription) : result;
     }

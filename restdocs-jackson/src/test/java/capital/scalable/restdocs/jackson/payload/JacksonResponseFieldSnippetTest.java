@@ -68,7 +68,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
-                                .row("field2", "Decimal", "true", "A decimal A constraint.")));
+                                .row("field2", "Decimal", "true", "A decimal +\nA constraint")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -121,7 +121,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
-                                .row("field2", "Decimal", "true", "A decimal A constraint.")));
+                                .row("field2", "Decimal", "true", "A decimal +\nA constraint")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder("response")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

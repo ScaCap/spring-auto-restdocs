@@ -63,7 +63,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectRequestFields("request").withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true", "An integer A constraint."));
+                        .row("field2", "Integer", "true", "An integer +\nA constraint"));
 
         new JacksonRequestFieldSnippet().document(operationBuilder("request")
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

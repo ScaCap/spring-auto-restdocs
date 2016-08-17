@@ -47,6 +47,7 @@ public class SkippableConstraintResolverTest {
     public void setup() {
         delegate = mock(ConstraintResolver.class);
         descriptionResolver = mock(GroupDescriptionResolver.class);
+        resolver = new SkippableConstraintResolver(delegate, descriptionResolver);
     }
 
     @Test
@@ -58,7 +59,6 @@ public class SkippableConstraintResolverTest {
                         new Constraint(Length.class.getName(), null),
                         new Constraint(NotBlank.class.getName(), null)));
 
-        resolver = new SkippableConstraintResolver(delegate, descriptionResolver);
 
         List<Constraint> constraints = resolver.resolveForProperty(PROPERTY, CLAZZ);
         assertThat(constraints.size(), is(2));
