@@ -39,7 +39,7 @@ public class ConstraintReaderImplTest {
     private ConstraintReader reader = new ConstraintReaderImpl();
 
     @Test
-    public void testMandatoryAnnotations() {
+    public void isMandatory() {
         assertThat(reader.isMandatory(NotNull.class), is(true));
         assertThat(reader.isMandatory(NotBlank.class), is(true));
         assertThat(reader.isMandatory(NotEmpty.class), is(true));
@@ -51,7 +51,7 @@ public class ConstraintReaderImplTest {
     }
 
     @Test
-    public void testConstraintMessages() {
+    public void getConstraintMessages() {
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
 
@@ -67,22 +67,52 @@ public class ConstraintReaderImplTest {
         assertThat(messages.get(0), is("Must be at least 10"));
         assertThat(messages.get(1), is("Must be at most 1000"));
 
-        messages = reader.getConstraintMessages(Constraintz.class, "items");
-        assertThat(messages.size(), is(0));
-
         messages = reader.getConstraintMessages(Constraintz.class, "type");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [big, small]"));
 
         messages = reader.getConstraintMessages(Constraintz.class, "amountWithGroup");
         assertThat(messages.size(), is(2));
-        assertThat(messages.get(0), is("Must be at least 10 (only for this example)"));
+        assertThat(messages.get(0), is("Must be at least 10 (update)"));
         assertThat(messages.get(1),
-                is("Must be at most 1000 (only for this example, only for this group)"));
+                is("Must be at most 1000 (update), Must be at most 1000 (create)"));
 
         messages = reader.getConstraintMessages(Constraintz.class, "indexWithGroup");
         assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be null (only for this example)"));
+        assertThat(messages.get(0), is("Must be null (update)"));
+    }
+
+
+    @Test
+    public void getOptionalMessages() {
+        List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "index");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "items");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "amount");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "items");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "type");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "amountWithGroup");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "indexWithGroup");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false (create)"));
     }
 
     static class Constraintz {
@@ -104,13 +134,12 @@ public class ConstraintReaderImplTest {
         @OneOf({"big", "small"})
         private String type;
 
-        @DecimalMin(value = "10", groups = ExampleConstraintGroup.class)
-        @DecimalMax(value = "1000", groups = {ExampleConstraintGroup.class,
-                AnotherConstraintGroup.class})
+        @DecimalMin(value = "10", groups = Update.class)
+        @DecimalMax(value = "1000", groups = {Update.class, Create.class})
         private BigDecimal amountWithGroup;
 
-        @Null(groups = ExampleConstraintGroup.class)
-        @NotNull(groups = AnotherConstraintGroup.class)
+        @Null(groups = Update.class)
+        @NotNull(groups = Create.class)
         private Integer indexWithGroup;
 
         private long num;

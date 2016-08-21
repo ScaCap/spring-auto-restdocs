@@ -16,24 +16,38 @@
 
 package capital.scalable.restdocs.jackson.constraints;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintResolver;
 
 class SkippableConstraintResolver implements ConstraintResolver {
+    public static final Class<?>[] MANDATORY_VALUE_ANNOTATIONS =
+            {NotNull.class, NotEmpty.class, NotBlank.class};
+
     private final ConstraintResolver delegate;
+    private GroupDescriptionResolver descriptionResolver;
+
     private final Collection<String> skippableConstraints;
 
     public SkippableConstraintResolver(ConstraintResolver delegate,
-            Class<?>... skippableConstraints) {
+            GroupDescriptionResolver descriptionResolver) {
         this.delegate = delegate;
+        this.descriptionResolver = descriptionResolver;
         this.skippableConstraints = new ArrayList<>();
-        for (Class<?> a : skippableConstraints) {
+        for (Class<?> a : MANDATORY_VALUE_ANNOTATIONS) {
             this.skippableConstraints.add(a.getCanonicalName());
         }
+    }
+
+    private boolean isSkippable(Constraint constraint) {
+        return skippableConstraints.contains(constraint.getName());
     }
 
     @Override
@@ -47,7 +61,37 @@ class SkippableConstraintResolver implements ConstraintResolver {
         return result;
     }
 
-    private boolean isSkippable(Constraint constraint) {
-        return skippableConstraints.contains(constraint.getName());
+    public List<String> getOptionalMessages(String property, Class<?> clazz) {
+        List<String> result = new ArrayList<>();
+        List<Constraint> constraints = delegate.resolveForProperty(property, clazz);
+        String defaultOptional = null;
+
+        for (Constraint constraint : constraints) {
+            if (isSkippable(constraint)) {
+                List<Class> groups = getGroups(constraint);
+
+                if (groups.isEmpty()) {
+                    defaultOptional = "false";
+                } else {
+                    for (Class group : groups) {
+                        result.add(mandatoryForGroup(group));
+                    }
+                }
+            }
+        }
+
+        Collections.sort(result);
+        if (defaultOptional != null) {
+            result.add(0, defaultOptional);
+        }
+        return result;
+    }
+
+    private List<Class> getGroups(Constraint constraint) {
+        return descriptionResolver.getGroups(constraint);
+    }
+
+    private String mandatoryForGroup(Class group) {
+        return descriptionResolver.resolveGroupDescription(group, "false");
     }
 }

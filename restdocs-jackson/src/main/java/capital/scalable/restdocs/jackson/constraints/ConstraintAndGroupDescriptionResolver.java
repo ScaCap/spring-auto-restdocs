@@ -17,12 +17,12 @@
 package capital.scalable.restdocs.jackson.constraints;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonMap;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.util.StringUtils.collectionToDelimitedString;
-import static org.springframework.util.StringUtils.hasText;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -31,8 +31,10 @@ import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
 
 public class ConstraintAndGroupDescriptionResolver implements
-        ConstraintDescriptionResolver {
+        ConstraintDescriptionResolver, GroupDescriptionResolver {
     private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
+    static final String GROUPS = "groups";
+    static final String VALUE = "value";
 
     private final ConstraintDescriptionResolver delegate;
 
@@ -42,43 +44,60 @@ public class ConstraintAndGroupDescriptionResolver implements
 
     @Override
     public String resolveDescription(Constraint constraint) {
-        String constraintDescription = delegate.resolveDescription(constraint);
-        if (!hasText(constraintDescription)) {
-            return "";
+        String constraintDescription = trimToEmpty(resolvePlainDescription(constraint));
+        if (isBlank(constraintDescription)) {
+            constraintDescription = constraint.getName();
         }
-        List<String> groupDescriptions = groupDescriptions(constraint);
-        if (groupDescriptions.isEmpty()) {
+
+        List<Class> groups = getGroups(constraint);
+        if (groups.isEmpty()) {
             return constraintDescription;
-        } else {
-            return constraintDescription + " (" +
-                    collectionToDelimitedString(groupDescriptions, ", ") + ")";
         }
+
+        StringBuilder result = new StringBuilder();
+        for (Class group : groups) {
+            result.append(", ");
+            result.append(trimToEmpty(resolveGroupDescription(group, constraintDescription)));
+        }
+        result.replace(0, 2, "");
+        return result.toString();
     }
 
-    private List<String> groupDescriptions(Constraint constraint) {
-        Object rawGroups = constraint.getConfiguration().get("groups");
+    @Override
+    public List<Class> getGroups(Constraint constraint) {
+        Object rawGroups = constraint.getConfiguration().get(GROUPS);
         if (!(rawGroups instanceof Class[])) {
             return emptyList();
         }
-        List<String> groupDescriptions = new ArrayList<>();
         Class[] groups = (Class[]) rawGroups;
-        for (Class clazz : groups) {
-            addGroupDescriptionIfPresent(groupDescriptions, clazz);
+
+        List<Class> result = new ArrayList<>();
+        for (Class group : groups) {
+            result.add(group);
         }
-        return groupDescriptions;
+        return result;
     }
 
-    private void addGroupDescriptionIfPresent(List<String> groupDescriptions, Class clazz) {
+    @Override
+    public String resolveGroupDescription(Class group, String constraintDescription) {
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
+        Constraint groupConstraint = new Constraint(group.getName(),
+                singletonMap(VALUE, (Object) constraintDescription));
+        String result = resolvePlainDescription(groupConstraint);
+        return isBlank(result) ? fallbackGroupDescription(group, constraintDescription) : result;
+    }
+
+    private String fallbackGroupDescription(Class group, String constraintDescription) {
+        return constraintDescription + " (groups: [" + group.getSimpleName() + "])";
+    }
+
+    private String resolvePlainDescription(Constraint constraint) {
         try {
-            String description = delegate.resolveDescription(
-                    new Constraint(clazz.getName(), Collections.<String, Object>emptyMap()));
-            if (hasText(description)) {
-                groupDescriptions.add(description);
-            }
+            return delegate.resolveDescription(constraint);
         } catch (MissingResourceException e) {
-            log.info("No description found for constraint group {}", clazz.getName(), e);
+            log.info("No description found for constraint {}", constraint.getName(), e);
+            return "";
         }
     }
 }

@@ -16,6 +16,12 @@
 
 package capital.scalable.restdocs.jackson.constraints;
 
-interface AnotherConstraintGroup {
-    // Constraint groups are just marker interfaces.
+import java.util.List;
+
+import org.springframework.restdocs.constraints.Constraint;
+
+public interface GroupDescriptionResolver {
+    List<Class> getGroups(Constraint constraint);
+
+    String resolveGroupDescription(Class group, String constraintDescription);
 }

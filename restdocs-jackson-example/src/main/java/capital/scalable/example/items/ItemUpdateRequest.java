@@ -16,8 +16,11 @@
 
 package capital.scalable.example.items;
 
+import javax.validation.constraints.Size;
+
 import capital.scalable.example.constraints.OneOf;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -28,9 +31,21 @@ class ItemUpdateRequest {
     /**
      * Some information about the item.
      */
-    @NotBlank
+    @NotBlank(groups = English.class)
+    @Length(max = 20)
+    @Size.List({
+            @Size(min = 2, max = 10, groups = German.class),
+            @Size(min = 4, max = 12, groups = English.class)
+    })
     private String description;
 
-    @OneOf({"small", "big"})
+    /**
+     * Country dependent type of the item.
+     */
+    @Size(max = 1000)
+    @OneOf.List({
+            @OneOf(value = {"klein", "groß"}, groups = German.class),
+            @OneOf(value = {"small", "big"}, groups = English.class)
+    })
     private String type;
 }

@@ -17,7 +17,9 @@
 package capital.scalable.restdocs.jackson.jackson;
 
 import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.jackson.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -82,13 +84,13 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("stringField", "String", "A string", true)));
+                is(descriptor("stringField", "String", "A string", "true")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("booleanField", "Boolean", "A boolean", true)));
+                is(descriptor("booleanField", "Boolean", "A boolean", "true")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", true)));
+                is(descriptor("numberField1", "Integer", "An integer", "true")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("numberField2", "Decimal", "A decimal", true)));
+                is(descriptor("numberField2", "Decimal", "A decimal", "true")));
     }
 
     @Test
@@ -115,11 +117,11 @@ public class FieldDocumentationGeneratorTest {
         // then
         assertThat(fieldDescriptions.size(), is(6));
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("objectField", "Object", "An object", true)));
+                is(descriptor("objectField", "Object", "An object", "true")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("objectField.stringField", "String", "A string", true)));
+                is(descriptor("objectField.stringField", "String", "A string", "true")));
         assertThat(fieldDescriptions.get(5),
-                is(descriptor("arrayField", "Array", "An array", true)));
+                is(descriptor("arrayField", "Array", "An array", "true")));
     }
 
     @Test
@@ -150,16 +152,16 @@ public class FieldDocumentationGeneratorTest {
 
         // then
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("second", "Object", "2nd level", true)));
+                is(descriptor("second", "Object", "2nd level", "true")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("second.third", "Array", "3rd level", true)));
+                is(descriptor("second.third", "Array", "3rd level", "true")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("second.third[].fourth", "Object", "4th level", true)));
+                is(descriptor("second.third[].fourth", "Object", "4th level", "true")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("second.third[].fourth.fifth", "Array", "5th level", true)));
+                is(descriptor("second.third[].fourth.fifth", "Array", "5th level", "true")));
         assertThat(fieldDescriptions.get(4),
                 is(descriptor("second.third[].fourth.fifth[].last", "Integer", "An integer",
-                        true)));
+                        "true")));
     }
 
     @Test
@@ -187,7 +189,7 @@ public class FieldDocumentationGeneratorTest {
 
         // then
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("bigDecimal", "Decimal", "A decimal", true)));
+                is(descriptor("bigDecimal", "Decimal", "A decimal", "true")));
     }
 
     @Test
@@ -219,16 +221,16 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.size(), is(4));
         // @JsonPropertyOrder puts it to first place
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("uri", "String", "A uri", true)));
+                is(descriptor("uri", "String", "A uri", "true")));
         // @JsonProperty
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("path", "String", "A location", true)));
+                is(descriptor("path", "String", "A location", "true")));
         // @JsonGetter
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("param", "String", "A parameter", true)));
+                is(descriptor("param", "String", "A parameter", "true")));
         // @JsonUnwrapped
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("headers", "Map", "A header map", true)));
+                is(descriptor("headers", "Map", "A header map", "true")));
     }
 
     @Test
@@ -266,15 +268,15 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.size(), is(4));
         // field comment
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("location", "String", "A location", true)));
+                is(descriptor("location", "String", "A location", "true")));
         // getter comment
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("type", "String", "A type", true)));
+                is(descriptor("type", "String", "A type", "true")));
         // field comment
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("uri", "String", "A uri", true)));
+                is(descriptor("uri", "String", "A uri", "true")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("secured", "Boolean", "A secured flag", true)));
+                is(descriptor("secured", "Boolean", "A secured flag", "true")));
     }
 
     @Test
@@ -290,12 +292,18 @@ public class FieldDocumentationGeneratorTest {
         when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
 
         when(constraintReader.getConstraintMessages(ConstraintResolution.class, "location"))
-                .thenReturn(asList(new String[]{"A constraint for location"}));
+                .thenReturn(singletonList("A constraint for location"));
         when(constraintReader.getConstraintMessages(ConstraintResolution.class, "type"))
-                .thenReturn(asList(new String[]{"A constraint for type"}));
+                .thenReturn(singletonList("A constraint for type"));
+        when(constraintReader.getOptionalMessages(ConstraintResolution.class, "type"))
+                .thenReturn(singletonList("false"));
+        when(constraintReader.getOptionalMessages(ConstraintResolution.class, "params"))
+                .thenReturn(singletonList("false"));
         when(constraintReader.getConstraintMessages(ConstraintField.class, "value"))
                 .thenReturn(asList(
                         new String[]{"A constraint1 for value", "A constraint2 for value"}));
+        when(constraintReader.getOptionalMessages(ConstraintField.class, "value"))
+                .thenReturn(singletonList("false"));
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
@@ -308,16 +316,16 @@ public class FieldDocumentationGeneratorTest {
         // then
         assertThat(fieldDescriptions.size(), is(5));
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("location", "String", null, true, "A constraint for location")));
+                is(descriptor("location", "String", null, "true", "A constraint for location")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("type", "Integer", null, false, "A constraint for type")));
+                is(descriptor("type", "Integer", null, "false", "A constraint for type")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("params", "Array", null, false)));
+                is(descriptor("params", "Array", null, "false")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("params[].value", "String", null, false,
+                is(descriptor("params[].value", "String", null, "false",
                         "A constraint1 for value", "A constraint2 for value")));
         assertThat(fieldDescriptions.get(4),
-                is(descriptor("flags", "Array", null, true)));
+                is(descriptor("flags", "Array", null, "true")));
     }
 
     private ObjectMapper createMapper() {
@@ -328,13 +336,12 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private ExtendedFieldDescriptor descriptor(String path, Object fieldType,
-            String comment, boolean optional, String... constraints) {
+            String comment, String optional, String... constraints) {
         FieldDescriptor fieldDescriptor = fieldWithPath(path)
                 .type(fieldType)
                 .description(comment);
-        if (optional) {
-            fieldDescriptor.optional();
-        }
+        fieldDescriptor.attributes(
+                new Attribute(OPTIONAL_ATTRIBUTE, Arrays.asList(optional)));
         if (constraints != null) {
             fieldDescriptor.attributes(
                     new Attribute(CONSTRAINTS_ATTRIBUTE, Arrays.asList(constraints)));
