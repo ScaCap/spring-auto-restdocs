@@ -163,7 +163,7 @@
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
                         <artifactId>json-doclet</artifactId>
-                        <version>1.0.1-SNAPSHOT</version>
+                        <version>1.0.2-SNAPSHOT</version>
                     </docletArtifact>
                     <destDir>generated-javadoc-json</destDir>
                     <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>

@@ -40,9 +40,7 @@ public class ExtractDocumentationAsJsonDoclet {
     public static boolean start(RootDoc root) throws IOException {
         for (ClassDoc classDoc : root.classes()) {
             ClassDocumentation cd = ClassDocumentation.fromClassDoc(classDoc);
-            if (cd.containsAtLeastOneComment()) {
-                writeToFile(cd, classDoc);
-            }
+            writeToFile(cd, classDoc);
         }
         return true;
     }
@@ -57,7 +55,7 @@ public class ExtractDocumentationAsJsonDoclet {
     }
 
     private static class ClassDocumentation {
-        private String comment;
+        private String comment = "";
         private Map<String, String> fields = new HashMap<>();
         private Map<String, MethodDocumentation> methods = new HashMap<>();
 
@@ -87,18 +85,6 @@ public class ExtractDocumentationAsJsonDoclet {
 
         private void addMethod(MethodDoc methodDoc) {
             this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
-        }
-
-        public boolean containsAtLeastOneComment() {
-            if (this.comment != null && this.comment.length() > 0) {
-                return true;
-            }
-            for (Entry<String, String> e : fields.entrySet()) {
-                if (e.getValue() != null && e.getValue().length() > 0) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public void writeToFile(File file) {
