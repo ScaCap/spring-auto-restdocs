@@ -6,8 +6,8 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>restdocs-jackson</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <version>1.0.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>TODO REST Docs</name>
     <description>TODO REST Docs is an extension to Spring REST Docs</description>
     <url>http://projects.spring.io/spring-boot/</url>
@@ -153,7 +153,7 @@
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
                         <artifactId>json-doclet</artifactId>
-                        <version>1.0.1-SNAPSHOT</version>
+                        <version>1.0.2-SNAPSHOT</version>
                     </docletArtifact>
                     <destDir>generated-javadoc-json</destDir>
                     <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
