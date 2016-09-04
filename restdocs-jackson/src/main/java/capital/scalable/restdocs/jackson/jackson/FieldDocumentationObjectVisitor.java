@@ -61,9 +61,11 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
         List<Annotation> annotations = getAnnotations(prop);
+        boolean shouldExpand = shouldExpand(prop);
 
         InternalFieldInfo fieldInfo =
-                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, annotations);
+                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, annotations,
+                        shouldExpand);
 
         JsonFormatVisitorWrapper visitor =
                 new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
@@ -84,5 +86,9 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
             ser = getProvider().findValueSerializer(prop.getType(), prop);
         }
         return ser;
+    }
+
+    private boolean shouldExpand(BeanProperty prop) {
+        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null;
     }
 }

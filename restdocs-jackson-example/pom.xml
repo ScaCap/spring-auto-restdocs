@@ -65,8 +65,7 @@
         <dependency>
             <groupId>capital.scalable</groupId>
             <artifactId>restdocs-jackson</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
-            <scope>test</scope>
+            <version>1.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.javamoney</groupId>

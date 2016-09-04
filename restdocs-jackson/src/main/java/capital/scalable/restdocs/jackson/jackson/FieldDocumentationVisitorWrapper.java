@@ -70,18 +70,21 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
     @Override
     public JsonObjectFormatVisitor expectObjectFormat(JavaType type) throws JsonMappingException {
         addFieldIfPresent("Object");
-        if (context.wasAnalyzed(type.getRawClass())) {
-            return null;
-        } else {
-            context.addAnalyzedClass(type.getRawClass());
+        if (shouldExpand()) {
             return new FieldDocumentationObjectVisitor(provider, context, path);
+        } else {
+            return new JsonObjectFormatVisitor.Base();
         }
     }
 
     @Override
     public JsonArrayFormatVisitor expectArrayFormat(JavaType type) throws JsonMappingException {
         addFieldIfPresent("Array");
-        return new FieldDocumentationArrayVisitor(provider, context, path);
+        if (shouldExpand()) {
+            return new FieldDocumentationArrayVisitor(provider, context, path);
+        } else {
+            return new JsonArrayFormatVisitor.Base();
+        }
     }
 
     @Override
@@ -134,5 +137,9 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         if (fieldInfo != null) {
             context.addField(fieldInfo, fieldType);
         }
+    }
+
+    private boolean shouldExpand() {
+        return fieldInfo == null || fieldInfo.shouldExpand();
     }
 }

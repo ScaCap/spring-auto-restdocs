@@ -83,6 +83,7 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
+        assertThat(fieldDescriptions.size(), is(4));
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("stringField", "String", "A string", "true")));
         assertThat(fieldDescriptions.get(1),
@@ -102,6 +103,12 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn("An object");
         when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "stringField"))
                 .thenReturn("A string");
+        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "booleanField"))
+                .thenReturn("A boolean");
+        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "numberField1"))
+                .thenReturn("An integer");
+        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "numberField2"))
+                .thenReturn("A decimal");
         when(javadocReader.resolveFieldComment(ComposedTypes.class, "arrayField"))
                 .thenReturn("An array");
 
@@ -115,13 +122,27 @@ public class FieldDocumentationGeneratorTest {
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.size(), is(6));
+        assertThat(fieldDescriptions.size(), is(10));
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("objectField", "Object", "An object", "true")));
         assertThat(fieldDescriptions.get(1),
                 is(descriptor("objectField.stringField", "String", "A string", "true")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("objectField.booleanField", "Boolean", "A boolean", "true")));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("objectField.numberField1", "Integer", "An integer", "true")));
+        assertThat(fieldDescriptions.get(4),
+                is(descriptor("objectField.numberField2", "Decimal", "A decimal", "true")));
         assertThat(fieldDescriptions.get(5),
                 is(descriptor("arrayField", "Array", "An array", "true")));
+        assertThat(fieldDescriptions.get(6),
+                is(descriptor("arrayField[].stringField", "String", "A string", "true")));
+        assertThat(fieldDescriptions.get(7),
+                is(descriptor("arrayField[].booleanField", "Boolean", "A boolean", "true")));
+        assertThat(fieldDescriptions.get(8),
+                is(descriptor("arrayField[].numberField1", "Integer", "An integer", "true")));
+        assertThat(fieldDescriptions.get(9),
+                is(descriptor("arrayField[].numberField2", "Decimal", "A decimal", "true")));
     }
 
     @Test
@@ -151,6 +172,7 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
+        assertThat(fieldDescriptions.size(), is(5));
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("second", "Object", "2nd level", "true")));
         assertThat(fieldDescriptions.get(1),
@@ -162,6 +184,38 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(4),
                 is(descriptor("second.third[].fourth.fifth[].last", "Integer", "An integer",
                         "true")));
+    }
+
+    @Test
+    public void testGenerateDocumentationForRecursiveTypes() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(RecursiveType.class, "value"))
+                .thenReturn("Type value");
+        when(javadocReader.resolveFieldComment(RecursiveType.class, "children"))
+                .thenReturn("Child types");
+        when(javadocReader.resolveFieldComment(RecursiveType.class, "sibling"))
+                .thenReturn("Sibling type");
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+        Type type = RecursiveType.class;
+
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+
+        // then
+        assertThat(fieldDescriptions.size(), is(3));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("value", "String", "Type value", "true")));
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("children", "Array", "Child types", "true")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("sibling", "Object", "Sibling type", "true")));
     }
 
     @Test
@@ -188,6 +242,7 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
+        assertThat(fieldDescriptions.size(), is(1));
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("bigDecimal", "Decimal", "A decimal", "true")));
     }
@@ -458,5 +513,13 @@ public class FieldDocumentationGeneratorTest {
         @NotBlank
         @Size(max = 20)
         private String value;
+    }
+
+    private static class RecursiveType {
+        private String value;
+        @RestdocsNotExpanded
+        private List<RecursiveType> children;
+        @RestdocsNotExpanded
+        private RecursiveType sibling;
     }
 }

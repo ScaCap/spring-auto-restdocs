@@ -24,9 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import capital.scalable.restdocs.jackson.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.javadoc.JavadocReader;
@@ -34,7 +32,6 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
 public class FieldDocumentationVisitorContext {
-    private final Set<Class<?>> analyzedClasses = new HashSet<>();
     private final List<FieldDescriptor> fields = new ArrayList<>();
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
@@ -119,13 +116,5 @@ public class FieldDocumentationVisitorContext {
         }
 
         return descriptions;
-    }
-
-    public void addAnalyzedClass(Class<?> clazz) {
-        analyzedClasses.add(clazz);
-    }
-
-    public boolean wasAnalyzed(Class<?> clazz) {
-        return analyzedClasses.contains(clazz);
     }
 }
