@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
+import capital.scalable.restdocs.jackson.jackson.RestdocsNotExpanded;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
@@ -60,10 +61,11 @@ class ItemResponse {
     private Attributes attributes;
 
     /**
-     * Child items.
+     * Child items (recursive). Same structure as this response.
      */
     @Valid
     @NotEmpty
+    @RestdocsNotExpanded
     private List<ItemResponse> children;
 
     /**
