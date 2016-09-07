@@ -1,0 +1,76 @@
+== Authorization snippet
+
+The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
+Usually, a custom `RequestPostProcessor` is used to add authorization and this is also the place where you add the documentation.
+
+=== Example
+
+[source,java,indent=0,role="secondary"]
+----
+protected RequestPostProcessor userToken() {
+    return new RequestPostProcessor() {
+        @Override
+        public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+            // <Code to get access token>
+            request.addHeader("Authorization", "Bearer " + accessToken);
+            return documentAuthorization(request, "User access token required.");
+        }
+    };
+}
+----
+
+== Path parameter snippet
+
+The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
+
+=== Example
+
+==== Code
+
+[source,java,indent=0,role="secondary"]
+----
+/**
+ * @param id ID of the item.
+ */
+@RequestMapping("{id}")
+public ItemResponse getItem(@PathVariable("id") String id) {
+----
+
+==== Result
+
+|===
+|Parameter|Type|Optional|Description
+
+| id
+| String
+| false
+| ID of the item.
+|===
+
+== Request parameter snippet
+
+The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.
+
+=== Example
+
+==== Code
+
+[source,java,indent=0,role="secondary"]
+----
+/**
+ * @param descMatch Lookup on description field.
+ */
+@RequestMapping("search")
+public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) {
+----
+
+==== Result
+
+|===
+|Parameter|Type|Optional|Description
+
+| desc
+| String
+| false
+| Lookup on description field.
+|===

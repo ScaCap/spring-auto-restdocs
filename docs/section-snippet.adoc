@@ -1,0 +1,69 @@
+
+== Section snippet
+
+The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
+It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
+Assuming of course that you already documented your code with JavaDoc.
+
+[source,asciidoc,indent=0,role="secondary"]
+----
+\include::{snippets}/your-endpoint/section.adoc[]
+----
+
+=== Template
+
+[source,asciidoc,indent=0,role="secondary"]
+----
+include::../restdocs-jackson/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+----
+
+=== Template placeholders
+
+|===
+|Placeholder|Example|Description
+
+| {link}
+| items-id
+| Derived from the documentation string. For example: `items/id`.
+
+| {title}
+| Get Item By Id
+| Derived from method name. For example: `getItemById`.
+
+| method-path.adoc
+| `POST /items/{id}`
+| `MethodAndPathSnippet` is used to determine the HTTP method and path.
+
+| description.adoc
+| Get an item by its ID.
+| `DescriptionSnippet` reads the JavaDoc on the method.
+
+| authorization.adoc
+| Resource is public.
+| `AuthorizationSnippet` can be used for custom authorization information, e.g. the OAuth role required for the endpoint
+
+| path-parameters.adoc
+| -
+| `PathParametersSnippet` automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
+
+| request-parameters.adoc
+| -
+| `RequestParametersSnippet` automatically lists query parameters including their type, whether they are optional, and their JavaDoc.
+
+| request-fields.adoc
+| -
+| `JacksonRequestFieldSnippet` automatically lists all fields of the request body including their type, whether they are optional, and their JavaDoc.
+
+| response-fields.adoc
+| -
+| `JacksonResponseFieldSnippet` automatically lists all fields of the response body including their type, whether they are optional, and their JavaDoc.
+
+| curl-request.adoc
+| -
+| The original `CurlRequestSnippet` from Spring REST Docs is used here to provide a cURL example of the request.
+
+| http-response.adoc
+| -
+| The original `HttpResponseSnippet` from Spring REST Docs is used here to provide the HTTP response from the test.
+
+|===

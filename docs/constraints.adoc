@@ -1,0 +1,98 @@
+== Documenting constraints
+
+Spring REST Docs has support for documenting constraints,
+but using them requires a bit of work and you have to decide on how to include them.
+Here we are going a step further and automatically use constraints
+and the constraint groups to derive whether a field is optional
+and to add the constraint descriptions to the field descriptions.
+
+=== Constraint that determine optionality
+
+The following three constraints are used to determine whether a field is optional.
+Their descriptions are not included in the field descriptions.
+
+* NotNull (Bean Validation)
+* NotEmpty (Hibernate Validator)
+* NotBlank (Hibernate Validator)
+
+=== Custom constraints
+
+Descriptions for custom constraints can be provided in `org.springframework.restdocs.constraints.ConstraintDescriptions.properties`.
+If this file can be loaded as a resource, descriptions are extracted.
+Each description is a property where the key is the full class name of the annotation suffixed with `.description`.
+The value is the description and can contain placeholders for annotation methods,
+e.g. `${value}` to get the content of `value()`.
+
+Example for the constraint annotation `myproject.constraints.OneOf`:
+[source,properties,indent=0,role="secondary"]
+----
+myproject.constraints.OneOf.description=Must be one of ${value}
+----
+
+=== Readable constraint values
+
+Spring REST Docs just calls `toString()` objects extracted from
+the constraint for documentation.
+Here we do a bit more on the following two types:
+
+* Array: The elements are extracted and `toString()` is called
+on each element. The resulting strings are wrapped in brackets
+and separated by commas, i.e. `[elemet1.toString(), element2.toString(), ...]`.
+* Class: An instance with the default constructor is created
+and `toString()` is called on the instance.
+
+=== Constraint groups
+
+Constraint groups are also included in the documentation if
+a description is provided for them.
+The descriptions are provided in the same way as for custom constraints.
+
+==== Examples
+
+Descriptions for the examples:
+[source,properties,indent=0,role="secondary"]
+----
+myproject.constraints.groups.German.description=DE: ${value}
+myproject.constraints.groups.English.description=EN: ${value}
+myproject.constraints.OneOf.description=Must be one of ${value}
+----
+
+===== Optionality description
+
+Code:
+[source,java,indent=0,role="secondary"]
+----
+@NotNull(groups = English.class)
+private String field;
+----
+
+Result:
+|===
+|Parameter|Type|Optional|Description
+
+| field
+| String
+| true, EN: false
+|
+
+|===
+
+===== Field description example
+
+Code:
+[source,java,indent=0,role="secondary"]
+----
+@OneOf(value = {"big", "small"}, groups = English.class)
+private String field;
+----
+
+Result:
+|===
+|Parameter|Type|Optional|Description
+
+| field
+| String
+| true
+| EN: Must be one of  [big, small]
+
+|===
