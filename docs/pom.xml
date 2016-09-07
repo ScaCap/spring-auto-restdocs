@@ -10,27 +10,52 @@
 
     <build>
         <plugins>
-          <plugin>
-              <groupId>org.asciidoctor</groupId>
-              <artifactId>asciidoctor-maven-plugin</artifactId>
-              <version>1.5.3</version>
-              <executions>
-                  <execution>
-                      <id>generate-docs</id>
-                      <phase>prepare-package</phase>
-                      <goals>
-                          <goal>process-asciidoc</goal>
-                      </goals>
-                  </execution>
-              </executions>
-              <configuration>
-                  <backend>html</backend>
-                  <doctype>book</doctype>
-                  <sourceHighlighter>highlightjs</sourceHighlighter>
-                  <sourceDirectory>${basedir}</sourceDirectory>
-                  <sourceDocumentName>index.adoc</sourceDocumentName>
-              </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <backend>html</backend>
+                    <doctype>book</doctype>
+                    <sourceHighlighter>highlightjs</sourceHighlighter>
+                    <sourceDirectory>${basedir}</sourceDirectory>
+                    <sourceDocumentName>index.adoc</sourceDocumentName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-index</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/generated-docs</directory>
+                                    <includes>
+                                        <include>index.html</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
