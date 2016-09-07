@@ -24,7 +24,7 @@ include::../restdocs-jackson/src/main/resources/org/springframework/restdocs/tem
 
 | {link}
 | items-id
-| Derived from the documentation string. For example: `ìtems/id`.
+| Derived from the documentation string. For example: `items/id`.
 
 | {title}
 | Get Item By Id

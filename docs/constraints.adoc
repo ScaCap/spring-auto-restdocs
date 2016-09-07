@@ -62,7 +62,6 @@ myproject.constraints.OneOf.description=Must be one of ${value}
 Code:
 [source,java,indent=0,role="secondary"]
 ----
-@Null(groups = German.class)
 @NotNull(groups = English.class)
 private String field;
 ----
@@ -73,7 +72,7 @@ Result:
 
 | field
 | String
-| DE: true, EN: false
+| true, EN: false
 |
 
 |===
