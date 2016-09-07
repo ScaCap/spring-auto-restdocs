@@ -56,7 +56,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 .append("include::{snippets}/items/id/http-response.adoc[]\n")
                 .toString()));
 
-        new SectionSnippet().document(operationBuilder("items/id")
+        new SectionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .request("http://localhost/items/1")
                 .build());

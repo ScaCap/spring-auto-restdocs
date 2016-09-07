@@ -39,7 +39,7 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
         setField(snippet, "expectedType", "method-path");
         this.snippet.withContents(equalTo("`POST /test`"));
 
-        new MethodAndPathSnippet().document(operationBuilder("method-path")
+        new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")

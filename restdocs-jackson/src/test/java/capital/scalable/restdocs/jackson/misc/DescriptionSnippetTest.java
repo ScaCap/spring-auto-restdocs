@@ -46,7 +46,7 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         setField(snippet, "expectedType", "description");
         this.snippet.withContents(equalTo("Sample method comment"));
 
-        new DescriptionSnippet().document(operationBuilder("description")
+        new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
