@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>capital.scalable</groupId>
-    <artifactId>restdocs-jackson</artifactId>
+    <artifactId>spring-auto-restdocs</artifactId>
     <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>TODO REST Docs</name>
+    <name>Spring Auto REST Docs</name>
     <description>TODO REST Docs is an extension to Spring REST Docs</description>
     <url>http://projects.spring.io/spring-boot/</url>
     <organization>
