@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
     <name>Spring Auto REST Docs</name>
     <description>Spring Auto REST Docs is an extension to Spring REST Docs</description>
-    <url>http://projects.spring.io/spring-boot/</url>
+    <url>https://github.com/scacap/spring-auto-restdocs</url>
     <organization>
         <name>Scalable Capital GmbH</name>
         <url>https://scalable.capital</url>
@@ -22,6 +22,8 @@
         </license>
     </licenses>
     <scm>
+        <connection>scm:git:git://github.com/scacap/spring-auto-restdocs.git</connection>
+        <developerConnection>scm:git:git@github.com:scacap/spring-auto-restdocs.git</developerConnection>
         <url>https://github.com/scacap/spring-auto-restdocs</url>
     </scm>
     <developers>
@@ -29,11 +31,13 @@
             <name>Florian Benz</name>
             <email>florian.benz@scalable.capital</email>
             <organization>Scalable Capital GmbH</organization>
+            <organizationUrl>https://scalable.capital</organizationUrl>
         </developer>
         <developer>
             <name>Juraj Misur</name>
             <email>juraj@scalable.capital</email>
             <organization>Scalable Capital GmbH</organization>
+            <organizationUrl>https://scalable.capital</organizationUrl>
         </developer>
     </developers>
     <properties>
