@@ -65,19 +65,3 @@ so that the test JAR is available to Maven.
 mvn install -f json-doclet/pom.xml
 mvn install -f spring-auto-restdocs/pom.xml
 ```
-
-## TODO
-
-* Move to a new GitHub repo: ScaCap/spring-auto-restdocs
-  * one initial commit
-  * make public
-* Release Maven packages: spring-auto-restdocs, json-doclet
-  * https://maven.apache.org/guides/mini/guide-central-repository-upload.html
-  * http://central.sonatype.org/pages/ossrh-guide.html
-  * Example pom.xml: https://github.com/codecentric/spring-boot-admin/blob/master/pom.xml
-* more documentation, but not required for initial release
-
-## TODO impl
-* use json parser for javadocs
-* shared data model section
-* maven logger?
