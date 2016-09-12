@@ -39,7 +39,7 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
         this.snippet.withContents(equalTo(authorization));
 
         new AuthorizationSnippet("Resource is public.")
-                .document(operationBuilder("authorization")
+                .document(operationBuilder
                         .attribute(AuthorizationSnippet.class.getName(), authorization)
                         .request("http://localhost/test")
                         .build());
@@ -49,12 +49,12 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void defaultAuthorization() throws Exception {
         String defaultAuthorization = "Resource is public.";
 
-        setField(snippet, "expectedName", "authorization");
+        setField(snippet, "expectedName", "defaultAuthorization");
         setField(snippet, "expectedType", "authorization");
         this.snippet.withContents(equalTo(defaultAuthorization));
 
         new AuthorizationSnippet(defaultAuthorization)
-                .document(operationBuilder("authorization")
+                .document(operationBuilder
                         .request("http://localhost/test")
                         .build());
     }

@@ -54,12 +54,12 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
-        this.snippet.expectRequestParameters("request-params").withContents(
+        this.snippet.expectRequestParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("type", "Integer", "false", "An integer")
                         .row("text", "String", "true", "A string"));
 
-        new RequestParametersSnippet().document(operationBuilder("request-params")
+        new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
@@ -71,10 +71,9 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "items");
 
-        this.snippet.expectRequestParameters("request-params").withContents(
-                equalTo("No parameters."));
+        this.snippet.expectRequestParameters().withContents(equalTo("No parameters."));
 
-        new RequestParametersSnippet().document(operationBuilder("request-params")
+        new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .request("http://localhost/items")
                 .build());

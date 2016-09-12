@@ -60,12 +60,12 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectRequestFields("request").withContents(
+        this.snippet.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
                         .row("field2", "Integer", "true", "An integer +\nA constraint"));
 
-        new JacksonRequestFieldSnippet().document(operationBuilder("request")
+        new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -83,10 +83,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        this.snippet.expectRequestFields("request-2").withContents(
+        this.snippet.expectRequestFields().withContents(
                 equalTo("No request body."));
 
-        new JacksonRequestFieldSnippet().document(operationBuilder("request-2")
+        new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
