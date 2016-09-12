@@ -32,7 +32,7 @@ If you want to build this project yourself, you first have to build and copy the
 
 We use version v1.1.2 of Spring REST Docs in this example.
 
-You find the currently required version in `restdocs-jackson/pom.xml`:
+You find the currently required version in `spring-auto-restdocs/pom.xml`:
 
 ```
 <dependency>

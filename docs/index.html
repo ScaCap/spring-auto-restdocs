@@ -428,13 +428,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_faq">FAQ</a>
-<ul class="sectlevel2">
-<li><a href="#_does_it_work_with_spring_mvc_tests">Does it work with Spring MVC tests?</a></li>
-<li><a href="#_does_it_work_with_rest_assured_tests">Does it work with REST Assured tests?</a></li>
-<li><a href="#_is_jackson_required_for_automatic_field_documentation">Is Jackson required for automatic field documentation?</a></li>
-</ul>
-</li>
+<li><a href="#_faq">FAQ</a></li>
 <li><a href="#_getting_started">Getting started</a>
 <ul class="sectlevel2">
 <li><a href="#_documentation_of_the_original_spring_rest_docs">Documentation of the original Spring REST Docs</a></li>
@@ -449,22 +443,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_path_parameter_snippet">Path parameter snippet</a>
 <ul class="sectlevel2">
-<li><a href="#_example_2">Example</a>
-<ul class="sectlevel3">
-<li><a href="#_code">Code</a></li>
-<li><a href="#_result">Result</a></li>
-</ul>
-</li>
+<li><a href="#_example_2">Example</a></li>
 </ul>
 </li>
 <li><a href="#_request_parameter_snippet">Request parameter snippet</a>
 <ul class="sectlevel2">
-<li><a href="#_example_3">Example</a>
-<ul class="sectlevel3">
-<li><a href="#_code_2">Code</a></li>
-<li><a href="#_result_2">Result</a></li>
-</ul>
-</li>
+<li><a href="#_example_3">Example</a></li>
 </ul>
 </li>
 <li><a href="#_section_snippet">Section snippet</a>
@@ -478,21 +462,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_constraint_that_determine_optionality">Constraint that determine optionality</a></li>
 <li><a href="#_custom_constraints">Custom constraints</a></li>
 <li><a href="#_readable_constraint_values">Readable constraint values</a></li>
-<li><a href="#_constraint_groups">Constraint groups</a>
-<ul class="sectlevel3">
-<li><a href="#_examples">Examples</a></li>
-</ul>
-</li>
+<li><a href="#_constraint_groups">Constraint groups</a></li>
 </ul>
 </li>
 <li><a href="#_contributing">Contributing</a>
 <ul class="sectlevel2">
-<li><a href="#_building_from_source">Building from source</a>
-<ul class="sectlevel3">
-<li><a href="#_get_spring_restdocs_core_test_jar">Get spring-restdocs-core test JAR</a></li>
-</ul>
-</li>
-<li><a href="#_build">Build</a></li>
+<li><a href="#_building_from_source">Building from source</a></li>
 </ul>
 </li>
 </ul>
@@ -543,26 +518,20 @@ you write even less.</p>
 <div class="sect1">
 <h2 id="_faq"><a class="link" href="#_faq">FAQ</a></h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_does_it_work_with_spring_mvc_tests"><a class="link" href="#_does_it_work_with_spring_mvc_tests">Does it work with Spring MVC tests?</a></h3>
+<h3 id="_does_it_work_with_spring_mvc_tests" class="discrete">Does it work with Spring MVC tests?</h3>
 <div class="paragraph">
 <p>Yes, it is easy to use in existing or new Spring MVC tests.
 Take a look at the example.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_does_it_work_with_rest_assured_tests"><a class="link" href="#_does_it_work_with_rest_assured_tests">Does it work with REST Assured tests?</a></h3>
+<h3 id="_does_it_work_with_rest_assured_tests" class="discrete">Does it work with REST Assured tests?</h3>
 <div class="paragraph">
 <p>Not yet.
 We may add support for REST Assured in the future,
 but your PR is also welcome.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_is_jackson_required_for_automatic_field_documentation"><a class="link" href="#_is_jackson_required_for_automatic_field_documentation">Is Jackson required for automatic field documentation?</a></h3>
+<h3 id="_is_jackson_required_for_automatic_field_documentation" class="discrete">Is Jackson required for automatic field documentation?</h3>
 <div class="paragraph">
 <p>Yes, this project is only includes a Jackson visitor so far.</p>
-</div>
 </div>
 </div>
 </div>
@@ -1040,7 +1009,7 @@ If you want to build this project yourself, you first have to build and copy the
 <p>We use version 1.1.2 of Spring Restdocs in this example.</p>
 </div>
 <div class="paragraph">
-<p>You find the currently required version in <code>restdocs-jackson/pom.xml</code>:</p>
+<p>You find the currently required version in <code>spring-auto-restdocs/pom.xml</code>:</p>
 </div>
 <div class="listingblock secondary">
 <div class="content">
@@ -1073,13 +1042,13 @@ to
 so that the test JAR is available to Maven.</p>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_build"><a class="link" href="#_build">Build</a></h3>
+<div class="sect3">
+<h4 id="_build"><a class="link" href="#_build">Build</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>mvn install -f json-doclet/pom.xml
-mvn install -f restdocs-jackson/pom.xml</code></pre>
+mvn install -f spring-auto-restdocs/pom.xml</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1088,7 +1057,7 @@ mvn install -f restdocs-jackson/pom.xml</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-12 19:31:56 CEST
+Last updated 2016-09-12 19:57:41 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
