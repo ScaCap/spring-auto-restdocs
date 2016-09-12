@@ -16,7 +16,7 @@ and by replacing binary data with a short description.
 The test JAR is not published, but this project relies on it.
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.
 
-We use version v1.1.1 of Spring REST Docs in this example.
+We use version v1.1.2 of Spring REST Docs in this example.
 
 You find the currently required version in `restdocs-jackson/pom.xml`:
 
@@ -24,7 +24,7 @@ You find the currently required version in `restdocs-jackson/pom.xml`:
 <dependency>
     <groupId>org.springframework.restdocs</groupId>
     <artifactId>spring-restdocs-core</artifactId>
-    <version>v1.1.1.RELEASE</version>
+    <version>v1.1.2.RELEASE</version>
     <classifier>test</classifier>
     <scope>test</scope>
 </dependency>
@@ -35,14 +35,14 @@ Clone and build a specific version of Spring Restdocs:
 git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v1.1.1.RELEASE
+git checkout tags/v1.1.2.RELEASE
 ./gradlew build
 ```
 
 Afterwards you copy
-`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.1.RELEASE-test.jar`
+`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.2.RELEASE-test.jar`
 to
-`~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.1.RELEASE`
+`~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.2.RELEASE`
 so that the test JAR is available to Maven.
 
 ### Build

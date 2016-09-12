@@ -64,13 +64,13 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectResponseFields("response").withContents(
+        this.snippet.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
                                 .row("field2", "Decimal", "true", "A decimal +\nA constraint")));
 
-        new JacksonResponseFieldSnippet().document(operationBuilder("response")
+        new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -87,10 +87,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "noItem");
 
-        this.snippet.expectResponseFields("response").withContents(
+        this.snippet.expectResponseFields().withContents(
                 equalTo("No response body."));
 
-        new JacksonResponseFieldSnippet().document(operationBuilder("response")
+        new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .request("http://localhost")
@@ -117,13 +117,13 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectResponseFields("response").withContents(
+        this.snippet.expectResponseFields().withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
                                 .row("field2", "Decimal", "true", "A decimal +\nA constraint")));
 
-        new JacksonResponseFieldSnippet().document(operationBuilder("response")
+        new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
