@@ -7,6 +7,10 @@
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-docs</artifactId>
     <version>1.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spring Auto REST Docs Documentation</name>
+    <description>Documentation for Spring Auto REST Docs</description>
+    <url>https://github.com/scacap/spring-auto-restdocs</url>
 
     <build>
         <plugins>

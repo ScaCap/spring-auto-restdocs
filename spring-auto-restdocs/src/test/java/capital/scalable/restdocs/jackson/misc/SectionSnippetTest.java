@@ -31,29 +31,29 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
-    public void simpleRequest() throws Exception {
+    public void itemsId() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
 
-        setField(snippet, "expectedName", "items/id");
+        setField(snippet, "expectedName", "itemsId");
         setField(snippet, "expectedType", "section");
         this.snippet.withContents(equalTo(new StringBuilder()
-                .append("[[resources-items-id]]\n")
+                .append("[[resources-itemsId]]\n")
                 .append("=== Get Item By Id\n\n")
-                .append("include::{snippets}/items/id/method-path.adoc[]\n\n")
-                .append("include::{snippets}/items/id/description.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/method-path.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/description.adoc[]\n\n")
                 .append("==== Authorization\n\n")
-                .append("include::{snippets}/items/id/authorization.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/authorization.adoc[]\n\n")
                 .append("==== Path parameters\n\n")
-                .append("include::{snippets}/items/id/path-parameters.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/path-parameters.adoc[]\n\n")
                 .append("==== Query parameters\n\n")
-                .append("include::{snippets}/items/id/request-parameters.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/request-parameters.adoc[]\n\n")
                 .append("==== Request structure\n\n")
-                .append("include::{snippets}/items/id/request-fields.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/request-fields.adoc[]\n\n")
                 .append("==== Response structure\n\n")
-                .append("include::{snippets}/items/id/response-fields.adoc[]\n\n")
+                .append("include::{snippets}/itemsId/response-fields.adoc[]\n\n")
                 .append("==== Example request/response\n\n")
-                .append("include::{snippets}/items/id/curl-request.adoc[]\n")
-                .append("include::{snippets}/items/id/http-response.adoc[]\n")
+                .append("include::{snippets}/itemsId/curl-request.adoc[]\n")
+                .append("include::{snippets}/itemsId/http-response.adoc[]\n")
                 .toString()));
 
         new SectionSnippet().document(operationBuilder
