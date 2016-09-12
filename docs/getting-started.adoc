@@ -14,5 +14,8 @@ Spring Auto REST Docs has the following minimum requirements:
 
 === Sample application
 
-The project includes a sample application that demonstrates most features.
+The project includes a sample application that demonstrates most features:
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example
+
+The generated documentation of the example project can be viewed here: https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html
 
