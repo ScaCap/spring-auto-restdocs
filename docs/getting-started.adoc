@@ -2,16 +2,17 @@
 
 === Documentation of the original Spring REST Docs
 
-Reference: http://docs.spring.io/spring-restdocs/docs/1.1.1.RELEASE/reference/html5/
+Reference: http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/
 
 === Requirements
 
 Spring Auto REST Docs has the following minimum requirements:
 
 * Java 7
-* Spring Restdocs 1.1.1
+* Spring Restdocs 1.1.2
 * Jackson has to be used for creating and parsing JSON
 
 === Sample application
 
 The project includes a sample application that demonstrates most features.
+

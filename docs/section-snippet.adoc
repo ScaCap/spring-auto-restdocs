@@ -14,7 +14,7 @@ Assuming of course that you already documented your code with JavaDoc.
 
 [source,asciidoc,indent=0,role="secondary"]
 ----
-include::../restdocs-jackson/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
 ----
 
 === Template placeholders

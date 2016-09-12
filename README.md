@@ -46,7 +46,7 @@ You find the currently required version in `restdocs-jackson/pom.xml`:
 
 Clone and build a specific version of Spring Restdocs:
 ```
-git@github.com:spring-projects/spring-restdocs.git
+git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
 git checkout tags/v1.1.2.RELEASE
