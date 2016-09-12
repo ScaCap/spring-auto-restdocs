@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>capital.scalable</groupId>
-    <artifactId>restdocs-jackson</artifactId>
+    <artifactId>spring-auto-restdocs</artifactId>
     <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>TODO REST Docs</name>
-    <description>TODO REST Docs is an extension to Spring REST Docs</description>
+    <name>Spring Auto REST Docs</name>
+    <description>Spring Auto REST Docs is an extension to Spring REST Docs</description>
     <url>http://projects.spring.io/spring-boot/</url>
     <organization>
         <name>Scalable Capital GmbH</name>
@@ -22,7 +22,7 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/TODO</url>
+        <url>https://github.com/scacap/spring-auto-restdocs</url>
     </scm>
     <developers>
         <developer>

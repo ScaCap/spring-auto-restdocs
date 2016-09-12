@@ -1,13 +1,27 @@
-# TODO-restdocs
+# Spring Auto REST Docs
 
-Preparation for open sourcing our Spring REST Dos extensions.
+The aim of this extension to Spring REST Docs is to help you to write
+even less -- both code and documentation.
+You still get the same nice documentation as with Spring REST Docs itself.
+The main benefit is that writing less and moving the documentation closer
+to the code increases the maintainability of the documentation.
 
-## Description
+In Spring REST Docs you have to add the documentation for your JSON with
+a DSL in your test. We moved this documentation to the POJO that represents
+your JSON object. You just add JavaDoc to the fields and it will end
+up in the documentation.
 
-This project is an extensions of spring-restdocs that allows automatic documentation all JSON objects
-by getting the structure and types via Jackson and the description from JavaDoc on the fields.
-In addition, it includes modifiers that shorten the documented data by limiting JSON arrays to three elements
-and by replacing binary data with a short description.
+## Features:
+
+* Jackson visitor that gathers the whole JSON structure and includes JavaDoc
+and constraint annotations on the fields. It works for both request and
+response bodies. In addition to the constraint documentation support that
+is already Spring REST Docs, we automatically include the constraint message
+in the documentation and also added support for documenting constraint groups.
+* Path and query parameters can be documented automatically.
+* A helper to document authentication.
+* A snippet that includes all other snippets of this extension and thus helps
+you write even less.
 
 ## Building from source
 
@@ -49,15 +63,15 @@ so that the test JAR is available to Maven.
 
 ```
 mvn install -f json-doclet/pom.xml
-mvn install -f restdocs-jackson/pom.xml
+mvn install -f spring-auto-restdocs/pom.xml
 ```
 
 ## TODO
 
-* Move to a new GitHub repo: ScaCap/scalable-TODO-restdocs
+* Move to a new GitHub repo: ScaCap/spring-auto-restdocs
   * one initial commit
   * make public
-* Release Maven packages: TODO-restdocs, json-doclet
+* Release Maven packages: spring-auto-restdocs, json-doclet
   * https://maven.apache.org/guides/mini/guide-central-repository-upload.html
   * http://central.sonatype.org/pages/ossrh-guide.html
   * Example pom.xml: https://github.com/codecentric/spring-boot-admin/blob/master/pom.xml

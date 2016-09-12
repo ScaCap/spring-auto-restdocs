@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>capital.scalable</groupId>
-    <artifactId>docs</artifactId>
+    <artifactId>spring-auto-restdocs-docs</artifactId>
     <version>1.0.2-SNAPSHOT</version>
 
     <build>

@@ -5,8 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>capital.scalable</groupId>
-    <artifactId>restdocs-jackson-example</artifactId>
+    <artifactId>spring-auto-restdocs-example</artifactId>
     <version>1.0.0</version>
+    <name>Spring Auto REST Docs Example Project</name>
+    <description>Example project for Spring Auto REST Docs</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -64,7 +66,7 @@
         </dependency>
         <dependency>
             <groupId>capital.scalable</groupId>
-            <artifactId>restdocs-jackson</artifactId>
+            <artifactId>spring-auto-restdocs</artifactId>
             <version>1.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
