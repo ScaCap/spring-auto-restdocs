@@ -1,10 +1,11 @@
-== Authorization snippet
+== Snippets
+
+=== Authorization snippet
 
 The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom `RequestPostProcessor` is used to add authorization and this is also the place where you add the documentation.
 
-=== Example
-
+.Code
 [source,java,indent=0,role="secondary"]
 ----
 protected RequestPostProcessor userToken() {
@@ -19,14 +20,11 @@ protected RequestPostProcessor userToken() {
 }
 ----
 
-== Path parameter snippet
+=== Path parameter snippet
 
 The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
 
-=== Example
-
-==== Code
-
+.Code
 [source,java,indent=0,role="secondary"]
 ----
 /**
@@ -36,8 +34,7 @@ The path parameter snippet automatically lists parameters in the path including 
 public ItemResponse getItem(@PathVariable("id") String id) {
 ----
 
-==== Result
-
+. Result
 |===
 |Parameter|Type|Optional|Description
 
@@ -47,14 +44,11 @@ public ItemResponse getItem(@PathVariable("id") String id) {
 | ID of the item.
 |===
 
-== Request parameter snippet
+=== Request parameter snippet
 
 The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.
 
-=== Example
-
-==== Code
-
+.Code
 [source,java,indent=0,role="secondary"]
 ----
 /**
@@ -64,8 +58,7 @@ The request parameter snippet automatically lists query parameters including the
 public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) {
 ----
 
-==== Result
-
+.Result
 |===
 |Parameter|Type|Optional|Description
 
@@ -74,4 +67,6 @@ public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) {
 | false
 | Lookup on description field.
 |===
+
+include::section-snippet.adoc[]
 

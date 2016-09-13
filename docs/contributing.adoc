@@ -11,7 +11,8 @@ We use version 1.1.2 of Spring Restdocs in this example.
 
 You find the currently required version in `spring-auto-restdocs/pom.xml`:
 
-[source,maven,indent=0,role="secondary"]
+.Maven
+[source,xml,indent=0,role="secondary"]
 ----
 <dependency>
     <groupId>org.springframework.restdocs</groupId>
@@ -24,6 +25,7 @@ You find the currently required version in `spring-auto-restdocs/pom.xml`:
 
 Clone and build a specific version of Spring Restdocs:
 
+.Bash
 [source,bash,indent=0,role="secondary"]
 ----
 git clone git@github.com:spring-projects/spring-restdocs.git
@@ -41,8 +43,9 @@ so that the test JAR is available to Maven.
 
 ==== Build
 
-```
-mvn install -f json-doclet/pom.xml
-mvn install -f spring-auto-restdocs/pom.xml
-```
+.Bash (in root folder)
+[source,bash,indent=0,role="secondary"]
+----
+mvn install
+----
 

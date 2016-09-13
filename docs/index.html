@@ -431,30 +431,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_getting_started">Getting started</a>
 <ul class="sectlevel2">
-<li><a href="#_documentation_of_the_original_spring_rest_docs">Documentation of the original Spring REST Docs</a></li>
 <li><a href="#_requirements">Requirements</a></li>
+    <li><a href="#_usage">Usage</a></li>
 <li><a href="#_sample_application">Sample application</a></li>
 </ul>
 </li>
-<li><a href="#_authorization_snippet">Authorization snippet</a>
+    <li><a href="#_snippets">Snippets</a>
 <ul class="sectlevel2">
-<li><a href="#_example">Example</a></li>
-</ul>
-</li>
-<li><a href="#_path_parameter_snippet">Path parameter snippet</a>
-<ul class="sectlevel2">
-<li><a href="#_example_2">Example</a></li>
-</ul>
-</li>
-<li><a href="#_request_parameter_snippet">Request parameter snippet</a>
-<ul class="sectlevel2">
-<li><a href="#_example_3">Example</a></li>
-</ul>
-</li>
-<li><a href="#_section_snippet">Section snippet</a>
-<ul class="sectlevel2">
-<li><a href="#_template">Template</a></li>
-<li><a href="#_template_placeholders">Template placeholders</a></li>
+    <li><a href="#_authorization_snippet">Authorization snippet</a></li>
+    <li><a href="#_path_parameter_snippet">Path parameter snippet</a></li>
+    <li><a href="#_request_parameter_snippet">Request parameter snippet</a></li>
+    <li><a href="#_section_snippet">Section snippet</a></li>
 </ul>
 </li>
 <li><a href="#_documenting_constraints">Documenting constraints</a>
@@ -539,12 +526,6 @@ but your PR is also welcome.</p>
 <h2 id="_getting_started"><a class="link" href="#_getting_started">Getting started</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_documentation_of_the_original_spring_rest_docs"><a class="link" href="#_documentation_of_the_original_spring_rest_docs">Documentation of the original Spring REST Docs</a></h3>
-<div class="paragraph">
-<p>Reference: <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/" class="bare">http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/</a></p>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_requirements"><a class="link" href="#_requirements">Requirements</a></h3>
 <div class="paragraph">
 <p>Spring Auto REST Docs has the following minimum requirements:</p>
@@ -555,7 +536,7 @@ but your PR is also welcome.</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring Restdocs 1.1.2</p>
+    <p>Spring Restdocs 1.1.2 (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -564,27 +545,146 @@ but your PR is also welcome.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sample_application"><a class="link" href="#_sample_application">Sample application</a></h3>
-<div class="paragraph">
-<p>The project includes a sample application that demonstrates most features:
-<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example" class="bare">https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example</a></p>
+    <h3 id="_usage"><a class="link" href="#_usage">Usage</a></h3>
+    <div class="olist arabic">
+        <ol class="arabic">
+            <li>
+                <p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+            </li>
+            <li>
+                <p>Configure maven dependency:</p>
+            </li>
+        </ol>
 </div>
-<div class="paragraph">
-<p>The generated documentation of the example project can be viewed here: <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html" class="bare">https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html</a></p>
+    <div class="listingblock secondary">
+        <div class="content">
+<pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
+    &lt;version&gt;1.1.2.RELEASE&lt;/version&gt;
+    &lt;classifier&gt;test&lt;/classifier&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+    </div>
+    <div class="olist arabic">
+        <ol class="arabic">
+            <li>
+                <p>Condigure maven javadoc plugin:</p>
+            </li>
+        </ol>
+    </div>
+    <div class="listingblock secondary">
+        <div class="content">
+<pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;build&gt;
+    &lt;plugins&gt;
+        ...
+        &lt;plugin&gt;
+            &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+            &lt;extensions&gt;true&lt;/extensions&gt;
+            &lt;executions&gt;
+                &lt;execution&gt;
+                    &lt;phase&gt;compile&lt;/phase&gt;
+                    &lt;goals&gt;
+                        &lt;goal&gt;javadoc-no-fork&lt;/goal&gt;
+                    &lt;/goals&gt;
+                &lt;/execution&gt;
+            &lt;/executions&gt;
+            &lt;configuration&gt;
+                &lt;doclet&gt;capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
+                &lt;docletArtifact&gt;
+                    &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
+                    &lt;artifactId&gt;json-doclet&lt;/artifactId&gt;
+                    &lt;version&gt;1.0.3-SNAPSHOT&lt;/version&gt;
+                &lt;/docletArtifact&gt;
+                &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
+                &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
+                &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
+                &lt;show&gt;package&lt;/show&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+        ...
+    &lt;/plugins&gt;
+&lt;/build&gt;</code></pre>
+        </div>
+    </div>
+    <div class="olist arabic">
+        <ol class="arabic">
+            <li>
+                <p>Configure MockMvc</p>
+            </li>
+        </ol>
+    </div>
+    <div class="listingblock secondary">
+        <div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">@Autowired
+private WebApplicationContext context;
+
+@Autowired
+protected ObjectMapper objectMapper;
+
+protected MockMvc mockMvc;
+
+@Rule
+public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation(
+    System.getProperties().getProperty("org.springframework.restdocs.outputDir"));
+
+@Before
+public void setUp() throws Exception {
+    this.mockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .addFilters(springSecurityFilterChain)
+            .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
+            .alwaysDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                    Preprocessors.preprocessRequest(),
+                    Preprocessors.preprocessResponse(
+                            ResponseModifyingPreprocessors.replaceBinaryContent(),
+                            ResponseModifyingPreprocessors.limitJsonArrayLength(objectMapper),
+                            Preprocessors.prettyPrint())))
+            .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
+                    .uris()
+                    .withScheme("http")
+                    .withHost("localhost")
+                    .withPort(8080)
+                    .and().snippets()
+                    .withDefaults(CliDocumentation.curlRequest(),
+                            HttpDocumentation.httpRequest(),
+                            HttpDocumentation.httpResponse(),
+                            AutoDocumentation.requestFields(),
+                            AutoDocumentation.responseFields(),
+                            AutoDocumentation.pathParameters(),
+                            AutoDocumentation.requestParameters(),
+                            AutoDocumentation.description(),
+                            AutoDocumentation.methodAndPath(),
+                            AutoDocumentation.section()))
+            .build();
+}</code></pre>
 </div>
 </div>
+</div>
+    <div class="sect2">
+        <h3 id="_sample_application"><a class="link" href="#_sample_application">Sample application</a></h3>
+        <div class="paragraph">
+            <p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a> includes a sample application that demonstrates most features:</p>
+        </div>
+        <div class="paragraph">
+            <p>The generated documentation of the example project can be viewed <a
+                    href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
+        </div>
+    </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_authorization_snippet"><a class="link" href="#_authorization_snippet">Authorization snippet</a></h2>
+    <h2 id="_snippets"><a class="link" href="#_snippets">Snippets</a></h2>
 <div class="sectionbody">
+    <div class="sect2">
+        <h3 id="_authorization_snippet"><a class="link" href="#_authorization_snippet">Authorization snippet</a></h3>
 <div class="paragraph">
 <p>The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom <code>RequestPostProcessor</code> is used to add authorization and this is also the place where you add the documentation.</p>
 </div>
-<div class="sect2">
-<h3 id="_example"><a class="link" href="#_example">Example</a></h3>
 <div class="listingblock secondary">
+    <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">protected RequestPostProcessor userToken() {
     return new RequestPostProcessor() {
@@ -599,19 +699,13 @@ Usually, a custom <code>RequestPostProcessor</code> is used to add authorization
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_path_parameter_snippet"><a class="link" href="#_path_parameter_snippet">Path parameter snippet</a></h2>
-<div class="sectionbody">
+    <div class="sect2">
+        <h3 id="_path_parameter_snippet"><a class="link" href="#_path_parameter_snippet">Path parameter snippet</a></h3>
 <div class="paragraph">
 <p>The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.</p>
 </div>
-<div class="sect2">
-<h3 id="_example_2"><a class="link" href="#_example_2">Example</a></h3>
-<div class="sect3">
-<h4 id="_code"><a class="link" href="#_code">Code</a></h4>
 <div class="listingblock secondary">
+    <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * @param id ID of the item.
@@ -620,9 +714,13 @@ Usually, a custom <code>RequestPostProcessor</code> is used to add authorization
 public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
 </div>
 </div>
+        <div class="olist arabic">
+            <ol class="arabic">
+                <li>
+                    <p>Result</p>
+                </li>
+            </ol>
 </div>
-<div class="sect3">
-<h4 id="_result"><a class="link" href="#_result">Result</a></h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -648,20 +746,13 @@ public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_request_parameter_snippet"><a class="link" href="#_request_parameter_snippet">Request parameter snippet</a></h2>
-<div class="sectionbody">
+    <div class="sect2">
+        <h3 id="_request_parameter_snippet"><a class="link" href="#_request_parameter_snippet">Request parameter snippet</a></h3>
 <div class="paragraph">
 <p>The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.</p>
 </div>
-<div class="sect2">
-<h3 id="_example_3"><a class="link" href="#_example_3">Example</a></h3>
-<div class="sect3">
-<h4 id="_code_2"><a class="link" href="#_code_2">Code</a></h4>
 <div class="listingblock secondary">
+    <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * @param descMatch Lookup on description field.
@@ -670,10 +761,8 @@ public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
 public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatch) {</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_result_2"><a class="link" href="#_result_2">Result</a></h4>
 <table class="tableblock frame-all grid-all spread">
+    <caption class="title">Result</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -698,25 +787,21 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 </tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_section_snippet"><a class="link" href="#_section_snippet">Section snippet</a></h2>
-<div class="sectionbody">
+    <div class="sect2">
+        <h3 id="_section_snippet"><a class="link" href="#_section_snippet">Section snippet</a></h3>
 <div class="paragraph">
 <p>The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with JavaDoc.</p>
 </div>
 <div class="listingblock secondary">
+    <div class="title">Asciidoc</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">include::{snippets}/your-endpoint/section.adoc[]</code></pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_template"><a class="link" href="#_template">Template</a></h3>
 <div class="listingblock secondary">
+    <div class="title">Template itself</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">[[resources-{{link}}]]
 === {{title}}
@@ -751,10 +836,8 @@ include::{snippets}/{{path}}/curl-request.adoc[]
 include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_template_placeholders"><a class="link" href="#_template_placeholders">Template placeholders</a></h3>
 <table class="tableblock frame-all grid-all spread">
+    <caption class="title">Template placeholders</caption>
 <colgroup>
 <col style="width: 33%;">
 <col style="width: 33%;">
@@ -871,8 +954,9 @@ e.g. <code>${value}</code> to get the content of <code>value()</code>.</p>
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
 </div>
 <div class="listingblock secondary">
+    <div class="title">ConstraintDescriptions.properties</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-properties" data-lang="properties">myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
+    <pre class="highlightjs highlight"><code class="language-ini" data-lang="ini">myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
 </div>
 </div>
 </div>
@@ -906,31 +990,28 @@ The descriptions are provided in the same way as for custom constraints.</p>
 </div>
 <div class="sect3">
 <h4 id="_examples"><a class="link" href="#_examples">Examples</a></h4>
-<div class="paragraph">
-<p>Descriptions for the examples:</p>
-</div>
+    <div class="sect4">
+        <h5 id="_descriptions_for_the_examples"><a class="link" href="#_descriptions_for_the_examples">Descriptions for the examples</a></h5>
 <div class="listingblock secondary">
+    <div class="title">ConstraintDescriptions.properties</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-properties" data-lang="properties">myproject.constraints.groups.German.description=DE: ${value}
+<pre class="highlightjs highlight"><code class="language-ini" data-lang="ini">myproject.constraints.groups.German.description=DE: ${value}
 myproject.constraints.groups.English.description=EN: ${value}
 myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
 </div>
 </div>
+    </div>
 <div class="sect4">
 <h5 id="_optionality_description"><a class="link" href="#_optionality_description">Optionality description</a></h5>
-<div class="paragraph">
-<p>Code:</p>
-</div>
 <div class="listingblock secondary">
+    <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@NotNull(groups = English.class)
 private String field;</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Result:</p>
-</div>
 <table class="tableblock frame-all grid-all spread">
+    <caption class="title">Result</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -957,19 +1038,15 @@ private String field;</code></pre>
 </div>
 <div class="sect4">
 <h5 id="_field_description_example"><a class="link" href="#_field_description_example">Field description example</a></h5>
-<div class="paragraph">
-<p>Code:</p>
-</div>
 <div class="listingblock secondary">
+    <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@OneOf(value = {"big", "small"}, groups = English.class)
 private String field;</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Result:</p>
-</div>
 <table class="tableblock frame-all grid-all spread">
+    <caption class="title">Result</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -1016,8 +1093,9 @@ If you want to build this project yourself, you first have to build and copy the
 <p>You find the currently required version in <code>spring-auto-restdocs/pom.xml</code>:</p>
 </div>
 <div class="listingblock secondary">
+    <div class="title">Maven</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-maven" data-lang="maven">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
     &lt;version&gt;1.1.2.RELEASE&lt;/version&gt;
@@ -1030,6 +1108,7 @@ If you want to build this project yourself, you first have to build and copy the
 <p>Clone and build a specific version of Spring Restdocs:</p>
 </div>
 <div class="listingblock secondary">
+    <div class="title">Bash</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
@@ -1048,10 +1127,10 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div class="sect3">
 <h4 id="_build"><a class="link" href="#_build">Build</a></h4>
-<div class="listingblock">
+    <div class="listingblock secondary">
+        <div class="title">Bash (in root folder)</div>
 <div class="content">
-<pre class="highlightjs highlight"><code>mvn install -f json-doclet/pom.xml
-mvn install -f spring-auto-restdocs/pom.xml</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install</code></pre>
 </div>
 </div>
 </div>
@@ -1061,11 +1140,11 @@ mvn install -f spring-auto-restdocs/pom.xml</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-12 22:46:58 CEST
+    Last updated 2016-09-13 23:07:08 CEST
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<link rel="stylesheet" href="highlight/styles/github.min.css">
+<script src="highlight/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
 </body>
 </html>

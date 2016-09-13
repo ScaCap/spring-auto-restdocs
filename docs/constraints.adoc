@@ -24,7 +24,9 @@ The value is the description and can contain placeholders for annotation methods
 e.g. `${value}` to get the content of `value()`.
 
 Example for the constraint annotation `myproject.constraints.OneOf`:
-[source,properties,indent=0,role="secondary"]
+
+.ConstraintDescriptions.properties
+[source,ini,indent=0,role="secondary"]
 ----
 myproject.constraints.OneOf.description=Must be one of ${value}
 ----
@@ -49,8 +51,10 @@ The descriptions are provided in the same way as for custom constraints.
 
 ==== Examples
 
-Descriptions for the examples:
-[source,properties,indent=0,role="secondary"]
+===== Descriptions for the examples
+
+.ConstraintDescriptions.properties
+[source,ini,indent=0,role="secondary"]
 ----
 myproject.constraints.groups.German.description=DE: ${value}
 myproject.constraints.groups.English.description=EN: ${value}
@@ -59,14 +63,14 @@ myproject.constraints.OneOf.description=Must be one of ${value}
 
 ===== Optionality description
 
-Code:
+.Code
 [source,java,indent=0,role="secondary"]
 ----
 @NotNull(groups = English.class)
 private String field;
 ----
 
-Result:
+.Result
 |===
 |Parameter|Type|Optional|Description
 
@@ -79,14 +83,14 @@ Result:
 
 ===== Field description example
 
-Code:
+.Code
 [source,java,indent=0,role="secondary"]
 ----
 @OneOf(value = {"big", "small"}, groups = English.class)
 private String field;
 ----
 
-Result:
+.Result
 |===
 |Parameter|Type|Optional|Description
 

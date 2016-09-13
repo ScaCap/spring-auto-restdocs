@@ -3,9 +3,11 @@ Scalable Capital
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
+:highlightjsdir: highlight
 :toc: left
 :toclevels: 2
 :sectlinks:
+:table-caption!:
 
 [[abstract]]
 
@@ -52,9 +54,7 @@ but your PR is also welcome.
 
 Yes, this project is only includes a Jackson visitor so far.
 
-
 include::getting-started.adoc[]
 include::snippets.adoc[]
-include::section-snippet.adoc[]
 include::constraints.adoc[]
 include::contributing.adoc[]
