@@ -5,12 +5,12 @@
 Spring Auto REST Docs has the following minimum requirements:
 
 * Java 7
-* Spring Restdocs 1.1.2 (see http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/[documentation])
+* Spring Restdocs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
 
 === Usage
 
-1. Setup project for http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/#getting-started[Spring REST Docs]
+1. Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
 
 2. Configure maven dependency:
 
@@ -19,7 +19,7 @@ Spring Auto REST Docs has the following minimum requirements:
 <dependency>
     <groupId>org.springframework.restdocs</groupId>
     <artifactId>spring-restdocs-core</artifactId>
-    <version>1.1.2.RELEASE</version>
+    <version>${spring-restdocs.version}</version>
     <classifier>test</classifier>
     <scope>test</scope>
 </dependency>
@@ -48,7 +48,7 @@ Spring Auto REST Docs has the following minimum requirements:
                 <docletArtifact>
                     <groupId>capital.scalable</groupId>
                     <artifactId>json-doclet</artifactId>
-                    <version>1.0.3-SNAPSHOT</version>
+                    <version>${project.version}</version>
                 </docletArtifact>
                 <destDir>generated-javadoc-json</destDir>
                 <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>

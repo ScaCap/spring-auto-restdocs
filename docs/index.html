@@ -536,7 +536,7 @@ but your PR is also welcome.</p>
 <p>Java 7</p>
 </li>
 <li>
-    <p>Spring Restdocs 1.1.2 (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/">documentation</a>)</p>
+    <p>Spring Restdocs 1.1.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -598,7 +598,7 @@ but your PR is also welcome.</p>
                     &lt;version&gt;1.0.3-SNAPSHOT&lt;/version&gt;
                 &lt;/docletArtifact&gt;
                 &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
-                &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
+                &lt;reportOutputDirectory&gt;/Users/duro/dev/restdocs-jackson/docs/target&lt;/reportOutputDirectory&gt;
                 &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
                 &lt;show&gt;package&lt;/show&gt;
             &lt;/configuration&gt;
@@ -666,11 +666,11 @@ public void setUp() throws Exception {
         <h3 id="_sample_application"><a class="link" href="#_sample_application">Sample application</a></h3>
         <div class="paragraph">
             <p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a> includes a sample application that demonstrates most features:</p>
-        </div>
+</div>
         <div class="paragraph">
             <p>The generated documentation of the example project can be viewed <a
                     href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
-        </div>
+</div>
     </div>
 </div>
 </div>
@@ -803,37 +803,7 @@ Assuming of course that you already documented your code with JavaDoc.</p>
 <div class="listingblock secondary">
     <div class="title">Template itself</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">[[resources-{{link}}]]
-=== {{title}}
-
-include::{snippets}/{{path}}/method-path.adoc[]
-
-include::{snippets}/{{path}}/description.adoc[]
-
-==== Authorization
-
-include::{snippets}/{{path}}/authorization.adoc[]
-
-==== Path parameters
-
-include::{snippets}/{{path}}/path-parameters.adoc[]
-
-==== Query parameters
-
-include::{snippets}/{{path}}/request-parameters.adoc[]
-
-==== Request structure
-
-include::{snippets}/{{path}}/request-fields.adoc[]
-
-==== Response structure
-
-include::{snippets}/{{path}}/response-fields.adoc[]
-
-==== Example request/response
-
-include::{snippets}/{{path}}/curl-request.adoc[]
-include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
+    <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">Unresolved directive in section-snippet.adoc - include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -1087,7 +1057,7 @@ private String field;</code></pre>
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.</p>
 </div>
 <div class="paragraph">
-<p>We use version 1.1.2 of Spring Restdocs in this example.</p>
+    <p>We use version 1.1.2.RELEASE of Spring Restdocs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>spring-auto-restdocs/pom.xml</code>:</p>
@@ -1140,7 +1110,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-09-13 23:07:08 CEST
+    Last updated 2016-09-13 23:42:21 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

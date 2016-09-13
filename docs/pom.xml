@@ -34,13 +34,55 @@
                     <backend>html</backend>
                     <doctype>book</doctype>
                     <sourceHighlighter>highlightjs</sourceHighlighter>
-                    <sourceDirectory>${basedir}</sourceDirectory>
+                    <sourceDirectory>${project.build.directory}/adoc</sourceDirectory>
                     <sourceDocumentName>index.adoc</sourceDocumentName>
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>clean-index</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${basedir}</directory>
+                                    <followSymlinks>false</followSymlinks>
+                                    <includes>
+                                        <include>index.html</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
+                    <execution>
+                        <id>process-adoc</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/adoc</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>*.adoc</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>copy-index</id>
                         <phase>package</phase>
