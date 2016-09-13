@@ -663,13 +663,16 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute. Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
@@ -681,7 +684,9 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
@@ -693,7 +698,7 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -815,13 +820,16 @@ Content-Length: 354
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute. Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.bool</p></td>
@@ -833,7 +841,9 @@ Content-Length: 354
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.amount</p></td>
@@ -845,7 +855,7 @@ Content-Length: 354
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
@@ -938,14 +948,21 @@ Content-Length: 459
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+EN: false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
+DE: Size must be between 2 and 10 inclusive<br>
+EN: Size must be between 4 and 12 inclusive<br>
+Length must be between 0 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be one of [small, big].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
+DE: Must be one of [klein, groß]<br>
+EN: Must be one of [small, big]<br>
+Size must be between 0 and 1000 inclusive</p></td>
 </tr>
 </tbody>
 </table>
@@ -960,7 +977,7 @@ Content-Length: 459
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 6df5c312-5de4-4dde-8103-485b595c0987' -d '{"description":"Hot News"}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 50c845ae-9389-4bb6-be8b-12856a7073ad' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1009,14 +1026,21 @@ X-Frame-Options: DENY</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+EN: false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
+DE: Size must be between 2 and 10 inclusive<br>
+EN: Size must be between 4 and 12 inclusive<br>
+Length must be between 0 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be one of [small, big].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
+DE: Must be one of [klein, groß]<br>
+EN: Must be one of [small, big]<br>
+Size must be between 0 and 1000 inclusive</p></td>
 </tr>
 </tbody>
 </table>
@@ -1067,13 +1091,16 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute. Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
@@ -1085,7 +1112,9 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
@@ -1097,7 +1126,7 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1112,7 +1141,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 6df5c312-5de4-4dde-8103-485b595c0987' -d '{"description":"Hot News"}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 50c845ae-9389-4bb6-be8b-12856a7073ad' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1164,7 +1193,7 @@ Content-Length: 90
 <h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 6df5c312-5de4-4dde-8103-485b595c0987'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 50c845ae-9389-4bb6-be8b-12856a7073ad'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1205,7 +1234,7 @@ X-Frame-Options: DENY</code></pre>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Optional</th>
 <th class="tableblock halign-left valign-top">Description</th>
@@ -1285,13 +1314,16 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute. Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
@@ -1303,7 +1335,9 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
@@ -1315,7 +1349,7 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1386,7 +1420,7 @@ Content-Length: 99
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Optional</th>
 <th class="tableblock halign-left valign-top">Description</th>
@@ -1463,13 +1497,16 @@ Content-Length: 99
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute. Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
@@ -1481,7 +1518,9 @@ Content-Length: 99
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute. Must be at least 1, Must be at most 10.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1<br>
+Must be at most 10</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
@@ -1493,7 +1532,7 @@ Content-Length: 99
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1508,7 +1547,7 @@ Content-Length: 99
 <h4 id="_example_request_response_7"><a class="anchor" href="#_example_request_response_7"></a>2.7.6. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1563,7 +1602,7 @@ Content-Length: 599
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-09 21:10:28 CEST
+Last updated 2016-09-12 22:19:00 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
