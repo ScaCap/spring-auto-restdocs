@@ -31,5 +31,5 @@ See [Getting started section](https://scacap.github.io/spring-auto-restdocs/#_ge
 
 ## Building from source
 
-See [Building from source section](file:///Users/duro/dev/restdocs-jackson/docs/index.html#_building_from_source) in documentation.
+See [Building from source section](https://scacap.github.io/spring-auto-restdocs/#_building_from_source) in documentation.
 
