@@ -10,10 +10,10 @@ Spring Auto REST Docs has the following minimum requirements:
 
 === Usage
 
-1. Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
+. Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
 
-2. Configure maven dependency:
-
+. Configure maven dependency:
++
 [source,xml,indent=0,role="secondary"]
 ----
 <dependency>
@@ -25,8 +25,8 @@ Spring Auto REST Docs has the following minimum requirements:
 </dependency>
 ----
 
-3. Condigure maven javadoc plugin:
-
+. Configure maven javadoc plugin:
++
 [source,xml,indent=0,role="secondary"]
 ----
 <build>
@@ -61,8 +61,8 @@ Spring Auto REST Docs has the following minimum requirements:
 </build>
 ----
 
-4. Configure MockMvc
-
+. Configure MockMvc
++
 [source,java,indent=0,role="secondary"]
 ----
 @Autowired

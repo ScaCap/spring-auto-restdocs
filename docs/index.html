@@ -505,20 +505,21 @@ you write even less.</p>
 <div class="sect1">
 <h2 id="_faq"><a class="link" href="#_faq">FAQ</a></h2>
 <div class="sectionbody">
-<h3 id="_does_it_work_with_spring_mvc_tests" class="discrete">Does it work with Spring MVC tests?</h3>
-<div class="paragraph">
-<p>Yes, it is easy to use in existing or new Spring MVC tests.
-Take a look at the example.</p>
-</div>
-<h3 id="_does_it_work_with_rest_assured_tests" class="discrete">Does it work with REST Assured tests?</h3>
-<div class="paragraph">
-<p>Not yet.
-We may add support for REST Assured in the future,
-but your PR is also welcome.</p>
-</div>
-<h3 id="_is_jackson_required_for_automatic_field_documentation" class="discrete">Is Jackson required for automatic field documentation?</h3>
-<div class="paragraph">
+    <div class="qlist qanda">
+        <ol>
+            <li>
+                <p><em>Does it work with Spring MVC tests?</em></p>
+                <p>Yes, it is easy to use in existing or new Spring MVC tests. Take a look at the example.</p>
+            </li>
+            <li>
+                <p><em>Does it work with REST Assured tests?</em></p>
+                <p>Not yet. We may add support for REST Assured in the future, but your PR is also welcome.</p>
+            </li>
+            <li>
+                <p><em>Is Jackson required for automatic field documentation?</em></p>
 <p>Yes, this project is only includes a Jackson visitor so far.</p>
+            </li>
+        </ol>
 </div>
 </div>
 </div>
@@ -553,11 +554,8 @@ but your PR is also welcome.</p>
             </li>
             <li>
                 <p>Configure maven dependency:</p>
-            </li>
-        </ol>
-</div>
-    <div class="listingblock secondary">
-        <div class="content">
+                <div class="listingblock secondary">
+                    <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
@@ -566,16 +564,12 @@ but your PR is also welcome.</p>
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
-    </div>
-    <div class="olist arabic">
-        <ol class="arabic">
-            <li>
-                <p>Condigure maven javadoc plugin:</p>
+                </div>
             </li>
-        </ol>
-    </div>
-    <div class="listingblock secondary">
-        <div class="content">
+            <li>
+                <p>Configure maven javadoc plugin:</p>
+                <div class="listingblock secondary">
+                    <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;build&gt;
     &lt;plugins&gt;
         ...
@@ -606,17 +600,13 @@ but your PR is also welcome.</p>
         ...
     &lt;/plugins&gt;
 &lt;/build&gt;</code></pre>
-        </div>
-    </div>
-    <div class="olist arabic">
-        <ol class="arabic">
+                    </div>
+                </div>
+            </li>
             <li>
                 <p>Configure MockMvc</p>
-            </li>
-        </ol>
-    </div>
-    <div class="listingblock secondary">
-        <div class="content">
+                <div class="listingblock secondary">
+                    <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@Autowired
 private WebApplicationContext context;
 
@@ -661,6 +651,9 @@ public void setUp() throws Exception {
 }</code></pre>
 </div>
 </div>
+            </li>
+        </ol>
+</div>
 </div>
     <div class="sect2">
         <h3 id="_sample_application"><a class="link" href="#_sample_application">Sample application</a></h3>
@@ -671,7 +664,7 @@ public void setUp() throws Exception {
             <p>The generated documentation of the example project can be viewed <a
                     href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
 </div>
-    </div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -803,7 +796,37 @@ Assuming of course that you already documented your code with JavaDoc.</p>
 <div class="listingblock secondary">
     <div class="title">Template itself</div>
 <div class="content">
-    <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">Unresolved directive in section-snippet.adoc - include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]</code></pre>
+<pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">[[resources-{{link}}]]
+=== {{title}}
+
+include::{snippets}/{{path}}/method-path.adoc[]
+
+include::{snippets}/{{path}}/description.adoc[]
+
+==== Authorization
+
+include::{snippets}/{{path}}/authorization.adoc[]
+
+==== Path parameters
+
+include::{snippets}/{{path}}/path-parameters.adoc[]
+
+==== Query parameters
+
+include::{snippets}/{{path}}/request-parameters.adoc[]
+
+==== Request structure
+
+include::{snippets}/{{path}}/request-fields.adoc[]
+
+==== Response structure
+
+include::{snippets}/{{path}}/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/{{path}}/curl-request.adoc[]
+include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -1110,7 +1133,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-09-13 23:42:21 CEST
+    Last updated 2016-09-13 23:58:08 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

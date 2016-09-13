@@ -13,7 +13,7 @@ Assuming of course that you already documented your code with JavaDoc.
 .Template itself
 [source,asciidoc,indent=0,role="secondary"]
 ----
-include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+include::../../../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
 ----
 
 .Template placeholders
