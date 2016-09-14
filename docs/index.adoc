@@ -42,7 +42,7 @@ Does it work with Spring MVC tests?::
 Does it work with REST Assured tests?::
   Not yet. We may add support for REST Assured in the future, but your PR is also welcome.
 Is Jackson required for automatic field documentation?::
-  Yes, this project is only includes a Jackson visitor so far.
+  Yes, this project only includes a Jackson visitor so far.
 
 include::getting-started.adoc[]
 include::snippets.adoc[]

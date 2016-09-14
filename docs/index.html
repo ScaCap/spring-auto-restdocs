@@ -517,7 +517,7 @@ you write even less.</p>
             </li>
             <li>
                 <p><em>Is Jackson required for automatic field documentation?</em></p>
-<p>Yes, this project is only includes a Jackson visitor so far.</p>
+                <p>Yes, this project only includes a Jackson visitor so far.</p>
             </li>
         </ol>
 </div>
@@ -557,10 +557,9 @@ you write even less.</p>
                 <div class="listingblock secondary">
                     <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.1.2.RELEASE&lt;/version&gt;
-    &lt;classifier&gt;test&lt;/classifier&gt;
+    &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-auto-restdocs&lt;/artifactId&gt;
+    &lt;version&gt;1.0.3-SNAPSHOT&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
@@ -592,7 +591,7 @@ you write even less.</p>
                     &lt;version&gt;1.0.3-SNAPSHOT&lt;/version&gt;
                 &lt;/docletArtifact&gt;
                 &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
-                &lt;reportOutputDirectory&gt;/Users/duro/dev/restdocs-jackson/docs/target&lt;/reportOutputDirectory&gt;
+                &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
                 &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
                 &lt;show&gt;package&lt;/show&gt;
             &lt;/configuration&gt;
@@ -1133,7 +1132,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-09-13 23:58:08 CEST
+    Last updated 2016-09-14 08:20:16 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

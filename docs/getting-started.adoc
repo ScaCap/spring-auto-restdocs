@@ -17,10 +17,9 @@ Spring Auto REST Docs has the following minimum requirements:
 [source,xml,indent=0,role="secondary"]
 ----
 <dependency>
-    <groupId>org.springframework.restdocs</groupId>
-    <artifactId>spring-restdocs-core</artifactId>
-    <version>${spring-restdocs.version}</version>
-    <classifier>test</classifier>
+    <groupId>capital.scalable</groupId>
+    <artifactId>spring-auto-restdocs</artifactId>
+    <version>${project.version}</version>
     <scope>test</scope>
 </dependency>
 ----
@@ -51,7 +50,7 @@ Spring Auto REST Docs has the following minimum requirements:
                     <version>${project.version}</version>
                 </docletArtifact>
                 <destDir>generated-javadoc-json</destDir>
-                <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory>
                 <useStandardDocletOptions>false</useStandardDocletOptions>
                 <show>package</show>
             </configuration>
