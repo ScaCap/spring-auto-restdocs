@@ -1,5 +1,7 @@
 # Spring Auto REST Docs
 
+**Full documentation at https://scacap.github.io/spring-auto-restdocs**
+
 The aim of this extension to Spring REST Docs is to help you to write
 even less -- both code and documentation.
 You still get the same nice documentation as with Spring REST Docs itself.
@@ -23,45 +25,11 @@ in the documentation and also added support for documenting constraint groups.
 * A snippet that includes all other snippets of this extension and thus helps
 you write even less.
 
+## Usage
+
+See [Getting started section](https://scacap.github.io/spring-auto-restdocs/#_getting_started) in documentation.
+
 ## Building from source
 
-### Get spring-restdocs-core test JAR
+See [Building from source section](https://scacap.github.io/spring-auto-restdocs/#_building_from_source) in documentation.
 
-The test JAR is not published, but this project relies on it.
-If you want to build this project yourself, you first have to build and copy the test JAR on your system.
-
-We use version v1.1.2 of Spring REST Docs in this example.
-
-You find the currently required version in `spring-auto-restdocs/pom.xml`:
-
-```
-<dependency>
-    <groupId>org.springframework.restdocs</groupId>
-    <artifactId>spring-restdocs-core</artifactId>
-    <version>v1.1.2.RELEASE</version>
-    <classifier>test</classifier>
-    <scope>test</scope>
-</dependency>
-```
-
-Clone and build a specific version of Spring Restdocs:
-```
-git clone git@github.com:spring-projects/spring-restdocs.git
-cd spring-restdocs
-git fetch --tags
-git checkout tags/v1.1.2.RELEASE
-./gradlew build
-```
-
-Afterwards you copy
-`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.2.RELEASE-test.jar`
-to
-`~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.2.RELEASE`
-so that the test JAR is available to Maven.
-
-### Build
-
-```
-mvn install -f json-doclet/pom.xml
-mvn install -f spring-auto-restdocs/pom.xml
-```

@@ -1,24 +1,22 @@
-
-== Section snippet
+=== Section snippet
 
 The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with JavaDoc.
 
+.Asciidoc
 [source,asciidoc,indent=0,role="secondary"]
 ----
 \include::{snippets}/your-endpoint/section.adoc[]
 ----
 
-=== Template
-
+.Template itself
 [source,asciidoc,indent=0,role="secondary"]
 ----
-include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+include::../../../spring-auto-restdocs/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
 ----
 
-=== Template placeholders
-
+.Template placeholders
 |===
 |Placeholder|Example|Description
 
@@ -67,3 +65,4 @@ include::../spring-auto-restdocs/src/main/resources/org/springframework/restdocs
 | The original `HttpResponseSnippet` from Spring REST Docs is used here to provide the HTTP response from the test.
 
 |===
+

@@ -13,10 +13,10 @@
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 
     <modules>
-        <module>docs</module>
         <module>json-doclet</module>
         <module>spring-auto-restdocs</module>
         <module>spring-auto-restdocs-example</module>
+        <module>docs</module>
     </modules>
 
     <organization>
@@ -56,6 +56,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+        <spring-restdocs.version>1.1.2.RELEASE</spring-restdocs.version>
     </properties>
 
     <build>
@@ -142,6 +143,11 @@
                     <artifactId>asciidoctor-maven-plugin</artifactId>
                     <version>1.5.3</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -195,20 +201,20 @@
             <dependency>
                 <groupId>org.springframework.restdocs</groupId>
                 <artifactId>spring-restdocs-core</artifactId>
-                <version>1.1.2.RELEASE</version>
+                <version>${spring-restdocs.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.restdocs</groupId>
                 <artifactId>spring-restdocs-core</artifactId>
-                <version>1.1.2.RELEASE</version>
+                <version>${spring-restdocs.version}</version>
                 <classifier>test</classifier>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.restdocs</groupId>
                 <artifactId>spring-restdocs-mockmvc</artifactId>
-                <version>1.1.2.RELEASE</version>
+                <version>${spring-restdocs.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>

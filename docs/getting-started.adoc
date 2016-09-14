@@ -1,21 +1,116 @@
 == Getting started
 
-=== Documentation of the original Spring REST Docs
-
-Reference: http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/
-
 === Requirements
 
 Spring Auto REST Docs has the following minimum requirements:
 
 * Java 7
-* Spring Restdocs 1.1.2
+* Spring Restdocs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
+
+=== Usage
+
+. Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
+
+. Configure maven dependency:
++
+[source,xml,indent=0,role="secondary"]
+----
+<dependency>
+    <groupId>capital.scalable</groupId>
+    <artifactId>spring-auto-restdocs</artifactId>
+    <version>${project.version}</version>
+    <scope>test</scope>
+</dependency>
+----
+
+. Configure maven javadoc plugin:
++
+[source,xml,indent=0,role="secondary"]
+----
+<build>
+    <plugins>
+        ...
+        <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>javadoc-no-fork</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                <docletArtifact>
+                    <groupId>capital.scalable</groupId>
+                    <artifactId>json-doclet</artifactId>
+                    <version>${project.version}</version>
+                </docletArtifact>
+                <destDir>generated-javadoc-json</destDir>
+                <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory>
+                <useStandardDocletOptions>false</useStandardDocletOptions>
+                <show>package</show>
+            </configuration>
+        </plugin>
+        ...
+    </plugins>
+</build>
+----
+
+. Configure MockMvc
++
+[source,java,indent=0,role="secondary"]
+----
+@Autowired
+private WebApplicationContext context;
+
+@Autowired
+protected ObjectMapper objectMapper;
+
+protected MockMvc mockMvc;
+
+@Rule
+public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation(
+    System.getProperties().getProperty("org.springframework.restdocs.outputDir"));
+
+@Before
+public void setUp() throws Exception {
+    this.mockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .addFilters(springSecurityFilterChain)
+            .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
+            .alwaysDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                    Preprocessors.preprocessRequest(),
+                    Preprocessors.preprocessResponse(
+                            ResponseModifyingPreprocessors.replaceBinaryContent(),
+                            ResponseModifyingPreprocessors.limitJsonArrayLength(objectMapper),
+                            Preprocessors.prettyPrint())))
+            .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
+                    .uris()
+                    .withScheme("http")
+                    .withHost("localhost")
+                    .withPort(8080)
+                    .and().snippets()
+                    .withDefaults(CliDocumentation.curlRequest(),
+                            HttpDocumentation.httpRequest(),
+                            HttpDocumentation.httpResponse(),
+                            AutoDocumentation.requestFields(),
+                            AutoDocumentation.responseFields(),
+                            AutoDocumentation.pathParameters(),
+                            AutoDocumentation.requestParameters(),
+                            AutoDocumentation.description(),
+                            AutoDocumentation.methodAndPath(),
+                            AutoDocumentation.section()))
+            .build();
+}
+----
 
 === Sample application
 
-The project includes a sample application that demonstrates most features:
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project] includes a sample application that demonstrates most features:
 
-The generated documentation of the example project can be viewed here: https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html
+The generated documentation of the example project can be viewed https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
 
