@@ -9,7 +9,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>json-doclet</artifactId>
+    <artifactId>spring-auto-restdocs-json-doclet</artifactId>
     <packaging>jar</packaging>
 
     <name>Spring Auto REST Docs Json Doclet</name>
@@ -69,7 +69,7 @@
                     <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
-                        <artifactId>json-doclet</artifactId>
+                        <artifactId>spring-auto-restdocs-json-doclet</artifactId>
                         <version>${project.parent.version}</version>
                     </docletArtifact>
                     <destDir>generated-javadoc-json</destDir>
