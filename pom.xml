@@ -13,10 +13,10 @@
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 
     <modules>
-        <module>json-doclet</module>
-        <module>spring-auto-restdocs</module>
+        <module>spring-auto-restdocs-json-doclet</module>
+        <module>spring-auto-restdocs-core</module>
         <module>spring-auto-restdocs-example</module>
-        <module>docs</module>
+        <module>spring-auto-restdocs-docs</module>
     </modules>
 
     <organization>

@@ -9,7 +9,7 @@ If you want to build this project yourself, you first have to build and copy the
 
 We use version ${spring-restdocs.version} of Spring REST Docs in this example.
 
-You find the currently required version in `spring-auto-restdocs/pom.xml`:
+You find the currently required version in `pom.xml`:
 
 .Maven
 [source,xml,indent=0,role="secondary"]
