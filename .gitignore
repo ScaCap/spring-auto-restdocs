@@ -11,3 +11,7 @@ target/
 .idea/
 *.iml
 *.iws
+
+# gedit
+*~
+
