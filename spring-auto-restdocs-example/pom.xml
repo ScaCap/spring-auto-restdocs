@@ -23,7 +23,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <start-class>capital.scalable.example.Application</start-class>
+        <start-class>capital.scalable.restdocs.example.Application</start-class>
     </properties>
 
     <dependencies>
@@ -162,7 +162,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                    <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
                         <artifactId>spring-auto-restdocs-json-doclet</artifactId>
