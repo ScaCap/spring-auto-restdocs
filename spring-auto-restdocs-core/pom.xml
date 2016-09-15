@@ -118,7 +118,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                    <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
                         <artifactId>spring-auto-restdocs-json-doclet</artifactId>

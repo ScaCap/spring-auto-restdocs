@@ -43,10 +43,10 @@ Spring Auto REST Docs has the following minimum requirements:
                 </execution>
             </executions>
             <configuration>
-                <doclet>capital.scalable.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                 <docletArtifact>
                     <groupId>capital.scalable</groupId>
-                    <artifactId>json-doclet</artifactId>
+                    <artifactId>spring-auto-restdocs-json-doclet</artifactId>
                     <version>${project.version}</version>
                 </docletArtifact>
                 <destDir>generated-javadoc-json</destDir>
