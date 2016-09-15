@@ -6,7 +6,7 @@
     <parent>
         <groupId>capital.scalable</groupId>
         <artifactId>spring-auto-restdocs-parent</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -15,6 +15,10 @@
 
     <name>Spring Auto REST Docs Documentation</name>
     <description>Documentation for Spring Auto REST Docs</description>
+
+    <properties>
+        <docs.dir>${project.basedir}/../docs</docs.dir>
+    </properties>
 
     <build>
         <plugins>
@@ -39,29 +43,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>clean-index</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>${basedir}</directory>
-                                    <followSymlinks>false</followSymlinks>
-                                    <includes>
-                                        <include>index.html</include>
-                                    </includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
@@ -74,7 +55,7 @@
                             <outputDirectory>${project.build.directory}/adoc</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}</directory>
+                                    <directory>${project.basedir}</directory>
                                     <filtering>true</filtering>
                                     <includes>
                                         <include>*.adoc</include>
@@ -90,7 +71,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}</outputDirectory>
+                            <outputDirectory>${docs.dir}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}/generated-docs</directory>
