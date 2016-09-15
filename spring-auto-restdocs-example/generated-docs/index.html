@@ -977,7 +977,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 061693be-8726-447a-891c-3fa739891a99' -d '{"description":"Hot News"}'</code></pre>
+  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1141,7 +1141,7 @@ Must be at most 10</p></td>
 <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 061693be-8726-447a-891c-3fa739891a99' -d '{"description":"Hot News"}'</code></pre>
+  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1194,7 +1194,7 @@ Content-Length: 90
 <div class="listingblock">
 <div class="content">
   <pre class="highlightjs highlight"><code class="language-bash"
-                                           data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 061693be-8726-447a-891c-3fa739891a99'</code></pre>
+                                           data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1585,14 +1585,14 @@ Content-Length: 599
   } ],
   "pageable" : null,
   "total" : 1,
-  "totalElements" : 1,
   "totalPages" : 1,
+  "totalElements" : 1,
   "last" : true,
   "size" : 0,
   "number" : 0,
-  "numberOfElements" : 1,
+  "sort" : null,
   "first" : true,
-  "sort" : null
+  "numberOfElements" : 1
 }</code></pre>
 </div>
 </div>

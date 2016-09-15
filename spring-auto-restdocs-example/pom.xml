@@ -155,6 +155,9 @@
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}/generated-docs</directory>
+                                    <includes>
+                                        <include>index.html</include>
+                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
