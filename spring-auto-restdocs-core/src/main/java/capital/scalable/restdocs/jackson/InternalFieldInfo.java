@@ -23,15 +23,13 @@ class InternalFieldInfo {
     private final Class<?> javaBaseClass;
     private final String javaFieldName;
     private final String jsonFieldPath;
-    private List<Annotation> annotations;
     private final boolean shouldExpand;
 
     public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName,
-            String jsonFieldPath, List<Annotation> annotations, boolean shouldExpand) {
+            String jsonFieldPath, boolean shouldExpand) {
         this.javaBaseClass = javaBaseClass;
         this.javaFieldName = javaFieldName;
         this.jsonFieldPath = jsonFieldPath;
-        this.annotations = annotations;
         this.shouldExpand = shouldExpand;
     }
 
@@ -45,10 +43,6 @@ class InternalFieldInfo {
 
     public String getJsonFieldPath() {
         return jsonFieldPath;
-    }
-
-    public List<Annotation> getAnnotations() {
-        return annotations;
     }
 
     public boolean shouldExpand() {

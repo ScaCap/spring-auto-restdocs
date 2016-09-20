@@ -26,11 +26,12 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -52,7 +53,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void noGroupDescriptionIsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
@@ -65,7 +66,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void noDescriptionIsNotResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint)))
@@ -79,7 +80,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void noDescriptionWithGroupsIsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint)))
@@ -93,7 +94,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void singleGroupDescriptionIsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
@@ -107,7 +108,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void multipleGroupDescriptionsAreResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class, Create.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
@@ -122,7 +123,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void groupDescriptionIsNotResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
@@ -137,7 +138,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void strangeGroupConfigurationIsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, "no group");
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
@@ -151,7 +152,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void noConstraintDescriptionIsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("");
@@ -190,7 +191,8 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void noGroupsResolved() {
         // given
-        Constraint constraint = new Constraint("Constraint", new HashedMap());
+        Constraint constraint =
+                new Constraint("Constraint", Collections.<String, Object>emptyMap());
         // when
         List<Class> groups = resolver.getGroups(constraint);
         // then
@@ -200,14 +202,14 @@ public class ConstraintAndGroupDescriptionResolverTest {
     @Test
     public void groupsResolved() {
         // given
-        Map<String, Object> configuration = new HashedMap();
+        Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class, Create.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         // when
         List<Class> groups = resolver.getGroups(constraint);
         // then
         assertThat(groups.size(), is(2));
-        assertThat((Class) groups.get(0), equalTo((Class) Update.class));
-        assertThat((Class) groups.get(1), equalTo((Class) Create.class));
+        assertThat(groups.get(0), equalTo((Class) Update.class));
+        assertThat(groups.get(1), equalTo((Class) Create.class));
     }
 }

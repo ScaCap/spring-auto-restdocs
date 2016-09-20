@@ -16,11 +16,6 @@
 
 package capital.scalable.restdocs.jackson;
 
-import static org.apache.commons.collections.IteratorUtils.toList;
-
-import java.lang.annotation.Annotation;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -60,21 +55,15 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
 
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
-        List<Annotation> annotations = getAnnotations(prop);
         boolean shouldExpand = shouldExpand(prop);
 
         InternalFieldInfo fieldInfo =
-                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, annotations,
-                        shouldExpand);
+                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, shouldExpand);
 
         JsonFormatVisitorWrapper visitor =
                 new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
 
         ser.acceptJsonFormatVisitor(visitor, type);
-    }
-
-    private List<Annotation> getAnnotations(BeanProperty prop) {
-        return toList(prop.getMember().annotations().iterator());
     }
 
     protected JsonSerializer<?> getSer(BeanProperty prop) throws JsonMappingException {

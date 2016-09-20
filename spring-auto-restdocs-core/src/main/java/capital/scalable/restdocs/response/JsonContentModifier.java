@@ -68,8 +68,8 @@ public abstract class JsonContentModifier implements ContentModifier {
         if (filter.apply(node)) {
             consumer.accept(node);
         }
-        for (Iterator<JsonNode> children = node.iterator(); children.hasNext();) {
-            walk(children.next(), filter, consumer);
+        for (JsonNode child : node) {
+            walk(child, filter, consumer);
         }
     }
 }
