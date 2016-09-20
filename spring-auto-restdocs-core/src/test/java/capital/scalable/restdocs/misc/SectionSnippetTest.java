@@ -36,25 +36,23 @@ public class SectionSnippetTest extends AbstractSnippetTests {
 
         setField(snippet, "expectedName", "itemsId");
         setField(snippet, "expectedType", "section");
-        this.snippet.withContents(equalTo(new StringBuilder()
-                .append("[[resources-itemsId]]\n")
-                .append("=== Get Item By Id\n\n")
-                .append("include::{snippets}/itemsId/method-path.adoc[]\n\n")
-                .append("include::{snippets}/itemsId/description.adoc[]\n\n")
-                .append("==== Authorization\n\n")
-                .append("include::{snippets}/itemsId/authorization.adoc[]\n\n")
-                .append("==== Path parameters\n\n")
-                .append("include::{snippets}/itemsId/path-parameters.adoc[]\n\n")
-                .append("==== Query parameters\n\n")
-                .append("include::{snippets}/itemsId/request-parameters.adoc[]\n\n")
-                .append("==== Request structure\n\n")
-                .append("include::{snippets}/itemsId/request-fields.adoc[]\n\n")
-                .append("==== Response structure\n\n")
-                .append("include::{snippets}/itemsId/response-fields.adoc[]\n\n")
-                .append("==== Example request/response\n\n")
-                .append("include::{snippets}/itemsId/curl-request.adoc[]\n")
-                .append("include::{snippets}/itemsId/http-response.adoc[]\n")
-                .toString()));
+        this.snippet.withContents(equalTo("[[resources-itemsId]]\n" +
+                "=== Get Item By Id\n\n" +
+                "include::{snippets}/itemsId/method-path.adoc[]\n\n" +
+                "include::{snippets}/itemsId/description.adoc[]\n\n" +
+                "==== Authorization\n\n" +
+                "include::{snippets}/itemsId/authorization.adoc[]\n\n" +
+                "==== Path parameters\n\n" +
+                "include::{snippets}/itemsId/path-parameters.adoc[]\n\n" +
+                "==== Query parameters\n\n" +
+                "include::{snippets}/itemsId/request-parameters.adoc[]\n\n" +
+                "==== Request structure\n\n" +
+                "include::{snippets}/itemsId/request-fields.adoc[]\n\n" +
+                "==== Response structure\n\n" +
+                "include::{snippets}/itemsId/response-fields.adoc[]\n\n" +
+                "==== Example request/response\n\n" +
+                "include::{snippets}/itemsId/curl-request.adoc[]\n" +
+                "include::{snippets}/itemsId/http-response.adoc[]\n"));
 
         new SectionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

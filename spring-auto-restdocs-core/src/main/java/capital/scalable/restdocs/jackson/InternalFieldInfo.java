@@ -16,9 +16,6 @@
 
 package capital.scalable.restdocs.jackson;
 
-import java.lang.annotation.Annotation;
-import java.util.List;
-
 class InternalFieldInfo {
     private final Class<?> javaBaseClass;
     private final String javaFieldName;

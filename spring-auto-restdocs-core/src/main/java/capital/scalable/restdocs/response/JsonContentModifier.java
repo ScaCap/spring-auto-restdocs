@@ -19,7 +19,6 @@ package capital.scalable.restdocs.response;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +47,7 @@ public abstract class JsonContentModifier implements ContentModifier {
      * Uses UTF-8. According to {@link com.fasterxml.jackson.core.JsonEncoding}
      * only UTF-{8,16,32} are a valid JSON encodings.
      *
-     * @param originalContent
+     * @param originalContent original JSON content
      * @return modified JSON content
      */
     protected byte[] modifyContent(byte[] originalContent) {
