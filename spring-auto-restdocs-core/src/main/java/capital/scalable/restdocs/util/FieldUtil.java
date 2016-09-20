@@ -18,7 +18,7 @@ package capital.scalable.restdocs.util;
 
 import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
-public class FieldUtil {
+public final class FieldUtil {
     private FieldUtil() {
         // utils
     }
