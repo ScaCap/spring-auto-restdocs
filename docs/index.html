@@ -448,6 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_constraint_that_determine_optionality">Constraint that determine optionality</a></li>
 <li><a href="#_custom_constraints">Custom constraints</a></li>
+    <li><a href="#_enums">Enums</a></li>
 <li><a href="#_readable_constraint_values">Readable constraint values</a></li>
 <li><a href="#_constraint_groups">Constraint groups</a></li>
 </ul>
@@ -952,6 +953,12 @@ e.g. <code>${value}</code> to get the content of <code>value()</code>.</p>
 </div>
 </div>
 <div class="sect2">
+    <h3 id="_enums"><a class="link" href="#_enums">Enums</a></h3>
+    <div class="paragraph">
+        <p>Constraint message for enum is appended to description field as list of allowed values, e.g. <code>Must be one of [A, B]</code>.</p>
+    </div>
+</div>
+    <div class="sect2">
 <h3 id="_readable_constraint_values"><a class="link" href="#_readable_constraint_values">Readable constraint values</a></h3>
 <div class="paragraph">
 <p>Spring REST Docs just calls <code>toString()</code> objects extracted from
@@ -1021,7 +1028,8 @@ private String field;</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">field</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true, EN: false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+        EN: false</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -1057,7 +1065,7 @@ private String field;</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">field</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EN: Must be one of  [big, small]</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">EN: Must be one of [big, small]</p></td>
 </tr>
 </tbody>
 </table>
@@ -1131,7 +1139,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-09-15 15:25:01 CEST
+    Last updated 2016-09-20 21:02:21 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

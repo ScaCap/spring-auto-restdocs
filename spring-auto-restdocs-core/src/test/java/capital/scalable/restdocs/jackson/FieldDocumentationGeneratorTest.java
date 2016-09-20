@@ -95,6 +95,42 @@ public class FieldDocumentationGeneratorTest {
     }
 
     @Test
+    public void testGenerateDocumentationForEnum() throws Exception {
+        // given
+        ObjectMapper mapper = new ObjectMapper();
+        // includes test for preventing duplicate enum description, because we are inspecting
+        // getter and field for annotations
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC));
+
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(EnumType.class, "enumField1"))
+                .thenReturn("An enum");
+        when(javadocReader.resolveFieldComment(EnumType.class, "enumField2"))
+                .thenReturn("An enum");
+
+        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        when(constraintReader.getConstraintMessages(EnumType.class, "enumField2"))
+                .thenReturn(singletonList("Must not be null"));
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+        Type type = EnumType.class;
+
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(fieldDescriptions.size(), is(2));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("enumField1", "String", "An enum", "true",
+                        "Must be one of [ONE, TWO]")));
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("enumField2", "String", "An enum", "true",
+                        "Must not be null", "Must be one of [A, B]")));
+    }
+
+    @Test
     public void testGenerateDocumentationForComposedTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
@@ -521,5 +557,24 @@ public class FieldDocumentationGeneratorTest {
         private List<RecursiveType> children;
         @RestdocsNotExpanded
         private RecursiveType sibling;
+    }
+
+    private static class EnumType {
+        // directly from field
+        protected SomeEnum12 enumField1;
+        private SomeEnumAB enumField2;
+
+        // from getter, then field
+        public SomeEnumAB getEnumField2() {
+            return enumField2;
+        }
+    }
+
+    private enum SomeEnum12 {
+        ONE, TWO
+    }
+
+    private enum SomeEnumAB {
+        A, B
     }
 }

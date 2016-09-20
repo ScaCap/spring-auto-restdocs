@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
+import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
@@ -28,6 +29,7 @@ import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.databind.JavaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
@@ -46,7 +48,7 @@ public class FieldDocumentationVisitorContext {
         return fields;
     }
 
-    public void addField(InternalFieldInfo info, Object jsonFieldType) {
+    public void addField(InternalFieldInfo info, String jsonType, JavaType javaType) {
         Class<?> javaFieldClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
 
@@ -54,10 +56,10 @@ public class FieldDocumentationVisitorContext {
         String jsonFieldPath = info.getJsonFieldPath();
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
-                .type(jsonFieldType)
+                .type(jsonType)
                 .description(comment);
 
-        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName);
+        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName, javaType);
         Attribute optionals = optionalAttribute(javaFieldClass, javaFieldName);
         fieldDescriptor.attributes(constraints, optionals);
 
@@ -77,9 +79,10 @@ public class FieldDocumentationVisitorContext {
         return comment;
     }
 
-    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
+    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName,
+            JavaType javaType) {
         return new Attribute(CONSTRAINTS_ATTRIBUTE,
-                resolveConstraintDescriptions(javaBaseClass, javaFieldName));
+                resolveConstraintDescriptions(javaBaseClass, javaFieldName, javaType));
     }
 
     private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName) {
@@ -87,13 +90,15 @@ public class FieldDocumentationVisitorContext {
                 resolveOptionalMessages(javaBaseClass, javaFieldName));
     }
 
-    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
-        List<String> optionalMessages = constraintReader.getOptionalMessages(javaBaseClass,
-                javaFieldName);
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass,
+            String javaFieldName) {
+        List<String> optionalMessages = new ArrayList<>();
+        optionalMessages.addAll(constraintReader.getOptionalMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it
         if (optionalMessages.isEmpty() && isGetter(javaFieldName)) {
-            optionalMessages = resolveOptionalMessages(javaBaseClass, fromGetter(javaFieldName));
+            optionalMessages.addAll(
+                    resolveOptionalMessages(javaBaseClass, fromGetter(javaFieldName)));
         }
 
         // if there was no default constraint resolved at all, default to optional=true
@@ -106,15 +111,28 @@ public class FieldDocumentationVisitorContext {
     }
 
     private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,
-            String javaFieldName) {
-        List<String> descriptions = constraintReader
-                .getConstraintMessages(javaBaseClass, javaFieldName);
+            String javaFieldName, JavaType javaType) {
+        List<String> descriptions = new ArrayList<>();
+        descriptions.addAll(constraintReader.getConstraintMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it
         if (descriptions.isEmpty() && isGetter(javaFieldName)) {
-            descriptions = resolveConstraintDescriptions(javaBaseClass, fromGetter(javaFieldName));
+            descriptions.addAll(resolveConstraintDescriptions(javaBaseClass,
+                    fromGetter(javaFieldName), javaType));
+        }
+
+        if (javaType.isEnumType()) {
+            String enumDesc = enumConstraintDescription((Class<Enum>) javaType.getRawClass());
+            // we might be recursively here, prevent duplicate add
+            if (!descriptions.contains(enumDesc)) {
+                descriptions.add(enumDesc);
+            }
         }
 
         return descriptions;
+    }
+
+    private String enumConstraintDescription(Class<Enum> rawClass) {
+        return "Must be one of " + arrayToString(rawClass.getEnumConstants());
     }
 }

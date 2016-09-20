@@ -31,6 +31,10 @@ Example for the constraint annotation `myproject.constraints.OneOf`:
 myproject.constraints.OneOf.description=Must be one of ${value}
 ----
 
+=== Enums
+
+Constraint message for enum is appended to description field as list of allowed values, e.g. `Must be one of [A, B]`.
+
 === Readable constraint values
 
 Spring REST Docs just calls `toString()` objects extracted from
@@ -76,7 +80,8 @@ private String field;
 
 | field
 | String
-| true, EN: false
+| true +
+EN: false
 |
 
 |===
@@ -97,7 +102,7 @@ private String field;
 | field
 | String
 | true
-| EN: Must be one of  [big, small]
+| EN: Must be one of [big, small]
 
 |===
 
