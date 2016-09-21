@@ -356,7 +356,7 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn(singletonList("false"));
         when(constraintReader.getConstraintMessages(ConstraintField.class, "value"))
                 .thenReturn(asList(
-                        new String[]{"A constraint1 for value", "A constraint2 for value"}));
+                        "A constraint1 for value", "A constraint2 for value"));
         when(constraintReader.getOptionalMessages(ConstraintField.class, "value"))
                 .thenReturn(singletonList("false"));
 

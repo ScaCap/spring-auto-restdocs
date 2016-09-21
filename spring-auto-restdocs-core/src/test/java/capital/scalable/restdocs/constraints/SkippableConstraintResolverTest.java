@@ -41,12 +41,11 @@ public class SkippableConstraintResolverTest {
 
     private SkippableConstraintResolver resolver;
     private ConstraintResolver delegate;
-    private GroupDescriptionResolver descriptionResolver;
 
     @Before
     public void setup() {
         delegate = mock(ConstraintResolver.class);
-        descriptionResolver = mock(GroupDescriptionResolver.class);
+        GroupDescriptionResolver descriptionResolver = mock(GroupDescriptionResolver.class);
         resolver = new SkippableConstraintResolver(delegate, descriptionResolver);
     }
 

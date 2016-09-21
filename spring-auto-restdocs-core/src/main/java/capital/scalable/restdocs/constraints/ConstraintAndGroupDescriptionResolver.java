@@ -23,6 +23,7 @@ import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -72,9 +73,7 @@ public class ConstraintAndGroupDescriptionResolver implements
         Class[] groups = (Class[]) rawGroups;
 
         List<Class> result = new ArrayList<>();
-        for (Class group : groups) {
-            result.add(group);
-        }
+        Collections.addAll(result, groups);
         return result;
     }
 
