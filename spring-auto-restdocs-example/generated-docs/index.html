@@ -977,7 +977,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer b4c98d49-c6f9-4943-92cd-3137e7607738' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1141,7 +1141,7 @@ Must be at most 10</p></td>
 <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer b4c98d49-c6f9-4943-92cd-3137e7607738' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1193,8 +1193,7 @@ Content-Length: 90
 <h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash"
-                                           data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer b4c98d49-c6f9-4943-92cd-3137e7607738'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1548,7 +1547,7 @@ Must be at most 10</p></td>
 <h4 id="_example_request_response_7"><a class="anchor" href="#_example_request_response_7"></a>2.7.6. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1585,14 +1584,14 @@ Content-Length: 599
   } ],
   "pageable" : null,
   "total" : 1,
-  "totalPages" : 1,
   "totalElements" : 1,
   "last" : true,
-  "size" : 0,
-  "number" : 0,
+  "totalPages" : 1,
+  "numberOfElements" : 1,
   "sort" : null,
   "first" : true,
-  "numberOfElements" : 1
+  "size" : 0,
+  "number" : 0
 }</code></pre>
 </div>
 </div>
@@ -1603,7 +1602,7 @@ Content-Length: 599
 </div>
 <div id="footer">
 <div id="footer-text">
-  Last updated 2016-09-14 22:08:18 CEST
+Last updated 2016-09-12 18:45:29 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
