@@ -22,6 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javax.validation.constraints.Size;
+import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -93,9 +94,41 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void listRequest() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItems", List.class);
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveFieldComment(Item.class, "field1"))
+                .thenReturn("A string");
+        when(javadocReader.resolveFieldComment(Item.class, "field2"))
+                .thenReturn("An integer");
+
+        this.snippet.expectRequestFields().withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string")
+                        .row("[].field2", "Integer", "true", "An integer"));
+
+        new JacksonRequestFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), mock(ConstraintReader.class))
+                .request("http://localhost")
+                .content("{\"field1\":\"test\"}")
+                .build());
+    }
+
     private static class TestResource {
 
         public void addItem(@RequestBody Item item) {
+            // NOOP
+        }
+
+        public void addItems(@RequestBody List<Item> items) {
             // NOOP
         }
 
