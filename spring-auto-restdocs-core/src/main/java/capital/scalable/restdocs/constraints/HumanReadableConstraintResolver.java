@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,9 +43,7 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
     public HumanReadableConstraintResolver(ConstraintResolver delegate) {
         this.delegate = delegate;
         this.ignoredFields = new HashSet<>();
-        for (String field : IGNORED_FIELDS) {
-            this.ignoredFields.add(field);
-        }
+        Collections.addAll(this.ignoredFields, IGNORED_FIELDS);
     }
 
     @Override

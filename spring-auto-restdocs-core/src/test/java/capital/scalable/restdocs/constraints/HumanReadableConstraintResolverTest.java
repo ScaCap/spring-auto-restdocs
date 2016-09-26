@@ -48,7 +48,7 @@ public class HumanReadableConstraintResolverTest {
         // setup
         Map<String, Object> configuration = new HashedMap();
         configuration.put("primitive", 1);
-        configuration.put("wrapper", Integer.valueOf(1));
+        configuration.put("wrapper", 1);
         configuration.put("object", new CustomObj("Peter"));
         configuration.put("array", new Object[]{"value1", "value2"});
         configuration.put("class", CustomConstraint.class);

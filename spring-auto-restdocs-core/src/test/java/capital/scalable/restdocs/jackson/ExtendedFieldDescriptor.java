@@ -64,10 +64,9 @@ public class ExtendedFieldDescriptor {
             return false;
         if (optionals != null ? !optionals.equals(that.optionals) : that.optionals != null)
             return false;
-        if (constraints != null ? !constraints.equals(that.constraints) : that.constraints != null)
-            return false;
+        return constraints != null ? constraints.equals(that.constraints) :
+                that.constraints == null;
 
-        return true;
     }
 
     @Override
