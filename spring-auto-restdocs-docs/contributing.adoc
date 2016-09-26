@@ -1,7 +1,10 @@
+[[contributing]]
 == Contributing
 
+[[contributing-building]]
 === Building from source
 
+[[contributing-building-testjar]]
 ==== Get spring-restdocs-core test JAR
 
 The test JAR is not published, but this project relies on it.
@@ -41,6 +44,7 @@ to
 `~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/${spring-restdocs.version}`
 so that the test JAR is available to Maven.
 
+[[contributing-building-build]]
 ==== Build
 
 .Bash (in root folder)

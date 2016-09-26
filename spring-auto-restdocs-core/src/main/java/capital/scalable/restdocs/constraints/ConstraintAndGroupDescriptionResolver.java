@@ -82,7 +82,7 @@ public class ConstraintAndGroupDescriptionResolver implements
     public String resolveGroupDescription(Class group, String constraintDescription) {
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
-        Constraint groupConstraint = new Constraint(group.getName(),
+        Constraint groupConstraint = new Constraint(group.getCanonicalName(),
                 singletonMap(VALUE, (Object) constraintDescription));
         String result = resolvePlainDescription(groupConstraint);
         return isBlank(result) ? fallbackGroupDescription(group, constraintDescription) : result;

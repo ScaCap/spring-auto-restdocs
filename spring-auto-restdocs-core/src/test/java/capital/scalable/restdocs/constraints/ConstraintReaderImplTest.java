@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -80,8 +81,21 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "indexWithGroup");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be null (update)"));
-    }
 
+        messages = reader.getConstraintMessages(Constraintz.class, "num");
+        assertThat(messages.size(), is(1));
+        // fallback
+        assertThat(messages.get(0), is("Must be at most 10 (groups: [UnresolvedGroup])"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "enum1");
+        assertThat(messages.size(), is(1));
+        // fallback
+        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "enum2");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Custom enum description: [A, B]"));
+    }
 
     @Test
     public void getOptionalMessages() {
@@ -100,10 +114,6 @@ public class ConstraintReaderImplTest {
         messages = reader.getOptionalMessages(Constraintz.class, "amount");
         assertThat(messages.size(), is(0));
 
-        messages = reader.getOptionalMessages(Constraintz.class, "items");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false"));
-
         messages = reader.getOptionalMessages(Constraintz.class, "type");
         assertThat(messages.size(), is(0));
 
@@ -113,6 +123,16 @@ public class ConstraintReaderImplTest {
         messages = reader.getOptionalMessages(Constraintz.class, "indexWithGroup");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("false (create)"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "num");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "enum1");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "enum2");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
     }
 
     static class Constraintz {
@@ -142,6 +162,19 @@ public class ConstraintReaderImplTest {
         @NotNull(groups = Create.class)
         private Integer indexWithGroup;
 
+        @Max(value = 10, groups = UnresolvedGroup.class)
         private long num;
+
+        private Enum1 enum1;
+
+        @NotNull
+        private Enum2 enum2;
+    }
+
+    enum Enum1 {ONE, TWO}
+
+    enum Enum2 {A, B}
+
+    interface UnresolvedGroup {
     }
 }

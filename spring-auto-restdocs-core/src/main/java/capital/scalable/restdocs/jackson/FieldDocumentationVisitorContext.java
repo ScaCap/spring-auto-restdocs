@@ -20,7 +20,6 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
-import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
@@ -117,22 +116,10 @@ public class FieldDocumentationVisitorContext {
 
         // fallback to field itself if we got a getter and no annotation on it
         if (descriptions.isEmpty() && isGetter(javaFieldName)) {
-            descriptions.addAll(resolveConstraintDescriptions(javaBaseClass,
-                    fromGetter(javaFieldName), javaType));
-        }
-
-        if (javaType.isEnumType()) {
-            String enumDesc = enumConstraintDescription((Class<Enum>) javaType.getRawClass());
-            // we might be recursively here, prevent duplicate add
-            if (!descriptions.contains(enumDesc)) {
-                descriptions.add(enumDesc);
-            }
+            descriptions.addAll(constraintReader
+                    .getConstraintMessages(javaBaseClass, fromGetter(javaFieldName)));
         }
 
         return descriptions;
-    }
-
-    private String enumConstraintDescription(Class<Enum> rawClass) {
-        return "Must be one of " + arrayToString(rawClass.getEnumConstants());
     }
 }

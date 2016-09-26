@@ -1,3 +1,4 @@
+[[constraints]]
 == Documenting constraints
 
 Spring REST Docs has support for documenting constraints,
@@ -6,6 +7,7 @@ Here we are going a step further and automatically use constraints
 and the constraint groups to derive whether a field is optional
 and to add the constraint descriptions to the field descriptions.
 
+[[constraints-optionality]]
 === Constraint that determine optionality
 
 The following three constraints are used to determine whether a field is optional.
@@ -15,6 +17,7 @@ Their descriptions are not included in the field descriptions.
 * NotEmpty (Hibernate Validator)
 * NotBlank (Hibernate Validator)
 
+[[constraints-custom]]
 === Custom constraints
 
 Descriptions for custom constraints can be provided in `org.springframework.restdocs.constraints.ConstraintDescriptions.properties`.
@@ -22,6 +25,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with `.description`.
 The value is the description and can contain placeholders for annotation methods,
 e.g. `${value}` to get the content of `value()`.
+For more details, see original documentation of http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#documenting-your-api-constraints-describing[here].
 
 Example for the constraint annotation `myproject.constraints.OneOf`:
 
@@ -31,10 +35,14 @@ Example for the constraint annotation `myproject.constraints.OneOf`:
 myproject.constraints.OneOf.description=Must be one of ${value}
 ----
 
+[[constraints-enums]]
 === Enums
 
 Constraint message for enum is appended to description field as list of allowed values, e.g. `Must be one of [A, B]`.
+If you want to customize this message, use <<constraints-custom,above mentioned>> `ConstraintDescriptions.properties` approach.
+The list of values is represented by the `${value}` placeholder.
 
+[[constraints-readable-values]]
 === Readable constraint values
 
 Spring REST Docs just calls `toString()` objects extracted from
@@ -47,14 +55,17 @@ and separated by commas, i.e. `[elemet1.toString(), element2.toString(), ...]`.
 * Class: An instance with the default constructor is created
 and `toString()` is called on the instance.
 
+[[constraints-groups]]
 === Constraint groups
 
 Constraint groups are also included in the documentation if
 a description is provided for them.
 The descriptions are provided in the same way as for custom constraints.
 
+[[constraints-examples]]
 ==== Examples
 
+[[constraints-examples-descriptions]]
 ===== Descriptions for the examples
 
 .ConstraintDescriptions.properties
@@ -65,6 +76,7 @@ myproject.constraints.groups.English.description=EN: ${value}
 myproject.constraints.OneOf.description=Must be one of ${value}
 ----
 
+[[constraints-examples-optionality]]
 ===== Optionality description
 
 .Code
@@ -86,6 +98,7 @@ EN: false
 
 |===
 
+[[constraints-examples-fields]]
 ===== Field description example
 
 .Code
