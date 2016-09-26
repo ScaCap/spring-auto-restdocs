@@ -28,7 +28,6 @@ import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
-import com.fasterxml.jackson.databind.JavaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
@@ -47,7 +46,7 @@ public class FieldDocumentationVisitorContext {
         return fields;
     }
 
-    public void addField(InternalFieldInfo info, String jsonType, JavaType javaType) {
+    public void addField(InternalFieldInfo info, String jsonType) {
         Class<?> javaFieldClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
 
@@ -58,7 +57,7 @@ public class FieldDocumentationVisitorContext {
                 .type(jsonType)
                 .description(comment);
 
-        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName, javaType);
+        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName);
         Attribute optionals = optionalAttribute(javaFieldClass, javaFieldName);
         fieldDescriptor.attributes(constraints, optionals);
 
@@ -78,10 +77,9 @@ public class FieldDocumentationVisitorContext {
         return comment;
     }
 
-    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName,
-            JavaType javaType) {
+    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
         return new Attribute(CONSTRAINTS_ATTRIBUTE,
-                resolveConstraintDescriptions(javaBaseClass, javaFieldName, javaType));
+                resolveConstraintDescriptions(javaBaseClass, javaFieldName));
     }
 
     private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName) {
@@ -97,7 +95,7 @@ public class FieldDocumentationVisitorContext {
         // fallback to field itself if we got a getter and no annotation on it
         if (optionalMessages.isEmpty() && isGetter(javaFieldName)) {
             optionalMessages.addAll(
-                    resolveOptionalMessages(javaBaseClass, fromGetter(javaFieldName)));
+                    constraintReader.getOptionalMessages(javaBaseClass, fromGetter(javaFieldName)));
         }
 
         // if there was no default constraint resolved at all, default to optional=true
@@ -110,7 +108,7 @@ public class FieldDocumentationVisitorContext {
     }
 
     private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,
-            String javaFieldName, JavaType javaType) {
+            String javaFieldName) {
         List<String> descriptions = new ArrayList<>();
         descriptions.addAll(constraintReader.getConstraintMessages(javaBaseClass, javaFieldName));
 
