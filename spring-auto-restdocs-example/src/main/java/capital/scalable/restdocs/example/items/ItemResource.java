@@ -29,7 +29,6 @@ import java.util.Collections;
 
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
-import org.javamoney.moneta.Money;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;

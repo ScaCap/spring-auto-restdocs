@@ -33,7 +33,6 @@ import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.javamoney.moneta.Money;
 
 /**
  * Java object for a single JSON item.

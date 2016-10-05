@@ -18,13 +18,13 @@ package capital.scalable.restdocs.example.jackson;
 
 import java.io.IOException;
 
+import capital.scalable.restdocs.example.items.Money;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.javamoney.moneta.Money;
 
 public class MoneySerializer extends StdSerializer<Money> {
     public MoneySerializer() {
@@ -34,7 +34,7 @@ public class MoneySerializer extends StdSerializer<Money> {
     @Override
     public void serialize(Money value, JsonGenerator jgen, SerializerProvider provider)
             throws IOException {
-        jgen.writeString(value.getNumberStripped() + " " + value.getCurrency().getCurrencyCode());
+        jgen.writeString(value.getNumberStripped() + " " + value.getCurrencyCode());
     }
 
     @Override
