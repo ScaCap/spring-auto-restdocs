@@ -16,8 +16,8 @@
 
 package capital.scalable.restdocs.constraints;
 
+import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.util.StringUtils.arrayToDelimitedString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +70,7 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
 
     private String humanReadableString(Object o) {
         if (o instanceof Object[]) {
-            return "[" + arrayToDelimitedString((Object[]) o, ", ") + "]";
+            return arrayToString((Object[]) o);
         } else if (o instanceof Class) {
             try {
                 return ((Class) o).newInstance().toString();

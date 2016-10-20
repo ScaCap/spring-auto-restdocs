@@ -1,5 +1,7 @@
+[[snippets]]
 == Snippets
 
+[[snippets-authorization]]
 === Authorization snippet
 
 The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
@@ -20,6 +22,7 @@ protected RequestPostProcessor userToken() {
 }
 ----
 
+[[snippets-path-parameters]]
 === Path parameter snippet
 
 The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
@@ -44,6 +47,7 @@ public ItemResponse getItem(@PathVariable("id") String id) {
 | ID of the item.
 |===
 
+[[snippets-request-parameters]]
 === Request parameter snippet
 
 The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.

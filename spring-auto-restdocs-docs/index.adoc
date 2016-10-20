@@ -34,6 +34,7 @@ in the documentation and also added support for documenting constraint groups.
 * A snippet that includes all other snippets of this extension and thus helps
 you write even less.
 
+[[faq]]
 == FAQ
 
 [qanda]

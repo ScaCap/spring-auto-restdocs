@@ -695,6 +695,13 @@ Must be at most 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
 </tr>
 <tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+        Must be one of [ONE, TWO]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
@@ -726,7 +733,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 354
+Content-Length: 378
 
 {
   "id" : "1",
@@ -737,7 +744,8 @@ Content-Length: 354
     "number" : 1,
     "bool" : true,
     "decimal" : 1.11,
-    "amount" : "3.14 EUR"
+    "amount" : "3.14 EUR",
+    "enumType" : "ONE"
   },
   "children" : [ {
     "id" : "child-1",
@@ -852,6 +860,13 @@ Must be at most 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
 </tr>
 <tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+        Must be one of [ONE, TWO]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
@@ -886,7 +901,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 459
+Content-Length: 483
 
 [ {
   "id" : "1",
@@ -897,7 +912,8 @@ Content-Length: 459
     "number" : 1,
     "bool" : true,
     "decimal" : 1.11,
-    "amount" : "3.14 EUR"
+    "amount" : "3.14 EUR",
+    "enumType" : "ONE"
   },
   "children" : [ {
     "id" : "child-1",
@@ -977,7 +993,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 9c89032d-b7ed-40fa-8cc5-cf1d8d5c4c83' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1123,6 +1139,13 @@ Must be at most 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
 </tr>
 <tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+        Must be one of [ONE, TWO]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
@@ -1141,7 +1164,7 @@ Must be at most 10</p></td>
 <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4' -d '{"description":"Hot News"}'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 9c89032d-b7ed-40fa-8cc5-cf1d8d5c4c83' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1193,8 +1216,8 @@ Content-Length: 90
 <h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash"
-                                           data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer b33bb7f7-810c-43f5-ad84-918fff1847e4'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash"
+                                             data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 9c89032d-b7ed-40fa-8cc5-cf1d8d5c4c83'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1345,6 +1368,13 @@ Must be at most 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+        Must be one of [ONE, TWO]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1530,6 +1560,13 @@ Must be at most 10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
 </tr>
 <tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+        Must be one of [ONE, TWO]</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
@@ -1548,7 +1585,7 @@ Must be at most 10</p></td>
 <h4 id="_example_request_response_7"><a class="anchor" href="#_example_request_response_7"></a>2.7.6. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-  <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1561,7 +1598,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 599
+Content-Length: 625
 
 {
   "content" : [ {
@@ -1573,7 +1610,8 @@ Content-Length: 599
       "number" : 1,
       "bool" : true,
       "decimal" : 1.11,
-      "amount" : "3.14 EUR"
+      "amount" : "3.14 EUR",
+      "enumType" : "ONE"
     },
     "children" : [ {
       "id" : "child-1",
@@ -1591,8 +1629,8 @@ Content-Length: 599
   "size" : 0,
   "number" : 0,
   "sort" : null,
-  "first" : true,
-  "numberOfElements" : 1
+  "numberOfElements" : 1,
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -1603,7 +1641,7 @@ Content-Length: 599
 </div>
 <div id="footer">
 <div id="footer-text">
-  Last updated 2016-09-14 22:08:18 CEST
+    Last updated 2016-09-14 22:08:18 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

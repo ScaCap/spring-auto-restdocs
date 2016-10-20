@@ -428,33 +428,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_faq">FAQ</a></li>
-<li><a href="#_getting_started">Getting started</a>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#gettingstarted">Getting started</a>
 <ul class="sectlevel2">
-<li><a href="#_requirements">Requirements</a></li>
-<li><a href="#_usage">Usage</a></li>
-<li><a href="#_sample_application">Sample application</a></li>
+    <li><a href="#gettingstarted-requirements">Requirements</a></li>
+    <li><a href="#gettingstarted-usage">Usage</a></li>
+    <li><a href="#gettingstarted-sample">Sample application</a></li>
 </ul>
 </li>
-<li><a href="#_snippets">Snippets</a>
+    <li><a href="#snippets">Snippets</a>
 <ul class="sectlevel2">
-<li><a href="#_authorization_snippet">Authorization snippet</a></li>
-<li><a href="#_path_parameter_snippet">Path parameter snippet</a></li>
-<li><a href="#_request_parameter_snippet">Request parameter snippet</a></li>
-<li><a href="#_section_snippet">Section snippet</a></li>
+    <li><a href="#snippets-authorization">Authorization snippet</a></li>
+    <li><a href="#snippets-path-parameters">Path parameter snippet</a></li>
+    <li><a href="#snippets-request-parameters">Request parameter snippet</a></li>
+    <li><a href="#snippets-section">Section snippet</a></li>
 </ul>
 </li>
-<li><a href="#_documenting_constraints">Documenting constraints</a>
+    <li><a href="#constraints">Documenting constraints</a>
 <ul class="sectlevel2">
-<li><a href="#_constraint_that_determine_optionality">Constraint that determine optionality</a></li>
-<li><a href="#_custom_constraints">Custom constraints</a></li>
-<li><a href="#_readable_constraint_values">Readable constraint values</a></li>
-<li><a href="#_constraint_groups">Constraint groups</a></li>
+    <li><a href="#constraints-optionality">Constraint that determine optionality</a></li>
+    <li><a href="#constraints-custom">Custom constraints</a></li>
+    <li><a href="#constraints-enums">Enums</a></li>
+    <li><a href="#constraints-readable-values">Readable constraint values</a></li>
+    <li><a href="#constraints-groups">Constraint groups</a></li>
 </ul>
 </li>
-<li><a href="#_contributing">Contributing</a>
+    <li><a href="#contributing">Contributing</a>
 <ul class="sectlevel2">
-<li><a href="#_building_from_source">Building from source</a></li>
+    <li><a href="#contributing-building">Building from source</a></li>
 </ul>
 </li>
 </ul>
@@ -503,7 +504,7 @@ you write even less.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_faq"><a class="link" href="#_faq">FAQ</a></h2>
+    <h2 id="faq"><a class="link" href="#faq">FAQ</a></h2>
 <div class="sectionbody">
 <div class="qlist qanda">
 <ol>
@@ -524,10 +525,10 @@ you write even less.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_started"><a class="link" href="#_getting_started">Getting started</a></h2>
+    <h2 id="gettingstarted"><a class="link" href="#gettingstarted">Getting started</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_requirements"><a class="link" href="#_requirements">Requirements</a></h3>
+    <h3 id="gettingstarted-requirements"><a class="link" href="#gettingstarted-requirements">Requirements</a></h3>
 <div class="paragraph">
 <p>Spring Auto REST Docs has the following minimum requirements:</p>
 </div>
@@ -546,7 +547,7 @@ you write even less.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_usage"><a class="link" href="#_usage">Usage</a></h3>
+    <h3 id="gettingstarted-usage"><a class="link" href="#gettingstarted-usage">Usage</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -655,7 +656,7 @@ public void setUp() throws Exception {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sample_application"><a class="link" href="#_sample_application">Sample application</a></h3>
+    <h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample application</a></h3>
 <div class="paragraph">
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a> includes a sample application that demonstrates most features:</p>
 </div>
@@ -666,10 +667,10 @@ public void setUp() throws Exception {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_snippets"><a class="link" href="#_snippets">Snippets</a></h2>
+    <h2 id="snippets"><a class="link" href="#snippets">Snippets</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_authorization_snippet"><a class="link" href="#_authorization_snippet">Authorization snippet</a></h3>
+    <h3 id="snippets-authorization"><a class="link" href="#snippets-authorization">Authorization snippet</a></h3>
 <div class="paragraph">
 <p>The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom <code>RequestPostProcessor</code> is used to add authorization and this is also the place where you add the documentation.</p>
@@ -691,7 +692,7 @@ Usually, a custom <code>RequestPostProcessor</code> is used to add authorization
 </div>
 </div>
 <div class="sect2">
-<h3 id="_path_parameter_snippet"><a class="link" href="#_path_parameter_snippet">Path parameter snippet</a></h3>
+    <h3 id="snippets-path-parameters"><a class="link" href="#snippets-path-parameters">Path parameter snippet</a></h3>
 <div class="paragraph">
 <p>The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.</p>
 </div>
@@ -738,7 +739,7 @@ public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_request_parameter_snippet"><a class="link" href="#_request_parameter_snippet">Request parameter snippet</a></h3>
+    <h3 id="snippets-request-parameters"><a class="link" href="#snippets-request-parameters">Request parameter snippet</a></h3>
 <div class="paragraph">
 <p>The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.</p>
 </div>
@@ -779,7 +780,7 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 </table>
 </div>
 <div class="sect2">
-<h3 id="_section_snippet"><a class="link" href="#_section_snippet">Section snippet</a></h3>
+    <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
 <div class="paragraph">
 <p>The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
@@ -903,7 +904,7 @@ include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_documenting_constraints"><a class="link" href="#_documenting_constraints">Documenting constraints</a></h2>
+    <h2 id="constraints"><a class="link" href="#constraints">Documenting constraints</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring REST Docs has support for documenting constraints,
@@ -913,7 +914,7 @@ and the constraint groups to derive whether a field is optional
 and to add the constraint descriptions to the field descriptions.</p>
 </div>
 <div class="sect2">
-<h3 id="_constraint_that_determine_optionality"><a class="link" href="#_constraint_that_determine_optionality">Constraint that determine optionality</a></h3>
+    <h3 id="constraints-optionality"><a class="link" href="#constraints-optionality">Constraint that determine optionality</a></h3>
 <div class="paragraph">
 <p>The following three constraints are used to determine whether a field is optional.
 Their descriptions are not included in the field descriptions.</p>
@@ -933,13 +934,14 @@ Their descriptions are not included in the field descriptions.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_custom_constraints"><a class="link" href="#_custom_constraints">Custom constraints</a></h3>
+    <h3 id="constraints-custom"><a class="link" href="#constraints-custom">Custom constraints</a></h3>
 <div class="paragraph">
 <p>Descriptions for custom constraints can be provided in <code>org.springframework.restdocs.constraints.ConstraintDescriptions.properties</code>.
 If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
-e.g. <code>${value}</code> to get the content of <code>value()</code>.</p>
+    e.g. <code>${value}</code> to get the content of <code>value()</code>.
+    For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -952,7 +954,15 @@ e.g. <code>${value}</code> to get the content of <code>value()</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_readable_constraint_values"><a class="link" href="#_readable_constraint_values">Readable constraint values</a></h3>
+    <h3 id="constraints-enums"><a class="link" href="#constraints-enums">Enums</a></h3>
+    <div class="paragraph">
+        <p>Constraint message for enum is appended to description field as list of allowed values, e.g. <code>Must be one of [A, B]</code>.
+            If you want to customize this message, use <a href="#constraints-custom">above mentioned</a> <code>ConstraintDescriptions.properties</code> approach.
+            The list of values is represented by the <code>${value}</code> placeholder.</p>
+</div>
+</div>
+    <div class="sect2">
+        <h3 id="constraints-readable-values"><a class="link" href="#constraints-readable-values">Readable constraint values</a></h3>
 <div class="paragraph">
 <p>Spring REST Docs just calls <code>toString()</code> objects extracted from
 the constraint for documentation.
@@ -973,16 +983,16 @@ and <code>toString()</code> is called on the instance.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_constraint_groups"><a class="link" href="#_constraint_groups">Constraint groups</a></h3>
+    <h3 id="constraints-groups"><a class="link" href="#constraints-groups">Constraint groups</a></h3>
 <div class="paragraph">
 <p>Constraint groups are also included in the documentation if
 a description is provided for them.
 The descriptions are provided in the same way as for custom constraints.</p>
 </div>
 <div class="sect3">
-<h4 id="_examples"><a class="link" href="#_examples">Examples</a></h4>
+    <h4 id="constraints-examples"><a class="link" href="#constraints-examples">Examples</a></h4>
 <div class="sect4">
-<h5 id="_descriptions_for_the_examples"><a class="link" href="#_descriptions_for_the_examples">Descriptions for the examples</a></h5>
+    <h5 id="constraints-examples-descriptions"><a class="link" href="#constraints-examples-descriptions">Descriptions for the examples</a></h5>
 <div class="listingblock secondary">
 <div class="title">ConstraintDescriptions.properties</div>
 <div class="content">
@@ -993,7 +1003,7 @@ myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_optionality_description"><a class="link" href="#_optionality_description">Optionality description</a></h5>
+    <h5 id="constraints-examples-optionality"><a class="link" href="#constraints-examples-optionality">Optionality description</a></h5>
 <div class="listingblock secondary">
 <div class="title">Code</div>
 <div class="content">
@@ -1021,14 +1031,15 @@ private String field;</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">field</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true, EN: false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+        EN: false</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_field_description_example"><a class="link" href="#_field_description_example">Field description example</a></h5>
+    <h5 id="constraints-examples-fields"><a class="link" href="#constraints-examples-fields">Field description example</a></h5>
 <div class="listingblock secondary">
 <div class="title">Code</div>
 <div class="content">
@@ -1057,7 +1068,7 @@ private String field;</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">field</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EN: Must be one of  [big, small]</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">EN: Must be one of [big, small]</p></td>
 </tr>
 </tbody>
 </table>
@@ -1067,12 +1078,12 @@ private String field;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributing"><a class="link" href="#_contributing">Contributing</a></h2>
+    <h2 id="contributing"><a class="link" href="#contributing">Contributing</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_building_from_source"><a class="link" href="#_building_from_source">Building from source</a></h3>
+    <h3 id="contributing-building"><a class="link" href="#contributing-building">Building from source</a></h3>
 <div class="sect3">
-<h4 id="_get_spring_restdocs_core_test_jar"><a class="link" href="#_get_spring_restdocs_core_test_jar">Get spring-restdocs-core test JAR</a></h4>
+    <h4 id="contributing-building-testjar"><a class="link" href="#contributing-building-testjar">Get spring-restdocs-core test JAR</a></h4>
 <div class="paragraph">
 <p>The test JAR is not published, but this project relies on it.
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.</p>
@@ -1117,7 +1128,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build"><a class="link" href="#_build">Build</a></h4>
+    <h4 id="contributing-building-build"><a class="link" href="#contributing-building-build">Build</a></h4>
 <div class="listingblock secondary">
 <div class="title">Bash (in root folder)</div>
 <div class="content">
@@ -1131,7 +1142,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-09-15 15:25:01 CEST
+    Last updated 2016-09-26 17:14:36 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

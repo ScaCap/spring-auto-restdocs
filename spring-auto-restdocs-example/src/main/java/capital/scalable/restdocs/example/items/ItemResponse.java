@@ -108,6 +108,11 @@ class ItemResponse {
          */
         @NotNull
         private Money amount;
+        /**
+         * Enum attribute.
+         */
+        @NotNull
+        private EnumType enumType;
     }
 
     @AllArgsConstructor
@@ -120,5 +125,9 @@ class ItemResponse {
          * Custom meta attribute 2
          */
         private Integer custom2;
+    }
+
+    static enum EnumType {
+        ONE, TWO
     }
 }

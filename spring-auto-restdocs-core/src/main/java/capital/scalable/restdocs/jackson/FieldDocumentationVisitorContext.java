@@ -46,7 +46,7 @@ public class FieldDocumentationVisitorContext {
         return fields;
     }
 
-    public void addField(InternalFieldInfo info, Object jsonFieldType) {
+    public void addField(InternalFieldInfo info, String jsonType) {
         Class<?> javaFieldClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
 
@@ -54,7 +54,7 @@ public class FieldDocumentationVisitorContext {
         String jsonFieldPath = info.getJsonFieldPath();
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
-                .type(jsonFieldType)
+                .type(jsonType)
                 .description(comment);
 
         Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName);
@@ -87,13 +87,15 @@ public class FieldDocumentationVisitorContext {
                 resolveOptionalMessages(javaBaseClass, javaFieldName));
     }
 
-    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
-        List<String> optionalMessages = constraintReader.getOptionalMessages(javaBaseClass,
-                javaFieldName);
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass,
+            String javaFieldName) {
+        List<String> optionalMessages = new ArrayList<>();
+        optionalMessages.addAll(constraintReader.getOptionalMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it
         if (optionalMessages.isEmpty() && isGetter(javaFieldName)) {
-            optionalMessages = resolveOptionalMessages(javaBaseClass, fromGetter(javaFieldName));
+            optionalMessages.addAll(
+                    constraintReader.getOptionalMessages(javaBaseClass, fromGetter(javaFieldName)));
         }
 
         // if there was no default constraint resolved at all, default to optional=true
@@ -107,12 +109,13 @@ public class FieldDocumentationVisitorContext {
 
     private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,
             String javaFieldName) {
-        List<String> descriptions = constraintReader
-                .getConstraintMessages(javaBaseClass, javaFieldName);
+        List<String> descriptions = new ArrayList<>();
+        descriptions.addAll(constraintReader.getConstraintMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it
         if (descriptions.isEmpty() && isGetter(javaFieldName)) {
-            descriptions = resolveConstraintDescriptions(javaBaseClass, fromGetter(javaFieldName));
+            descriptions.addAll(constraintReader
+                    .getConstraintMessages(javaBaseClass, fromGetter(javaFieldName)));
         }
 
         return descriptions;

@@ -133,9 +133,9 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         return context;
     }
 
-    private void addFieldIfPresent(Object fieldType) {
+    private void addFieldIfPresent(String jsonType) {
         if (fieldInfo != null) {
-            context.addField(fieldInfo, fieldType);
+            context.addField(fieldInfo, jsonType);
         }
     }
 

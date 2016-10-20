@@ -1,5 +1,7 @@
+[[gettingstarted]]
 == Getting started
 
+[[gettingstarted-requirements]]
 === Requirements
 
 Spring Auto REST Docs has the following minimum requirements:
@@ -8,6 +10,7 @@ Spring Auto REST Docs has the following minimum requirements:
 * Spring REST Docs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
 
+[[gettingstarted-usage]]
 === Usage
 
 . Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
@@ -108,6 +111,7 @@ public void setUp() throws Exception {
 }
 ----
 
+[[gettingstarted-sample]]
 === Sample application
 
 https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project] includes a sample application that demonstrates most features:

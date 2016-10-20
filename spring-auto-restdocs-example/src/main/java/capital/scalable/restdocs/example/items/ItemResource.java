@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.example.items;
 
+import static capital.scalable.restdocs.example.items.ItemResponse.EnumType.ONE;
 import static java.util.Collections.singletonList;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -49,13 +50,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/items")
 public class ItemResource {
 
+    private static final BigDecimal DECIMAL = new BigDecimal("1.11");
+    private static final BigDecimal AMOUNT = new BigDecimal("3.14");
+
     private static final ItemResponse CHILD =
             new ItemResponse("child-1", "first child", null, null, null);
 
     private static final ItemResponse ITEM =
             new ItemResponse("1", "main item", new Metadata("meta1", 22),
-                    new Attributes("first item", 1, true, new BigDecimal("1.11"),
-                            Money.of(new BigDecimal("3.14"), "EUR")),
+                    new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE),
                     singletonList(CHILD));
 
     /**
@@ -109,7 +112,7 @@ public class ItemResource {
     @RequestMapping(value = "{id}", method = PUT)
     public ItemResponse updateItem(@PathVariable("id") String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        return new ItemResponse(id, itemUpdate.getDescription(), null,null, null);
+        return new ItemResponse(id, itemUpdate.getDescription(), null, null, null);
     }
 
     @RequestMapping(value = "{id}", method = DELETE)
