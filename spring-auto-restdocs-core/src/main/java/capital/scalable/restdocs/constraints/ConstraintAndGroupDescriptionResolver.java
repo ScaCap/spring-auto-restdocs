@@ -95,7 +95,8 @@ public class ConstraintAndGroupDescriptionResolver implements
         try {
             return delegate.resolveDescription(constraint);
         } catch (MissingResourceException e) {
-            log.info("No description found for constraint {}", constraint.getName(), e);
+            log.warn("No description found for constraint {}: {}", constraint.getName(),
+                    e.getMessage());
             return "";
         }
     }
