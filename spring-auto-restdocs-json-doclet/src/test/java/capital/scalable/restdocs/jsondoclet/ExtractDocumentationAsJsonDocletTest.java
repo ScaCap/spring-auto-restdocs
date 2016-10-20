@@ -16,15 +16,14 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 public class ExtractDocumentationAsJsonDocletTest {
 
@@ -32,11 +31,11 @@ public class ExtractDocumentationAsJsonDocletTest {
             "capital/scalable/restdocs/jsondoclet/DocumentedClass.json";
 
     @Test
-    public void testDocumentedClass() throws IOException {
+    public void testDocumentedClass() throws IOException, JSONException {
         String generated = IOUtils.toString(
                 new FileInputStream(new File("target/generated-javadoc-json/" + JSON_PATH)));
         String expected = IOUtils.toString(
                 this.getClass().getClassLoader().getResourceAsStream(JSON_PATH));
-        assertThat(expected, equalTo(generated));
+        JSONAssert.assertEquals(expected, generated, false);
     }
 }

@@ -1,0 +1,10 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
+before_install:
+  - mvn install:install-file -Dfile=lib/spring-restdocs-core-1.1.2.RELEASE-test.jar
+    -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core
+    -Dversion=1.1.2.RELEASE -Dpackaging=jar -Dclassifier=test
