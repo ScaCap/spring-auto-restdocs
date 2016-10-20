@@ -27,6 +27,7 @@ import static org.apache.commons.lang3.ArrayUtils.contains;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.util.ReflectionUtils.findField;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,10 +77,16 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     private List<String> getEnumConstraintMessage(Class<?> javaBaseClass, String javaFieldName) {
         // could be getter actually
-        Class<?> rawClass = findField(javaBaseClass, javaFieldName).getType();
-        if (rawClass == null || !rawClass.isEnum()) {
+        Field field = findField(javaBaseClass, javaFieldName);
+        if (field == null) {
             return emptyList();
         }
+
+        Class<?> rawClass = field.getType();
+        if (!rawClass.isEnum()) {
+            return emptyList();
+        }
+
         Class<Enum> enumClass = (Class<Enum>) rawClass;
 
         String value = arrayToString(enumClass.getEnumConstants());
