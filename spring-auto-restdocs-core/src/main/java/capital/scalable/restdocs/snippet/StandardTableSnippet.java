@@ -23,6 +23,7 @@ import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.join;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
 
-        List<FieldDescriptor> fieldDescriptors = emptyList();
+        Collection<FieldDescriptor> fieldDescriptors = emptyList();
         if (handlerMethod != null) {
             fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
         }
@@ -52,7 +53,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         return createModel(handlerMethod, fieldDescriptors);
     }
 
-    protected abstract List<FieldDescriptor> createFieldDescriptors(Operation operation,
+    protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod);
 
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
@@ -60,7 +61,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod,
-            List<FieldDescriptor> fieldDescriptors) {
+            Collection<FieldDescriptor> fieldDescriptors) {
         Map<String, Object> model = new HashMap<>();
         enrichModel(model, handlerMethod);
 
