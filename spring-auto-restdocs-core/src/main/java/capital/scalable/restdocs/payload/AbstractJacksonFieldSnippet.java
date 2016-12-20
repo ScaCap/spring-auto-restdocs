@@ -19,10 +19,13 @@ package capital.scalable.restdocs.payload;
 import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
+import static java.util.Collections.singletonList;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +33,11 @@ import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -47,30 +53,30 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
         super(type + "-fields", attributes);
     }
 
-    protected List<FieldDescriptor> createFieldDescriptors(Operation operation,
+    protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod) {
-        List<FieldDescriptor> fieldDescriptors = new ArrayList<>();
+        ObjectMapper objectMapper = getObjectMapper(operation);
+        ObjectWriter writer = objectMapper.writer();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
 
-        Type type = getType(handlerMethod);
-        if (type != null) {
-            ObjectMapper objectMapper = getObjectMapper(operation);
-            JavadocReader javadocReader = getJavadocReader(operation);
-            ConstraintReader constraintReader = getConstraintReader(operation);
+        JavadocReader javadocReader = getJavadocReader(operation);
+        ConstraintReader constraintReader = getConstraintReader(operation);
 
+        Map<String, FieldDescriptor> fieldDescriptors = new LinkedHashMap<>();
+
+        Type signatureType = getType(handlerMethod);
+        if (signatureType != null) {
             try {
-                FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
-                        objectMapper.writer(), javadocReader, constraintReader);
-
-                List<FieldDescriptor> descriptors = generator
-                        .generateDocumentation(type, objectMapper.getTypeFactory());
-
-                fieldDescriptors.addAll(descriptors);
+                for (Type type : resolveActualTypes(signatureType)) {
+                    resolveFieldDescriptors(fieldDescriptors, type, writer, typeFactory,
+                            javadocReader, constraintReader);
+                }
             } catch (JsonMappingException e) {
                 throw new JacksonFieldProcessingException("Error while parsing fields", e);
             }
         }
 
-        return fieldDescriptors;
+        return fieldDescriptors.values();
     }
 
     protected Type firstGenericType(MethodParameter param) {
@@ -78,4 +84,35 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
     }
 
     protected abstract Type getType(HandlerMethod method);
+
+    private Collection<Type> resolveActualTypes(Type type) {
+
+        if (type instanceof Class) {
+            JsonSubTypes jsonSubTypes = (JsonSubTypes) ((Class) type).getAnnotation(
+                    JsonSubTypes.class);
+            if (jsonSubTypes != null) {
+                Collection<Type> types = new ArrayList<>();
+                for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
+                    types.add(subType.value());
+                }
+                return types;
+            }
+        }
+
+        return singletonList(type);
+    }
+
+    private void resolveFieldDescriptors(Map<String, FieldDescriptor> fieldDescriptors,
+            Type type, ObjectWriter writer, TypeFactory typeFactory, JavadocReader javadocReader,
+            ConstraintReader constraintReader)
+            throws JsonMappingException {
+        FieldDocumentationGenerator generator = new FieldDocumentationGenerator(writer,
+                javadocReader, constraintReader);
+        List<FieldDescriptor> descriptors = generator.generateDocumentation(type, typeFactory);
+        for (FieldDescriptor descriptor : descriptors) {
+            if (fieldDescriptors.get(descriptor.getPath()) == null) {
+                fieldDescriptors.put(descriptor.getPath(), descriptor);
+            }
+        }
+    }
 }
