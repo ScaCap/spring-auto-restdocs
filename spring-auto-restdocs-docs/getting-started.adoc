@@ -22,7 +22,7 @@ Spring Auto REST Docs has the following minimum requirements:
 <dependency>
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-core</artifactId>
-    <version>${project.version}</version>
+    <version>1.0.4</version>
     <scope>test</scope>
 </dependency>
 ----
@@ -50,7 +50,7 @@ Spring Auto REST Docs has the following minimum requirements:
                 <docletArtifact>
                     <groupId>capital.scalable</groupId>
                     <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                    <version>${project.version}</version>
+                    <version>1.0.4</version>
                 </docletArtifact>
                 <destDir>generated-javadoc-json</destDir>
                 <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory>
