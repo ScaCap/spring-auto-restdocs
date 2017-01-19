@@ -29,9 +29,9 @@ you write even less.
 
 ## Usage
 
-See [Getting started section](https://scacap.github.io/spring-auto-restdocs/#_getting_started) in documentation.
+See [Getting started section](https://scacap.github.io/spring-auto-restdocs/#gettingstarted) in documentation.
 
 ## Building from source
 
-See [Building from source section](https://scacap.github.io/spring-auto-restdocs/#_building_from_source) in documentation.
+See [Building from source section](https://scacap.github.io/spring-auto-restdocs/#contributing-building) in documentation.
 

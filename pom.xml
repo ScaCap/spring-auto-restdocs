@@ -5,7 +5,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-parent</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Spring Auto REST Docs Parent POM</name>
@@ -166,7 +166,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
-                            <homedir>${user.dir}/.gnupg</homedir>
+                            <homedir>${user.home}/.gnupg</homedir>
                         </configuration>
                         <executions>
                             <execution>

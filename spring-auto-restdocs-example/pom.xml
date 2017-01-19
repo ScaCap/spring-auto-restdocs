@@ -13,7 +13,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-example</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
 
     <name>Spring Auto REST Docs Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
