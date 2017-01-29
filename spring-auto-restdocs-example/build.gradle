@@ -1,5 +1,20 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.0.RELEASE'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'spring-boot'
+apply plugin: 'org.asciidoctor.convert'
 
 group = 'capital.scalable'
 version = '1.0.5-SNAPSHOT'
@@ -18,6 +33,7 @@ configurations {
 }
 
 ext {
+    version = '1.0.5-SNAPSHOT'
     snippetsDir = file("$buildDir/generated-snippets")
     javadocJsonDir = file("$buildDir/generated-javadoc-json")
 }
@@ -27,19 +43,19 @@ repositories {
      mavenCentral()
 }
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.4.0.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'1.4.0.RELEASE'
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.0.10.RELEASE'
-    compile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version:'1.0.5-SNAPSHOT'
-    compile group: 'org.springframework.data', name: 'spring-data-commons', version:'1.12.2.RELEASE'
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.4.0.RELEASE') {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2'
+    compile group: 'org.springframework.data', name: 'spring-data-commons'
+    compile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: version
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testCompile group: 'com.jayway.jsonpath', name: 'json-path-assert', version:'2.2.0'
-    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-core', version:'1.1.1.RELEASE'
-    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc', version:'1.1.1.RELEASE'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.16.10'
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version:'1.0.5-SNAPSHOT'
+    testCompile group: 'com.jayway.jsonpath', name: 'json-path-assert'
+    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-core'
+    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc'
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: version
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -56,4 +72,25 @@ test {
     systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
 
     dependsOn jsonDoclet
+}
+
+asciidoctor {
+    sourceDir = file('src/main/asciidoc')
+    outputDir = file("$buildDir/generated-docs")
+    options backend: 'html', doctype: 'book'
+    attributes 'source-highlighter': 'highlightjs', 'snippets': snippetsDir
+
+    dependsOn test
+}
+
+asciidoctor.doLast {
+    copy {
+        from file("$buildDir/generated-docs/html5")
+        into file("$sourceSets.main.output.classesDir/public")
+        include 'index.html'
+    }
+}
+
+jar {
+    dependsOn asciidoctor
 }
