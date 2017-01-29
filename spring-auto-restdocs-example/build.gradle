@@ -13,8 +13,13 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+configurations {
+    jsondoclet
+}
+
 ext {
-    snippetsDirectory = file("$buildDir/generated-snippets")
+    snippetsDir = file("$buildDir/generated-snippets")
+    javadocJsonDir = file("$buildDir/generated-javadoc-json")
 }
 
 repositories {
@@ -34,9 +39,20 @@ dependencies {
     testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-core', version:'1.1.1.RELEASE'
     testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc', version:'1.1.1.RELEASE'
     compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.16.10'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version:'1.0.5-SNAPSHOT'
+}
+
+task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
+    source = sourceSets.main.allJava
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = javadocJsonDir
+    options.docletpath = configurations.jsondoclet.files.asType(List)
+    options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDirectory
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', file("$buildDir/generated-javadoc-json")
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
+
+    dependsOn jsonDoclet
 }
