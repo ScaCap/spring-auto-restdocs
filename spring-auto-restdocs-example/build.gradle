@@ -48,6 +48,7 @@ task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     destinationDir = javadocJsonDir
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
+    options.memberLevel = JavadocMemberLevel.PRIVATE
 }
 
 test {
