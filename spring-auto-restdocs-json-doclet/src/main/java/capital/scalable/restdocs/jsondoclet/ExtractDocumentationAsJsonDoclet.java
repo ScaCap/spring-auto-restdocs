@@ -31,137 +31,55 @@ import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.RootDoc;
+import com.sun.tools.doclets.standard.Standard;
 
 /**
  * JavaDoc to JSON doclet.
  */
-public class ExtractDocumentationAsJsonDoclet {
+public class ExtractDocumentationAsJsonDoclet extends Standard {
 
-    public static boolean start(RootDoc root) throws IOException {
+    public static boolean start(RootDoc root) {
+        String destinationDir = destinationDir(root.options());
         for (ClassDoc classDoc : root.classes()) {
             ClassDocumentation cd = ClassDocumentation.fromClassDoc(classDoc);
-            writeToFile(cd, classDoc);
+            try {
+                writeToFile(destinationDir, cd, classDoc);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new DocletAbortException("Error writing file: " + e);
+            }
         }
         return true;
     }
 
-    private static void writeToFile(ClassDocumentation cd, ClassDoc classDoc) throws IOException {
+    private static String destinationDir(String[][] options) {
+        for (String[] os : options) {
+            String opt = os[0].toLowerCase();
+            if (opt.equals("-d")) {
+                return os[1];
+            }
+        }
+        return null;
+    }
+
+    private static void writeToFile(String destinationDir, ClassDocumentation cd, ClassDoc classDoc)
+            throws IOException {
+        final Path path = path(destinationDir, classDoc);
+        Files.createDirectories(path);
         String fileName = classDoc.name() + ".json";
+        cd.writeToFile(path.resolve(fileName).toFile());
+    }
+
+    private static Path path(String destinationDir, ClassDoc classDoc) {
         String packageName = classDoc.containingPackage().name();
         String packageDir = packageName.replace(".", File.separator);
         Path packagePath = Paths.get(packageDir);
-        Files.createDirectories(packagePath);
-        cd.writeToFile(packagePath.resolve(fileName).toFile());
-    }
-
-    private static class ClassDocumentation {
-        private String comment = "";
-        private Map<String, String> fields = new HashMap<>();
-        private Map<String, MethodDocumentation> methods = new HashMap<>();
-
-        private ClassDocumentation() {
-            // enforce usage of static factory method
+        final Path path;
+        if (destinationDir != null) {
+            path = Paths.get(destinationDir).resolve(packageDir);
+        } else {
+            path = packagePath;
         }
-
-        private static ClassDocumentation fromClassDoc(ClassDoc classDoc) {
-            ClassDocumentation cd = new ClassDocumentation();
-            cd.setComment(classDoc.commentText());
-            for (FieldDoc fieldDoc : classDoc.fields(false)) {
-                cd.addField(fieldDoc.name(), fieldDoc.commentText());
-            }
-            for (MethodDoc methodDoc : classDoc.methods(false)) {
-                cd.addMethod(methodDoc);
-            }
-            return cd;
-        }
-
-        private void setComment(String comment) {
-            this.comment = escape(comment);
-        }
-
-        private void addField(String name, String comment) {
-            this.fields.put(name, escape(comment));
-        }
-
-        private void addMethod(MethodDoc methodDoc) {
-            this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
-        }
-
-        public void writeToFile(File file) {
-            try (FileWriter fw = new FileWriter(file)) {
-                fw.append(toJson());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private String toJson() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("{\"comment\":\"");
-            builder.append(comment);
-            builder.append("\",\"fields\":{");
-            for (Entry<String, String> e : fields.entrySet()) {
-                builder.append("\"");
-                builder.append(e.getKey());
-                builder.append("\":\"");
-                builder.append(e.getValue());
-                builder.append("\",");
-            }
-            if (builder.charAt(builder.length() - 1) == ',') {
-                builder.deleteCharAt(builder.length() - 1);
-            }
-            builder.append("}");
-            builder.append(",\"methods\":{");
-            for (Entry<String, MethodDocumentation> e : methods.entrySet()) {
-                builder.append("\"");
-                builder.append(e.getKey());
-                builder.append("\": ");
-                builder.append(e.getValue().toJson());
-                builder.append(",");
-            }
-            if (builder.charAt(builder.length() - 1) == ',') {
-                builder.deleteCharAt(builder.length() - 1);
-            }
-            builder.append("}}");
-            return builder.toString();
-        }
-    }
-
-    private static class MethodDocumentation {
-        private String comment;
-        private Map<String, String> parameters = new HashMap<>();
-
-        private static MethodDocumentation fromMethodDoc(MethodDoc methodDoc) {
-            MethodDocumentation md = new MethodDocumentation();
-            md.comment = escape(methodDoc.commentText());
-
-            for (ParamTag param : methodDoc.paramTags()) {
-                md.parameters.put(param.parameterName(), escape(param.parameterComment()));
-            }
-            return md;
-        }
-
-        public String toJson() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("{ \"comment\":\"");
-            builder.append(comment);
-            builder.append("\", \"parameters\":{");
-            for (Entry<String, String> e : parameters.entrySet()) {
-                builder.append("\"");
-                builder.append(e.getKey());
-                builder.append("\":\"");
-                builder.append(e.getValue());
-                builder.append("\",");
-            }
-            if (builder.charAt(builder.length() - 1) == ',') {
-                builder.deleteCharAt(builder.length() - 1);
-            }
-            builder.append("}}");
-            return builder.toString();
-        }
-    }
-
-    static String escape(String text) {
-        return text.replace("\"", "\\\"").replace("\n", "\\n");
+        return path;
     }
 }
