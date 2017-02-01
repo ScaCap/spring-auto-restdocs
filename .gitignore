@@ -1,5 +1,6 @@
 # Maven
 target/
+*/generated-javadoc-json
 
 # Eclipse
 .settings/
@@ -15,3 +16,6 @@ target/
 # gedit
 *~
 
+# Gradle
+*/build
+spring-auto-restdocs-example/.gradle
