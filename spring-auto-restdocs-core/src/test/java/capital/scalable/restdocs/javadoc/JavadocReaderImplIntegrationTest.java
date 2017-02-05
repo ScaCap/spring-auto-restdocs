@@ -34,7 +34,7 @@ public class JavadocReaderImplIntegrationTest {
 
         comment = javadocReader.resolveMethodParameterComment(IntegrationType.class, "dummyMethod",
                 "kindaParameter");
-        assertThat(comment, equalTo("manatory param"));
+        assertThat(comment, equalTo("mandatory param"));
     }
 
     /**
@@ -50,7 +50,7 @@ public class JavadocReaderImplIntegrationTest {
         /**
          * Very useful method
          *
-         * @param kindaParameter manatory param
+         * @param kindaParameter mandatory param
          */
         private void dummyMethod(String kindaParameter) {
         }
