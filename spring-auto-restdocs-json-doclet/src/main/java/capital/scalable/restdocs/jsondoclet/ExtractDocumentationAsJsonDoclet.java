@@ -34,7 +34,7 @@ import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 
 /**
- * JavaDoc to JSON doclet.
+ * Javadoc to JSON doclet.
  */
 public class ExtractDocumentationAsJsonDoclet extends Standard {
 

@@ -19,12 +19,12 @@ to the code increases the maintainability of the documentation.
 
 In Spring REST Docs you have to add the documentation for your JSON with
 a DSL in your test. We moved this documentation to the POJO that represents
-your JSON object. You just add JavaDoc to the fields and it will end
+your JSON object. You just add Javadoc to the fields and it will end
 up in the documentation.
 
 Features:
 
-* Jackson visitor that gathers the whole JSON structure and includes JavaDoc
+* Jackson visitor that gathers the whole JSON structure and includes Javadoc
 and constraint annotations on the fields. It works for both request and
 response bodies. In addition to the constraint documentation support that
 is already Spring REST Docs, we automatically include the constraint message
