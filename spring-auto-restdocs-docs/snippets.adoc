@@ -25,7 +25,7 @@ protected RequestPostProcessor userToken() {
 [[snippets-path-parameters]]
 === Path parameter snippet
 
-The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
+The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
 
 .Code
 [source,java,indent=0,role="secondary"]
@@ -50,7 +50,7 @@ public ItemResponse getItem(@PathVariable("id") String id) {
 [[snippets-request-parameters]]
 === Request parameter snippet
 
-The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their JavaDoc.
+The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their Javadoc.
 
 .Code
 [source,java,indent=0,role="secondary"]

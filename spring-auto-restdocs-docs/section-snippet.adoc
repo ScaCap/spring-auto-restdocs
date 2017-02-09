@@ -3,7 +3,7 @@
 
 The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
-Assuming of course that you already documented your code with JavaDoc.
+Assuming of course that you already documented your code with Javadoc.
 
 .Asciidoc
 [source,asciidoc,indent=0,role="secondary"]
@@ -35,7 +35,7 @@ include::../../../spring-auto-restdocs-core/src/main/resources/org/springframewo
 
 | description.adoc
 | Get an item by its ID.
-| `DescriptionSnippet` reads the JavaDoc on the method.
+| `DescriptionSnippet` reads the Javadoc on the method.
 
 | authorization.adoc
 | Resource is public.
@@ -43,19 +43,19 @@ include::../../../spring-auto-restdocs-core/src/main/resources/org/springframewo
 
 | path-parameters.adoc
 | -
-| `PathParametersSnippet` automatically lists parameters in the path including their type, whether they are optional, and their JavaDoc.
+| `PathParametersSnippet` automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
 
 | request-parameters.adoc
 | -
-| `RequestParametersSnippet` automatically lists query parameters including their type, whether they are optional, and their JavaDoc.
+| `RequestParametersSnippet` automatically lists query parameters including their type, whether they are optional, and their Javadoc.
 
 | request-fields.adoc
 | -
-| `JacksonRequestFieldSnippet` automatically lists all fields of the request body including their type, whether they are optional, and their JavaDoc.
+| `JacksonRequestFieldSnippet` automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.
 
 | response-fields.adoc
 | -
-| `JacksonResponseFieldSnippet` automatically lists all fields of the response body including their type, whether they are optional, and their JavaDoc.
+| `JacksonResponseFieldSnippet` automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.
 
 | curl-request.adoc
 | -

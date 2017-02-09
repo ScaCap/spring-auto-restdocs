@@ -66,12 +66,12 @@ public class JavadocReaderImpl implements JavadocReader {
         }
 
         try {
-            File docSource = makeRelativeToConfiguredJavaDocJsonDir(new File(fileName));
+            File docSource = makeRelativeToConfiguredJavadocJsonDir(new File(fileName));
             classJavadoc = mapper
                     .readerFor(ClassJavadoc.class)
                     .readValue(docSource);
         } catch (FileNotFoundException e) {
-            log.warn("No JavaDoc found for {} at {}", clazz.getCanonicalName(), fileName);
+            log.warn("No Javadoc found for {} at {}", clazz.getCanonicalName(), fileName);
             classJavadoc = new ClassJavadoc();
         } catch (IOException e) {
             log.error("Problem reading file {}", fileName, e);
@@ -98,7 +98,7 @@ public class JavadocReaderImpl implements JavadocReader {
         return getClass(javaBaseClass).getMethodParameterComment(javaMethodName, javaParameterName);
     }
 
-    private File makeRelativeToConfiguredJavaDocJsonDir(File outputFile) {
+    private File makeRelativeToConfiguredJavadocJsonDir(File outputFile) {
         if (javadocJsonDir != null) {
             return new File(javadocJsonDir, outputFile.getPath());
         }
