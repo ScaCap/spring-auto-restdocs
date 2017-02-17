@@ -29,6 +29,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public class MethodParameterValidatorConstraintResolverTest {
 
@@ -70,8 +72,8 @@ public class MethodParameterValidatorConstraintResolverTest {
     }
 
     static class ConstraintTest {
-        public void method(@NotNull @Min(value = 1, groups = Create.class) Long index,
-                @NotBlank @OneOf({"one", "two", "three"}) String picker) {
+        public void method(@RequestParam @NotNull @Min(value = 1, groups = Create.class) Long index,
+                @PathVariable @NotBlank @OneOf({"one", "two", "three"}) String picker) {
         }
     }
 }
