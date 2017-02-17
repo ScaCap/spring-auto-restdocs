@@ -608,7 +608,35 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_structure"><a class="anchor" href="#_request_structure"></a>2.1.2. Request structure</h4>
+    <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a>2.1.2. Path parameters</h4>
+    <table class="tableblock frame-all grid-all spread">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Parameter</th>
+            <th class="tableblock halign-left valign-top">Type</th>
+            <th class="tableblock halign-left valign-top">Optional</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.<br>
+                Must be a valid ID</p></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div class="sect3">
+        <h4 id="_request_structure"><a class="anchor" href="#_request_structure"></a>2.1.3. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
@@ -618,7 +646,7 @@ because the template returns "No data." instead of an empty table.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_structure"><a class="anchor" href="#_response_structure"></a>2.1.3. Response structure</h4>
+    <h4 id="_response_structure"><a class="anchor" href="#_response_structure"></a>2.1.4. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -717,7 +745,7 @@ Must be one of [ONE, TWO]</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a>2.1.4. Example request/response</h4>
+    <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a>2.1.5. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
@@ -993,7 +1021,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 68ab515a-4791-4b9d-b12a-ad79d47847a5' -d '{"description":"Hot News"}'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1022,7 +1050,35 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_structure_4"><a class="anchor" href="#_request_structure_4"></a>2.4.2. Request structure</h4>
+    <h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a>2.4.2. Path parameters</h4>
+    <table class="tableblock frame-all grid-all spread">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Parameter</th>
+            <th class="tableblock halign-left valign-top">Type</th>
+            <th class="tableblock halign-left valign-top">Optional</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+                Must be a valid ID</p></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div class="sect3">
+        <h4 id="_request_structure_4"><a class="anchor" href="#_request_structure_4"></a>2.4.3. Request structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1062,7 +1118,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_structure_4"><a class="anchor" href="#_response_structure_4"></a>2.4.3. Response structure</h4>
+    <h4 id="_response_structure_4"><a class="anchor" href="#_response_structure_4"></a>2.4.4. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1161,10 +1217,10 @@ Must be one of [ONE, TWO]</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.4. Example request/response</h4>
+    <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.5. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 68ab515a-4791-4b9d-b12a-ad79d47847a5' -d '{"description":"Hot News"}'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6' -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1201,22 +1257,50 @@ Content-Length: 90
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_structure_5"><a class="anchor" href="#_request_structure_5"></a>2.5.2. Request structure</h4>
+    <h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a>2.5.2. Path parameters</h4>
+    <table class="tableblock frame-all grid-all spread">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Parameter</th>
+            <th class="tableblock halign-left valign-top">Type</th>
+            <th class="tableblock halign-left valign-top">Optional</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID</p></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div class="sect3">
+        <h4 id="_request_structure_5"><a class="anchor" href="#_request_structure_5"></a>2.5.3. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_structure_5"><a class="anchor" href="#_response_structure_5"></a>2.5.3. Response structure</h4>
+    <h4 id="_response_structure_5"><a class="anchor" href="#_response_structure_5"></a>2.5.4. Response structure</h4>
 <div class="paragraph">
 <p>No response body.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.4. Example request/response</h4>
+    <h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.5. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 68ab515a-4791-4b9d-b12a-ad79d47847a5'</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash"
+                                             data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1247,7 +1331,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a>2.6.2. Path parameters</h4>
+    <h4 id="_path_parameters_4"><a class="anchor" href="#_path_parameters_4"></a>2.6.2. Path parameters</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1268,13 +1352,16 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+        Must be a valid ID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.<br>
+        DE: Must be at most 2<br>
+        EN: Must be at least 1</p></td>
 </tr>
 </tbody>
 </table>
@@ -1434,7 +1521,7 @@ Content-Length: 99
 </div>
 </div>
 <div class="sect3">
-<h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a>2.7.2. Path parameters</h4>
+    <h4 id="_path_parameters_5"><a class="anchor" href="#_path_parameters_5"></a>2.7.2. Path parameters</h4>
 <div class="paragraph">
 <p>No parameters.</p>
 </div>
@@ -1461,13 +1548,16 @@ Content-Length: 99
 <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.<br>
+        Size must be between 0 and 255 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.<br>
+        Must be at least 10<br>
+        Must be at most 100</p></td>
 </tr>
 </tbody>
 </table>
@@ -1623,13 +1713,13 @@ Content-Length: 625
   "pageable" : null,
   "total" : 1,
   "totalPages" : 1,
-  "totalElements" : 1,
   "last" : true,
+  "totalElements" : 1,
+  "size" : 0,
+  "number" : 0,
   "sort" : null,
   "numberOfElements" : 1,
-  "first" : true,
-  "size" : 0,
-  "number" : 0
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -1640,7 +1730,7 @@ Content-Length: 625
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-12 22:19:00 CEST
+    Last updated 2016-11-25 17:33:45 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

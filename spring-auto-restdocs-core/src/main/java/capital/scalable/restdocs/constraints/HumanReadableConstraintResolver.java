@@ -28,19 +28,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
+import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
-import org.springframework.restdocs.constraints.ConstraintResolver;
 
-class HumanReadableConstraintResolver implements ConstraintResolver {
+class HumanReadableConstraintResolver implements MethodParameterConstraintResolver {
     private static final Logger log = getLogger(HumanReadableConstraintResolver.class);
 
     private static final String[] IGNORED_FIELDS = new String[]{"groups", "payload"};
 
-    private final ConstraintResolver delegate;
+    private final MethodParameterConstraintResolver delegate;
 
     private final Set<String> ignoredFields;
 
-    public HumanReadableConstraintResolver(ConstraintResolver delegate) {
+    public HumanReadableConstraintResolver(MethodParameterConstraintResolver delegate) {
         this.delegate = delegate;
         this.ignoredFields = new HashSet<>();
         Collections.addAll(this.ignoredFields, IGNORED_FIELDS);
@@ -50,6 +50,16 @@ class HumanReadableConstraintResolver implements ConstraintResolver {
     public List<Constraint> resolveForProperty(String property, Class<?> clazz) {
         List<Constraint> result = new ArrayList<>();
         for (Constraint constraint : delegate.resolveForProperty(property, clazz)) {
+            result.add(new Constraint(constraint.getName(),
+                    extendConfiguration(constraint.getConfiguration())));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Constraint> resolveForParameter(MethodParameter param) {
+        List<Constraint> result = new ArrayList<>();
+        for (Constraint constraint : delegate.resolveForParameter(param)) {
             result.add(new Constraint(constraint.getName(),
                     extendConfiguration(constraint.getConfiguration())));
         }

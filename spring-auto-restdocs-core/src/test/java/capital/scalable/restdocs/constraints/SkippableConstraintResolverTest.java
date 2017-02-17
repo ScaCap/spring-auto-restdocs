@@ -19,6 +19,7 @@ package capital.scalable.restdocs.constraints;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,20 +32,27 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
-import org.springframework.restdocs.constraints.ConstraintResolver;
 
 public class SkippableConstraintResolverTest {
 
     private static final Class<?> CLAZZ = Object.class;
     private static final String PROPERTY = "prop";
 
+    private static final List<Constraint> CONSTRAINTS = asList(
+            new Constraint(NotNull.class.getName(), null),
+            new Constraint(Size.class.getName(), null),
+            new Constraint(NotEmpty.class.getName(), null),
+            new Constraint(Length.class.getName(), null),
+            new Constraint(NotBlank.class.getName(), null));
+
     private SkippableConstraintResolver resolver;
-    private ConstraintResolver delegate;
+    private MethodParameterConstraintResolver delegate;
 
     @Before
     public void setup() {
-        delegate = mock(ConstraintResolver.class);
+        delegate = mock(MethodParameterConstraintResolver.class);
         GroupDescriptionResolver descriptionResolver = mock(GroupDescriptionResolver.class);
         resolver = new SkippableConstraintResolver(delegate, descriptionResolver);
     }
@@ -52,14 +60,18 @@ public class SkippableConstraintResolverTest {
     @Test
     public void testSkippableConstraints() {
         when(delegate.resolveForProperty(PROPERTY, CLAZZ))
-                .thenReturn(asList(new Constraint(NotNull.class.getName(), null),
-                        new Constraint(Size.class.getName(), null),
-                        new Constraint(NotEmpty.class.getName(), null),
-                        new Constraint(Length.class.getName(), null),
-                        new Constraint(NotBlank.class.getName(), null)));
-
+                .thenReturn(CONSTRAINTS);
+        when(delegate.resolveForParameter(any(MethodParameter.class)))
+                .thenReturn(CONSTRAINTS);
 
         List<Constraint> constraints = resolver.resolveForProperty(PROPERTY, CLAZZ);
+        assertConstraints(constraints);
+
+        constraints = resolver.resolveForParameter(mock(MethodParameter.class));
+        assertConstraints(constraints);
+    }
+
+    private void assertConstraints(List<Constraint> constraints) {
         assertThat(constraints.size(), is(2));
         assertThat(constraints.get(0).getName(), is(Size.class.getName()));
         assertThat(constraints.get(1).getName(), is(Length.class.getName()));

@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.join;
 
 import java.util.ArrayList;
@@ -87,7 +88,11 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);
         if (constraints != null && !constraints.isEmpty()) {
-            description += TABLE_LINE_BREAK + join(constraints, TABLE_LINE_BREAK);
+            String constraintMessages = join(constraints, TABLE_LINE_BREAK);
+            if (isNotBlank(description)) {
+                description += TABLE_LINE_BREAK;
+            }
+            description += constraintMessages;
         }
 
         Map<String, Object> model = new HashMap<>();

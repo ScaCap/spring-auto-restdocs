@@ -23,13 +23,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 
+import capital.scalable.restdocs.example.constraints.Id;
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -66,7 +71,7 @@ public class ItemResource {
      * @param id ID of the item.
      */
     @RequestMapping("{id}")
-    public ItemResponse getItem(@PathVariable("id") String id) {
+    public ItemResponse getItem(@PathVariable("id") @Id String id) {
         if ("1".equals(id)) {
             return ITEM;
         } else {
@@ -109,13 +114,13 @@ public class ItemResource {
      * @param itemUpdate Item information.
      */
     @RequestMapping(value = "{id}", method = PUT)
-    public ItemResponse updateItem(@PathVariable("id") String id,
+    public ItemResponse updateItem(@PathVariable("id") @Id String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
         return new ItemResponse(id, itemUpdate.getDescription(), null, null, null);
     }
 
     @RequestMapping(value = "{id}", method = DELETE)
-    public void deleteItem(@PathVariable("id") String id) {
+    public void deleteItem(@PathVariable("id") @Id String id) {
         // Item with the given ID is deleted.
     }
 
@@ -126,8 +131,10 @@ public class ItemResource {
      * @param childId Child ID.
      */
     @RequestMapping("{id}/{child}")
-    public ItemResponse getChild(@PathVariable String id,
-            @PathVariable("child") String childId) {
+    public ItemResponse getChild(@PathVariable @Id String id,
+            @PathVariable("child")
+            @Min(value = 1, groups = English.class)
+            @Max(value = 2, groups = German.class) String childId) {
         if ("1".equals(id) && "child-1".equals(childId)) {
             return CHILD;
         } else {
@@ -142,8 +149,9 @@ public class ItemResource {
      * @param hint      Lookup hint.
      */
     @RequestMapping("search")
-    public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch,
-            @RequestParam(required = false) Integer hint) {
+    public Page<ItemResponse> searchItem(
+            @RequestParam("desc") @NotBlank @Size(max = 255) String descMatch,
+            @RequestParam(required = false) @Min(10) @Max(100) Integer hint) {
         if (ITEM.getDescription().contains(descMatch)) {
             return new PageImpl<>(singletonList(ITEM));
         } else {
