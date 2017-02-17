@@ -864,31 +864,12 @@ Assuming of course that you already documented your code with Javadoc.</p>
 include::{snippets}/{{path}}/method-path.adoc[]
 
 include::{snippets}/{{path}}/description.adoc[]
+{{#sections}}
 
-==== Authorization
+==== {{header}}
 
-include::{snippets}/{{path}}/authorization.adoc[]
-
-==== Path parameters
-
-include::{snippets}/{{path}}/path-parameters.adoc[]
-
-==== Query parameters
-
-include::{snippets}/{{path}}/request-parameters.adoc[]
-
-==== Request structure
-
-include::{snippets}/{{path}}/request-fields.adoc[]
-
-==== Response structure
-
-include::{snippets}/{{path}}/response-fields.adoc[]
-
-==== Example request/response
-
-include::{snippets}/{{path}}/curl-request.adoc[]
-include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
+include::{snippets}/{{path}}/{{fileName}}.adoc[]
+{{/sections}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -1036,7 +1017,7 @@ Here we do a bit more on the following two types:</p>
 <li>
 <p>Array: The elements are extracted and <code>toString()</code> is called
 on each element. The resulting strings are wrapped in brackets
-and separated by commas, i.e. <code>[elemet1.toString(), element2.toString(), &#8230;&#8203;]</code>.</p>
+    and separated by commas, i.e. <code>[element1.toString(), element2.toString(), &#8230;&#8203;]</code>.</p>
 </li>
 <li>
 <p>Class: An instance with the default constructor is created
@@ -1205,7 +1186,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-05 17:41:05 CET
+    Last updated 2017-02-17 17:46:05 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

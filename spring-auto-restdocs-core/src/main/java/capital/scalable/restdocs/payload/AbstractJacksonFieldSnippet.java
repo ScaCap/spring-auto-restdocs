@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static java.util.Collections.singletonList;
@@ -32,6 +33,7 @@ import java.util.Map;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.misc.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -43,14 +45,14 @@ import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.web.method.HandlerMethod;
 
-abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
+abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
 
-    protected AbstractJacksonFieldSnippet(String type) {
-        this(type, null);
+    protected AbstractJacksonFieldSnippet(String snippetName) {
+        this(snippetName, null);
     }
 
-    protected AbstractJacksonFieldSnippet(String type, Map<String, Object> attributes) {
-        super(type + "-fields", attributes);
+    protected AbstractJacksonFieldSnippet(String snippetName, Map<String, Object> attributes) {
+        super(snippetName, attributes);
     }
 
     protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -114,5 +116,15 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
                 fieldDescriptors.put(descriptor.getPath(), descriptor);
             }
         }
+    }
+
+    @Override
+    public String getFileName() {
+        return getSnippetName();
+    }
+
+    @Override
+    public boolean hasContent(Operation operation) {
+        return getType(getHandlerMethod(operation)) != null;
     }
 }

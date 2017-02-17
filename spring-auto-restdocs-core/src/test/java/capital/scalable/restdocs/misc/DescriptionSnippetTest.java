@@ -42,7 +42,6 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
                 .thenReturn("Sample method comment");
 
-        setField(snippet, "expectedName", "description");
         setField(snippet, "expectedType", "description");
         this.snippet.withContents(equalTo("Sample method comment"));
 

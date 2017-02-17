@@ -35,7 +35,6 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        setField(snippet, "expectedName", "simpleRequest");
         setField(snippet, "expectedType", "method-path");
         this.snippet.withContents(equalTo("`POST /test`"));
 

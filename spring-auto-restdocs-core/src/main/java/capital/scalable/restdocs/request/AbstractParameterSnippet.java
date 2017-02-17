@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.request;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.misc.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
@@ -38,7 +40,8 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 import org.springframework.web.method.HandlerMethod;
 
-abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTableSnippet {
+abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTableSnippet
+        implements SectionSupport {
     protected AbstractParameterSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -97,4 +100,20 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected abstract String getPath(A annot);
 
     abstract A getAnnotation(MethodParameter param);
+
+    @Override
+    public String getFileName() {
+        return getSnippetName();
+    }
+
+    @Override
+    public boolean hasContent(Operation operation) {
+        for (MethodParameter param : getHandlerMethod(operation).getMethodParameters()) {
+            A annot = getAnnotation(param);
+            if (annot != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

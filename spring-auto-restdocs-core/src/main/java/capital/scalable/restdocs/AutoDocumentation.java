@@ -17,9 +17,12 @@
 package capital.scalable.restdocs;
 
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
+import capital.scalable.restdocs.misc.CurlRequestSnippet;
 import capital.scalable.restdocs.misc.DescriptionSnippet;
+import capital.scalable.restdocs.misc.HttpRequestSnippet;
+import capital.scalable.restdocs.misc.HttpResponseSnippet;
 import capital.scalable.restdocs.misc.MethodAndPathSnippet;
-import capital.scalable.restdocs.misc.SectionSnippet;
+import capital.scalable.restdocs.misc.SectionBuilder;
 import capital.scalable.restdocs.payload.JacksonRequestFieldSnippet;
 import capital.scalable.restdocs.payload.JacksonResponseFieldSnippet;
 import capital.scalable.restdocs.request.PathParametersSnippet;
@@ -56,10 +59,26 @@ public abstract class AutoDocumentation {
     }
 
     public static Snippet section() {
-        return new SectionSnippet();
+        return new SectionBuilder().build();
+    }
+
+    public static SectionBuilder sectionBuilder() {
+        return new SectionBuilder();
     }
 
     public static Snippet authorization(String defaultAuthorization) {
         return new AuthorizationSnippet(defaultAuthorization);
+    }
+
+    public static Snippet curlRequest() {
+        return new CurlRequestSnippet();
+    }
+
+    public static Snippet httpRequest() {
+        return new HttpRequestSnippet();
+    }
+
+    public static Snippet httpResponse() {
+        return new HttpResponseSnippet();
     }
 }

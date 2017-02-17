@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
+    public static final String REQUEST_PARAMETERS = "request-parameters";
+
     public RequestParametersSnippet() {
-        super("request-parameters", null);
+        super(REQUEST_PARAMETERS, null);
     }
 
     @Override
@@ -37,5 +39,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
 
     protected RequestParam getAnnotation(MethodParameter param) {
         return param.getParameterAnnotation(RequestParam.class);
+    }
+
+    @Override
+    public String getHeader() {
+        return "Query parameters";
     }
 }

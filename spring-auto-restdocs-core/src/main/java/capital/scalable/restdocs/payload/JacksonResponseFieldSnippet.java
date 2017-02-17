@@ -27,8 +27,10 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    public static final String RESPONSE_FIELDS = "response-fields";
+
     public JacksonResponseFieldSnippet() {
-        super("response");
+        super(RESPONSE_FIELDS);
     }
 
     @Override
@@ -46,6 +48,8 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
                     return firstGenericType(method.getReturnType());
                 }
             };
+        } else if ("void".equals(returnType.getName())) {
+            return null;
         } else {
             return returnType;
         }
@@ -58,5 +62,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
         return handlerMethod.getReturnType().getParameterType() == Page.class;
+    }
+
+    @Override
+    public String getHeader() {
+        return "Response structure";
     }
 }

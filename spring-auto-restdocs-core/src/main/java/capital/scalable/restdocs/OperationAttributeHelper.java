@@ -16,8 +16,11 @@
 
 package capital.scalable.restdocs;
 
+import static org.springframework.restdocs.generate.RestDocumentationGenerator
+        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 import static org.springframework.web.servlet.HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE;
 
+import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
@@ -27,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContext;
 import org.springframework.restdocs.operation.Operation;
+import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.web.method.HandlerMethod;
 
 public class OperationAttributeHelper {
@@ -104,4 +108,7 @@ public class OperationAttributeHelper {
                 .put(ConstraintReader.class.getName(), constraintReader);
     }
 
+    public static List<Snippet> getDefaultSnippets(Operation operation) {
+        return (List<Snippet>) operation.getAttributes().get(ATTRIBUTE_NAME_DEFAULT_SNIPPETS);
+    }
 }

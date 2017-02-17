@@ -26,12 +26,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 
-public class AuthorizationSnippet extends TemplatedSnippet {
+public class AuthorizationSnippet extends TemplatedSnippet implements SectionSupport {
 
+    public static final String AUTHORIZATION = "authorization";
     private final String defaultAuthorization;
 
     public AuthorizationSnippet(String defaultAuthorization) {
-        super("authorization", null);
+        super(AUTHORIZATION, null);
         this.defaultAuthorization = defaultAuthorization;
     }
 
@@ -55,5 +56,20 @@ public class AuthorizationSnippet extends TemplatedSnippet {
             String authorization) {
         setAuthorization(request, authorization);
         return request;
+    }
+
+    @Override
+    public String getFileName() {
+        return getSnippetName();
+    }
+
+    @Override
+    public String getHeader() {
+        return "Authorization";
+    }
+
+    @Override
+    public boolean hasContent(Operation operation) {
+        return true; // if this snippet is included, always print at least default value
     }
 }

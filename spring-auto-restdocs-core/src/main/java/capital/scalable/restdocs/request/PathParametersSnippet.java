@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
 
+    public static final String PATH_PARAMETERS = "path-parameters";
+
     public PathParametersSnippet() {
-        super("path-parameters", null);
+        super(PATH_PARAMETERS, null);
     }
 
     @Override
@@ -37,5 +39,10 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
 
     protected PathVariable getAnnotation(MethodParameter param) {
         return param.getParameterAnnotation(PathVariable.class);
+    }
+
+    @Override
+    public String getHeader() {
+        return "Path parameters";
     }
 }

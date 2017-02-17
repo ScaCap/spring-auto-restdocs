@@ -26,8 +26,10 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    public static final String REQUEST_FIELDS = "request-fields";
+
     public JacksonRequestFieldSnippet() {
-        super("request");
+        super(REQUEST_FIELDS);
     }
 
     @Override
@@ -56,5 +58,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
         } else {
             return param.getParameterType();
         }
+    }
+
+    @Override
+    public String getHeader() {
+        return "Request structure";
     }
 }
