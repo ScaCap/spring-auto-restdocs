@@ -98,7 +98,9 @@ public class ItemResourceTest extends MockMvcBase {
 
     @Test
     public void searchItems() throws Exception {
-        mockMvc.perform(get("/items/search?desc=main&hint=1"))
+        mockMvc.perform(get("/items/search")
+                    .param("desc", "main")
+                    .param("hint", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content", hasSize(1)))
