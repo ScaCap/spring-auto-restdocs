@@ -36,13 +36,17 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
+    private final TemplateFormat format;
+
     public JacksonRequestFieldSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
+        this.format = templateFormat;
     }
 
     @Test
@@ -68,7 +72,8 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true", "An integer +\nA constraint"));
+                        .row("field2", "Integer", "true",
+                                "An integer" + lineBreak() + "A constraint"));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -163,6 +168,9 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    private String lineBreak() {
+        return format == TemplateFormats.asciidoctor() ? " +\n" : "<br>";
+    }
 
     private static class TestResource {
 

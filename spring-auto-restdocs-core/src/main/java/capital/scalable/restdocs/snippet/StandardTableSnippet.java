@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.snippet;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTemplateFormat;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static java.util.Collections.emptyList;
@@ -31,11 +32,13 @@ import java.util.Map;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
+import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public abstract class StandardTableSnippet extends TemplatedSnippet {
 
-    private static final String TABLE_LINE_BREAK = " +\n";
+    private static final String LINE_BREAK_ASCIIDOC = " +\n";
+    private static final String LINE_BREAK_MARKDOWN = "<br>";
 
     protected StandardTableSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
@@ -50,7 +53,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
         }
 
-        return createModel(handlerMethod, fieldDescriptors);
+        String lineBreak = determineLineBreak(operation);
+
+        return createModel(handlerMethod, fieldDescriptors, lineBreak);
     }
 
     protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -61,33 +66,34 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod,
-            Collection<FieldDescriptor> fieldDescriptors) {
+            Collection<FieldDescriptor> fieldDescriptors, String lineBreak) {
         Map<String, Object> model = new HashMap<>();
         enrichModel(model, handlerMethod);
 
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("content", fields);
         for (FieldDescriptor descriptor : fieldDescriptors) {
-            fields.add(createModelForDescriptor(descriptor));
+            fields.add(createModelForDescriptor(descriptor, lineBreak));
         }
         model.put("hasContent", !fieldDescriptors.isEmpty());
         model.put("noContent", fieldDescriptors.isEmpty());
         return model;
     }
 
-    protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor) {
+    protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor,
+            String lineBreak) {
         String path = descriptor.getPath();
         String type = stringOrEmpty(descriptor.getType());
         String description = stringOrEmpty(descriptor.getDescription());
 
         List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
                 OPTIONAL_ATTRIBUTE);
-        String optional = "" + join(optionalMessages, TABLE_LINE_BREAK);
+        String optional = "" + join(optionalMessages, lineBreak);
 
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);
         if (constraints != null && !constraints.isEmpty()) {
-            description += TABLE_LINE_BREAK + join(constraints, TABLE_LINE_BREAK);
+            description += lineBreak + join(constraints, lineBreak);
         }
 
         Map<String, Object> model = new HashMap<>();
@@ -104,5 +110,10 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         } else {
             return "";
         }
+    }
+
+    private String determineLineBreak(Operation operation) {
+        return getTemplateFormat(operation) == TemplateFormats.asciidoctor()
+                ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
     }
 }
