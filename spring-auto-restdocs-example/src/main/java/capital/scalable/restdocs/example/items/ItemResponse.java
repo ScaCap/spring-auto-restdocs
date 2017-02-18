@@ -40,7 +40,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @AllArgsConstructor
 class ItemResponse {
     /**
-     * Unique ID. This text comes directly from JavaDoc.
+     * Unique ID. This text comes directly from Javadoc.
      */
     @NotBlank
     private String id;

@@ -15,25 +15,36 @@ Spring Auto REST Docs has the following minimum requirements:
 
 . Setup project for http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#getting-started[Spring REST Docs]
 
-. Configure maven dependency:
+. Additional configuration for this extension:
 +
-[source,xml,indent=0,role="secondary"]
+[source,xml,indent=0,subs="verbatim,attributes",role="primary"]
+.Maven
 ----
 <dependency>
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-core</artifactId>
     <version>1.0.5</version>
-    <scope>test</scope>
+    <scope>test</scope> <1>
 </dependency>
-----
 
-. Configure Maven JavaDoc plugin:
-+
-[source,xml,indent=0,role="secondary"]
-----
 <build>
     <plugins>
-        ...
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+             <configuration>
+                <includes>
+                    <include>**/*Test.java</include>
+                </includes>
+                <systemPropertyVariables>
+                    <org.springframework.restdocs.outputDir>
+                        \${snippetsDirectory}
+                    </org.springframework.restdocs.outputDir>
+                    <org.springframework.restdocs.javadocJsonDir>
+                        \${project.build.directory}/generated-javadoc-json
+                    </org.springframework.restdocs.javadocJsonDir>
+                </systemPropertyVariables>
+             </configuration>
+        </plugin>
         <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
             <extensions>true</extensions>
@@ -62,6 +73,45 @@ Spring Auto REST Docs has the following minimum requirements:
     </plugins>
 </build>
 ----
+<1> Has to be removed if `@RestdocsNotExpanded` is used.
++
+[source,groovy,indent=0,subs="verbatim,attributes",role="secondary"]
+.Gradle
+----
+configurations {
+    jsondoclet
+}
+
+ext {
+    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+}
+
+dependencies {
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <1>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.5'
+}
+
+task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
+    source = sourceSets.main.allJava
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = javadocJsonDir
+    options.docletpath = configurations.jsondoclet.files.asType(List)
+    options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
+    options.memberLevel = JavadocMemberLevel.PACKAGE
+}
+
+test {
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
+
+    dependsOn jsonDoclet
+}
+
+jar {
+    dependsOn asciidoctor
+}
+----
+<1> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
 
 . Configure MockMvc
 +

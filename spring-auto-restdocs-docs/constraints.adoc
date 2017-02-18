@@ -51,7 +51,7 @@ Here we do a bit more on the following two types:
 
 * Array: The elements are extracted and `toString()` is called
 on each element. The resulting strings are wrapped in brackets
-and separated by commas, i.e. `[elemet1.toString(), element2.toString(), ...]`.
+and separated by commas, i.e. `[element1.toString(), element2.toString(), ...]`.
 * Class: An instance with the default constructor is created
 and `toString()` is called on the instance.
 
