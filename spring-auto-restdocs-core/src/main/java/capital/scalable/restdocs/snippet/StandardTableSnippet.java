@@ -113,7 +113,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String determineLineBreak(Operation operation) {
-        return getTemplateFormat(operation) == TemplateFormats.asciidoctor()
+        return getTemplateFormat(operation).getId().equals(TemplateFormats.asciidoctor().getId())
                 ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
     }
 }

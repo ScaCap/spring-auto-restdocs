@@ -42,11 +42,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
-    private final TemplateFormat format;
-
     public JacksonRequestFieldSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
-        this.format = templateFormat;
     }
 
     @Test
@@ -169,7 +166,8 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     }
 
     private String lineBreak() {
-        return format == TemplateFormats.asciidoctor() ? " +\n" : "<br>";
+        return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
+                ? " +\n" : "<br>";
     }
 
     private static class TestResource {
