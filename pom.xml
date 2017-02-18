@@ -15,7 +15,7 @@
     <modules>
         <module>spring-auto-restdocs-json-doclet</module>
         <module>spring-auto-restdocs-core</module>
-        <!--<module>spring-auto-restdocs-example</module>-->
+        <module>spring-auto-restdocs-example</module>
         <module>spring-auto-restdocs-docs</module>
     </modules>
 
@@ -56,7 +56,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <spring-restdocs.version>1.1.2.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>1.2.0.BUILD-SNAPSHOT</spring-restdocs.version>
     </properties>
 
     <build>

@@ -17,10 +17,10 @@
 package capital.scalable.restdocs.misc;
 
 
+import static capital.scalable.restdocs.misc.DescriptionSnippet.DESCRIPTION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Test;
@@ -42,9 +42,8 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
                 .thenReturn("Sample method comment");
 
-        setField(snippet, "expectedName", "description");
-        setField(snippet, "expectedType", "description");
-        this.snippet.withContents(equalTo("Sample method comment"));
+        this.snippets.expect(DESCRIPTION)
+                .withContents(equalTo("Sample method comment"));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

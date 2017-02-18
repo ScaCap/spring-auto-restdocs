@@ -65,7 +65,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectRequestFields().withContents(
+        this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string")
                         .row("field2", "Integer", "true", "An integer +\nA constraint"));
@@ -88,7 +88,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        this.snippet.expectRequestFields().withContents(
+        this.snippets.expectRequestFields().withContents(
                 equalTo("No request body."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
@@ -111,7 +111,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
                 .thenReturn("An integer");
 
-        this.snippet.expectRequestFields().withContents(
+        this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string")
                         .row("[].field2", "Integer", "true", "An integer"));
@@ -146,7 +146,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
-        this.snippet.expectRequestFields().withContents(
+        this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("type", "String", "true", "A type")
                         .row("commonField", "String", "true", "A common field")

@@ -17,8 +17,8 @@
 package capital.scalable.restdocs.misc;
 
 
+import static capital.scalable.restdocs.misc.AuthorizationSnippet.AUTHORIZATION;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
@@ -34,9 +34,8 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void authorization() throws Exception {
         String authorization = "User access token required.";
 
-        setField(snippet, "expectedName", "authorization");
-        setField(snippet, "expectedType", "authorization");
-        this.snippet.withContents(equalTo(authorization));
+        this.snippets.expect(AUTHORIZATION)
+                .withContents(equalTo(authorization));
 
         new AuthorizationSnippet("Resource is public.")
                 .document(operationBuilder
@@ -49,9 +48,8 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void defaultAuthorization() throws Exception {
         String defaultAuthorization = "Resource is public.";
 
-        setField(snippet, "expectedName", "defaultAuthorization");
-        setField(snippet, "expectedType", "authorization");
-        this.snippet.withContents(equalTo(defaultAuthorization));
+        this.snippets.expect(AUTHORIZATION)
+                .withContents(equalTo(defaultAuthorization));
 
         new AuthorizationSnippet(defaultAuthorization)
                 .document(operationBuilder

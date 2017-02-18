@@ -33,6 +33,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippet extends TemplatedSnippet {
 
+    public static final String SECTION = "section";
+
     private final RestDocumentationContextPlaceholderResolverFactory placeholderResolverFactory =
             new RestDocumentationContextPlaceholderResolverFactory();
 
@@ -40,7 +42,7 @@ public class SectionSnippet extends TemplatedSnippet {
             new PropertyPlaceholderHelper("{", "}");
 
     public SectionSnippet() {
-        super("section", null);
+        super(SECTION, null);
     }
 
     @Override

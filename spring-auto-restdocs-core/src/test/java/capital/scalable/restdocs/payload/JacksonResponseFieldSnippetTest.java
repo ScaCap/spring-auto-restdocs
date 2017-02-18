@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.xml.ws.Response;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -68,7 +67,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectResponseFields().withContents(
+        this.snippets.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
@@ -96,7 +95,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
                 .thenReturn("A decimal");
 
-        this.snippet.expectResponseFields().withContents(
+        this.snippets.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("[].field1", "String", "true", "A string")
@@ -119,7 +118,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "noItem");
 
-        this.snippet.expectResponseFields().withContents(
+        this.snippets.expectResponseFields().withContents(
                 equalTo("No response body."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
@@ -149,7 +148,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectResponseFields().withContents(
+        this.snippets.expectResponseFields().withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")
@@ -184,7 +183,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         when(constraintReader.getConstraintMessages(Item.class, "field2"))
                 .thenReturn(singletonList("A constraint"));
 
-        this.snippet.expectResponseFields().withContents(
+        this.snippets.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string")

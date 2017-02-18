@@ -50,7 +50,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet {
     }
 
     protected AbstractJacksonFieldSnippet(String type, Map<String, Object> attributes) {
-        super(type + "-fields", attributes);
+        super(type, attributes);
     }
 
     protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
