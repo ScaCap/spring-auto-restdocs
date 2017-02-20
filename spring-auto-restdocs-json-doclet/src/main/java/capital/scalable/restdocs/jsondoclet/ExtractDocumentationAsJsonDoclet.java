@@ -17,19 +17,12 @@
 package capital.scalable.restdocs.jsondoclet;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.FieldDoc;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 
@@ -67,7 +60,7 @@ public class ExtractDocumentationAsJsonDoclet extends Standard {
         final Path path = path(destinationDir, classDoc);
         Files.createDirectories(path);
         String fileName = classDoc.name() + ".json";
-        cd.writeToFile(path.resolve(fileName).toFile());
+        cd.writeToFile(path.resolve(fileName));
     }
 
     private static Path path(String destinationDir, ClassDoc classDoc) {

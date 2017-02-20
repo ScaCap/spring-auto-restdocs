@@ -16,11 +16,12 @@
 
 package capital.scalable.restdocs;
 
-import static org.springframework.restdocs.generate.RestDocumentationGenerator
-        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
+import static org.springframework.util.ReflectionUtils.findField;
+import static org.springframework.util.ReflectionUtils.getField;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
 import static org.springframework.web.servlet.HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE;
 
-import java.util.List;
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
@@ -30,7 +31,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContext;
 import org.springframework.restdocs.operation.Operation;
-import org.springframework.restdocs.snippet.Snippet;
+import org.springframework.restdocs.snippet.StandardWriterResolver;
+import org.springframework.restdocs.snippet.WriterResolver;
+import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 
 public class OperationAttributeHelper {
@@ -106,6 +109,14 @@ public class OperationAttributeHelper {
             ConstraintReader constraintReader) {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(ConstraintReader.class.getName(), constraintReader);
+    }
+
+    public static TemplateFormat getTemplateFormat(Operation operation) {
+        StandardWriterResolver writerResolver = (StandardWriterResolver) operation.getAttributes()
+                .get(WriterResolver.class.getName());
+        Field field = findField(StandardWriterResolver.class, "templateFormat");
+        makeAccessible(field);
+        return (TemplateFormat) getField(field, writerResolver);
     }
 
     public static List<Snippet> getDefaultSnippets(Operation operation) {
