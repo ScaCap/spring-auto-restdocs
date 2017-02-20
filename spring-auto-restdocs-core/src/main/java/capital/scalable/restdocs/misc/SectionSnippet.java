@@ -19,6 +19,7 @@ package capital.scalable.restdocs.misc;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnippets;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.misc.SnippetRegistry.CLASSIC_SNIPPETS;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.springframework.util.StringUtils.capitalize;
@@ -99,7 +100,8 @@ public class SectionSnippet extends TemplatedSnippet {
                 }
             }
         }
-        return null;
+
+        return CLASSIC_SNIPPETS.get(snippetName);
     }
 
     private String delimit(String value) {

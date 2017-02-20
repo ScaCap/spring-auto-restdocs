@@ -16,12 +16,12 @@
 
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.misc.SnippetRegistry.PATH_PARAMETERS;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
-
-    public static final String PATH_PARAMETERS = "path-parameters";
 
     public PathParametersSnippet() {
         super(PATH_PARAMETERS, null);

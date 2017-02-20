@@ -16,19 +16,21 @@
 
 package capital.scalable.restdocs.misc;
 
-import static capital.scalable.restdocs.misc.AuthorizationSnippet.AUTHORIZATION;
-import static capital.scalable.restdocs.misc.CurlRequestSnippet.CURL_REQUEST;
-import static capital.scalable.restdocs.misc.HttpResponseSnippet.HTTP_RESPONSE;
-import static capital.scalable.restdocs.payload.JacksonRequestFieldSnippet.REQUEST_FIELDS;
-import static capital.scalable.restdocs.payload.JacksonResponseFieldSnippet.RESPONSE_FIELDS;
-import static capital.scalable.restdocs.request.PathParametersSnippet.PATH_PARAMETERS;
-import static capital.scalable.restdocs.request.RequestParametersSnippet.REQUEST_PARAMETERS;
+import static capital.scalable.restdocs.misc.SnippetRegistry.AUTHORIZATION;
+import static capital.scalable.restdocs.misc.SnippetRegistry.CURL_REQUEST;
+import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.misc.SnippetRegistry.PATH_PARAMETERS;
+import static capital.scalable.restdocs.misc.SnippetRegistry.REQUEST_FIELDS;
+import static capital.scalable.restdocs.misc.SnippetRegistry.REQUEST_PARAMETERS;
+import static capital.scalable.restdocs.misc.SnippetRegistry.RESPONSE_FIELDS;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class SectionBuilder {
-    public static final Collection<String> DEFAULT_SECTIONS = Arrays.asList(
+
+    public static final Collection<String> DEFAULT_SNIPPETS = Arrays.asList(
             AUTHORIZATION,
             PATH_PARAMETERS,
             REQUEST_PARAMETERS,
@@ -38,28 +40,47 @@ public class SectionBuilder {
             HTTP_RESPONSE
     );
 
-    private Collection<String> sectionNames = DEFAULT_SECTIONS;
+    private Collection<String> snippetNames = DEFAULT_SNIPPETS;
     private boolean skipEmpty = false;
 
     public SectionBuilder() {
     }
 
-    public SectionBuilder sectionNames(Collection<String> sectionNames) {
-        this.sectionNames = sectionNames;
+    /**
+     * List of snippet names to use in the specified order.
+     *
+     * @param snippetNames snippet names to use; if not specified, {@link #DEFAULT_SNIPPETS} will
+     *                     be used
+     */
+    public SectionBuilder snippetNames(List<String> snippetNames) {
+        this.snippetNames = snippetNames;
         return this;
     }
 
-    public SectionBuilder sectionNames(String... sectionNames) {
-        this.sectionNames = Arrays.asList(sectionNames);
+    /**
+     * Array of snippet names to use in the specified order.
+     *
+     * @param snippetNames snippet names to use; if not specified, {@link #DEFAULT_SNIPPETS} will
+     *                     be used
+     */
+    public SectionBuilder snippetNames(String... sectionNames) {
+        this.snippetNames = Arrays.asList(sectionNames);
         return this;
     }
 
+    /**
+     * If snippet would not generate any output (e.g. endpoint has no path parameters),
+     * than this snippet would not be included in the section.
+     *
+     * @param skipEmpty true if snippets with no content should not be included in the section;
+     *                  false otherwise (default)
+     */
     public SectionBuilder skipEmpty(boolean skipEmpty) {
         this.skipEmpty = skipEmpty;
         return this;
     }
 
     public SectionSnippet build() {
-        return new SectionSnippet(sectionNames, skipEmpty);
+        return new SectionSnippet(snippetNames, skipEmpty);
     }
 }

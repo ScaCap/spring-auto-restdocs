@@ -1,7 +1,7 @@
 [[snippets-section]]
 === Section snippet
 
-The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
+The section snippet combines most common snippets into one convenient file.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with Javadoc.
 
@@ -29,41 +29,84 @@ include::../../../spring-auto-restdocs-core/src/main/resources/org/springframewo
 | Get Item By Id
 | Derived from method name. For example: `getItemById`.
 
-| method-path.adoc
+| {snippets}
+| target/generated-snippets
+| Base snippet folder configured via `org.springframework.restdocs.outputDir` system property.
+
+| {sections}
+| <iterable>
+| Contains all sections (Snippet classes) which were configured to be included in the section snippet. Moustache templater iterates over this and expands into separate header and link lines.
+
+| {header}
+| Authorization
+| Snippet header hard-coded inside Snippet class.
+
+| {fileName}
+| authorization
+| Snippet name hard-coded inside Snippet class.
+
+|===
+
+[[snippets-section-configuration]]
+==== Snippet configuration
+
+By default, these snippets in the following order are linked inside section snippet:
+
+|===
+| Snippet name|Example|Description
+| method-path
 | `POST /items/{id}`
-| `MethodAndPathSnippet` is used to determine the HTTP method and path.
+| (Non-configurable) `MethodAndPathSnippet` is used to determine the HTTP method and path.
 
-| description.adoc
+| description
 | Get an item by its ID.
-| `DescriptionSnippet` reads the Javadoc on the method.
+| (Non-configurable) `DescriptionSnippet` reads the Javadoc on the method.
 
-| authorization.adoc
+| authorization
 | Resource is public.
 | `AuthorizationSnippet` can be used for custom authorization information, e.g. the OAuth role required for the endpoint
 
-| path-parameters.adoc
-| -
+| path-parameters
+| <table>
 | `PathParametersSnippet` automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
 
-| request-parameters.adoc
-| -
+| request-parameters
+| <table>
 | `RequestParametersSnippet` automatically lists query parameters including their type, whether they are optional, and their Javadoc.
 
-| request-fields.adoc
-| -
+| request-fields
+| <table>
 | `JacksonRequestFieldSnippet` automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.
 
-| response-fields.adoc
-| -
+| response-fields
+| <table>
 | `JacksonResponseFieldSnippet` automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.
 
-| curl-request.adoc
-| -
+| curl-request
+| `$ curl 'http://localhost/items/1'`
 | The original `CurlRequestSnippet` from Spring REST Docs is used here to provide a cURL example of the request.
 
-| http-response.adoc
-| -
+| http-response
+| `HTTP/1.1 200 OK +
+   { id: "myId", ... }`
 | The original `HttpResponseSnippet` from Spring REST Docs is used here to provide the HTTP response from the test.
 
 |===
 
+If you want to configure custom sections and thier order, instead of using `AutoDocumentation.section()` you can use
+ `AutoDocumentation.sectionBuilder()` in the following manner:
+
+.Configuring section snippet
+[source,java,indent=0,role="secondary"]
+----
+AutoDocumentation.sectionBuilder()
+    .snippetNames(
+        SnippetRegistry.PATH_PARAMETERS,
+        SnippetRegistry.REQUEST_PARAMETERS,
+        SnippetRegistry.REQUEST_FIELDS,
+        SnippetRegistry.RESPONSE_FIELDS)
+    .skipEmpty(true) <2>
+    .build()
+----
+<1> only selected snippets will be used in the specified order
+<2> if snippets having no content should be skipped from section

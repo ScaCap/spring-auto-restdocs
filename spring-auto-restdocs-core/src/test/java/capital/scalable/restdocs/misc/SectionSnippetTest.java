@@ -17,15 +17,15 @@
 package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.AutoDocumentation.authorization;
-import static capital.scalable.restdocs.AutoDocumentation.curlRequest;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
-import static capital.scalable.restdocs.misc.HttpRequestSnippet.HTTP_REQUEST;
-import static capital.scalable.restdocs.misc.HttpResponseSnippet.HTTP_RESPONSE;
-import static capital.scalable.restdocs.payload.JacksonResponseFieldSnippet.RESPONSE_FIELDS;
+import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_REQUEST;
+import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.misc.SnippetRegistry.RESPONSE_FIELDS;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.generate.RestDocumentationGenerator
         .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
@@ -33,9 +33,9 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import capital.scalable.restdocs.AutoDocumentation;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
+import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 
@@ -56,7 +56,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 "include::{snippets}/noSnippets/description.adoc[]\n"));
 
         new SectionBuilder()
-                .sectionNames()
+                .snippetNames()
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -80,9 +80,9 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 "include::{snippets}/defaultSnippets/path-parameters.adoc[]\n\n" +
                 "==== Query parameters\n\n" +
                 "include::{snippets}/defaultSnippets/request-parameters.adoc[]\n\n" +
-                "==== Request structure\n\n" +
+                "==== Request fields\n\n" +
                 "include::{snippets}/defaultSnippets/request-fields.adoc[]\n\n" +
-                "==== Response structure\n\n" +
+                "==== Response fields\n\n" +
                 "include::{snippets}/defaultSnippets/response-fields.adoc[]\n\n" +
                 "==== Example request\n\n" +
                 "include::{snippets}/defaultSnippets/curl-request.adoc[]\n\n" +
@@ -96,7 +96,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 authorization("Public"), pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
-                                AutoDocumentation.httpResponse()))
+                                HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
     }
@@ -112,21 +112,20 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 "include::{snippets}/customSnippets/description.adoc[]\n\n" +
                 "==== Example response\n\n" +
                 "include::{snippets}/customSnippets/http-response.adoc[]\n\n" +
-                "==== Response structure\n\n" +
+                "==== Response fields\n\n" +
                 "include::{snippets}/customSnippets/response-fields.adoc[]\n\n" +
                 "==== Example request\n\n" +
                 "include::{snippets}/customSnippets/http-request.adoc[]\n"));
 
         new SectionBuilder()
-                .sectionNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST)
+                .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST)
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
-                                AutoDocumentation.httpRequest(),
-                                AutoDocumentation.httpResponse()))
+                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
     }
@@ -155,7 +154,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 authorization("Public"), pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
-                                AutoDocumentation.httpResponse()))
+                                HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
     }

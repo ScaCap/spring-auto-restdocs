@@ -16,12 +16,12 @@
 
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.misc.SnippetRegistry.REQUEST_PARAMETERS;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
-
-    public static final String REQUEST_PARAMETERS = "request-parameters";
 
     public RequestParametersSnippet() {
         super(REQUEST_PARAMETERS, null);

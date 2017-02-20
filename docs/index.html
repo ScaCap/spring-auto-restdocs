@@ -845,7 +845,7 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 <div class="sect2">
 <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
 <div class="paragraph">
-<p>The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
+    <p>The section snippet combines most common snippets into one convenient file.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with Javadoc.</p>
 </div>
@@ -898,52 +898,123 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 <td class="tableblock halign-left valign-top"><p class="tableblock">Derived from method name. For example: <code>getItemById</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">method-path.adoc</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">{snippets}</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">target/generated-snippets</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Base snippet folder configured via <code>org.springframework.restdocs.outputDir</code> system property.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">{sections}</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;iterable&gt;</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Contains all sections (Snippet classes) which were configured to be included in the section snippet. Moustache templater
+        iterates over this and expands into separate header and link lines.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">{header}</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Authorization</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet header hard-coded inside Snippet class.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">{fileName}</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name hard-coded inside Snippet class.</p></td>
+</tr>
+</tbody>
+</table>
+    <div class="sect3">
+        <h4 id="snippets-section-configuration"><a class="link" href="#snippets-section-configuration">Snippet configuration</a></h4>
+        <div class="paragraph">
+            <p>By default, these snippets in the following order are linked inside section snippet:</p>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+            <colgroup>
+                <col style="width: 33%;">
+                <col style="width: 33%;">
+                <col style="width: 33%;">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Example</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">method-path</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST /items/{id}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MethodAndPathSnippet</code> is used to determine the HTTP method and path.</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">(Non-configurable) <code>MethodAndPathSnippet</code> is used to determine the HTTP method and path.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">description.adoc</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get an item by its ID.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DescriptionSnippet</code> reads the Javadoc on the method.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">(Non-configurable) <code>DescriptionSnippet</code> reads the Javadoc on the method.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">authorization.adoc</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Resource is public.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AuthorizationSnippet</code> can be used for custom authorization information, e.g. the OAuth role required for the endpoint</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path-parameters.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">path-parameters</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PathParametersSnippet</code> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">request-parameters.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">request-parameters</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>RequestParametersSnippet</code> automatically lists query parameters including their type, whether they are optional, and their Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">request-fields.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">request-fields</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JacksonRequestFieldSnippet</code> automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">response-fields.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">response-fields</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JacksonResponseFieldSnippet</code> automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">curl-request.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">curl-request</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ curl 'http://localhost/items/1'</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The original <code>CurlRequestSnippet</code> from Spring REST Docs is used here to provide a cURL example of the request.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">http-response.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">http-response</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock"><code>HTTP/1.1 200 OK<br>
+        { id: "myId", &#8230;&#8203; }</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The original <code>HttpResponseSnippet</code> from Spring REST Docs is used here to provide the HTTP response from the test.</p></td>
 </tr>
 </tbody>
 </table>
+        <div class="paragraph">
+            <p>If you want to configure custom sections and thier order, instead of using <code>AutoDocumentation.section()</code> you can use
+                <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
+        </div>
+        <div class="listingblock secondary">
+            <div class="title">Configuring section snippet</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">AutoDocumentation.sectionBuilder()
+    .snippetNames(
+        SnippetRegistry.PATH_PARAMETERS,
+        SnippetRegistry.REQUEST_PARAMETERS,
+        SnippetRegistry.REQUEST_FIELDS,
+        SnippetRegistry.RESPONSE_FIELDS)
+    .skipEmpty(true) <i class="conum" data-value="2"></i><b>(2)</b>
+    .build()</code></pre>
+            </div>
+        </div>
+        <div class="colist arabic">
+            <table>
+                <tr>
+                    <td><i class="conum" data-value="1"></i><b>1</b></td>
+                    <td>only selected snippets will be used in the specified order</td>
+                </tr>
+                <tr>
+                    <td><i class="conum" data-value="2"></i><b>2</b></td>
+                    <td>if snippets having no content should be skipped from section</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 </div>
 </div>
@@ -1186,7 +1257,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-02-17 17:46:05 CET
+    Last updated 2017-02-20 18:36:03 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
