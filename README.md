@@ -1,6 +1,7 @@
 # Spring Auto REST Docs
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build Status](https://travis-ci.org/ScaCap/spring-auto-restdocs.svg?branch=master)](https://travis-ci.org/ScaCap/spring-auto-restdocs)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/)
 
 **Full documentation at https://scacap.github.io/spring-auto-restdocs**
 
