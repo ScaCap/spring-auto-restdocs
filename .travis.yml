@@ -25,7 +25,6 @@ before_script:
 script:
   - mvn test -B
   - cd spring-auto-restdocs-example
-  - mvn test -B
   - ./gradlew check
 
 branches:
