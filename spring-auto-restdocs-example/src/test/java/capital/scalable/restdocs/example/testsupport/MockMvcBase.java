@@ -23,6 +23,7 @@ import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
+import static capital.scalable.restdocs.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.misc.AuthorizationSnippet.documentAuthorization;
 import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors
@@ -49,8 +50,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.Filter;
 
-import capital.scalable.restdocs.AutoDocumentation;
-import capital.scalable.restdocs.misc.SnippetRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -110,14 +109,7 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                AutoDocumentation.sectionBuilder()
-                                        .snippetNames(
-                                                SnippetRegistry.PATH_PARAMETERS,
-                                                SnippetRegistry.REQUEST_PARAMETERS,
-                                                SnippetRegistry.REQUEST_FIELDS,
-                                                SnippetRegistry.RESPONSE_FIELDS)
-                                        .build()
-                                , authorization(DEFAULT_AUTHORIZATION)))
+                                section(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }
 
