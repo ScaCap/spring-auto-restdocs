@@ -17,7 +17,6 @@
 package capital.scalable.restdocs.constraints;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,10 +54,10 @@ public class MethodParameterValidatorConstraintResolver extends ValidatorConstra
 
     private Object getAnnotValue(Annotation annot, Method method) {
         try {
-            return method.invoke(annot, (Object[]) null);
-        } catch (IllegalAccessException e) {
-        } catch (InvocationTargetException e) {
+            return method.invoke(annot);
+        } catch (Exception e) {
+            // do not fail on error, just return null as the value of the field
+            return null;
         }
-        return null;
     }
 }
