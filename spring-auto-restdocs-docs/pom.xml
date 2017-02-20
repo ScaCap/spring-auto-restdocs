@@ -52,6 +52,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <escapeString>\</escapeString>
                             <outputDirectory>${project.build.directory}/adoc</outputDirectory>
                             <resources>
                                 <resource>
