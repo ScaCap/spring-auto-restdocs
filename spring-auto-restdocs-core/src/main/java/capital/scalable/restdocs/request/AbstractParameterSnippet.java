@@ -32,7 +32,7 @@ import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
-import capital.scalable.restdocs.misc.SectionSupport;
+import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;

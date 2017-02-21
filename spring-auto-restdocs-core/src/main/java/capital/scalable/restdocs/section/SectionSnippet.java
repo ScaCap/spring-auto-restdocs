@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.misc;
+package capital.scalable.restdocs.section;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnippets;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.misc.SnippetRegistry.CLASSIC_SNIPPETS;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.springframework.util.StringUtils.capitalize;
@@ -30,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.SnippetRegistry;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
 import org.springframework.restdocs.snippet.Snippet;
@@ -101,7 +101,7 @@ public class SectionSnippet extends TemplatedSnippet {
             }
         }
 
-        return CLASSIC_SNIPPETS.get(snippetName);
+        return SnippetRegistry.getClassicSnippet(snippetName);
     }
 
     private String delimit(String value) {

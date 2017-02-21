@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.misc;
+package capital.scalable.restdocs.section;
 
 import org.springframework.restdocs.operation.Operation;
 

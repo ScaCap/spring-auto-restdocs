@@ -18,7 +18,7 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
-import static capital.scalable.restdocs.misc.SnippetRegistry.DESCRIPTION;
+import static capital.scalable.restdocs.SnippetRegistry.DESCRIPTION;
 
 import java.util.HashMap;
 import java.util.Map;

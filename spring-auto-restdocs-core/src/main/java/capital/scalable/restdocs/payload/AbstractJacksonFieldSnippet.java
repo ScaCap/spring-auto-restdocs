@@ -33,7 +33,7 @@ import java.util.Map;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.javadoc.JavadocReader;
-import capital.scalable.restdocs.misc.SectionSupport;
+import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JsonMappingException;

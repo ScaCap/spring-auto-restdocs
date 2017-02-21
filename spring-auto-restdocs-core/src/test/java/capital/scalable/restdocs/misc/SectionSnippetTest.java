@@ -21,9 +21,9 @@ import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
-import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_REQUEST;
-import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_RESPONSE;
-import static capital.scalable.restdocs.misc.SnippetRegistry.RESPONSE_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.HTTP_REQUEST;
+import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.generate.RestDocumentationGenerator
@@ -33,6 +33,7 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import capital.scalable.restdocs.section.SectionBuilder;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;

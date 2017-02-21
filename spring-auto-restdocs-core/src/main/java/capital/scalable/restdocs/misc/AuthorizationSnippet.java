@@ -18,11 +18,12 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getAuthorization;
 import static capital.scalable.restdocs.OperationAttributeHelper.setAuthorization;
-import static capital.scalable.restdocs.misc.SnippetRegistry.AUTHORIZATION;
+import static capital.scalable.restdocs.SnippetRegistry.AUTHORIZATION;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import capital.scalable.restdocs.section.SectionSupport;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.TemplatedSnippet;

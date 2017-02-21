@@ -1,8 +1,9 @@
-package capital.scalable.restdocs.misc;
+package capital.scalable.restdocs;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import capital.scalable.restdocs.section.SectionSupport;
 import org.springframework.restdocs.operation.Operation;
 
 public class SnippetRegistry {
@@ -18,7 +19,7 @@ public class SnippetRegistry {
     public static final String HTTP_RESPONSE = "http-response";
     public static final String HTTPIE_REQUEST = "httpie-request";
 
-    public static final Map<String, SectionSupport> CLASSIC_SNIPPETS;
+    private static final Map<String, SectionSupport> CLASSIC_SNIPPETS;
 
     static {
         CLASSIC_SNIPPETS = new HashMap<>();
@@ -26,6 +27,10 @@ public class SnippetRegistry {
         CLASSIC_SNIPPETS.put(HTTPIE_REQUEST, section(HTTPIE_REQUEST, "Example request", true));
         CLASSIC_SNIPPETS.put(HTTP_REQUEST, section(HTTP_REQUEST, "Example request", true));
         CLASSIC_SNIPPETS.put(HTTP_RESPONSE, section(HTTP_RESPONSE, "Example response", true));
+    }
+
+    public static SectionSupport getClassicSnippet(String snippetName) {
+        return CLASSIC_SNIPPETS.get(snippetName);
     }
 
     private static SectionSupport section(String snippetName, String header, boolean hasContent) {

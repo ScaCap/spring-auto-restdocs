@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.misc;
-
-import static capital.scalable.restdocs.misc.SnippetRegistry.AUTHORIZATION;
-import static capital.scalable.restdocs.misc.SnippetRegistry.CURL_REQUEST;
-import static capital.scalable.restdocs.misc.SnippetRegistry.HTTP_RESPONSE;
-import static capital.scalable.restdocs.misc.SnippetRegistry.PATH_PARAMETERS;
-import static capital.scalable.restdocs.misc.SnippetRegistry.REQUEST_FIELDS;
-import static capital.scalable.restdocs.misc.SnippetRegistry.REQUEST_PARAMETERS;
-import static capital.scalable.restdocs.misc.SnippetRegistry.RESPONSE_FIELDS;
+package capital.scalable.restdocs.section;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import capital.scalable.restdocs.SnippetRegistry;
+
 public class SectionBuilder {
 
     public static final Collection<String> DEFAULT_SNIPPETS = Arrays.asList(
-            AUTHORIZATION,
-            PATH_PARAMETERS,
-            REQUEST_PARAMETERS,
-            REQUEST_FIELDS,
-            RESPONSE_FIELDS,
-            CURL_REQUEST,
-            HTTP_RESPONSE
+            SnippetRegistry.AUTHORIZATION,
+            SnippetRegistry.PATH_PARAMETERS,
+            SnippetRegistry.REQUEST_PARAMETERS,
+            SnippetRegistry.REQUEST_FIELDS,
+            SnippetRegistry.RESPONSE_FIELDS,
+            SnippetRegistry.CURL_REQUEST,
+            SnippetRegistry.HTTP_RESPONSE
     );
 
     private Collection<String> snippetNames = DEFAULT_SNIPPETS;
