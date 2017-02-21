@@ -24,19 +24,18 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
-import org.springframework.restdocs.constraints.ConstraintResolver;
 
-class SkippableConstraintResolver implements ConstraintResolver {
+class SkippableConstraintResolver implements MethodParameterConstraintResolver {
     public static final Class<?>[] MANDATORY_VALUE_ANNOTATIONS =
             {NotNull.class, NotEmpty.class, NotBlank.class};
 
-    private final ConstraintResolver delegate;
-    private GroupDescriptionResolver descriptionResolver;
-
+    private final MethodParameterConstraintResolver delegate;
+    private final GroupDescriptionResolver descriptionResolver;
     private final Collection<String> skippableConstraints;
 
-    public SkippableConstraintResolver(ConstraintResolver delegate,
+    public SkippableConstraintResolver(MethodParameterConstraintResolver delegate,
             GroupDescriptionResolver descriptionResolver) {
         this.delegate = delegate;
         this.descriptionResolver = descriptionResolver;
@@ -54,6 +53,17 @@ class SkippableConstraintResolver implements ConstraintResolver {
     public List<Constraint> resolveForProperty(String property, Class<?> clazz) {
         List<Constraint> result = new ArrayList<>();
         for (Constraint constraint : delegate.resolveForProperty(property, clazz)) {
+            if (isSkippable(constraint))
+                continue;
+            result.add(constraint);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Constraint> resolveForParameter(MethodParameter parameter) {
+        List<Constraint> result = new ArrayList<>();
+        for (Constraint constraint : delegate.resolveForParameter(parameter)) {
             if (isSkippable(constraint))
                 continue;
             result.add(constraint);

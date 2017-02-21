@@ -29,14 +29,13 @@ import static org.springframework.util.ReflectionUtils.findField;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
-import org.springframework.restdocs.constraints.ConstraintResolver;
 import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
-import org.springframework.restdocs.constraints.ValidatorConstraintResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
     private ConstraintAndGroupDescriptionResolver constraintDescriptionResolver =
@@ -44,10 +43,11 @@ public class ConstraintReaderImpl implements ConstraintReader {
                     new ResourceBundleConstraintDescriptionResolver());
 
     private final SkippableConstraintResolver skippableConstraintResolver =
-            new SkippableConstraintResolver(new ValidatorConstraintResolver(),
+            new SkippableConstraintResolver(
+                    new MethodParameterValidatorConstraintResolver(),
                     constraintDescriptionResolver);
 
-    private ConstraintResolver constraintResolver =
+    private MethodParameterConstraintResolver constraintResolver =
             new HumanReadableConstraintResolver(skippableConstraintResolver);
 
     @Override
@@ -72,7 +72,14 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     @Override
     public List<String> getConstraintMessages(MethodParameter param) {
-        return new ArrayList<>(); // TODO method parameter constraints
+        List<Constraint> constraints = constraintResolver.resolveForParameter(param);
+        List<String> constraintMessages = new ArrayList<>();
+        for (Constraint constraint : constraints) {
+            constraintMessages.add(
+                    constraintDescriptionResolver.resolveDescription(constraint));
+        }
+        Collections.sort(constraintMessages);
+        return constraintMessages;
     }
 
     private List<String> getEnumConstraintMessage(Class<?> javaBaseClass, String javaFieldName) {
