@@ -28,8 +28,10 @@ import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippet extends TemplatedSnippet {
 
+    public static final String DESCRIPTION = "description";
+
     public DescriptionSnippet() {
-        super("description", null);
+        super(DESCRIPTION, null);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
 
         Map<String, Object> model = new HashMap<>();
-        model.put("description", methodComment);
+        model.put(DESCRIPTION, methodComment);
         return model;
     }
 }

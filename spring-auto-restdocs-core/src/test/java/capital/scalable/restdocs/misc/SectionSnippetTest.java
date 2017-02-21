@@ -16,8 +16,8 @@
 
 package capital.scalable.restdocs.misc;
 
+import static capital.scalable.restdocs.misc.SectionSnippet.SECTION;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
@@ -34,25 +34,25 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     public void itemsId() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
 
-        setField(snippet, "expectedName", "itemsId");
-        setField(snippet, "expectedType", "section");
-        this.snippet.withContents(equalTo("[[resources-itemsId]]\n" +
-                "=== Get Item By Id\n\n" +
-                "include::{snippets}/itemsId/method-path.adoc[]\n\n" +
-                "include::{snippets}/itemsId/description.adoc[]\n\n" +
-                "==== Authorization\n\n" +
-                "include::{snippets}/itemsId/authorization.adoc[]\n\n" +
-                "==== Path parameters\n\n" +
-                "include::{snippets}/itemsId/path-parameters.adoc[]\n\n" +
-                "==== Query parameters\n\n" +
-                "include::{snippets}/itemsId/request-parameters.adoc[]\n\n" +
-                "==== Request structure\n\n" +
-                "include::{snippets}/itemsId/request-fields.adoc[]\n\n" +
-                "==== Response structure\n\n" +
-                "include::{snippets}/itemsId/response-fields.adoc[]\n\n" +
-                "==== Example request/response\n\n" +
-                "include::{snippets}/itemsId/curl-request.adoc[]\n" +
-                "include::{snippets}/itemsId/http-response.adoc[]\n"));
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-itemsId]]\n" +
+                        "=== Get Item By Id\n\n" +
+                        "include::{snippets}/itemsId/method-path.adoc[]\n\n" +
+                        "include::{snippets}/itemsId/description.adoc[]\n\n" +
+                        "==== Authorization\n\n" +
+                        "include::{snippets}/itemsId/authorization.adoc[]\n\n" +
+                        "==== Path parameters\n\n" +
+                        "include::{snippets}/itemsId/path-parameters.adoc[]\n\n" +
+                        "==== Query parameters\n\n" +
+                        "include::{snippets}/itemsId/request-parameters" +
+                        ".adoc[]\n\n" +
+                        "==== Request structure\n\n" +
+                        "include::{snippets}/itemsId/request-fields.adoc[]\n\n" +
+                        "==== Response structure\n\n" +
+                        "include::{snippets}/itemsId/response-fields.adoc[]\n\n" +
+                        "==== Example request/response\n\n" +
+                        "include::{snippets}/itemsId/curl-request.adoc[]\n" +
+                        "include::{snippets}/itemsId/http-response.adoc[]\n"));
 
         new SectionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
