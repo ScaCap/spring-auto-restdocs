@@ -20,6 +20,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,17 +30,17 @@ import java.util.Map;
 import org.apache.commons.collections.map.HashedMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
-import org.springframework.restdocs.constraints.ConstraintResolver;
 
 public class HumanReadableConstraintResolverTest {
     private HumanReadableConstraintResolver resolver;
-
-    private ConstraintResolver delegate;
+    private MethodParameterConstraintResolver delegate;
 
     @Before
     public void setup() {
-        delegate = mock(ConstraintResolver.class);
+        delegate = mock(MethodParameterConstraintResolver.class);
         resolver = new HumanReadableConstraintResolver(delegate);
     }
 
@@ -58,10 +59,17 @@ public class HumanReadableConstraintResolverTest {
 
         when(delegate.resolveForProperty("prop", this.getClass()))
                 .thenReturn(singletonList(constraint));
-        // when
-        List<Constraint> constraints = resolver.resolveForProperty("prop", this.getClass());
+        when(delegate.resolveForParameter(any(MethodParameter.class)))
+                .thenReturn(singletonList(constraint));
 
-        // then
+        List<Constraint> constraints = resolver.resolveForProperty("prop", this.getClass());
+        assertConstraints(constraints);
+
+        constraints = resolver.resolveForParameter(Mockito.mock(MethodParameter.class));
+        assertConstraints(constraints);
+    }
+
+    private void assertConstraints(List<Constraint> constraints) {
         assertThat(constraints.size(), is(1));
         assertThat(constraints.get(0).getConfiguration().size(), is(7));
         assertThat(constraints.get(0).getConfiguration().get("primitive").toString(), is("1"));

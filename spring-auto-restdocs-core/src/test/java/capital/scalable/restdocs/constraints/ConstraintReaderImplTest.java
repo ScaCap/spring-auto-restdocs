@@ -27,6 +27,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
+import org.springframework.core.MethodParameter;
 
 public class ConstraintReaderImplTest {
 
@@ -135,6 +137,20 @@ public class ConstraintReaderImplTest {
         assertThat(messages.get(0), is("false"));
     }
 
+    @Test
+    public void getParameterConstraintMessages() throws NoSuchMethodException {
+        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class);
+
+        List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
+        assertThat(messages.size(), is(2));
+        assertThat(messages.get(0), is("Must be at least 1 (create)"));
+        assertThat(messages.get(1), is("Must be at most 2 (update)"));
+
+        messages = reader.getConstraintMessages(new MethodParameter(method, 1));
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [all, single]"));
+    }
+
     static class Constraintz {
         @NotBlank
         private String name;
@@ -176,5 +192,15 @@ public class ConstraintReaderImplTest {
     enum Enum2 {A, B}
 
     interface UnresolvedGroup {
+    }
+
+    static class MethodTest {
+        public void exec(
+                @NotNull
+                @Min(value = 1, groups = Create.class)
+                @Max(value = 2, groups = Update.class) Integer count,
+                @NotBlank
+                @OneOf({"all", "single"}) String type) {
+        }
     }
 }

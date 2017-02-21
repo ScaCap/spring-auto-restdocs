@@ -89,8 +89,16 @@ public abstract class MockMvcBase {
 
     @Rule
     public final JUnitRestDocumentation restDocumentation =
-            new JUnitRestDocumentation(
-                    System.getProperties().getProperty("org.springframework.restdocs.outputDir"));
+            new JUnitRestDocumentation(resolveOutputDir());
+
+    private String resolveOutputDir() {
+        String outputDir = System.getProperties().getProperty(
+                "org.springframework.restdocs.outputDir");
+        if (outputDir == null) {
+            outputDir = "target/generated-snippets";
+        }
+        return outputDir;
+    }
 
     @Before
     public void setUp() throws Exception {

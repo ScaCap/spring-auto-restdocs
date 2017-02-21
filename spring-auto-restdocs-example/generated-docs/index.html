@@ -439,9 +439,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#resources-items-get">2.1. Get an item</a></li>
 <li><a href="#resources-items-all">2.2. Get all item</a></li>
-    <li><a href="#resources-item-resource-test-add-item">2.3. Add Item</a></li>
-    <li><a href="#resources-item-resource-test-update-item">2.4. Update Item</a></li>
-    <li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
+<li><a href="#resources-items-add">2.3. Add an item</a></li>
+<li><a href="#resources-items-update">2.4. Update an item</a></li>
+<li><a href="#resources-items-delete">2.5. Delete an item</a></li>
 <li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
 <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
 </ul>
@@ -608,7 +608,35 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a>2.1.2. Request fields</h4>
+    <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a>2.1.2. Path parameters</h4>
+    <table class="tableblock frame-all grid-all spread">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Parameter</th>
+            <th class="tableblock halign-left valign-top">Type</th>
+            <th class="tableblock halign-left valign-top">Optional</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.<br>
+                Must be a valid ID</p></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div class="sect3">
+        <h4 id="_request_structure"><a class="anchor" href="#_request_structure"></a>2.1.3. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
@@ -618,7 +646,7 @@ because the template returns "No data." instead of an empty table.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields"><a class="anchor" href="#_response_fields"></a>2.1.3. Response fields</h4>
+    <h4 id="_response_structure"><a class="anchor" href="#_response_structure"></a>2.1.4. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -717,7 +745,7 @@ Must be one of [ONE, TWO]</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a>2.1.4. Example request/response</h4>
+    <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a>2.1.5. Example request/response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
@@ -726,13 +754,13 @@ Must be one of [ONE, TWO]</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Type: application/json;charset=UTF-8
 Content-Length: 378
 
 {
@@ -777,13 +805,13 @@ Content-Length: 378
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a>2.2.2. Request fields</h4>
+<h4 id="_request_structure_2"><a class="anchor" href="#_request_structure_2"></a>2.2.2. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_2"><a class="anchor" href="#_response_fields_2"></a>2.2.3. Response fields</h4>
+<h4 id="_response_structure_2"><a class="anchor" href="#_response_structure_2"></a>2.2.3. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -894,13 +922,13 @@ Must be one of [ONE, TWO]</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Type: application/json;charset=UTF-8
 Content-Length: 483
 
 [ {
@@ -933,27 +961,18 @@ Content-Length: 483
 </div>
 </div>
 <div class="sect2">
-    <h3 id="resources-item-resource-test-add-item"><a class="anchor" href="#resources-item-resource-test-add-item"></a>2.3. Add Item</h3>
+<h3 id="resources-items-add"><a class="anchor" href="#resources-items-add"></a>2.3. Add an item</h3>
 <div class="paragraph">
 <p><code>POST /items</code></p>
 </div>
-    <div class="paragraph">
-        <p>Adds new item.</p>
-    </div>
 <div class="sect3">
-    <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a>2.3.1. Path parameters</h4>
+<h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a>2.3.1. Authorization</h4>
 <div class="paragraph">
-    <p>No parameters.</p>
+<p>User access token required.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_query_parameters"><a class="anchor" href="#_query_parameters"></a>2.3.2. Query parameters</h4>
-    <div class="paragraph">
-        <p>No parameters.</p>
-    </div>
-</div>
-    <div class="sect3">
-        <h4 id="_request_fields_3"><a class="anchor" href="#_request_fields_3"></a>2.3.3. Request fields</h4>
+<h4 id="_request_structure_3"><a class="anchor" href="#_request_structure_3"></a>2.3.2. Request structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -993,22 +1012,45 @@ Size must be between 0 and 1000 inclusive</p></td>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_3"><a class="anchor" href="#_response_fields_3"></a>2.3.4. Response fields</h4>
+<h4 id="_response_structure_3"><a class="anchor" href="#_response_structure_3"></a>2.3.3. Response structure</h4>
 <div class="paragraph">
 <p>No response body.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a>2.3.4. Example request/response</h4>
+<div class="listingblock">
+<div class="content">
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6' -d '{"description":"Hot News"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Location: /items/2
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-    <h3 id="resources-item-resource-test-update-item"><a class="anchor" href="#resources-item-resource-test-update-item"></a>2.4. Update Item</h3>
+<h3 id="resources-items-update"><a class="anchor" href="#resources-items-update"></a>2.4. Update an item</h3>
 <div class="paragraph">
 <p><code>PUT /items/{id}</code></p>
 </div>
-    <div class="paragraph">
-        <p>Updates existing item.</p>
-    </div>
 <div class="sect3">
-    <h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a>2.4.1. Path parameters</h4>
+<h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a>2.4.1. Authorization</h4>
+<div class="paragraph">
+<p>User access token required.</p>
+</div>
+</div>
+<div class="sect3">
+    <h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a>2.4.2. Path parameters</h4>
     <table class="tableblock frame-all grid-all spread">
         <colgroup>
             <col style="width: 25%;">
@@ -1029,19 +1071,14 @@ Size must be between 0 and 1000 inclusive</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-            <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+                Must be a valid ID</p></td>
         </tr>
         </tbody>
     </table>
 </div>
     <div class="sect3">
-        <h4 id="_query_parameters_2"><a class="anchor" href="#_query_parameters_2"></a>2.4.2. Query parameters</h4>
-<div class="paragraph">
-    <p>No parameters.</p>
-</div>
-</div>
-<div class="sect3">
-    <h4 id="_request_fields_4"><a class="anchor" href="#_request_fields_4"></a>2.4.3. Request fields</h4>
+        <h4 id="_request_structure_4"><a class="anchor" href="#_request_structure_4"></a>2.4.3. Request structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1081,7 +1118,7 @@ Size must be between 0 and 1000 inclusive</p></td>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_4"><a class="anchor" href="#_response_fields_4"></a>2.4.4. Response fields</h4>
+    <h4 id="_response_structure_4"><a class="anchor" href="#_response_structure_4"></a>2.4.4. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1179,14 +1216,48 @@ Must be one of [ONE, TWO]</p></td>
 </tbody>
 </table>
 </div>
+<div class="sect3">
+    <h4 id="_example_request_response_4"><a class="anchor" href="#_example_request_response_4"></a>2.4.5. Example request/response</h4>
+<div class="listingblock">
+<div class="content">
+    <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6' -d '{"description":"Hot News"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 90
+
+{
+  "id" : "1",
+  "attributes" : null,
+  "children" : null,
+  "description" : "Hot News"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-    <h3 id="resources-item-resource-test-delete-item"><a class="anchor" href="#resources-item-resource-test-delete-item"></a>2.5. Delete Item</h3>
+<h3 id="resources-items-delete"><a class="anchor" href="#resources-items-delete"></a>2.5. Delete an item</h3>
 <div class="paragraph">
 <p><code>DELETE /items/{id}</code></p>
 </div>
 <div class="sect3">
-    <h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a>2.5.1. Path parameters</h4>
+<h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a>2.5.1. Authorization</h4>
+<div class="paragraph">
+<p>User access token required.</p>
+</div>
+</div>
+<div class="sect3">
+    <h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a>2.5.2. Path parameters</h4>
     <table class="tableblock frame-all grid-all spread">
         <colgroup>
             <col style="width: 25%;">
@@ -1207,27 +1278,41 @@ Must be one of [ONE, TWO]</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
             <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-            <td class="tableblock halign-left valign-top"></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID</p></td>
         </tr>
         </tbody>
     </table>
 </div>
     <div class="sect3">
-        <h4 id="_query_parameters_3"><a class="anchor" href="#_query_parameters_3"></a>2.5.2. Query parameters</h4>
-<div class="paragraph">
-    <p>No parameters.</p>
-</div>
-</div>
-<div class="sect3">
-    <h4 id="_request_fields_5"><a class="anchor" href="#_request_fields_5"></a>2.5.3. Request fields</h4>
+        <h4 id="_request_structure_5"><a class="anchor" href="#_request_structure_5"></a>2.5.3. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_5"><a class="anchor" href="#_response_fields_5"></a>2.5.4. Response fields</h4>
+    <h4 id="_response_structure_5"><a class="anchor" href="#_response_structure_5"></a>2.5.4. Response structure</h4>
 <div class="paragraph">
 <p>No response body.</p>
+</div>
+</div>
+<div class="sect3">
+    <h4 id="_example_request_response_5"><a class="anchor" href="#_example_request_response_5"></a>2.5.5. Example request/response</h4>
+<div class="listingblock">
+<div class="content">
+    <pre class="highlightjs highlight"><code class="language-bash"
+                                             data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 05dd7b73-7c2f-42bd-a71b-21ffc6527ec6'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1240,7 +1325,13 @@ Must be one of [ONE, TWO]</p></td>
 <p>Retrieves a child of specified item.</p>
 </div>
 <div class="sect3">
-    <h4 id="_path_parameters_4"><a class="anchor" href="#_path_parameters_4"></a>2.6.1. Path parameters</h4>
+<h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a>2.6.1. Authorization</h4>
+<div class="paragraph">
+<p>Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+    <h4 id="_path_parameters_4"><a class="anchor" href="#_path_parameters_4"></a>2.6.2. Path parameters</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1261,31 +1352,34 @@ Must be one of [ONE, TWO]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+        Must be a valid ID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.<br>
+        DE: Must be at most 2<br>
+        EN: Must be at least 1</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_query_parameters_4"><a class="anchor" href="#_query_parameters_4"></a>2.6.2. Query parameters</h4>
+<h4 id="_query_parameters"><a class="anchor" href="#_query_parameters"></a>2.6.3. Query parameters</h4>
 <div class="paragraph">
 <p>No parameters.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_request_fields_6"><a class="anchor" href="#_request_fields_6"></a>2.6.3. Request fields</h4>
+<h4 id="_request_structure_6"><a class="anchor" href="#_request_structure_6"></a>2.6.4. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_6"><a class="anchor" href="#_response_fields_6"></a>2.6.4. Response fields</h4>
+<h4 id="_response_structure_6"><a class="anchor" href="#_response_structure_6"></a>2.6.5. Response structure</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1383,6 +1477,34 @@ Must be one of [ONE, TWO]</p></td>
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_example_request_response_6"><a class="anchor" href="#_example_request_response_6"></a>2.6.6. Example request/response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 99
+
+{
+  "id" : "child-1",
+  "attributes" : null,
+  "children" : null,
+  "description" : "first child"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="resources-item-resource-test-search"><a class="anchor" href="#resources-item-resource-test-search"></a>2.7. Search Item</h3>
@@ -1393,13 +1515,19 @@ Must be one of [ONE, TWO]</p></td>
 <p>Searches for item based on lookup parameters.</p>
 </div>
 <div class="sect3">
-    <h4 id="_path_parameters_5"><a class="anchor" href="#_path_parameters_5"></a>2.7.1. Path parameters</h4>
+<h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a>2.7.1. Authorization</h4>
+<div class="paragraph">
+<p>Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+    <h4 id="_path_parameters_5"><a class="anchor" href="#_path_parameters_5"></a>2.7.2. Path parameters</h4>
 <div class="paragraph">
 <p>No parameters.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_query_parameters_5"><a class="anchor" href="#_query_parameters_5"></a>2.7.2. Query parameters</h4>
+<h4 id="_query_parameters_2"><a class="anchor" href="#_query_parameters_2"></a>2.7.3. Query parameters</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1420,25 +1548,28 @@ Must be one of [ONE, TWO]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.<br>
+        Size must be between 0 and 255 inclusive</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.<br>
+        Must be at least 10<br>
+        Must be at most 100</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_request_fields_7"><a class="anchor" href="#_request_fields_7"></a>2.7.3. Request fields</h4>
+<h4 id="_request_structure_7"><a class="anchor" href="#_request_structure_7"></a>2.7.4. Request structure</h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_7"><a class="anchor" href="#_response_fields_7"></a>2.7.4. Response fields</h4>
+<h4 id="_response_structure_7"><a class="anchor" href="#_response_structure_7"></a>2.7.5. Response structure</h4>
 <div class="paragraph">
 <p>Standard <a href="#overview-pagination">paging</a> response where <code>content</code> field is list of following objects:</p>
 </div>
@@ -1538,6 +1669,60 @@ Must be one of [ONE, TWO]</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_response_7"><a class="anchor" href="#_example_request_response_7"></a>2.7.6. Example request/response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1?desc=main&amp;hint=1' -i</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 625
+
+{
+  "content" : [ {
+    "id" : "1",
+    "custom1" : "meta1",
+    "custom2" : 22,
+    "attributes" : {
+      "text" : "first item",
+      "number" : 1,
+      "bool" : true,
+      "decimal" : 1.11,
+      "amount" : "3.14 EUR",
+      "enumType" : "ONE"
+    },
+    "children" : [ {
+      "id" : "child-1",
+      "attributes" : null,
+      "children" : null,
+      "description" : "first child"
+    } ],
+    "description" : "main item"
+  } ],
+  "pageable" : null,
+  "total" : 1,
+  "totalPages" : 1,
+  "last" : true,
+  "totalElements" : 1,
+  "size" : 0,
+  "number" : 0,
+  "sort" : null,
+  "numberOfElements" : 1,
+  "first" : true
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>

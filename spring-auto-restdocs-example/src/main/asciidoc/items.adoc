@@ -10,6 +10,10 @@
 
 include::{snippets}/item-resource-test/get-item/authorization.adoc[]
 
+==== Path parameters
+
+include::{snippets}/item-resource-test/get-item/path-parameters.adoc[]
+
 ==== Request fields
 
 include::{snippets}/item-resource-test/get-item/request-fields.adoc[]
