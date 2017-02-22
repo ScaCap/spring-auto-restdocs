@@ -26,6 +26,15 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    private static Class<?> SCALA_TRAVERSABLE;
+
+    static {
+        try {
+            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
+        } catch (ClassNotFoundException ignored) {
+        }
+    }
+
     public JacksonRequestFieldSnippet() {
         super("request");
     }
@@ -45,7 +54,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private Type getType(final MethodParameter param) {
-        if (param.getParameterType() == List.class) {
+        if (param.getParameterType() == List.class || (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(param.getParameterType()))) {
             return new GenericArrayType() {
 
                 @Override
