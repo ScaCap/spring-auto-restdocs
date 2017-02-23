@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -28,7 +30,7 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public JacksonResponseFieldSnippet() {
-        super("response");
+        super(RESPONSE_FIELDS);
     }
 
     @Override
@@ -46,6 +48,8 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
                     return firstGenericType(method.getReturnType());
                 }
             };
+        } else if ("void".equals(returnType.getName())) {
+            return null;
         } else {
             return returnType;
         }
@@ -58,5 +62,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
         return handlerMethod.getReturnType().getParameterType() == Page.class;
+    }
+
+    @Override
+    public String getHeader() {
+        return "Response fields";
     }
 }

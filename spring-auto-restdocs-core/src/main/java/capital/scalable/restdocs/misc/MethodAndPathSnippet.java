@@ -18,6 +18,7 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getRequestMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getRequestPattern;
+import static capital.scalable.restdocs.SnippetRegistry.METHOD_PATH;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 public class MethodAndPathSnippet extends TemplatedSnippet {
 
     public MethodAndPathSnippet() {
-        super("method-path", null);
+        super(METHOD_PATH, null);
     }
 
     @Override

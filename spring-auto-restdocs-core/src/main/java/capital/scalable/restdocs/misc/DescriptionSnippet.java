@@ -18,6 +18,7 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.SnippetRegistry.DESCRIPTION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ import org.springframework.web.method.HandlerMethod;
 public class DescriptionSnippet extends TemplatedSnippet {
 
     public DescriptionSnippet() {
-        super("description", null);
+        super(DESCRIPTION, null);
     }
 
     @Override
