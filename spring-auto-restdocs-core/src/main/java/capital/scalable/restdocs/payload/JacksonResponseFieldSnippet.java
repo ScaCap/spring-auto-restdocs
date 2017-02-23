@@ -29,6 +29,15 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    private static Class<?> SCALA_TRAVERSABLE;
+
+    static {
+        try {
+            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
+        } catch (ClassNotFoundException ignored) {
+        }
+    }
+
     public JacksonResponseFieldSnippet() {
         super(RESPONSE_FIELDS);
     }
@@ -40,7 +49,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (returnType == Page.class) {
             return firstGenericType(method.getReturnType());
-        } else if (returnType == List.class) {
+        } else if (returnType == List.class || (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(returnType))) {
             return new GenericArrayType() {
 
                 @Override
