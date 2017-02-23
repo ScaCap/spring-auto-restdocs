@@ -71,9 +71,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("field1", "String", "false", "A string")
+                                .row("field1", "String", "false", "A string.")
                                 .row("field2", "Decimal", "true",
-                                        "A decimal" + lineBreak() + "A constraint")));
+                                        "A decimal." + lineBreak() + "A constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -100,8 +100,8 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("[].field1", "String", "true", "A string")
-                                .row("[].field2", "Decimal", "true", "A decimal")));
+                                .row("[].field1", "String", "true", "A string.")
+                                .row("[].field2", "Decimal", "true", "A decimal.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -153,9 +153,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectResponseFields().withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("field1", "String", "false", "A string")
+                                .row("field1", "String", "false", "A string.")
                                 .row("field2", "Decimal", "true",
-                                        "A decimal" + lineBreak() + "A constraint")));
+                                        "A decimal." + lineBreak() + "A constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -189,9 +189,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         this.snippet.expectResponseFields().withContents(
                 tableWithPrefix("\n",
                         tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("field1", "String", "false", "A string")
+                                .row("field1", "String", "false", "A string.")
                                 .row("field2", "Decimal", "true",
-                                        "A decimal" + lineBreak() + "A constraint")));
+                                        "A decimal." + lineBreak() + "A constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

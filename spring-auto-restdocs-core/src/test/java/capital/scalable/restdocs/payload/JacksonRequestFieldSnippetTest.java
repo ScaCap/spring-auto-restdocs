@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
@@ -36,7 +37,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
@@ -57,7 +57,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         when(javadocReader.resolveFieldComment(Item.class, "field1"))
                 .thenReturn("A string");
         when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("An integer");
+                .thenReturn("An integer<br>\n Very important\n <p>\n field");
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
         when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
@@ -68,9 +68,11 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         this.snippet.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "A string")
-                        .row("field2", "Integer", "true",
-                                "An integer" + lineBreak() + "A constraint"));
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer" + lineBreak()
+                                + "Very important" + lineBreak() + lineBreak()
+                                + "field." + lineBreak()
+                                + "A constraint."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -115,8 +117,8 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         this.snippet.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("[].field1", "String", "true", "A string")
-                        .row("[].field2", "Integer", "true", "An integer"));
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Integer", "true", "An integer."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -150,10 +152,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
         this.snippet.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("type", "String", "true", "A type")
-                        .row("commonField", "String", "true", "A common field")
-                        .row("subItem1Field", "Boolean", "true", "A sub item 1 field")
-                        .row("subItem2Field", "Integer", "true", "A sub item 2 field"));
+                        .row("type", "String", "true", "A type.")
+                        .row("commonField", "String", "true", "A common field.")
+                        .row("subItem1Field", "Boolean", "true", "A sub item 1 field.")
+                        .row("subItem2Field", "Integer", "true", "A sub item 2 field."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -166,8 +168,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     }
 
     private String lineBreak() {
-        return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
-                ? " +\n" : "<br>";
+        return determineLineBreak(templateFormat);
     }
 
     private static class TestResource {
