@@ -20,7 +20,6 @@ import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -28,15 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
-
-    private static Class<?> SCALA_TRAVERSABLE;
-
-    static {
-        try {
-            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
-        } catch (ClassNotFoundException ignored) {
-        }
-    }
 
     public JacksonResponseFieldSnippet() {
         super(RESPONSE_FIELDS);
@@ -49,7 +39,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (returnType == Page.class) {
             return firstGenericType(method.getReturnType());
-        } else if (returnType == List.class || (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(returnType))) {
+        } else if (isCollection(returnType)) {
             return new GenericArrayType() {
 
                 @Override

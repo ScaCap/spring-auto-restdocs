@@ -47,6 +47,16 @@ import org.springframework.web.method.HandlerMethod;
 
 abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
 
+    private static Class<?> SCALA_TRAVERSABLE;
+
+    static {
+        try {
+            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
+        } catch (ClassNotFoundException ignored) {
+            // It's fine to not be available outside of Scala projects.
+        }
+    }
+
     protected AbstractJacksonFieldSnippet(String snippetName) {
         this(snippetName, null);
     }
@@ -86,6 +96,11 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     protected abstract Type getType(HandlerMethod method);
+
+    protected boolean isCollection(Class<?> type) {
+        return Collection.class.isAssignableFrom(type) ||
+                (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
+    }
 
     private Collection<Type> resolveActualTypes(Type type) {
 
