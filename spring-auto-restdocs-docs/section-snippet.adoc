@@ -115,11 +115,11 @@ AutoDocumentation.sectionBuilder()
 <1> only selected snippets will be used in the specified order
 <2> whether snippets having no content should be skipped from section
 
-==== Custom snippet in section
+==== Custom snippet
 
 Custom snippets are created by subclassing a link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
 (or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]). If you want your custom
- snippet to be included in section and automatically recognised header and include link (file name),
+ snippet to be part of section snippet and automatically recognised header and include link (file name),
  you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.
  Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration's
  builder `withDefaults(...)` and include snippet name among SectionBuilder's `snippetNames(...)`.
