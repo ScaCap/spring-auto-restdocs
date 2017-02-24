@@ -10,15 +10,15 @@ It helps you being even more lazy, because a single line of AsciiDoc is sufficie
 Assuming of course that you already documented your code with Javadoc.
 
 .Asciidoc
-[source,asciidoc,indent=0,role="secondary"]
+[source,asciidoc]
 ----
 \include::{snippets}/your-endpoint/section.adoc[]
 ----
 
 .Template itself
-[source,asciidoc,indent=0,role="secondary"]
+[source,asciidoc]
 ----
-include::{core-dir}/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+include::../../../spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
 ----
 
 .Template placeholders
@@ -60,51 +60,53 @@ By default, these snippets in the following order are linked inside section snip
 | Snippet name|Example|Description
 | method-path
 | `POST /items/{id}`
-| (Non-configurable) link:{core-package}/misc/MethodAndPathSnippet.java[MethodAndPathSnippet] is used to determine the HTTP method and path.
+| <<snippets-method-path>> is used to determine the HTTP method and path (non-configurable).
 
 | description
-| Get an item by its ID.
-| (Non-configurable) link:{core-package}/misc/DescriptionSnippet.java[DescriptionSnippet] reads the Javadoc on the method.
+| Get item by ID.
+| <<snippets-description>> reads the Javadoc on the method (non-configurable).
 
 | authorization
 | Resource is public.
-| link:{core-package}/misc/AuthorizationSnippet.java[AuthorizationSnippet] can be used for custom authorization information, e.g. the OAuth role required for the endpoint
+| <<snippets-authorization>> can be used for custom authorization information, e.g. the OAuth role required for the endpoint
 
 | path-parameters
 | <table>
-| link:{core-package}/request/PathParametersSnippet.java[PathParametersSnippet] automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
+| <<snippets-path-parameters>> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
 
 | request-parameters
 | <table>
-| link:{core-package}/request/RequestParametersSnippet.java[RequestParametersSnippet] automatically lists query parameters including their type, whether they are optional, and their Javadoc.
+| <<snippets-request-parameters>> automatically lists query parameters including their type, whether they are optional, and their Javadoc.
 
 | request-fields
 | <table>
-| link:{core-package}/payload/JacksonRequestFieldSnippet.java[JacksonRequestFieldSnippet] automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.
+| <<snippets-request-fields>> automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.
 
 | response-fields
 | <table>
-| link:{core-package}/payload/JacksonResponseFieldSnippet.java[JacksonResponseFieldSnippet] automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.
+| <<snippets-response-fields>> automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.
 
 | curl-request
 | `$ curl 'http://localhost/items/1'`
-| The original link:{restdocs-package}/cli/CurlRequestSnippet.java[CurlRequestSnippet] from Spring REST Docs is used here to provide a cURL example of the request.
+| The original link:{restdocs-package}/cli/CurlRequestSnippet.java[Curl request snippet] from Spring REST Docs is used here to provide a cURL example of the request.
 
 | http-response
 | `HTTP/1.1 200 OK +
    { id: "myId", ... }`
-| The original link:{restdocs-package}/http/HttpResponseSnippet.java[HttpResponseSnippet] from Spring REST Docs is used here to provide the HTTP response from the test.
+| The original link:{restdocs-package}/http/HttpResponseSnippet.java[Http response snippet] from Spring REST Docs is used here to provide the HTTP response from the test.
 
 |===
+
+==== Customisation options
 
 If you want to configure custom sections and their order, instead of using `AutoDocumentation.section()` you can use
  `AutoDocumentation.sectionBuilder()` in the following manner:
 
 .Configuring section snippet
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 AutoDocumentation.sectionBuilder()
-    .snippetNames(
+    .snippetNames( <1>
         SnippetRegistry.PATH_PARAMETERS,
         SnippetRegistry.REQUEST_PARAMETERS,
         SnippetRegistry.REQUEST_FIELDS,
@@ -114,12 +116,3 @@ AutoDocumentation.sectionBuilder()
 ----
 <1> only selected snippets will be used in the specified order
 <2> whether snippets having no content should be skipped from section
-
-==== Custom snippet
-
-Custom snippets are created by subclassing a link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
-(or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]). If you want your custom
- snippet to be part of section snippet and automatically recognised header and include link (file name),
- you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.
- Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration's
- builder `withDefaults(...)` and include snippet name among SectionBuilder's `snippetNames(...)`.

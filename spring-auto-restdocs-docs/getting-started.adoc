@@ -17,7 +17,7 @@ Spring Auto REST Docs has the following minimum requirements:
 
 . Additional configuration for this extension:
 +
-[source,xml,indent=0,subs="verbatim,attributes",role="primary"]
+[source,xml]
 .Maven
 ----
 <dependency>
@@ -75,7 +75,7 @@ Spring Auto REST Docs has the following minimum requirements:
 ----
 <1> Has to be removed if `@RestdocsNotExpanded` is used.
 +
-[source,groovy,indent=0,subs="verbatim,attributes",role="secondary"]
+[source,javascript]
 .Gradle
 ----
 configurations {
@@ -115,7 +115,7 @@ jar {
 
 . Configure MockMvc
 +
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 @Autowired
 private WebApplicationContext context;
