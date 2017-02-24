@@ -119,6 +119,15 @@ public class ItemResource {
         return new ItemResponse(id, itemUpdate.getDescription(), null, null, null);
     }
 
+    /**
+     * Deletes item.
+     * <br>
+     * Item must exist.
+     * <p>
+     * Non existing items are ignored
+     *
+     * @param id
+     */
     @RequestMapping(value = "{id}", method = DELETE)
     public void deleteItem(@PathVariable("id") @Id String id) {
         // Item with the given ID is deleted.

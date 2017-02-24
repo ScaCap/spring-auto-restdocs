@@ -16,13 +16,14 @@
 
 package capital.scalable.restdocs.snippet;
 
+import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getTemplateFormat;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static java.util.Collections.emptyList;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,13 +34,9 @@ import java.util.Map;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
-import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public abstract class StandardTableSnippet extends TemplatedSnippet {
-
-    private static final String LINE_BREAK_ASCIIDOC = " +\n";
-    private static final String LINE_BREAK_MARKDOWN = "<br>";
 
     protected StandardTableSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
@@ -84,8 +81,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor,
             String lineBreak) {
         String path = descriptor.getPath();
-        String type = stringOrEmpty(descriptor.getType());
-        String description = stringOrEmpty(descriptor.getDescription());
+        String type = toString(descriptor.getType());
+        String description = convertFromJavadoc(toString(descriptor.getDescription()), lineBreak);
 
         List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
                 OPTIONAL_ATTRIBUTE);
@@ -93,13 +90,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);
-        if (constraints != null && !constraints.isEmpty()) {
-            String constraintMessages = join(constraints, lineBreak);
-            if (isNotBlank(description)) {
-                description += lineBreak;
-            }
-            description += constraintMessages;
-        }
+
+        description = joinAndFormat(lineBreak, description, constraints);
 
         Map<String, Object> model = new HashMap<>();
         model.put("path", path);
@@ -109,16 +101,33 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String stringOrEmpty(Object value) {
+    private String toString(Object value) {
         if (value != null) {
-            return value.toString();
+            return trimToEmpty(value.toString());
         } else {
             return "";
         }
     }
 
-    private String determineLineBreak(Operation operation) {
-        return getTemplateFormat(operation).getId().equals(TemplateFormats.asciidoctor().getId())
-                ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
+    private String joinAndFormat(String lineBreak, String description, List<String> constraints) {
+        StringBuilder str = new StringBuilder(description);
+        if (!description.isEmpty() && !description.endsWith(".")) {
+            str.append('.');
+        }
+
+        for (String constraint : constraints) {
+            if (constraint.trim().isEmpty()) {
+                continue;
+            }
+            if (str.length() > 0) {
+                str.append(lineBreak);
+            }
+            str.append(constraint.trim());
+            if (!constraint.endsWith(".")) {
+                str.append('.');
+            }
+        }
+
+        return str.toString();
     }
 }
