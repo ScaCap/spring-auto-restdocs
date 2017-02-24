@@ -111,16 +111,19 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
     private String joinAndFormat(String lineBreak, String description, List<String> constraints) {
         StringBuilder str = new StringBuilder(description);
-        if (str.length() > 0 && str.charAt(str.length() - 1) != '.') {
+        if (!description.isEmpty() && !description.endsWith(".")) {
             str.append('.');
         }
 
         for (String constraint : constraints) {
+            if (constraint.trim().isEmpty()) {
+                continue;
+            }
             if (str.length() > 0) {
                 str.append(lineBreak);
             }
             str.append(constraint.trim());
-            if (constraint.charAt(constraint.length() - 1) != '.') {
+            if (!constraint.endsWith(".")) {
                 str.append('.');
             }
         }
