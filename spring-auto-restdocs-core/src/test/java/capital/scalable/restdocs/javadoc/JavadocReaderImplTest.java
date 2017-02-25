@@ -20,6 +20,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
+import java.nio.file.Path;
+
 import org.junit.Test;
 
 public class JavadocReaderImplTest {
@@ -29,21 +32,30 @@ public class JavadocReaderImplTest {
 
     @Test
     public void resolveFieldComment() {
-        JavadocReader javadocReader = new JavadocReaderImpl(SOURCE_DIR);
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
+        assertThat(comment, equalTo("Simple field comment"));
+    }
+
+    @Test
+    public void resolveFieldCommentAcrossDirectories() {
+        String nonExistentDir = new File(SOURCE_DIR, "does-not-exist").getPath();
+        String javadocDirs = nonExistentDir + ";" + SOURCE_DIR;
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(javadocDirs);
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
         assertThat(comment, equalTo("Simple field comment"));
     }
 
     @Test
     public void resolveMethodComment() {
-        JavadocReader javadocReader = new JavadocReaderImpl(SOURCE_DIR);
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodComment(SimpleType.class, "simpleMethod");
         assertThat(comment, equalTo("Simple method comment"));
     }
 
     @Test
     public void resolveMethodParameterComment() {
-        JavadocReader javadocReader = new JavadocReaderImpl(SOURCE_DIR);
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
                 "simpleMethod", "simpleParameter");
         assertThat(comment, equalTo("Simple parameter comment"));
@@ -51,7 +63,7 @@ public class JavadocReaderImplTest {
 
     @Test
     public void jsonFileDoesNotExist() {
-        JavadocReader javadocReader = new JavadocReaderImpl(SOURCE_DIR);
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
 
         // json file for class does not exist
         String comment = javadocReader.resolveFieldComment(NotExisting.class, "simpleField2");
@@ -65,7 +77,7 @@ public class JavadocReaderImplTest {
 
     @Test
     public void jsonNotDocumented() {
-        JavadocReader javadocReader = new JavadocReaderImpl(SOURCE_DIR);
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
 
         // json file exists but field/method/parameter is not present
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField2");
