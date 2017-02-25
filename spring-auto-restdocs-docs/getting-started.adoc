@@ -40,7 +40,7 @@ Spring Auto REST Docs has the following minimum requirements:
                         \${snippetsDirectory}
                     </org.springframework.restdocs.outputDir>
                     <org.springframework.restdocs.javadocJsonDir>
-                        \${project.build.directory}/generated-javadoc-json
+                        \${project.build.directory}/generated-javadoc-json <2>
                     </org.springframework.restdocs.javadocJsonDir>
                 </systemPropertyVariables>
              </configuration>
@@ -74,6 +74,8 @@ Spring Auto REST Docs has the following minimum requirements:
 </build>
 ----
 <1> Has to be removed if `@RestdocsNotExpanded` is used.
+<2> Multiple directories can be listed by separating them with `;`.
+The directories are processed in order and only the first found JSON file is used.
 +
 [source,groovy,indent=0,subs="verbatim,attributes",role="secondary"]
 .Gradle
@@ -83,11 +85,11 @@ configurations {
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <1>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <1>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <2>
     jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.5'
 }
 
@@ -111,7 +113,9 @@ jar {
     dependsOn asciidoctor
 }
 ----
-<1> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
+<1> Multiple directories can be listed by separating them with `;`.
+The directories are processed in order and only the first found JSON file is used.
+<2> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
 
 . Configure MockMvc
 +
@@ -167,4 +171,3 @@ public void setUp() throws Exception {
 https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project] includes a sample application that demonstrates most features:
 
 The generated documentation of the example project can be viewed https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
-
