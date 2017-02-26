@@ -31,6 +31,8 @@ Learn more in the [Introducing Spring Auto REST Docs](https://dzone.com/articles
 * Automatic documentation of field and parameter constraints
 * A helper to document authentication.
 * A snippet that includes all other snippets.
+* Shorten JSON arrays in example requests and responses.
+* Replace binary example requests and responses with `<binary>`.
 
 ## Usage
 
