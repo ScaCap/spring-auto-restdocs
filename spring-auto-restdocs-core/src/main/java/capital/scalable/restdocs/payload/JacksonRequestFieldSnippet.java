@@ -20,22 +20,12 @@ import static capital.scalable.restdocs.SnippetRegistry.REQUEST_FIELDS;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
-
-    private static Class<?> SCALA_TRAVERSABLE;
-
-    static {
-        try {
-            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
-        } catch (ClassNotFoundException ignored) {
-        }
-    }
 
     public JacksonRequestFieldSnippet() {
         super(REQUEST_FIELDS);
@@ -56,7 +46,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private Type getType(final MethodParameter param) {
-        if (param.getParameterType() == List.class || (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(param.getParameterType()))) {
+        if (isCollection(param.getParameterType())) {
             return new GenericArrayType() {
 
                 @Override
