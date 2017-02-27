@@ -15,7 +15,7 @@ We use version ${spring-restdocs.version} of Spring REST Docs in this example.
 You find the currently required version in `pom.xml`:
 
 .Maven
-[source,xml,indent=0,role="secondary"]
+[source,xml]
 ----
 <dependency>
     <groupId>org.springframework.restdocs</groupId>
@@ -29,7 +29,7 @@ You find the currently required version in `pom.xml`:
 Clone and build a specific version of Spring REST Docs:
 
 .Bash
-[source,bash,indent=0,role="secondary"]
+[source,bash]
 ----
 git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
@@ -48,7 +48,7 @@ so that the test JAR is available to Maven.
 ==== Build
 
 .Bash (in root folder)
-[source,bash,indent=0,role="secondary"]
+[source,bash]
 ----
 mvn install
 ----

@@ -30,7 +30,7 @@ For more details, see original documentation of http://docs.spring.io/spring-res
 Example for the constraint annotation `myproject.constraints.OneOf`:
 
 .ConstraintDescriptions.properties
-[source,ini,indent=0,role="secondary"]
+[source,ini]
 ----
 myproject.constraints.OneOf.description=Must be one of ${value}
 ----
@@ -69,7 +69,7 @@ The descriptions are provided in the same way as for custom constraints.
 ===== Descriptions for the examples
 
 .ConstraintDescriptions.properties
-[source,ini,indent=0,role="secondary"]
+[source,ini]
 ----
 myproject.constraints.groups.German.description=DE: ${value}
 myproject.constraints.groups.English.description=EN: ${value}
@@ -80,7 +80,7 @@ myproject.constraints.OneOf.description=Must be one of ${value}
 ===== Optionality description
 
 .Code
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 @NotNull(groups = English.class)
 private String field;
@@ -102,7 +102,7 @@ EN: false
 ===== Field description example
 
 .Code
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 @OneOf(value = {"big", "small"}, groups = English.class)
 private String field;
