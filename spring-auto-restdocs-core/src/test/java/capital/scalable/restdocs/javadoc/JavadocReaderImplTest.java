@@ -21,7 +21,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.nio.file.Path;
 
 import org.junit.Test;
 
@@ -40,10 +39,18 @@ public class JavadocReaderImplTest {
     @Test
     public void resolveFieldCommentAcrossDirectories() {
         String nonExistentDir = new File(SOURCE_DIR, "does-not-exist").getPath();
-        String javadocDirs = nonExistentDir + ";" + SOURCE_DIR;
+        String javadocDirs = " ," + nonExistentDir + " , " + SOURCE_DIR;
         JavadocReader javadocReader = JavadocReaderImpl.createWith(javadocDirs);
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
         assertThat(comment, equalTo("Simple field comment"));
+    }
+
+    @Test
+    public void resolveShouldNotFailOnNullDir() {
+        String javadocDirs = null;
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(javadocDirs);
+        String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
+        assertThat(comment, equalTo(""));
     }
 
     @Test

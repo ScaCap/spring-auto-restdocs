@@ -74,7 +74,7 @@ Spring Auto REST Docs has the following minimum requirements:
 </build>
 ----
 <1> Has to be removed if `@RestdocsNotExpanded` is used.
-<2> Multiple directories can be listed by separating them with `;`.
+<2> Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
 +
 [source,groovy,indent=0,subs="verbatim,attributes",role="secondary"]
@@ -113,7 +113,7 @@ jar {
     dependsOn asciidoctor
 }
 ----
-<1> Multiple directories can be listed by separating them with `;`.
+<1> Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
 <2> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
 

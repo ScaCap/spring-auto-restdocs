@@ -16,8 +16,9 @@
 
 package capital.scalable.restdocs.javadoc;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.split;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.util.StringUtils.split;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +34,7 @@ import org.slf4j.Logger;
 
 public class JavadocReaderImpl implements JavadocReader {
     private static final Logger log = getLogger(JavadocReader.class);
-    private static final String PATH_DELIMITER = ";";
+    private static final String PATH_DELIMITER = ",";
     private static final String JAVADOC_JSON_DIR_PROPERTY =
             "org.springframework.restdocs.javadocJsonDir";
 
@@ -140,13 +141,13 @@ public class JavadocReaderImpl implements JavadocReader {
 
     private static List<File> toAbsoluteDirs(String javadocJsonDirs) {
         List<File> absoluteDirs = new ArrayList<>();
-        String[] dirs = split(javadocJsonDirs, PATH_DELIMITER);
-        if (dirs != null) {
-            for (String d : dirs) {
-                absoluteDirs.add(new File(d).getAbsoluteFile());
+        if (isNotBlank(javadocJsonDirs)) {
+            String[] dirs = split(javadocJsonDirs, PATH_DELIMITER);
+            for (String dir : dirs) {
+                if (isNotBlank(dir)) {
+                    absoluteDirs.add(new File(dir.trim()).getAbsoluteFile());
+                }
             }
-        } else {
-            absoluteDirs.add(new File(javadocJsonDirs).getAbsoluteFile());
         }
         return absoluteDirs;
     }

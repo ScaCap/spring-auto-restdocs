@@ -44,9 +44,13 @@ Does it work with REST Assured tests?::
   Not yet. We may add support for REST Assured in the future, but your PR is also welcome.
 Is Jackson required for automatic field documentation?::
   Yes, this project only includes a Jackson visitor so far.
-Can multiple directories be configured with `javadocJsonDir`?::
-  Yes, multiple directories can be listed by separating them with `;`.
-  The directories are processed in order and only the first found JSON file is used.
+Is a multi-module project setup supported?::
+  The JSON doclet and the REST Docs snippets produce files.
+  Therefore, all results can be copied across modules or projects.
+  Instead of copying, multiple source directories for
+  the JSON files can be configured with the `javadocJsonDir` property.
+  Directories are separated by `,` and are processed in order
+  and only the first found JSON file is used.
 
 include::getting-started.adoc[]
 include::snippets.adoc[]
