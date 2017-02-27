@@ -25,7 +25,8 @@ public class JavadocReaderImplIntegrationTest {
 
     @Test
     public void resolveComments() {
-        JavadocReader javadocReader = new JavadocReaderImpl(); // using dir from pom.xml
+        JavadocReader javadocReader =
+                JavadocReaderImpl.createWithSystemProperty(); // using dir from pom.xml
         String comment = javadocReader.resolveFieldComment(IntegrationType.class, "usefulField");
         assertThat(comment, equalTo("Very useful field"));
 

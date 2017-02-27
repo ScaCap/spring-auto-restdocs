@@ -16,12 +16,15 @@
 
 package capital.scalable.restdocs.javadoc;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.split;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.util.StringUtils.hasText;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,86 +34,121 @@ import org.slf4j.Logger;
 
 public class JavadocReaderImpl implements JavadocReader {
     private static final Logger log = getLogger(JavadocReader.class);
+    private static final String PATH_DELIMITER = ",";
+    private static final String JAVADOC_JSON_DIR_PROPERTY =
+            "org.springframework.restdocs.javadocJsonDir";
 
     private final Map<String, ClassJavadoc> classCache = new ConcurrentHashMap<>();
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final File javadocJsonDir;
+    private final ObjectMapper mapper;
+    private final List<File> absoluteBaseDirs;
 
-    public JavadocReaderImpl() {
-        this(null);
+    private JavadocReaderImpl(ObjectMapper mapper, List<File> absoluteBaseDirs) {
+        this.mapper = mapper;
+        this.absoluteBaseDirs = absoluteBaseDirs;
     }
 
-    public JavadocReaderImpl(String javadocJsonDir) {
-        if (javadocJsonDir != null) {
-            this.javadocJsonDir = new File(javadocJsonDir).getAbsoluteFile();
-        } else {
-            this.javadocJsonDir = systemPropertyJavadocJsonDir();
-        }
-
-        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+    public static JavadocReaderImpl createWithSystemProperty() {
+        String systemProperty = System.getProperties().getProperty(JAVADOC_JSON_DIR_PROPERTY);
+        return new JavadocReaderImpl(objectMapper(), toAbsoluteDirs(systemProperty));
     }
 
-    private ClassJavadoc getClass(Class<?> clazz) {
-        String packageName = clazz.getPackage().getName();
-        String packageDir = packageName.replace(".", File.separator);
-        String className = clazz.getCanonicalName().replaceAll(packageName + "\\.?", "");
-        String fileName = packageDir + "/" + className + ".json";
-
-        ClassJavadoc classJavadoc = classCache.get(fileName);
-        if (classJavadoc != null) {
-            return classJavadoc;
-        }
-
-        try {
-            File docSource = makeRelativeToConfiguredJavadocJsonDir(new File(fileName));
-            classJavadoc = mapper
-                    .readerFor(ClassJavadoc.class)
-                    .readValue(docSource);
-        } catch (FileNotFoundException e) {
-            log.warn("No Javadoc found for {} at {}", clazz.getCanonicalName(), fileName);
-            classJavadoc = new ClassJavadoc();
-        } catch (IOException e) {
-            log.error("Problem reading file {}", fileName, e);
-            classJavadoc = new ClassJavadoc();
-        }
-
-        classCache.put(fileName, classJavadoc);
-        return classJavadoc;
+    /**
+     * Used for testing.
+     */
+    static JavadocReaderImpl createWith(String javadocJsonDir) {
+        return new JavadocReaderImpl(objectMapper(), toAbsoluteDirs(javadocJsonDir));
     }
 
     @Override
     public String resolveFieldComment(Class<?> javaBaseClass, String javaFieldName) {
-        return getClass(javaBaseClass).getFieldComment(javaFieldName);
+        return classJavadoc(javaBaseClass).getFieldComment(javaFieldName);
     }
 
     @Override
     public String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName) {
-        return getClass(javaBaseClass).getMethodComment(javaMethodName);
+        return classJavadoc(javaBaseClass).getMethodComment(javaMethodName);
     }
 
     @Override
     public String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
             String javaParameterName) {
-        return getClass(javaBaseClass).getMethodParameterComment(javaMethodName, javaParameterName);
+        return classJavadoc(javaBaseClass)
+                .getMethodParameterComment(javaMethodName, javaParameterName);
     }
 
-    private File makeRelativeToConfiguredJavadocJsonDir(File outputFile) {
-        if (javadocJsonDir != null) {
-            return new File(javadocJsonDir, outputFile.getPath());
+    private ClassJavadoc classJavadoc(Class<?> clazz) {
+        String relativePath = classToRelativePath(clazz);
+        ClassJavadoc classJavadocFromCache = classCache.get(relativePath);
+        if (classJavadocFromCache != null) {
+            return classJavadocFromCache;
+        } else {
+            ClassJavadoc classJavadoc = readFiles(clazz, relativePath);
+            classCache.put(relativePath, classJavadoc);
+            return classJavadoc;
         }
-        return new File(outputFile.getPath());
     }
 
-    private File systemPropertyJavadocJsonDir() {
-        String outputDir = System.getProperties().getProperty(
-                "org.springframework.restdocs.javadocJsonDir");
-        if (hasText(outputDir)) {
-            return new File(outputDir).getAbsoluteFile();
+    private String classToRelativePath(Class<?> clazz) {
+        String packageName = clazz.getPackage().getName();
+        String packageDir = packageName.replace(".", File.separator);
+        String className = clazz.getCanonicalName().replaceAll(packageName + "\\.?", "");
+        return new File(packageDir, className + ".json").getPath();
+    }
+
+    private ClassJavadoc readFiles(Class<?> clazz, String relativePath) {
+        if (absoluteBaseDirs.isEmpty()) {
+            // No absolute directory is configured and thus we try to find the file relative.
+            ClassJavadoc classJavadoc = readFile(new File(relativePath));
+            if (classJavadoc != null) {
+                return classJavadoc;
+            }
+        } else {
+            // Try to find the file in all configured directories.
+            for (File dir : absoluteBaseDirs) {
+                ClassJavadoc classJavadoc = readFile(new File(dir, relativePath));
+                if (classJavadoc != null) {
+                    return classJavadoc;
+                }
+            }
+        }
+        log.warn("No Javadoc found for class {}", clazz.getCanonicalName());
+        return new ClassJavadoc();
+    }
+
+    private ClassJavadoc readFile(File docSource) {
+        try {
+            return mapper
+                    .readerFor(ClassJavadoc.class)
+                    .readValue(docSource);
+        } catch (FileNotFoundException e) {
+            // Ignored as we might try more than one file and we warn if no Javadoc file
+            // is found at the end.
+        } catch (IOException e) {
+            log.error("Failed to read file {}", docSource.getName(), e);
         }
         return null;
+    }
+
+    private static ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        return mapper;
+    }
+
+    private static List<File> toAbsoluteDirs(String javadocJsonDirs) {
+        List<File> absoluteDirs = new ArrayList<>();
+        if (isNotBlank(javadocJsonDirs)) {
+            String[] dirs = split(javadocJsonDirs, PATH_DELIMITER);
+            for (String dir : dirs) {
+                if (isNotBlank(dir)) {
+                    absoluteDirs.add(new File(dir.trim()).getAbsoluteFile());
+                }
+            }
+        }
+        return absoluteDirs;
     }
 }

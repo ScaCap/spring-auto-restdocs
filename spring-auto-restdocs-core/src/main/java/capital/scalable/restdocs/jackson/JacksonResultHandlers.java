@@ -48,7 +48,7 @@ public abstract class JacksonResultHandlers {
             setHandlerMethod(result.getRequest(), (HandlerMethod) result.getHandler());
             setObjectMapper(result.getRequest(), objectMapper);
             initRequestPattern(result.getRequest());
-            setJavadocReader(result.getRequest(), new JavadocReaderImpl());
+            setJavadocReader(result.getRequest(), JavadocReaderImpl.createWithSystemProperty());
             setConstraintReader(result.getRequest(), new ConstraintReaderImpl());
         }
     }
