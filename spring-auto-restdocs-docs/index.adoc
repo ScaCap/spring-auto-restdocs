@@ -27,11 +27,11 @@ Features:
 * Jackson visitor that gathers the whole JSON structure and includes Javadoc
 and constraint annotations on the fields. It works for both request and
 response bodies. In addition to the constraint documentation support that
-is already Spring REST Docs, we automatically include the constraint message
-in the documentation and also added support for documenting constraint groups.
+is already in Spring REST Docs, the constraint message is automatically included
+in the documentation. Constraint groups are also supported.
 * Path and query parameters can be documented automatically.
 * A helper to document authentication.
-* A snippet that includes all other snippets of this extension and thus helps
+* A snippet that includes all other snippets and thus helps
 you write even less.
 
 [[faq]]

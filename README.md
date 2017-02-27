@@ -3,10 +3,8 @@
 [![Build Status](https://travis-ci.org/ScaCap/spring-auto-restdocs.svg?branch=master)](https://travis-ci.org/ScaCap/spring-auto-restdocs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/)
 
-**Full documentation at https://scacap.github.io/spring-auto-restdocs**
-
-The aim of this extension to Spring REST Docs is to help you to write
-even less -- both code and documentation.
+The aim of this [Spring REST Docs](https://projects.spring.io/spring-restdocs/)
+extension is to help you write even less - both code and documentation.
 You still get the same nice documentation as with Spring REST Docs itself.
 The main benefit is that writing less and moving the documentation closer
 to the code increases the maintainability of the documentation.
@@ -16,23 +14,34 @@ a DSL in your test. We moved this documentation to the POJO that represents
 your JSON object. You just add Javadoc to the fields and it will end
 up in the documentation.
 
-## Features:
+Learn more in the [Introducing Spring Auto REST Docs](https://dzone.com/articles/introducing-spring-auto-rest-docs) article.
 
-* Jackson visitor that gathers the whole JSON structure and includes Javadoc
-and constraint annotations on the fields. It works for both request and
-response bodies. In addition to the constraint documentation support that
-is already Spring REST Docs, we automatically include the constraint message
-in the documentation and also added support for documenting constraint groups.
-* Path and query parameters can be documented automatically.
+## Documentation
+
+* [Latest / master](https://scacap.github.io/spring-auto-restdocs)
+
+* [Version 1.0.5](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/12ad534d101363edfd1d41b22507c602e004b489/docs/index.html)
+
+* [Version 1.0.4](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/3d78a2deb0f0a880c40426417f0cd0bfb02d34a6/docs/index.html)
+
+## Main features
+
+* Automatic documentation of request and response fields.
+* Automatic documentation of path and query parameters.
+* Automatic documentation of field and parameter constraints
 * A helper to document authentication.
-* A snippet that includes all other snippets of this extension and thus helps
-you write even less.
+* A snippet that includes all other snippets.
+* Shorten JSON arrays in example requests and responses.
+* Replace binary example requests and responses with `<binary>`.
 
 ## Usage
 
-See [Getting started section](https://scacap.github.io/spring-auto-restdocs/#gettingstarted) in documentation.
+See the [Getting started](https://scacap.github.io/spring-auto-restdocs/#gettingstarted) section in the documentation.
 
 ## Building from source
 
-See [Building from source section](https://scacap.github.io/spring-auto-restdocs/#contributing-building) in documentation.
+See the [Building from source](https://scacap.github.io/spring-auto-restdocs/#contributing-building) section in the documentation.
 
+## License
+Spring Auto REST Docs is Open Source software released under the
+[Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
