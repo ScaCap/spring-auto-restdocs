@@ -8,6 +8,7 @@
 === Method and path snippet
 
 link:{core-package}/misc/MethodAndPathSnippet.java[Method and path snippet] takes a `value` (path) and `method` from `RequestMapping` annotation on the Controller's method.
+The shorthand annotations `GetMapping`, `PostMapping`, etc. are supported as well.
 
 .Code
 [source,java]
@@ -137,7 +138,7 @@ public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) { .
 === Request fields snippet
 
 link:{core-package}/payload/JacksonRequestFieldSnippet.java[Request fields snippet] automatically lists all fields of the request class, determined from `@RequestBody` parameter of Controller's method.
-List includes name, type, whether field is optional, and it's Javadoc with constraints.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.
 
 .Code
 [source,java]
@@ -147,7 +148,7 @@ public void addItem(@RequestBody ItemUpdateRequest request) { ... }
 
 static class ItemUpdateRequest {
     /**
-     * Item id.
+     * Item ID.
      */
     @NotBlank
     private Integer id;
@@ -167,7 +168,7 @@ static class ItemUpdateRequest {
 | id
 | Integer
 | false
-| Item id.
+| Item ID.
 
 | description
 | String
@@ -181,7 +182,7 @@ Size must be between 0 and 20 inclusive.
 === Response fields snippet
 
 link:{core-package}/payload/JacksonResponseFieldSnippet.java[Response fields snippet] automatically lists all fields of the response class, determined from return value of Controller's method.
-List includes name, type, whether field is optional, and it's Javadoc with constraints.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.
 
 .Code
 [source,java]
@@ -226,7 +227,7 @@ include::section-snippet.adoc[]
 [[snippets-custom]]
 === Custom snippet
 
-Custom snippets are created by subclassing a link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
+Custom snippets are created by subclassing the link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
 (or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]). If you want your custom
  snippet to be part of section snippet with automatically recognised header and include link (file name),
  you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.

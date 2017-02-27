@@ -88,12 +88,12 @@ By default, these snippets in the following order are linked inside section snip
 
 | curl-request
 | `$ curl 'http://localhost/items/1'`
-| The original link:{restdocs-package}/cli/CurlRequestSnippet.java[Curl request snippet] from Spring REST Docs is used here to provide a cURL example of the request.
+| The original link:{restdocs-package}/cli/CurlRequestSnippet.java[cURL request snippet] from Spring REST Docs is used here to provide a cURL example of the request.
 
 | http-response
 | `HTTP/1.1 200 OK +
    { id: "myId", ... }`
-| The original link:{restdocs-package}/http/HttpResponseSnippet.java[Http response snippet] from Spring REST Docs is used here to provide the HTTP response from the test.
+| The original link:{restdocs-package}/http/HttpResponseSnippet.java[HTTP response snippet] from Spring REST Docs is used here to provide the HTTP response from the test.
 
 |===
 
