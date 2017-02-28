@@ -18,6 +18,7 @@
 
     <properties>
         <docs.dir>${project.basedir}/../docs</docs.dir>
+        <latestRelease>1.0.5</latestRelease>
     </properties>
 
     <build>

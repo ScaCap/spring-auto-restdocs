@@ -23,7 +23,7 @@ Spring Auto REST Docs has the following minimum requirements:
 <dependency>
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-core</artifactId>
-    <version>1.0.5</version>
+    <version>${latestRelease}</version>
     <scope>test</scope> <1>
 </dependency>
 
@@ -61,7 +61,7 @@ Spring Auto REST Docs has the following minimum requirements:
                 <docletArtifact>
                     <groupId>capital.scalable</groupId>
                     <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                    <version>1.0.5</version>
+                    <version>${latestRelease}</version>
                 </docletArtifact>
                 <destDir>generated-javadoc-json</destDir>
                 <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory>
@@ -89,8 +89,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <2>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.5'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '${latestRelease}' <2>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '${latestRelease}'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
