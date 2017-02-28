@@ -24,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <start-class>capital.scalable.restdocs.example.Application</start-class>
+        <spring-auto-restdocs.version>1.0.6-SNAPSHOT</spring-auto-restdocs.version>
     </properties>
 
     <dependencies>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>capital.scalable</groupId>
             <artifactId>spring-auto-restdocs-core</artifactId>
-            <version>${project.version}</version>
+            <version>${spring-auto-restdocs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -173,7 +174,7 @@
                     <docletArtifact>
                         <groupId>capital.scalable</groupId>
                         <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                        <version>${project.version}</version>
+                        <version>${spring-auto-restdocs.version}</version>
                     </docletArtifact>
                     <destDir>generated-javadoc-json</destDir>
                     <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
