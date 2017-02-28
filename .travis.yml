@@ -1,32 +1,35 @@
 language: java
 sudo: false
-
 jdk:
-  - oraclejdk8
-  - oraclejdk7
-
+- oraclejdk8
+- oraclejdk7
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.m2
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - $HOME/.m2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
 before_install:
-  - mvn install:install-file -Dfile=lib/spring-restdocs-core-1.1.2.RELEASE-test.jar
-    -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core
-    -Dversion=1.1.2.RELEASE -Dpackaging=jar -Dclassifier=test
-
+- mvn install:install-file -Dfile=lib/spring-restdocs-core-1.1.2.RELEASE-test.jar
+  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=1.1.2.RELEASE
+  -Dpackaging=jar -Dclassifier=test
 before_script:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-  - mvn test -B
-  - cd spring-auto-restdocs-example
-  - ./gradlew check
-
+- mvn test -B
+- cd spring-auto-restdocs-example
+- ./gradlew check
+after_success:
+- mvn deploy --settings deploy/travis-settings.xml -DskipTests=true -B
 branches:
-  only: 
-    - master
+  only:
+  - master
+env:
+  global:
+  - secure: TgEplgNahs52lzwQEG2Xds1SIio7+ZdylqOLReTr/qzT6QDXkn6TLZtmlE9jbobwLW/MT06ZEf+pFI4TTy+z5A7FYSAy5jhAX4lMENWxTt9qdj5aHq7S85tnLLDBBEaS7HAmV5mH0oq4/vNrudisBQ6AwlitzL4qx1Az8exdlY2Fy1SH0J8KFv2IieLx0iKHaYst3N71hhztg9uw8GA0ELMaMEkxUxD67zwgbUtzsDucw+BjFS1lmUNgZ1nnCJ1byrY2ZD54H+A3pudNM8GCk5kgJA1CIObGkLSSxj8D57UJK24Bb9j9joZp9jqUIR+bBp/xMrpN/lrGVs2mF2X5THCNQ6+wF10BJKJM/2weq8Q3Jc7VMvqQLtGY0j8BioUYiCqh2G5WtKGDRUvJQZCOMdvT8RTbaBgfbaZBnRgP3BCINvp8EjVGH0m73MEpDmXzqEa5DNri4tJ1oOZy7MLvOR8/1eRp0dwZAC2xLVeNZ5MVgafvTG5PawQa0aRvuLEOcCZjVMwO6nWkfrHnjh5w8R6ZhUS26ak3/Zo9AdCZw1zWWXQm+XBur+rMw0HmSG6F+78WHoiYKPWg1UKuXuXg1LmAFCNS1TsrVdvE1d6Oqx3/usFDic+z7l/alYakgNQyH56FiE43Zkk3iArVZnDgI6+pWFxpEnWc5gCne2ELO/U=
+  - secure: SLjQzSlWUPp+FtI4Wpg5snhnDQIb44uwXgFviAOsSW7DxYg0EfWVDshKGF/dH96GqaQCkAPccFWhei6UK9JtS1/KWPuwxXCE1Z0lrs7MQAycS1hp00+TKDOLePK+4bD6BTxjJRsIHCzHbrrUg2k7Z41f1r/YIL/vhSHeKV9f7604io4BcwYMnURbdngXviHjCRCotHpanCaARvLKiMe1tokfj/fMeQYAnzg221iqh9SvCb7RNrTWolwJ8MurGAy0y0QbXbf3GxgtAMr7rGyHAVw0B8AbgFhRr9oTL0N4F3WMHscxcXVklp+qLsD9KrPnuvawbpn9FR8T4hbNhcsQAHxMtm0YX3O8+guFB0lr923Kb+eYXYdlhgyNnjyN5R46mJSBwVEbJ2Zg/NQ9T3tjCv3vaF40zZhBwITw0Dnr1lXHUaPrd4LVE1CZQrGFL+nQpjB88qUcaC9jw69BrKsECrqT+H7ZuYW9cdW8ydd6ApcRqDMp9wawwCHI+Ki5f1IKbNxdGOx6aYhvbJewjx3vibu1OsOImHrSaROXrrEcwKZAIzlS6JrRGsSVSuO9QT1lkxqmCEsHbFc4hHj5haa4bZSgjSNhUZd9brMy6qoHWrPxO7aAmqAOne6y/90aJxabOZCs3r06Vsn8es0eDddPuRvG1aZ04itNxZ8OqbwxXFo=
+  - secure: JFYMfwKt18tQxPlzXSRQ7Dz1ZbBXbtp7UXD2UI+AEYrvYX++0MbulxM/hmW+SUO0IOrrXorFucxV2EyK6i6JEiwB8HCCKBVW9eptGGOOutTOQx1GERLs/Ha+7weVSirLWJUZxNc7c3d8khbR46Dx4JJhvL/PCdGjhCzhn3wop17Acef/2iuge5iekt6oKm4hZudgqqaK10KlQ/3RD/1GeVIp+FvkuS7F2gNrDqEUZQJuB+5RDTnzk0Jcp1mx8D/E7UhHTU+rANUhx+tp37hab6Abs/bShHK6FkuPf0c69CftQ9UhHk65loE7ahITju1ablDe9jRXSnvbDM71SyGhSAaNbdpubTGIM/dv5jYeGLu6JW70hCYYuhe0k7tqXGqNFH7nUgpQugzCqitoPCfEtSvRFGt1HwxYVFJYy8j6tqW/UBoLLyielpsLYx/Zs6t+oM4fbhx5LhNWUr61Yyvz6V2vLvAolnky1T+GOt0cBw3GyHdaZFoSjoc2UILtYoVvKaAEFoBRU1MsRoApv9CBqILaFYXoTl+jRcvZzDFemJ2Y5aIEh6rS2D1SfEjbMyx6WcsZw7xMRtQZCZOUy7rGuhAfTqu/KqmwGKbAbkXVCYCMrdCT6CWub28nif6FS6Rx8ps9SpvvEBcGWGrhQf7Uc9RmfYG+0Qw2mY7OqnB3uSE=
+  - secure: bU/o00T0FOk09r8++lerQIiBTmf3rjYsHfw79VA2K5LVnY8uZ8TGIeiP+LfXf/5k+W07KXbMrTaUUNjVSA8a+gg/RBz921uqcMJ3WeTtgEZlGqBRQ+OPW2nGmele0M8oQJSWzRZlckhli5tHwXzsIVo6MwtyhdgDnSJyxfd3kr90efsZd3ShFgJpzPSRNVoNSuTa3JuxvIcu0NcLIPrxENDZZEnt71ZoWg0OX4e0e/+WLBnv7WnZAspY20YfdpXNIUMZQS/wJ682+zsWl6uRNagJ82S5c16Rb1lspZgmsSAEOkcQ9xjI0Jo8esXO7plyKt/7ieUUIcEUW0g0EShKRMgLJFUGLMXrGk5DINO73WNjeHh09WdrT42l2Nk6Q2/vgEzpWyJMGT6jV0DeT9PThewbDPhxDUFqE88YAvHUVcnWE9i1blbKpuTDuujjVjIOOfTxqV0igvoD2nNp+MSfbxuN81Vtt8cHUiB6/FhA8zZgT3ofVKqZuC8tx1LZr80mYPUScOY2Tci//+vM88xB3/0Pxij6mDhOUbrrLQE6/ELx4wO6OzwAzoCugEMY9q5YyUAULNk2HmTdXGkoZ3TeO3Y9ila+MahkQKXILSBXyI0Kc9sButms4jTj7RJThQRdulORkK6+EGXL2JQ8q90sNdqRiOPdV8Wvk4GVUb2zSL4=
+  - secure: f3Pnyq9rFVYaJSGsnmW3MDTv6hLIrERiTGB41dWY5Khv3Fo3TejFDi++QltUhl/Xi3leznna/6/8bwLDqtw0uOPfJnmcEhKWlOJjkOCxkhmrtvuiT2mIGJq6pcfu7eNIJNpGvlvWsvAwMmIpmCpb6in9JgmCO/zHnl4KKAjrE+tkwLeVlyzRH/RywwEt5UQ/d3bYXMTqkXDYkX5+rV6GXzRtFQvu9FPSEgd+zA0v/w7o3bi9l9/6OcZT5VwZAbrq+IOJyqSsSFJCPFfy6aWUXK5p9PGXqlHZn5k8siDOSBKMaqNYuJ4XCFeDMO3NGl/vdB9eAuuS5rVb6JQduPZqOVV5fSbmzac2BZxjxWN1PmONgFDoG8NHSAlMTt3SirW8HIfGfKRN98qdBHRsovc12MLlMTMjHB1WK8g6waRS3ZGMRJ5oNT+620rSMOfSbe0lKqnUBVGTrVz/6R/XoneCCPTnEblZAqToX55eOgqjsx1rh7a/1ROvL6PfYwsGr/YhHdgFvEkQjQsbU7xg26lLMV4yR5ciJo0xH4zDarDy/TH6OvCvZ7Vo1g8OZseSUZ8zt6wMv7IOzWmejiZA3B5VPxrPqmv3B1lUB9nkmKggUqwgMF1oVsY3HGhTVMJsBfqA08koxwdReyrb3NuhZgoJ33X3uGg1l2jsmW5sEzx4xhM=
