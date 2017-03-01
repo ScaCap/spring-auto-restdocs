@@ -25,6 +25,7 @@ script:
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
+  && test "$TRAVIS_JDK_VERSION" = "oraclejdk7"
   && "$DEPLOY_DIR/decrypt.sh"
   && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 branches:
