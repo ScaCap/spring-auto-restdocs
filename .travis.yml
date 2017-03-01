@@ -21,6 +21,7 @@ script:
 - mvn test -B
 - cd spring-auto-restdocs-example
 - ./gradlew check
+- cd ..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
