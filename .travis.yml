@@ -22,7 +22,9 @@ script:
 - cd spring-auto-restdocs-example
 - ./gradlew check
 after_success:
-- test $TRAVIS_BRANCH = "master" && mvn deploy --settings deploy/travis-settings.xml -DskipTests=true -B
+- test $TRAVIS_BRANCH = "master"
+  && deploy/decrypt.sh
+  && mvn deploy --settings deploy/travis-settings.xml -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 branches:
   only:
   - master
