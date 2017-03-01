@@ -575,7 +575,7 @@ you write even less.</p>
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.5&lt;/version&gt;
+    &lt;version&gt;1.0.6&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
@@ -613,7 +613,7 @@ you write even less.</p>
                 &lt;docletArtifact&gt;
                     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                     &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                    &lt;version&gt;1.0.5&lt;/version&gt;
+                    &lt;version&gt;1.0.6&lt;/version&gt;
                 &lt;/docletArtifact&gt;
                 &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
                 &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
@@ -652,8 +652,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <i class="conum" data-value="2"></i><b>(2)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.5'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.6' <i class="conum" data-value="2"></i><b>(2)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.6'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -1498,7 +1498,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-02-28 13:27:02 CET
+    Last updated 2017-03-01 19:17:18 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
