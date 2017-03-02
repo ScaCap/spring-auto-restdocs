@@ -1036,7 +1036,7 @@ Content-Length: 483
       <h4 id="_example_request"><a class="anchor" href="#_example_request"></a>2.3.6. Example request</h4>
       <div class="listingblock">
         <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer cea8f330-458f-4c41-a94d-35b5513bd588' -d '{"description":"Hot News"}'</code></pre>
+          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b' -d '{"description":"Hot News"}'</code></pre>
         </div>
       </div>
     </div>
@@ -1247,7 +1247,7 @@ Location: /items/2</code></pre>
       <h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a>2.4.6. Example request</h4>
       <div class="listingblock">
         <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer cea8f330-458f-4c41-a94d-35b5513bd588' -d '{"description":"Hot News"}'</code></pre>
+          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b' -d '{"description":"Hot News"}'</code></pre>
         </div>
       </div>
     </div>
@@ -1314,7 +1314,8 @@ Content-Length: 90
           <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
           <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
           <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
+          <td class="tableblock halign-left valign-top"><p class="tableblock">item ID.<br>
+            Must be a valid ID.</p></td>
         </tr>
         </tbody>
       </table>
@@ -1341,7 +1342,7 @@ Content-Length: 90
       <h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a>2.5.6. Example request</h4>
       <div class="listingblock">
         <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer cea8f330-458f-4c41-a94d-35b5513bd588'</code></pre>
+          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b'</code></pre>
         </div>
       </div>
     </div>
@@ -1762,8 +1763,8 @@ Content-Length: 625
   } ],
   "pageable" : null,
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
+  "last" : true,
   "totalElements" : 1,
   "size" : 0,
   "number" : 0,

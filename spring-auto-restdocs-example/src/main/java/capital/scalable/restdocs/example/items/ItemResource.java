@@ -28,7 +28,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 
 import capital.scalable.restdocs.example.constraints.Id;
@@ -69,6 +68,7 @@ public class ItemResource {
      * Returns item by ID.
      *
      * @param id ID of the item.
+     * @return response
      */
     @RequestMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") @Id String id) {
@@ -81,6 +81,8 @@ public class ItemResource {
 
     /**
      * Lists all items.
+     *
+     * @return list of all items
      */
     @RequestMapping
     public ItemResponse[] allItems() {
@@ -91,10 +93,10 @@ public class ItemResource {
      * Adds new item.
      *
      * @param itemUpdate item information
+     * @return response
      */
     @RequestMapping(method = POST)
-    public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate)
-            throws URISyntaxException {
+    public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate) {
         // New item with unique ID is stored and returned.
         URI location = ServletUriComponentsBuilder
                 .fromUriString("/items")
@@ -112,6 +114,7 @@ public class ItemResource {
      *
      * @param id         Item ID.
      * @param itemUpdate Item information.
+     * @return response
      */
     @RequestMapping(value = "{id}", method = PUT)
     public ItemResponse updateItem(@PathVariable("id") @Id String id,
@@ -126,7 +129,7 @@ public class ItemResource {
      * <p>
      * Non existing items are ignored
      *
-     * @param id
+     * @param id item ID
      */
     @RequestMapping(value = "{id}", method = DELETE)
     public void deleteItem(@PathVariable("id") @Id String id) {
@@ -138,6 +141,7 @@ public class ItemResource {
      *
      * @param id      Item ID.
      * @param childId Child ID.
+     * @return response
      */
     @RequestMapping("{id}/{child}")
     public ItemResponse getChild(@PathVariable @Id String id,
@@ -156,6 +160,7 @@ public class ItemResource {
      *
      * @param descMatch Lookup on description field.
      * @param hint      Lookup hint.
+     * @return response
      */
     @RequestMapping("search")
     public Page<ItemResponse> searchItem(

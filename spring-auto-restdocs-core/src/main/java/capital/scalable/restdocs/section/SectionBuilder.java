@@ -22,6 +22,9 @@ import java.util.List;
 
 import capital.scalable.restdocs.SnippetRegistry;
 
+/**
+ * Builder for configuring a section snippet.
+ */
 public class SectionBuilder {
 
     public static final Collection<String> DEFAULT_SNIPPETS = Arrays.asList(
@@ -45,6 +48,7 @@ public class SectionBuilder {
      *
      * @param snippetNames snippet names to use; if not specified, {@link #DEFAULT_SNIPPETS} will
      *                     be used
+     * @return this
      */
     public SectionBuilder snippetNames(List<String> snippetNames) {
         this.snippetNames = snippetNames;
@@ -56,9 +60,10 @@ public class SectionBuilder {
      *
      * @param snippetNames snippet names to use; if not specified, {@link #DEFAULT_SNIPPETS} will
      *                     be used
+     * @return this
      */
-    public SectionBuilder snippetNames(String... sectionNames) {
-        this.snippetNames = Arrays.asList(sectionNames);
+    public SectionBuilder snippetNames(String... snippetNames) {
+        this.snippetNames = Arrays.asList(snippetNames);
         return this;
     }
 
@@ -68,6 +73,7 @@ public class SectionBuilder {
      *
      * @param skipEmpty true if snippets with no content should not be included in the section;
      *                  false otherwise (default)
+     * @return this
      */
     public SectionBuilder skipEmpty(boolean skipEmpty) {
         this.skipEmpty = skipEmpty;
