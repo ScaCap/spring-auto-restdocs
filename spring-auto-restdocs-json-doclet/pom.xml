@@ -65,24 +65,25 @@
                 <extensions>true</extensions>
                 <executions>
                     <execution>
+                        <id>generate-javadoc-json</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>test-javadoc-no-fork</goal>
                         </goals>
+                        <configuration>
+                            <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                            <docletArtifact>
+                                <groupId>capital.scalable</groupId>
+                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                                <version>${project.parent.version}</version>
+                            </docletArtifact>
+                            <destDir>generated-javadoc-json</destDir>
+                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                            <show>package</show>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
-                    <docletArtifact>
-                        <groupId>capital.scalable</groupId>
-                        <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                        <version>${project.parent.version}</version>
-                    </docletArtifact>
-                    <destDir>generated-javadoc-json</destDir>
-                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-                    <useStandardDocletOptions>false</useStandardDocletOptions>
-                    <show>package</show>
-                </configuration>
             </plugin>
         </plugins>
     </build>
