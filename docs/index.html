@@ -602,24 +602,25 @@ you write even less.</p>
             &lt;extensions&gt;true&lt;/extensions&gt;
             &lt;executions&gt;
                 &lt;execution&gt;
+                    &lt;id&gt;generate-javadoc-json&lt;/id&gt;
                     &lt;phase&gt;compile&lt;/phase&gt;
                     &lt;goals&gt;
                         &lt;goal&gt;javadoc-no-fork&lt;/goal&gt;
                     &lt;/goals&gt;
+                    &lt;configuration&gt;
+                        &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
+                        &lt;docletArtifact&gt;
+                            &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
+                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
+                            &lt;version&gt;1.0.6&lt;/version&gt;
+                        &lt;/docletArtifact&gt;
+                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
+                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
+                        &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
+                        &lt;show&gt;package&lt;/show&gt;
+                    &lt;/configuration&gt;
                 &lt;/execution&gt;
             &lt;/executions&gt;
-            &lt;configuration&gt;
-                &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
-                &lt;docletArtifact&gt;
-                    &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                    &lt;version&gt;1.0.6&lt;/version&gt;
-                &lt;/docletArtifact&gt;
-                &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
-                &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
-                &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
-                &lt;show&gt;package&lt;/show&gt;
-            &lt;/configuration&gt;
         &lt;/plugin&gt;
         ...
     &lt;/plugins&gt;
@@ -1498,7 +1499,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-03-01 19:17:18 CET
+    Last updated 2017-03-02 09:48:15 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
