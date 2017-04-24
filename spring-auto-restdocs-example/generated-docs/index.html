@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>Example API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -439,11 +440,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#resources-items-get">2.1. Get an item</a></li>
 <li><a href="#resources-items-all">2.2. Get all item</a></li>
-  <li><a href="#resources-item-resource-test-add-item">2.3. Add Item</a></li>
-  <li><a href="#resources-item-resource-test-update-item">2.4. Update Item</a></li>
-  <li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
-  <li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
-  <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
+<li><a href="#resources-item-resource-test-add-item">2.3. Add Item</a></li>
+<li><a href="#resources-item-resource-test-update-item">2.4. Update Item</a></li>
+<li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
+<li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
+<li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
 </ul>
 </li>
 </ul>
@@ -452,12 +453,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div id="content">
-<h1 id="overview" class="sect0"><a class="anchor" href="#overview"></a>Overview</h1>
+<h1 id="overview" class="sect0"><a class="anchor" href="#overview"></a><a class="link" href="#overview">Overview</a></h1>
 <div class="sect1">
-<h2 id="overview-general"><a class="anchor" href="#overview-general"></a>1. General</h2>
+<h2 id="overview-general"><a class="anchor" href="#overview-general"></a><a class="link" href="#overview-general">1. General</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="overview-http-verbs"><a class="anchor" href="#overview-http-verbs"></a>1.1. HTTP verbs</h3>
+<h3 id="overview-http-verbs"><a class="anchor" href="#overview-http-verbs"></a><a class="link" href="#overview-http-verbs">1.1. HTTP verbs</a></h3>
 <div class="paragraph">
 <p>An example of static AsciiDoc.</p>
 </div>
@@ -493,7 +494,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect2">
-<h3 id="overview-pagination"><a class="anchor" href="#overview-pagination"></a>1.2. Pagination</h3>
+<h3 id="overview-pagination"><a class="anchor" href="#overview-pagination"></a><a class="link" href="#overview-pagination">1.2. Pagination</a></h3>
 <div class="paragraph">
 <p>Spring pagination facilities offer following:</p>
 </div>
@@ -592,53 +593,53 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 </div>
 </div>
-<h1 id="resources" class="sect0"><a class="anchor" href="#resources"></a>Resources</h1>
+<h1 id="resources" class="sect0"><a class="anchor" href="#resources"></a><a class="link" href="#resources">Resources</a></h1>
 <div class="sect1">
-<h2 id="resources-items"><a class="anchor" href="#resources-items"></a>2. Items</h2>
+<h2 id="resources-items"><a class="anchor" href="#resources-items"></a><a class="link" href="#resources-items">2. Items</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="resources-items-get"><a class="anchor" href="#resources-items-get"></a>2.1. Get an item</h3>
+<h3 id="resources-items-get"><a class="anchor" href="#resources-items-get"></a><a class="link" href="#resources-items-get">2.1. Get an item</a></h3>
 <div class="paragraph">
 <p><code>GET /items/{id}</code></p>
 </div>
 <div class="sect3">
-<h4 id="_authorization"><a class="anchor" href="#_authorization"></a>2.1.1. Authorization</h4>
+<h4 id="_authorization"><a class="anchor" href="#_authorization"></a><a class="link" href="#_authorization">2.1.1. Authorization</a></h4>
 <div class="paragraph">
-  <p>Resource is public.</p>
+<p>Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
-  <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a>2.1.2. Path parameters</h4>
-  <table class="tableblock frame-all grid-all spread">
-    <colgroup>
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-    </colgroup>
-    <thead>
-    <tr>
-      <th class="tableblock halign-left valign-top">Parameter</th>
-      <th class="tableblock halign-left valign-top">Type</th>
-      <th class="tableblock halign-left valign-top">Optional</th>
-      <th class="tableblock halign-left valign-top">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.<br>
-        Must be a valid ID.</p></td>
-    </tr>
-    </tbody>
-  </table>
+<h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a><a class="link" href="#_path_parameters">2.1.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.<br>
+Must be a valid ID.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-  <div class="sect3">
-    <h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a>2.1.3. Request fields</h4>
+<div class="sect3">
+<h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a><a class="link" href="#_request_fields">2.1.3. Request fields</a></h4>
 <div class="paragraph">
-  <p>No request body.</p>
+<p>No request body.</p>
 </div>
 <div class="paragraph">
 <p>We do not have to care whether to include a snippet or not,
@@ -646,113 +647,113 @@ because the template returns "No data." instead of an empty table.</p>
 </div>
 </div>
 <div class="sect3">
-  <h4 id="_response_fields"><a class="anchor" href="#_response_fields"></a>2.1.4. Response fields</h4>
-  <table class="tableblock frame-all grid-all spread">
-    <colgroup>
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-    </colgroup>
-    <thead>
-    <tr>
-      <th class="tableblock halign-left valign-top">Path</th>
-      <th class="tableblock halign-left valign-top">Type</th>
-      <th class="tableblock halign-left valign-top">Optional</th>
-      <th class="tableblock halign-left valign-top">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-        Size must be between 2 and 20 inclusive.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-        Must be at least 1.<br>
-        Must be at most 10.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-        Must be at least 1.<br>
-        Must be at most 10.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-        Must be one of [ONE, TWO].</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-    </tr>
-    </tbody>
-  </table>
+<h4 id="_response_fields"><a class="anchor" href="#_response_fields"></a><a class="link" href="#_response_fields">2.1.4. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+Must be one of [ONE, TWO].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
-  <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a>2.1.5. Example request/response</h4>
-  <div class="listingblock">
-    <div class="content">
-      <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
-    </div>
-  </div>
-  <div class="listingblock">
-    <div class="content">
+<h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a><a class="link" href="#_example_request_response">2.1.5. Example request/response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -783,12 +784,12 @@ Content-Length: 378
   } ],
   "description" : "main item"
 }</code></pre>
-    </div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-items-all"><a class="anchor" href="#resources-items-all"></a>2.2. Get all item</h3>
+<h3 id="resources-items-all"><a class="anchor" href="#resources-items-all"></a><a class="link" href="#resources-items-all">2.2. Get all item</a></h3>
 <div class="paragraph">
 <p><code>GET /items</code></p>
 </div>
@@ -799,128 +800,128 @@ Content-Length: 378
 <p>This endpoint really returns all items and that is always 100.</p>
 </div>
 <div class="sect3">
-<h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a>2.2.1. Authorization</h4>
+<h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
 <div class="paragraph">
-  <p>Resource is public.</p>
+<p>Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
-  <h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a>2.2.2. Request fields</h4>
+<h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a><a class="link" href="#_request_fields_2">2.2.2. Request fields</a></h4>
 <div class="paragraph">
-  <p>No request body.</p>
+<p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-  <h4 id="_response_fields_2"><a class="anchor" href="#_response_fields_2"></a>2.2.3. Response fields</h4>
-  <table class="tableblock frame-all grid-all spread">
-    <colgroup>
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-      <col style="width: 25%;">
-    </colgroup>
-    <thead>
-    <tr>
-      <th class="tableblock halign-left valign-top">Path</th>
-      <th class="tableblock halign-left valign-top">Type</th>
-      <th class="tableblock halign-left valign-top">Optional</th>
-      <th class="tableblock halign-left valign-top">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].id</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].custom1</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].custom2</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-        Size must be between 2 and 20 inclusive.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-        Must be at least 1.<br>
-        Must be at most 10.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.bool</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-        Must be at least 1.<br>
-        Must be at most 10.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.amount</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-        Must be one of [ONE, TWO].</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-    </tr>
-    <tr>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-      <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-    </tr>
-    </tbody>
-  </table>
+<h4 id="_response_fields_2"><a class="anchor" href="#_response_fields_2"></a><a class="link" href="#_response_fields_2">2.2.3. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+Must be one of [ONE, TWO].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-  <div class="sect3">
-    <h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a>2.2.4. Example request/response</h4>
-    <div class="listingblock">
-      <div class="content">
-        <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
-      </div>
-    </div>
+<div class="sect3">
+<h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a><a class="link" href="#_example_request_response_2">2.2.4. Example request/response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
+</div>
+</div>
 <div class="paragraph">
-  <p>The array shortening feature intercepted here and reduced the 100 items to 3.</p>
+<p>The array shortening feature intercepted here and reduced the 100 items to 3.</p>
 </div>
-    <div class="listingblock">
-      <div class="content">
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -956,94 +957,94 @@ Content-Length: 483
   "children" : null,
   "description" : "first child"
 } ]</code></pre>
-      </div>
-    </div>
-  </div>
 </div>
-  <div class="sect2">
-    <h3 id="resources-item-resource-test-add-item"><a class="anchor" href="#resources-item-resource-test-add-item"></a>2.3. Add Item</h3>
-    <div class="paragraph">
-      <p><code>POST /items</code></p>
-    </div>
-    <div class="paragraph">
-      <p>Adds new item.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-add-item"><a class="anchor" href="#resources-item-resource-test-add-item"></a><a class="link" href="#resources-item-resource-test-add-item">2.3. Add Item</a></h3>
+<div class="paragraph">
+<p><code>POST /items</code></p>
+</div>
+<div class="paragraph">
+<p>Adds new item.</p>
 </div>
 <div class="sect3">
-  <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a>2.3.1. Authorization</h4>
+<h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
 <div class="paragraph">
-  <p>User access token required.</p>
+<p>User access token required.</p>
 </div>
 </div>
-    <div class="sect3">
-      <h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a>2.3.2. Path parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-</div>
-    </div>
-    <div class="sect3">
-      <h4 id="_query_parameters"><a class="anchor" href="#_query_parameters"></a>2.3.3. Query parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-</div>
-    </div>
-    <div class="sect3">
-      <h4 id="_request_fields_3"><a class="anchor" href="#_request_fields_3"></a>2.3.4. Request fields</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Path</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
-            EN: false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
-            DE: Size must be between 2 and 10 inclusive.<br>
-            EN: Size must be between 4 and 12 inclusive.<br>
-            Length must be between 0 and 20 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
-            DE: Must be one of [klein, groß].<br>
-            EN: Must be one of [small, big].<br>
-            Size must be between 0 and 1000 inclusive.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_response_fields_3"><a class="anchor" href="#_response_fields_3"></a>2.3.5. Response fields</h4>
+<div class="sect3">
+<h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a><a class="link" href="#_path_parameters_2">2.3.2. Path parameters</a></h4>
 <div class="paragraph">
-  <p>No response body.</p>
+<p>No parameters.</p>
 </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_request"><a class="anchor" href="#_example_request"></a>2.3.6. Example request</h4>
-      <div class="listingblock">
-        <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b' -d '{"description":"Hot News"}'</code></pre>
-        </div>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_response"><a class="anchor" href="#_example_response"></a>2.3.7. Example response</h4>
-      <div class="listingblock">
-        <div class="content">
+</div>
+<div class="sect3">
+<h4 id="_query_parameters"><a class="anchor" href="#_query_parameters"></a><a class="link" href="#_query_parameters">2.3.3. Query parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_3"><a class="anchor" href="#_request_fields_3"></a><a class="link" href="#_request_fields_3">2.3.4. Request fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+EN: false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
+DE: Size must be between 2 and 10 inclusive.<br>
+EN: Size must be between 4 and 12 inclusive.<br>
+Length must be between 0 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
+DE: Must be one of [klein, groß].<br>
+EN: Must be one of [small, big].<br>
+Size must be between 0 and 1000 inclusive.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_3"><a class="anchor" href="#_response_fields_3"></a><a class="link" href="#_response_fields_3">2.3.5. Response fields</a></h4>
+<div class="paragraph">
+<p>No response body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.6. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer 967f92dd-9747-4993-a9d7-e49e079e3bdd' -d '{"description":"Hot News"}'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.7. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1052,209 +1053,209 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Location: /items/2</code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="sect2">
-    <h3 id="resources-item-resource-test-update-item"><a class="anchor" href="#resources-item-resource-test-update-item"></a>2.4. Update Item</h3>
-    <div class="paragraph">
-      <p><code>PUT /items/{id}</code></p>
-    </div>
-    <div class="paragraph">
-      <p>Updates existing item.</p>
-    </div>
-    <div class="sect3">
-      <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a>2.4.1. Authorization</h4>
-      <div class="paragraph">
-        <p>User access token required.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a>2.4.2. Path parameters</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Parameter</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
-            Must be a valid ID.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_query_parameters_2"><a class="anchor" href="#_query_parameters_2"></a>2.4.3. Query parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_request_fields_4"><a class="anchor" href="#_request_fields_4"></a>2.4.4. Request fields</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Path</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
-            EN: false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
-            DE: Size must be between 2 and 10 inclusive.<br>
-            EN: Size must be between 4 and 12 inclusive.<br>
-            Length must be between 0 and 20 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
-            DE: Must be one of [klein, groß].<br>
-            EN: Must be one of [small, big].<br>
-            Size must be between 0 and 1000 inclusive.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_response_fields_4"><a class="anchor" href="#_response_fields_4"></a>2.4.5. Response fields</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Path</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-            Size must be between 2 and 20 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-            Must be one of [ONE, TWO].</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a>2.4.6. Example request</h4>
-      <div class="listingblock">
-        <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b' -d '{"description":"Hot News"}'</code></pre>
-        </div>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a>2.4.7. Example response</h4>
-      <div class="listingblock">
-        <div class="content">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-update-item"><a class="anchor" href="#resources-item-resource-test-update-item"></a><a class="link" href="#resources-item-resource-test-update-item">2.4. Update Item</a></h3>
+<div class="paragraph">
+<p><code>PUT /items/{id}</code></p>
+</div>
+<div class="paragraph">
+<p>Updates existing item.</p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
+<div class="paragraph">
+<p>User access token required.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a><a class="link" href="#_path_parameters_3">2.4.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+Must be a valid ID.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_query_parameters_2"><a class="anchor" href="#_query_parameters_2"></a><a class="link" href="#_query_parameters_2">2.4.3. Query parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_4"><a class="anchor" href="#_request_fields_4"></a><a class="link" href="#_request_fields_4">2.4.4. Request fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
+EN: false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
+DE: Size must be between 2 and 10 inclusive.<br>
+EN: Size must be between 4 and 12 inclusive.<br>
+Length must be between 0 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
+DE: Must be one of [klein, groß].<br>
+EN: Must be one of [small, big].<br>
+Size must be between 0 and 1000 inclusive.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_4"><a class="anchor" href="#_response_fields_4"></a><a class="link" href="#_response_fields_4">2.4.5. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+Must be one of [ONE, TWO].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.6. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer 967f92dd-9747-4993-a9d7-e49e079e3bdd' -d '{"description":"Hot News"}'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.7. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1271,85 +1272,85 @@ Content-Length: 90
   "children" : null,
   "description" : "Hot News"
 }</code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="sect2">
-    <h3 id="resources-item-resource-test-delete-item"><a class="anchor" href="#resources-item-resource-test-delete-item"></a>2.5. Delete Item</h3>
-    <div class="paragraph">
-      <p><code>DELETE /items/{id}</code></p>
-    </div>
-    <div class="paragraph">
-      <p>Deletes item.<br>
-        Item must exist.<br>
-        <br>
-        Non existing items are ignored</p>
-    </div>
-    <div class="sect3">
-      <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a>2.5.1. Authorization</h4>
-      <div class="paragraph">
-        <p>User access token required.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_path_parameters_4"><a class="anchor" href="#_path_parameters_4"></a>2.5.2. Path parameters</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Parameter</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">item ID.<br>
-            Must be a valid ID.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_query_parameters_3"><a class="anchor" href="#_query_parameters_3"></a>2.5.3. Query parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_request_fields_5"><a class="anchor" href="#_request_fields_5"></a>2.5.4. Request fields</h4>
-      <div class="paragraph">
-        <p>No request body.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_response_fields_5"><a class="anchor" href="#_response_fields_5"></a>2.5.5. Response fields</h4>
-      <div class="paragraph">
-        <p>No response body.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a>2.5.6. Example request</h4>
-      <div class="listingblock">
-        <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer cd682a43-bb11-459e-b986-4b1cf15c4e5b'</code></pre>
-        </div>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a>2.5.7. Example response</h4>
-      <div class="listingblock">
-        <div class="content">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-delete-item"><a class="anchor" href="#resources-item-resource-test-delete-item"></a><a class="link" href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></h3>
+<div class="paragraph">
+<p><code>DELETE /items/{id}</code></p>
+</div>
+<div class="paragraph">
+<p>Deletes item.<br>
+Item must exist.<br>
+<br>
+Non existing items are ignored</p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
+<div class="paragraph">
+<p>User access token required.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_4"><a class="anchor" href="#_path_parameters_4"></a><a class="link" href="#_path_parameters_4">2.5.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">item ID.<br>
+Must be a valid ID.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_query_parameters_3"><a class="anchor" href="#_query_parameters_3"></a><a class="link" href="#_query_parameters_3">2.5.3. Query parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_5"><a class="anchor" href="#_request_fields_5"></a><a class="link" href="#_request_fields_5">2.5.4. Request fields</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_5"><a class="anchor" href="#_response_fields_5"></a><a class="link" href="#_response_fields_5">2.5.5. Response fields</a></h4>
+<div class="paragraph">
+<p>No response body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.6. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE -H 'Authorization: Bearer 967f92dd-9747-4993-a9d7-e49e079e3bdd'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.7. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1357,183 +1358,183 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY</code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="sect2">
-    <h3 id="resources-item-resource-test-get-child-item"><a class="anchor" href="#resources-item-resource-test-get-child-item"></a>2.6. Get Child</h3>
-    <div class="paragraph">
-      <p><code>GET /items/{id}/{child}</code></p>
-    </div>
-    <div class="paragraph">
-      <p>Retrieves a child of specified item.</p>
-    </div>
-    <div class="sect3">
-      <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a>2.6.1. Authorization</h4>
-      <div class="paragraph">
-        <p>Resource is public.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_path_parameters_5"><a class="anchor" href="#_path_parameters_5"></a>2.6.2. Path parameters</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Parameter</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
-            Must be a valid ID.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.<br>
-            DE: Must be at most 2.<br>
-            EN: Must be at least 1.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_query_parameters_4"><a class="anchor" href="#_query_parameters_4"></a>2.6.3. Query parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_request_fields_6"><a class="anchor" href="#_request_fields_6"></a>2.6.4. Request fields</h4>
-      <div class="paragraph">
-        <p>No request body.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_response_fields_6"><a class="anchor" href="#_response_fields_6"></a>2.6.5. Response fields</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Path</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-            Size must be between 2 and 20 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-            Must be one of [ONE, TWO].</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a>2.6.6. Example request</h4>
-      <div class="listingblock">
-        <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
-        </div>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a>2.6.7. Example response</h4>
-      <div class="listingblock">
-        <div class="content">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-get-child-item"><a class="anchor" href="#resources-item-resource-test-get-child-item"></a><a class="link" href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></h3>
+<div class="paragraph">
+<p><code>GET /items/{id}/{child}</code></p>
+</div>
+<div class="paragraph">
+<p>Retrieves a child of specified item.</p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
+<div class="paragraph">
+<p>Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_5"><a class="anchor" href="#_path_parameters_5"></a><a class="link" href="#_path_parameters_5">2.6.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
+Must be a valid ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.<br>
+DE: Must be at most 2.<br>
+EN: Must be at least 1.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_query_parameters_4"><a class="anchor" href="#_query_parameters_4"></a><a class="link" href="#_query_parameters_4">2.6.3. Query parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_6"><a class="anchor" href="#_request_fields_6"></a><a class="link" href="#_request_fields_6">2.6.4. Request fields</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_6"><a class="anchor" href="#_response_fields_6"></a><a class="link" href="#_response_fields_6">2.6.5. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+Must be one of [ONE, TWO].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.6. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.7. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1550,186 +1551,186 @@ Content-Length: 99
   "children" : null,
   "description" : "first child"
 }</code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="sect2">
-    <h3 id="resources-item-resource-test-search"><a class="anchor" href="#resources-item-resource-test-search"></a>2.7. Search Item</h3>
-    <div class="paragraph">
-      <p><code>GET /items/search</code></p>
-    </div>
-    <div class="paragraph">
-      <p>Searches for item based on lookup parameters.</p>
-    </div>
-    <div class="sect3">
-      <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a>2.7.1. Authorization</h4>
-      <div class="paragraph">
-        <p>Resource is public.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_path_parameters_6"><a class="anchor" href="#_path_parameters_6"></a>2.7.2. Path parameters</h4>
-      <div class="paragraph">
-        <p>No parameters.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_query_parameters_5"><a class="anchor" href="#_query_parameters_5"></a>2.7.3. Query parameters</h4>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Parameter</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.<br>
-            Size must be between 0 and 255 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.<br>
-            Must be at least 10.<br>
-            Must be at most 100.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_request_fields_7"><a class="anchor" href="#_request_fields_7"></a>2.7.4. Request fields</h4>
-      <div class="paragraph">
-        <p>No request body.</p>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_response_fields_7"><a class="anchor" href="#_response_fields_7"></a>2.7.5. Response fields</h4>
-      <div class="paragraph">
-        <p>Standard <a href="#overview-pagination">paging</a> response where <code>content</code> field is list of following objects:</p>
-      </div>
-      <table class="tableblock frame-all grid-all spread">
-        <colgroup>
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-          <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-          <th class="tableblock halign-left valign-top">Path</th>
-          <th class="tableblock halign-left valign-top">Type</th>
-          <th class="tableblock halign-left valign-top">Optional</th>
-          <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-            Size must be between 2 and 20 inclusive.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-            Must be at least 1.<br>
-            Must be at most 10.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-            Must be one of [ONE, TWO].</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-        </tr>
-        <tr>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-          <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a>2.7.6. Example request</h4>
-      <div class="listingblock">
-        <div class="content">
-          <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
-        </div>
-      </div>
-    </div>
-    <div class="sect3">
-      <h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a>2.7.7. Example response</h4>
-      <div class="listingblock">
-        <div class="content">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-search"><a class="anchor" href="#resources-item-resource-test-search"></a><a class="link" href="#resources-item-resource-test-search">2.7. Search Item</a></h3>
+<div class="paragraph">
+<p><code>GET /items/search</code></p>
+</div>
+<div class="paragraph">
+<p>Searches for item based on lookup parameters.</p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
+<div class="paragraph">
+<p>Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_6"><a class="anchor" href="#_path_parameters_6"></a><a class="link" href="#_path_parameters_6">2.7.2. Path parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_query_parameters_5"><a class="anchor" href="#_query_parameters_5"></a><a class="link" href="#_query_parameters_5">2.7.3. Query parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.<br>
+Size must be between 0 and 255 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.<br>
+Must be at least 10.<br>
+Must be at most 100.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_7"><a class="anchor" href="#_request_fields_7"></a><a class="link" href="#_request_fields_7">2.7.4. Request fields</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_7"><a class="anchor" href="#_response_fields_7"></a><a class="link" href="#_response_fields_7">2.7.5. Response fields</a></h4>
+<div class="paragraph">
+<p>Standard <a href="#overview-pagination">paging</a> response where <code>content</code> field is list of following objects:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
+Size must be between 2 and 20 inclusive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
+Must be at least 1.<br>
+Must be at most 10.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
+Must be one of [ONE, TWO].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.6. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.7. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1763,16 +1764,16 @@ Content-Length: 625
   } ],
   "pageable" : null,
   "total" : 1,
-  "totalPages" : 1,
   "last" : true,
   "totalElements" : 1,
-  "size" : 0,
-  "number" : 0,
+  "totalPages" : 1,
   "sort" : null,
+  "first" : true,
   "numberOfElements" : 1,
-  "first" : true
+  "size" : 0,
+  "number" : 0
 }</code></pre>
-        </div>
+</div>
 </div>
 </div>
 </div>
@@ -1781,7 +1782,7 @@ Content-Length: 625
 </div>
 <div id="footer">
 <div id="footer-text">
-  Last updated 2016-11-25 17:33:45 CET
+Last updated 2016-09-12 18:45:29 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
