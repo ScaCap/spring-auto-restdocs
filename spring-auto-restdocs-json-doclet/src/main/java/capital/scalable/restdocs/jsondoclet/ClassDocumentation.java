@@ -31,8 +31,8 @@ import com.sun.javadoc.MethodDoc;
 
 public final class ClassDocumentation {
     private String comment = "";
-    private Map<String, String> fields = new HashMap<>();
-    private Map<String, MethodDocumentation> methods = new HashMap<>();
+    private final Map<String, String> fields = new HashMap<>();
+    private final Map<String, MethodDocumentation> methods = new HashMap<>();
 
     private ClassDocumentation() {
         // enforce usage of static factory method

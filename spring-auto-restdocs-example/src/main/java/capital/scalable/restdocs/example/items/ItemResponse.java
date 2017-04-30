@@ -126,7 +126,7 @@ class ItemResponse {
         private Integer custom2;
     }
 
-    static enum EnumType {
+    enum EnumType {
         ONE, TWO
     }
 }

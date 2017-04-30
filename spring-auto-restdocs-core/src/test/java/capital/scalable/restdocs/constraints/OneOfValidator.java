@@ -32,10 +32,6 @@ public class OneOfValidator implements ConstraintValidator<OneOf, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return true;
-        } else {
-            return validValues.contains(value);
-        }
+        return value == null || validValues.contains(value);
     }
 }

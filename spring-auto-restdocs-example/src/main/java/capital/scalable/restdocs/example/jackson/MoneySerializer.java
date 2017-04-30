@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-public class MoneySerializer extends StdSerializer<Money> {
+class MoneySerializer extends StdSerializer<Money> {
     public MoneySerializer() {
         super(Money.class);
     }

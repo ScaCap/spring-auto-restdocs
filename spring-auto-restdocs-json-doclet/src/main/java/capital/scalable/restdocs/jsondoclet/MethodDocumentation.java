@@ -24,7 +24,7 @@ import com.sun.javadoc.ParamTag;
 
 public class MethodDocumentation {
     private String comment;
-    private Map<String, String> parameters = new HashMap<>();
+    private final Map<String, String> parameters = new HashMap<>();
 
     private MethodDocumentation() {
         // enforce usage of static factory method

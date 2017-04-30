@@ -69,7 +69,7 @@ class OAuth2ServerConfiguration {
     protected static class AuthorizationServerConfiguration extends
             AuthorizationServerConfigurerAdapter {
 
-        private TokenStore tokenStore = new InMemoryTokenStore();
+        private final TokenStore tokenStore = new InMemoryTokenStore();
 
         @Autowired
         @Qualifier("authenticationManagerBean")
