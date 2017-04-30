@@ -750,9 +750,7 @@ public void setUp() throws Exception {
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a> includes a sample application that demonstrates most features:</p>
 </div>
 <div class="paragraph">
-<p>The generated documentation of the example project can be viewed <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.
-:core-dir: <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core" class="bare">https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core</a>
-:core-package: {core-dir}/src/main/java/capital/scalable/restdocs</p>
+<p>The generated documentation of the example project can be viewed <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
 </div>
 </div>
 </div>
@@ -763,7 +761,7 @@ public void setUp() throws Exception {
 <div class="sect2">
 <h3 id="snippets-method-path"><a class="link" href="#snippets-method-path">Method and path snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/misc/MethodAndPathSnippet.java">Method and path snippet</a> takes a <code>value</code> (path) and <code>method</code> from <code>RequestMapping</code> annotation on the Controller&#8217;s method.
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/MethodAndPathSnippet.java">Method and path snippet</a> takes a <code>value</code> (path) and <code>method</code> from <code>RequestMapping</code> annotation on the Controller&#8217;s method.
 The shorthand annotations <code>GetMapping</code>, <code>PostMapping</code>, etc. are supported as well.</p>
 </div>
 <div class="listingblock">
@@ -783,7 +781,7 @@ public ItemResponse getItems() { ... }</code></pre>
 <div class="sect2">
 <h3 id="snippets-description"><a class="link" href="#snippets-description">Description snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/misc/DescriptionSnippet.java">Description snippet</a> outputs the Controller&#8217;s method&#8217;s Javadoc. Currently only basic <code>&lt;br&gt;</code> and <code>&lt;p&gt;</code> tags are supported.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/DescriptionSnippet.java">Description snippet</a> outputs the Controller&#8217;s method&#8217;s Javadoc. Currently only basic <code>&lt;br&gt;</code> and <code>&lt;p&gt;</code> tags are supported.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
@@ -813,7 +811,7 @@ Use query parameters to filter the list by:
 <div class="sect2">
 <h3 id="snippets-authorization"><a class="link" href="#snippets-authorization">Authorization snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/misc/AuthorizationSnippet.java">Authorization snippet</a> does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/AuthorizationSnippet.java">Authorization snippet</a> does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom <code>RequestPostProcessor</code> is used to add authorization and this is also the place where you add the documentation.</p>
 </div>
 <div class="listingblock">
@@ -847,7 +845,7 @@ public void addItem() throws Exception {
 <div class="sect2">
 <h3 id="snippets-path-parameters"><a class="link" href="#snippets-path-parameters">Path parameters snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/request/PathParametersSnippet.java">Path parameters snippet</a> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc with constraints.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/PathParametersSnippet.java">Path parameters snippet</a> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc with constraints.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
@@ -888,7 +886,7 @@ public ItemResponse getItem(@PathVariable String id) { ... }</code></pre>
 <div class="sect2">
 <h3 id="snippets-request-parameters"><a class="link" href="#snippets-request-parameters">Request parameters snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/request/RequestParametersSnippet.java">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestParametersSnippet.java">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
@@ -929,7 +927,7 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 <div class="sect2">
 <h3 id="snippets-request-fields"><a class="link" href="#snippets-request-fields">Request fields snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/payload/JacksonRequestFieldSnippet.java">Request fields snippet</a> automatically lists all fields of the request class, determined from <code>@RequestBody</code> parameter of Controller&#8217;s method.
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/payload/JacksonRequestFieldSnippet.java">Request fields snippet</a> automatically lists all fields of the request class, determined from <code>@RequestBody</code> parameter of Controller&#8217;s method.
 List includes name, type, whether the field is optional, and its Javadoc with constraints.</p>
 </div>
 <div class="listingblock">
@@ -989,7 +987,7 @@ Size must be between 0 and 20 inclusive.</p></td>
 <div class="sect2">
 <h3 id="snippets-response-fields"><a class="link" href="#snippets-response-fields">Response fields snippet</a></h3>
 <div class="paragraph">
-<p><a href="{core-package}/payload/JacksonResponseFieldSnippet.java">Response fields snippet</a> automatically lists all fields of the response class, determined from return value of Controller&#8217;s method.
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/payload/JacksonResponseFieldSnippet.java">Response fields snippet</a> automatically lists all fields of the response class, determined from return value of Controller&#8217;s method.
 List includes name, type, whether the field is optional, and its Javadoc with constraints.</p>
 </div>
 <div class="listingblock">
@@ -1474,7 +1472,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-04-24 18:20:41 CEST
+Last updated 2017-04-30 19:11:44 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
