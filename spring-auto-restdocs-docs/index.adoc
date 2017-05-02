@@ -53,6 +53,9 @@ Is a multi-module project setup supported?::
   and only the first found JSON file is used.
 
 include::getting-started.adoc[]
+
 include::snippets.adoc[]
+
 include::constraints.adoc[]
+
 include::contributing.adoc[]
