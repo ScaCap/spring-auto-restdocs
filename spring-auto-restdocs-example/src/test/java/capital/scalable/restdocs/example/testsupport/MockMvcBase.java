@@ -80,7 +80,7 @@ public abstract class MockMvcBase {
     private WebApplicationContext context;
 
     @Autowired
-    protected ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Autowired
     private Filter springSecurityFilterChain;

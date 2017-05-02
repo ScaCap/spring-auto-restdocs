@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 /**
  * This is a test class. UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép
  */
-public class DocumentedClass {
+class DocumentedClass {
     /**
      * Location of resource
      */

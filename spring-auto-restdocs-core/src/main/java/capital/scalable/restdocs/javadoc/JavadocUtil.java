@@ -6,7 +6,7 @@ public class JavadocUtil {
     }
 
     public static String convertFromJavadoc(String javadoc, String lineBreak) {
-        String lineBreaked = javadoc
+        String withConvertedLineBreaks = javadoc
                 .replace("\n", "")
                 .replace("<br/>", "\n")
                 .replace("<br>", "\n")
@@ -14,12 +14,12 @@ public class JavadocUtil {
                 .replace("</p>", "")
                 .trim();
 
-        if (lineBreaked.isEmpty()) {
+        if (withConvertedLineBreaks.isEmpty()) {
             return "";
         }
 
         StringBuilder res = new StringBuilder();
-        for (String line : lineBreaked.split("\n")) {
+        for (String line : withConvertedLineBreaks.split("\n")) {
             res.append(line.trim()).append(lineBreak);
         }
         res.delete(res.lastIndexOf(lineBreak), res.length());

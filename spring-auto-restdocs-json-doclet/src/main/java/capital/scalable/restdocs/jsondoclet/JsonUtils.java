@@ -16,7 +16,7 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
-public final class JsonUtils {
+final class JsonUtils {
 
     private JsonUtils() {
         // only static utility functions
