@@ -20,6 +20,8 @@ Learn more in the [Introducing Spring Auto REST Docs](https://dzone.com/articles
 
 * [Latest / master](https://scacap.github.io/spring-auto-restdocs)
 
+* [Version 1.0.7](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/25464f899d96cba889e48de309f0ee878588afe2/docs/index.html)
+
 * [Version 1.0.6](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/b2a1bbb12f7a7ccf499bc81d6caebe8f7a449321/docs/index.html)
 
 * [Version 1.0.5](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/12ad534d101363edfd1d41b22507c602e004b489/docs/index.html)
