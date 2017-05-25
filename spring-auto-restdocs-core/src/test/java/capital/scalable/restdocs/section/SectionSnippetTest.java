@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.misc;
+package capital.scalable.restdocs.section;
 
 import static capital.scalable.restdocs.AutoDocumentation.authorization;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
@@ -32,7 +32,6 @@ import static org.springframework.restdocs.generate.RestDocumentationGenerator.A
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import capital.scalable.restdocs.section.SectionBuilder;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;

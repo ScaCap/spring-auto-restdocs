@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;

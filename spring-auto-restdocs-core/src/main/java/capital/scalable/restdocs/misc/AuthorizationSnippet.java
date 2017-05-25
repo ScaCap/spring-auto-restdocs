@@ -18,7 +18,6 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getAuthorization;
 import static capital.scalable.restdocs.OperationAttributeHelper.setAuthorization;
-import static capital.scalable.restdocs.SnippetRegistry.AUTHORIZATION;
 
 import java.util.HashMap;
 import java.util.Map;

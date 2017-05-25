@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.SnippetRegistry.PATH_PARAMETERS;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 

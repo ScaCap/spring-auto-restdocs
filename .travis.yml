@@ -12,8 +12,8 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 before_install:
-- mvn install:install-file -Dfile=lib/spring-restdocs-core-1.1.3.RELEASE-test.jar
-  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=1.1.3.RELEASE
+- mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.1.RELEASE-test.jar
+  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=1.2.1.RELEASE
   -Dpackaging=jar -Dclassifier=test
 script:
 - mvn install -B -V

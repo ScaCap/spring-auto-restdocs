@@ -18,7 +18,6 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getRequestMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getRequestPattern;
-import static capital.scalable.restdocs.SnippetRegistry.METHOD_PATH;
 
 import java.util.HashMap;
 import java.util.Map;
