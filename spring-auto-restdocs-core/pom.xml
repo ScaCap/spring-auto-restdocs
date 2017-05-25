@@ -7,7 +7,7 @@
     <parent>
         <groupId>capital.scalable</groupId>
         <artifactId>spring-auto-restdocs-parent</artifactId>
-        <version>1.0.6-SNAPSHOT</version>
+        <version>1.0.8-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -88,6 +88,12 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -117,24 +123,25 @@
                 <extensions>true</extensions>
                 <executions>
                     <execution>
+                        <id>generate-javadoc-json</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>test-javadoc-no-fork</goal>
                         </goals>
+                        <configuration>
+                            <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                            <docletArtifact>
+                                <groupId>capital.scalable</groupId>
+                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                                <version>${project.parent.version}</version>
+                            </docletArtifact>
+                            <destDir>generated-javadoc-json</destDir>
+                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                            <show>package</show>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
-                    <docletArtifact>
-                        <groupId>capital.scalable</groupId>
-                        <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                        <version>${project.parent.version}</version>
-                    </docletArtifact>
-                    <destDir>generated-javadoc-json</destDir>
-                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-                    <useStandardDocletOptions>false</useStandardDocletOptions>
-                    <show>package</show>
-                </configuration>
             </plugin>
         </plugins>
     </build>

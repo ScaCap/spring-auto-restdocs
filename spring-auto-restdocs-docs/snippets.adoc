@@ -1,14 +1,63 @@
+:core-dir: https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core
+:core-package: {core-dir}/src/main/java/capital/scalable/restdocs
+
 [[snippets]]
 == Snippets
+
+[[snippets-method-path]]
+=== Method and path snippet
+
+link:{core-package}/misc/MethodAndPathSnippet.java[Method and path snippet] takes a `value` (path) and `method` from `RequestMapping` annotation on the Controller's method.
+The shorthand annotations `GetMapping`, `PostMapping`, etc. are supported as well.
+
+.Code
+[source,java]
+----
+@RequestMapping(value = "/items", method = RequestMethod.GET)
+public ItemResponse getItems() { ... }
+----
+
+.Result
+----
+GET /items
+----
+
+[[snippets-description]]
+=== Description snippet
+
+link:{core-package}/misc/DescriptionSnippet.java[Description snippet] outputs the Controller's method's Javadoc. Currently only basic `<br>` and `<p>` tags are supported.
+
+.Code
+[source,java]
+----
+/**
+ * Returns list of all items.
+ * <p>
+ * Use query parameters to filter the list by:<br>
+ * - orderNumber<br>
+ * - type
+ */
+@RequestMapping...
+public ItemResponse getItems() { ... }
+----
+
+.Result
+----
+Returns list of all items.
+
+Use query parameters to filter the list by:
+- orderNumber
+- type
+----
 
 [[snippets-authorization]]
 === Authorization snippet
 
-The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
+link:{core-package}/misc/AuthorizationSnippet.java[Authorization snippet] does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom `RequestPostProcessor` is used to add authorization and this is also the place where you add the documentation.
 
 .Code
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 protected RequestPostProcessor userToken() {
     return new RequestPostProcessor() {
@@ -20,24 +69,35 @@ protected RequestPostProcessor userToken() {
         }
     };
 }
+
+@Test
+public void addItem() throws Exception {
+    mockMvc.perform(post("/items").with(userToken())
+    ...
+}
+----
+
+.Result
+----
+User access token required.
 ----
 
 [[snippets-path-parameters]]
-=== Path parameter snippet
+=== Path parameters snippet
 
-The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.
+link:{core-package}/request/PathParametersSnippet.java[Path parameters snippet] automatically lists parameters in the path including their type, whether they are optional, and their Javadoc with constraints.
 
 .Code
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 /**
  * @param id ID of the item.
  */
 @RequestMapping("{id}")
-public ItemResponse getItem(@PathVariable("id") String id) {
+public ItemResponse getItem(@PathVariable String id) { ... }
 ----
 
-. Result
+.Result
 |===
 |Parameter|Type|Optional|Description
 
@@ -45,21 +105,22 @@ public ItemResponse getItem(@PathVariable("id") String id) {
 | String
 | false
 | ID of the item.
+
 |===
 
 [[snippets-request-parameters]]
-=== Request parameter snippet
+=== Request parameters snippet
 
-The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their Javadoc.
+link:{core-package}/request/RequestParametersSnippet.java[Request parameters snippet] automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.
 
 .Code
-[source,java,indent=0,role="secondary"]
+[source,java]
 ----
 /**
  * @param descMatch Lookup on description field.
  */
 @RequestMapping("search")
-public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) {
+public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) { ... }
 ----
 
 .Result
@@ -70,7 +131,105 @@ public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) {
 | String
 | false
 | Lookup on description field.
+
+|===
+
+[[snippets-request-fields]]
+=== Request fields snippet
+
+link:{core-package}/payload/JacksonRequestFieldSnippet.java[Request fields snippet] automatically lists all fields of the request class, determined from `@RequestBody` parameter of Controller's method.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.
+
+.Code
+[source,java]
+----
+@RequestMapping(method = POST)
+public void addItem(@RequestBody ItemUpdateRequest request) { ... }
+
+static class ItemUpdateRequest {
+    /**
+     * Item ID.
+     */
+    @NotBlank
+    private Integer id;
+
+    /**
+     * Item description.
+     */
+    @Size(max = 20)
+    private String description;
+}
+----
+
+.Result
+|===
+|Path|Type|Optional|Description
+
+| id
+| Integer
+| false
+| Item ID.
+
+| description
+| String
+| true
+| Item description. +
+Size must be between 0 and 20 inclusive.
+
+|===
+
+[[snippets-response-fields]]
+=== Response fields snippet
+
+link:{core-package}/payload/JacksonResponseFieldSnippet.java[Response fields snippet] automatically lists all fields of the response class, determined from return value of Controller's method.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.
+
+.Code
+[source,java]
+----
+@RequestMapping("{id}")
+public ItemResponse getItem(@PathVariable String id) { ... }
+
+static class ItemResponse {
+    /**
+     * Unique item ID.
+     */
+    @NotBlank
+    private String id;
+
+    /**
+     * Item's order number.
+     */
+    @Min(1)
+    private Integer orderNumber;
+}
+----
+
+.Result
+|===
+|Path|Type|Optional|Description
+
+| id
+| Integer
+| false
+| Unique item ID.
+
+| orderNumber
+| Integer
+| true
+| Item's order number. +
+Must be at least 1.
+
 |===
 
 include::section-snippet.adoc[]
 
+[[snippets-custom]]
+=== Custom snippet
+
+Custom snippets are created by subclassing the link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
+(or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]). If you want your custom
+ snippet to be part of section snippet with automatically recognised header and include link (file name),
+ you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.
+ Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration's
+ builder `withDefaults(...)` and include snippet name among SectionBuilder's `snippetNames(...)`.

@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.0.RELEASE</version>
+        <version>1.5.3.RELEASE</version>
         <relativePath/>
     </parent>
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-example</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version> <!-- not related to spring-auto-restdocs version -->
 
     <name>Spring Auto REST Docs Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
@@ -24,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <start-class>capital.scalable.restdocs.example.Application</start-class>
+        <spring-auto-restdocs.version>1.0.8-SNAPSHOT</spring-auto-restdocs.version>
     </properties>
 
     <dependencies>
@@ -42,7 +43,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.10</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -53,7 +53,6 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path-assert</artifactId>
-            <version>2.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -69,7 +68,7 @@
         <dependency>
             <groupId>capital.scalable</groupId>
             <artifactId>spring-auto-restdocs-core</artifactId>
-            <version>${project.version}</version>
+            <version>${spring-auto-restdocs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -102,7 +101,7 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.3</version>
+                <version>1.5.5</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>
@@ -160,29 +159,89 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <extensions>true</extensions>
                 <executions>
                     <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generate-javadoc-json</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>javadoc-no-fork</goal>
                         </goals>
+                        <configuration>
+                            <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
+                            <docletArtifact>
+                                <groupId>capital.scalable</groupId>
+                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                                <version>${spring-auto-restdocs.version}</version>
+                            </docletArtifact>
+                            <destDir>generated-javadoc-json</destDir>
+                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                            <show>package</show>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
-                    <docletArtifact>
-                        <groupId>capital.scalable</groupId>
-                        <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                        <version>${project.version}</version>
-                    </docletArtifact>
-                    <destDir>generated-javadoc-json</destDir>
-                    <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-                    <useStandardDocletOptions>false</useStandardDocletOptions>
-                    <show>package</show>
-                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>gpg.passphrase</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
 </project>

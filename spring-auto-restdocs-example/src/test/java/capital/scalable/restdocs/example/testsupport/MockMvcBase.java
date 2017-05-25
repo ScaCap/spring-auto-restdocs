@@ -38,7 +38,8 @@ import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+        .documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -79,7 +80,7 @@ public abstract class MockMvcBase {
     private WebApplicationContext context;
 
     @Autowired
-    protected ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Autowired
     private Filter springSecurityFilterChain;
@@ -88,8 +89,16 @@ public abstract class MockMvcBase {
 
     @Rule
     public final JUnitRestDocumentation restDocumentation =
-            new JUnitRestDocumentation(
-                    System.getProperties().getProperty("org.springframework.restdocs.outputDir"));
+            new JUnitRestDocumentation(resolveOutputDir());
+
+    private String resolveOutputDir() {
+        String outputDir = System.getProperties().getProperty(
+                "org.springframework.restdocs.outputDir");
+        if (outputDir == null) {
+            outputDir = "target/generated-snippets";
+        }
+        return outputDir;
+    }
 
     @Before
     public void setUp() throws Exception {

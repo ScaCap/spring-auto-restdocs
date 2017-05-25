@@ -21,7 +21,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
 
-public class OneOfValidator implements ConstraintValidator<OneOf, String> {
+class OneOfValidator implements ConstraintValidator<OneOf, String> {
 
     private List<String> validValues;
 

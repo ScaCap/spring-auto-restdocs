@@ -16,7 +16,7 @@
 
 package capital.scalable.restdocs.misc;
 
-
+import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
 import static capital.scalable.restdocs.misc.DescriptionSnippet.DESCRIPTION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
@@ -40,16 +40,22 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
                 "testDescription");
         JavadocReader javadocReader = mock(JavadocReader.class);
         when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
-                .thenReturn("Sample method comment");
+                .thenReturn("Sample method comment<br>\n with newline\n <p>\n and one paragraph\n");
 
         this.snippets.expect(DESCRIPTION)
-                .withContents(equalTo("Sample method comment"));
+                .withContents(equalTo("Sample method comment" + lineBreak()
+                        + "with newline" + lineBreak() + lineBreak()
+                        + "and one paragraph"));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+    }
+
+    private String lineBreak() {
+        return determineLineBreak(templateFormat);
     }
 
     private static class TestResource {

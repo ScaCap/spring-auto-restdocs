@@ -4,28 +4,9 @@
 include::{snippets}/{{path}}/method-path.adoc[]
 
 include::{snippets}/{{path}}/description.adoc[]
+{{#sections}}
 
-==== Authorization
+==== {{header}}
 
-include::{snippets}/{{path}}/authorization.adoc[]
-
-==== Path parameters
-
-include::{snippets}/{{path}}/path-parameters.adoc[]
-
-==== Query parameters
-
-include::{snippets}/{{path}}/request-parameters.adoc[]
-
-==== Request structure
-
-include::{snippets}/{{path}}/request-fields.adoc[]
-
-==== Response structure
-
-include::{snippets}/{{path}}/response-fields.adoc[]
-
-==== Example request/response
-
-include::{snippets}/{{path}}/curl-request.adoc[]
-include::{snippets}/{{path}}/http-response.adoc[]
+include::{snippets}/{{path}}/{{fileName}}.adoc[]
+{{/sections}}

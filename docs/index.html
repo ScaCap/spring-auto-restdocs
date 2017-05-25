@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <meta name="author" content="Scalable Capital">
 <title>Spring Auto REST Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -18,7 +18,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -53,7 +52,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -65,7 +64,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -120,13 +118,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -417,7 +418,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
@@ -438,10 +439,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#snippets">Snippets</a>
 <ul class="sectlevel2">
+<li><a href="#snippets-method-path">Method and path snippet</a></li>
+<li><a href="#snippets-description">Description snippet</a></li>
 <li><a href="#snippets-authorization">Authorization snippet</a></li>
-<li><a href="#snippets-path-parameters">Path parameter snippet</a></li>
-<li><a href="#snippets-request-parameters">Request parameter snippet</a></li>
+<li><a href="#snippets-path-parameters">Path parameters snippet</a></li>
+<li><a href="#snippets-request-parameters">Request parameters snippet</a></li>
+<li><a href="#snippets-request-fields">Request fields snippet</a></li>
+<li><a href="#snippets-response-fields">Response fields snippet</a></li>
 <li><a href="#snippets-section">Section snippet</a></li>
+<li><a href="#snippets-custom">Custom snippet</a></li>
 </ul>
 </li>
 <li><a href="#constraints">Documenting constraints</a>
@@ -486,8 +492,8 @@ up in the documentation.</p>
 <p>Jackson visitor that gathers the whole JSON structure and includes Javadoc
 and constraint annotations on the fields. It works for both request and
 response bodies. In addition to the constraint documentation support that
-is already Spring REST Docs, we automatically include the constraint message
-in the documentation and also added support for documenting constraint groups.</p>
+is already in Spring REST Docs, the constraint message is automatically included
+in the documentation. Constraint groups are also supported.</p>
 </li>
 <li>
 <p>Path and query parameters can be documented automatically.</p>
@@ -496,7 +502,7 @@ in the documentation and also added support for documenting constraint groups.</
 <p>A helper to document authentication.</p>
 </li>
 <li>
-<p>A snippet that includes all other snippets of this extension and thus helps
+<p>A snippet that includes all other snippets and thus helps
 you write even less.</p>
 </li>
 </ul>
@@ -520,6 +526,15 @@ you write even less.</p>
 <p><em>Is Jackson required for automatic field documentation?</em></p>
 <p>Yes, this project only includes a Jackson visitor so far.</p>
 </li>
+<li>
+<p><em>Is a multi-module project setup supported?</em></p>
+<p>The JSON doclet and the REST Docs snippets produce files.
+Therefore, all results can be copied across modules or projects.
+Instead of copying, multiple source directories for
+the JSON files can be configured with the <code>javadocJsonDir</code> property.
+Directories are separated by <code>,</code> and are processed in order
+and only the first found JSON file is used.</p>
+</li>
 </ol>
 </div>
 </div>
@@ -538,7 +553,7 @@ you write even less.</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring REST Docs 1.1.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 1.1.3.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -551,17 +566,17 @@ you write even less.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
-<div class="listingblock primary">
+<div class="listingblock">
 <div class="title">Maven</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.5&lt;/version&gt;
+    &lt;version&gt;1.0.7&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
@@ -578,7 +593,7 @@ you write even less.</p>
                         ${snippetsDirectory}
                     &lt;/org.springframework.restdocs.outputDir&gt;
                     &lt;org.springframework.restdocs.javadocJsonDir&gt;
-                        ${project.build.directory}/generated-javadoc-json
+                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="2"></i><b>(2)</b>
                     &lt;/org.springframework.restdocs.javadocJsonDir&gt;
                 &lt;/systemPropertyVariables&gt;
              &lt;/configuration&gt;
@@ -588,24 +603,25 @@ you write even less.</p>
             &lt;extensions&gt;true&lt;/extensions&gt;
             &lt;executions&gt;
                 &lt;execution&gt;
+                    &lt;id&gt;generate-javadoc-json&lt;/id&gt;
                     &lt;phase&gt;compile&lt;/phase&gt;
                     &lt;goals&gt;
                         &lt;goal&gt;javadoc-no-fork&lt;/goal&gt;
                     &lt;/goals&gt;
+                    &lt;configuration&gt;
+                        &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
+                        &lt;docletArtifact&gt;
+                            &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
+                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
+                            &lt;version&gt;1.0.7&lt;/version&gt;
+                        &lt;/docletArtifact&gt;
+                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
+                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
+                        &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
+                        &lt;show&gt;package&lt;/show&gt;
+                    &lt;/configuration&gt;
                 &lt;/execution&gt;
             &lt;/executions&gt;
-            &lt;configuration&gt;
-                &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
-                &lt;docletArtifact&gt;
-                    &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                    &lt;version&gt;1.0.5&lt;/version&gt;
-                &lt;/docletArtifact&gt;
-                &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
-                &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
-                &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
-                &lt;show&gt;package&lt;/show&gt;
-            &lt;/configuration&gt;
         &lt;/plugin&gt;
         ...
     &lt;/plugins&gt;
@@ -618,22 +634,27 @@ you write even less.</p>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
 <td>Has to be removed if <code>@RestdocsNotExpanded</code> is used.</td>
 </tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Multiple directories can be listed by separating them with <code>,</code>.
+The directories are processed in order and only the first found JSON file is used.</td>
+</tr>
 </table>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Gradle</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy" data-lang="groovy">configurations {
+<pre class="highlightjs highlight"><code class="language-javascript" data-lang="javascript">configurations {
     jsondoclet
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="1"></i><b>(1)</b>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.5' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.5'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.7' <i class="conum" data-value="2"></i><b>(2)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.7'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -661,6 +682,11 @@ jar {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Multiple directories can be listed by separating them with <code>,</code>.
+The directories are processed in order and only the first found JSON file is used.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>Has to be <code>compile</code> instead of <code>testCompile</code> if <code>@RestdocsNotExpanded</code> is used.</td>
 </tr>
 </table>
@@ -668,7 +694,7 @@ jar {
 </li>
 <li>
 <p>Configure MockMvc</p>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@Autowired
 private WebApplicationContext context;
@@ -733,12 +759,62 @@ public void setUp() throws Exception {
 <h2 id="snippets"><a class="link" href="#snippets">Snippets</a></h2>
 <div class="sectionbody">
 <div class="sect2">
+<h3 id="snippets-method-path"><a class="link" href="#snippets-method-path">Method and path snippet</a></h3>
+<div class="paragraph">
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/MethodAndPathSnippet.java">Method and path snippet</a> takes a <code>value</code> (path) and <code>method</code> from <code>RequestMapping</code> annotation on the Controller&#8217;s method.
+The shorthand annotations <code>GetMapping</code>, <code>PostMapping</code>, etc. are supported as well.</p>
+</div>
+<div class="listingblock">
+<div class="title">Code</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">@RequestMapping(value = "/items", method = RequestMethod.GET)
+public ItemResponse getItems() { ... }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Result</div>
+<div class="content">
+<pre>GET /items</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="snippets-description"><a class="link" href="#snippets-description">Description snippet</a></h3>
+<div class="paragraph">
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/DescriptionSnippet.java">Description snippet</a> outputs the Controller&#8217;s method&#8217;s Javadoc. Currently only basic <code>&lt;br&gt;</code> and <code>&lt;p&gt;</code> tags are supported.</p>
+</div>
+<div class="listingblock">
+<div class="title">Code</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
+ * Returns list of all items.
+ * &lt;p&gt;
+ * Use query parameters to filter the list by:&lt;br&gt;
+ * - orderNumber&lt;br&gt;
+ * - type
+ */
+@RequestMapping...
+public ItemResponse getItems() { ... }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Result</div>
+<div class="content">
+<pre>Returns list of all items.
+
+Use query parameters to filter the list by:
+- orderNumber
+- type</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="snippets-authorization"><a class="link" href="#snippets-authorization">Authorization snippet</a></h3>
 <div class="paragraph">
-<p>The authorization snippet does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/AuthorizationSnippet.java">Authorization snippet</a> does not help in adding authorization to your tests, but it makes it easy to document your authorization information.
 Usually, a custom <code>RequestPostProcessor</code> is used to add authorization and this is also the place where you add the documentation.</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">protected RequestPostProcessor userToken() {
@@ -750,33 +826,39 @@ Usually, a custom <code>RequestPostProcessor</code> is used to add authorization
             return documentAuthorization(request, "User access token required.");
         }
     };
+}
+
+@Test
+public void addItem() throws Exception {
+    mockMvc.perform(post("/items").with(userToken())
+    ...
 }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Result</div>
+<div class="content">
+<pre>User access token required.</pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="snippets-path-parameters"><a class="link" href="#snippets-path-parameters">Path parameter snippet</a></h3>
+<h3 id="snippets-path-parameters"><a class="link" href="#snippets-path-parameters">Path parameters snippet</a></h3>
 <div class="paragraph">
-<p>The path parameter snippet automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/PathParametersSnippet.java">Path parameters snippet</a> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc with constraints.</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * @param id ID of the item.
  */
 @RequestMapping("{id}")
-public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
+public ItemResponse getItem(@PathVariable String id) { ... }</code></pre>
 </div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Result</p>
-</li>
-</ol>
 </div>
 <table class="tableblock frame-all grid-all spread">
+<caption class="title">Result</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -802,18 +884,18 @@ public ItemResponse getItem(@PathVariable("id") String id) {</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="snippets-request-parameters"><a class="link" href="#snippets-request-parameters">Request parameter snippet</a></h3>
+<h3 id="snippets-request-parameters"><a class="link" href="#snippets-request-parameters">Request parameters snippet</a></h3>
 <div class="paragraph">
-<p>The request parameter snippet automatically lists query parameters including their type, whether they are optional, and their Javadoc.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestParametersSnippet.java">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * @param descMatch Lookup on description field.
  */
 @RequestMapping("search")
-public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatch) {</code></pre>
+public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatch) { ... }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -843,19 +925,139 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 </table>
 </div>
 <div class="sect2">
+<h3 id="snippets-request-fields"><a class="link" href="#snippets-request-fields">Request fields snippet</a></h3>
+<div class="paragraph">
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/payload/JacksonRequestFieldSnippet.java">Request fields snippet</a> automatically lists all fields of the request class, determined from <code>@RequestBody</code> parameter of Controller&#8217;s method.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.</p>
+</div>
+<div class="listingblock">
+<div class="title">Code</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">@RequestMapping(method = POST)
+public void addItem(@RequestBody ItemUpdateRequest request) { ... }
+
+static class ItemUpdateRequest {
+    /**
+     * Item ID.
+     */
+    @NotBlank
+    private Integer id;
+
+    /**
+     * Item description.
+     */
+    @Size(max = 20)
+    private String description;
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Result</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item description.<br>
+Size must be between 0 and 20 inclusive.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="snippets-response-fields"><a class="link" href="#snippets-response-fields">Response fields snippet</a></h3>
+<div class="paragraph">
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/payload/JacksonResponseFieldSnippet.java">Response fields snippet</a> automatically lists all fields of the response class, determined from return value of Controller&#8217;s method.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.</p>
+</div>
+<div class="listingblock">
+<div class="title">Code</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">@RequestMapping("{id}")
+public ItemResponse getItem(@PathVariable String id) { ... }
+
+static class ItemResponse {
+    /**
+     * Unique item ID.
+     */
+    @NotBlank
+    private String id;
+
+    /**
+     * Item's order number.
+     */
+    @Min(1)
+    private Integer orderNumber;
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Result</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique item ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderNumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s order number.<br>
+Must be at least 1.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
 <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
 <div class="paragraph">
-<p>The section snippet combines all snippets in this REST Docs extensions and also includes unmodified snippets from Spring REST Docs.
+<p>The section snippet combines most common snippets into one convenient file.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with Javadoc.</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Asciidoc</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">include::{snippets}/your-endpoint/section.adoc[]</code></pre>
 </div>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Template itself</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">[[resources-{{link}}]]
@@ -864,39 +1066,20 @@ Assuming of course that you already documented your code with Javadoc.</p>
 include::{snippets}/{{path}}/method-path.adoc[]
 
 include::{snippets}/{{path}}/description.adoc[]
+{{#sections}}
 
-==== Authorization
+==== {{header}}
 
-include::{snippets}/{{path}}/authorization.adoc[]
-
-==== Path parameters
-
-include::{snippets}/{{path}}/path-parameters.adoc[]
-
-==== Query parameters
-
-include::{snippets}/{{path}}/request-parameters.adoc[]
-
-==== Request structure
-
-include::{snippets}/{{path}}/request-fields.adoc[]
-
-==== Response structure
-
-include::{snippets}/{{path}}/response-fields.adoc[]
-
-==== Example request/response
-
-include::{snippets}/{{path}}/curl-request.adoc[]
-include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
+include::{snippets}/{{path}}/{{fileName}}.adoc[]
+{{/sections}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Template placeholders</caption>
 <colgroup>
-<col style="width: 33%;">
-<col style="width: 33%;">
-<col style="width: 33%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
@@ -917,52 +1100,136 @@ include::{snippets}/{{path}}/http-response.adoc[]</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Derived from method name. For example: <code>getItemById</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">method-path.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST /items/{id}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MethodAndPathSnippet</code> is used to determine the HTTP method and path.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{snippets}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">target/generated-snippets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base snippet folder configured via <code>org.springframework.restdocs.outputDir</code> system property.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">description.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Get an item by its ID.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DescriptionSnippet</code> reads the Javadoc on the method.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{sections}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;iterable&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains all sections (Snippet classes) which are configured to be included in the section snippet. Moustache templater iterates over this and expands into separate header and link lines.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">authorization.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Resource is public.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AuthorizationSnippet</code> can be used for custom authorization information, e.g. the OAuth role required for the endpoint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{header}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authorization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snippet header hard-coded inside Snippet class.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path-parameters.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PathParametersSnippet</code> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">request-parameters.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RequestParametersSnippet</code> automatically lists query parameters including their type, whether they are optional, and their Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">request-fields.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JacksonRequestFieldSnippet</code> automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">response-fields.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JacksonResponseFieldSnippet</code> automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">curl-request.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The original <code>CurlRequestSnippet</code> from Spring REST Docs is used here to provide a cURL example of the request.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">http-response.adoc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The original <code>HttpResponseSnippet</code> from Spring REST Docs is used here to provide the HTTP response from the test.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{fileName}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name hard-coded inside Snippet class.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="snippets-section-configuration"><a class="link" href="#snippets-section-configuration">Snippet configuration</a></h4>
+<div class="paragraph">
+<p>By default, these snippets in the following order are linked inside section snippet:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Example</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">method-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST /items/{id}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-method-path">Method and path snippet</a> is used to determine the HTTP method and path (non-configurable).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get item by ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-description">Description snippet</a> reads the Javadoc on the method (non-configurable).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resource is public.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-authorization">Authorization snippet</a> can be used for custom authorization information, e.g. the OAuth role required for the endpoint</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path-parameters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-path-parameters">Path parameters snippet</a> automatically lists parameters in the path including their type, whether they are optional, and their Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">request-parameters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-request-parameters">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">request-fields</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-request-fields">Request fields snippet</a> automatically lists all fields of the request body including their type, whether they are optional, and their Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response-fields</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-response-fields">Response fields snippet</a> automatically lists all fields of the response body including their type, whether they are optional, and their Javadoc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">curl-request</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ curl 'http://localhost/items/1'</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/cli/CurlRequestSnippet.java">cURL request snippet</a> from Spring REST Docs is used here to provide a cURL example of the request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">http-response</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HTTP/1.1 200 OK<br>
+   { id: "myId", &#8230;&#8203; }</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/http/HttpResponseSnippet.java">HTTP response snippet</a> from Spring REST Docs is used here to provide the HTTP response from the test.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_customisation_options"><a class="link" href="#_customisation_options">Customisation options</a></h4>
+<div class="paragraph">
+<p>If you want to configure custom sections and their order, instead of using <code>AutoDocumentation.section()</code> you can use
+ <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring section snippet</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java" data-lang="java">AutoDocumentation.sectionBuilder()
+    .snippetNames( <i class="conum" data-value="1"></i><b>(1)</b>
+        SnippetRegistry.PATH_PARAMETERS,
+        SnippetRegistry.REQUEST_PARAMETERS,
+        SnippetRegistry.REQUEST_FIELDS,
+        SnippetRegistry.RESPONSE_FIELDS)
+    .skipEmpty(true) <i class="conum" data-value="2"></i><b>(2)</b>
+    .build()</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>only selected snippets will be used in the specified order</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>whether snippets having no content should be skipped from section</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="snippets-custom"><a class="link" href="#snippets-custom">Custom snippet</a></h3>
+<div class="paragraph">
+<p>Custom snippets are created by subclassing the <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/snippet/Snippet.java">Snippet</a> interface
+(or more conveniently <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/snippet/TemplatedSnippet.java">TemplatedSnippet</a>). If you want your custom
+ snippet to be part of section snippet with automatically recognised header and include link (file name),
+ you have to implement <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/section/SectionSupport.java">SectionSupport</a> interface.
+ Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration&#8217;s
+ builder <code>withDefaults(&#8230;&#8203;)</code> and include snippet name among SectionBuilder&#8217;s <code>snippetNames(&#8230;&#8203;)</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1004,12 +1271,12 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.1.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">ConstraintDescriptions.properties</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-ini" data-lang="ini">myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
@@ -1036,7 +1303,7 @@ Here we do a bit more on the following two types:</p>
 <li>
 <p>Array: The elements are extracted and <code>toString()</code> is called
 on each element. The resulting strings are wrapped in brackets
-and separated by commas, i.e. <code>[elemet1.toString(), element2.toString(), &#8230;&#8203;]</code>.</p>
+and separated by commas, i.e. <code>[element1.toString(), element2.toString(), &#8230;&#8203;]</code>.</p>
 </li>
 <li>
 <p>Class: An instance with the default constructor is created
@@ -1056,7 +1323,7 @@ The descriptions are provided in the same way as for custom constraints.</p>
 <h4 id="constraints-examples"><a class="link" href="#constraints-examples">Examples</a></h4>
 <div class="sect4">
 <h5 id="constraints-examples-descriptions"><a class="link" href="#constraints-examples-descriptions">Descriptions for the examples</a></h5>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">ConstraintDescriptions.properties</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-ini" data-lang="ini">myproject.constraints.groups.German.description=DE: ${value}
@@ -1067,7 +1334,7 @@ myproject.constraints.OneOf.description=Must be one of ${value}</code></pre>
 </div>
 <div class="sect4">
 <h5 id="constraints-examples-optionality"><a class="link" href="#constraints-examples-optionality">Optionality description</a></h5>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@NotNull(groups = English.class)
@@ -1103,7 +1370,7 @@ EN: false</p></td>
 </div>
 <div class="sect4">
 <h5 id="constraints-examples-fields"><a class="link" href="#constraints-examples-fields">Field description example</a></h5>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@OneOf(value = {"big", "small"}, groups = English.class)
@@ -1152,18 +1419,18 @@ private String field;</code></pre>
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.</p>
 </div>
 <div class="paragraph">
-<p>We use version 1.1.2.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 1.1.3.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Maven</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.1.2.RELEASE&lt;/version&gt;
+    &lt;version&gt;1.1.3.RELEASE&lt;/version&gt;
     &lt;classifier&gt;test&lt;/classifier&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
@@ -1172,27 +1439,27 @@ If you want to build this project yourself, you first have to build and copy the
 <div class="paragraph">
 <p>Clone and build a specific version of Spring REST Docs:</p>
 </div>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Bash</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v1.1.2.RELEASE
+git checkout tags/v1.1.3.RELEASE
 ./gradlew build</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Afterwards you copy
-<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.2.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.3.RELEASE-test.jar</code>
 to
-<code>~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.2.RELEASE</code>
+<code>~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.3.RELEASE</code>
 so that the test JAR is available to Maven.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="contributing-building-build"><a class="link" href="#contributing-building-build">Build</a></h4>
-<div class="listingblock secondary">
+<div class="listingblock">
 <div class="title">Bash (in root folder)</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install</code></pre>
@@ -1205,7 +1472,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-05 17:41:05 CET
+Last updated 2017-05-11 16:51:53 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

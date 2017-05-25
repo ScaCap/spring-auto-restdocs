@@ -54,8 +54,8 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
         this.snippets.expectPathParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("id", "Integer", "false", "An integer")
-                        .row("subid", "String", "false", "A string"));
+                        .row("id", "Integer", "false", "An integer.")
+                        .row("subid", "String", "false", "A string."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

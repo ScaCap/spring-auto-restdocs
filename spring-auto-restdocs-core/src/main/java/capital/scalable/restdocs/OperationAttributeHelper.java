@@ -16,8 +16,15 @@
 
 package capital.scalable.restdocs;
 
+import static org.springframework.restdocs.generate.RestDocumentationGenerator
+        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
+import static org.springframework.util.ReflectionUtils.findField;
+import static org.springframework.util.ReflectionUtils.getField;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
 import static org.springframework.web.servlet.HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE;
 
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
@@ -27,12 +34,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContext;
 import org.springframework.restdocs.operation.Operation;
+import org.springframework.restdocs.snippet.Snippet;
+import org.springframework.restdocs.snippet.StandardWriterResolver;
+import org.springframework.restdocs.snippet.WriterResolver;
+import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public class OperationAttributeHelper {
     private static final String ATTRIBUTE_NAME_CONFIGURATION =
             "org.springframework.restdocs.configuration";
     public static final String REQUEST_PATTERN = "REQUEST_PATTERN";
+
+    private static final String LINE_BREAK_ASCIIDOC = " +\n";
+    private static final String LINE_BREAK_MARKDOWN = "<br>";
 
     public static HandlerMethod getHandlerMethod(Operation operation) {
         Map<String, Object> attributes = operation.getAttributes();
@@ -104,4 +119,25 @@ public class OperationAttributeHelper {
                 .put(ConstraintReader.class.getName(), constraintReader);
     }
 
+    public static TemplateFormat getTemplateFormat(Operation operation) {
+        StandardWriterResolver writerResolver = (StandardWriterResolver) operation.getAttributes()
+                .get(WriterResolver.class.getName());
+        Field field = findField(StandardWriterResolver.class, "templateFormat");
+        makeAccessible(field);
+        return (TemplateFormat) getField(field, writerResolver);
+    }
+
+    public static List<Snippet> getDefaultSnippets(Operation operation) {
+        return (List<Snippet>) operation.getAttributes().get(ATTRIBUTE_NAME_DEFAULT_SNIPPETS);
+    }
+
+    public static String determineLineBreak(Operation operation) {
+        return determineLineBreak(getTemplateFormat(operation));
+    }
+
+    // necessary until https://github.com/spring-projects/spring-restdocs/issues/351 is fixed
+    public static String determineLineBreak(TemplateFormat templateFormat) {
+        return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
+                ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
+    }
 }

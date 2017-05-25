@@ -16,8 +16,11 @@
 
 package capital.scalable.restdocs.misc;
 
+import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
+import static capital.scalable.restdocs.SnippetRegistry.DESCRIPTION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +41,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
 
-        final String methodComment;
+        String methodComment;
         if (handlerMethod != null) {
             methodComment = getJavadocReader(operation)
                     .resolveMethodComment(handlerMethod.getBeanType(),
@@ -46,6 +49,8 @@ public class DescriptionSnippet extends TemplatedSnippet {
         } else {
             methodComment = "";
         }
+
+        methodComment = convertFromJavadoc(methodComment, determineLineBreak(operation));
 
         Map<String, Object> model = new HashMap<>();
         model.put(DESCRIPTION, methodComment);

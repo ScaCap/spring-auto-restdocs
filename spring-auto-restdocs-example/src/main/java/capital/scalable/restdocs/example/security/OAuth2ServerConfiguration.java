@@ -39,7 +39,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 @Configuration
-public class OAuth2ServerConfiguration {
+class OAuth2ServerConfiguration {
     
     private static final String RESOURCE_ID = "items";
 
@@ -69,7 +69,7 @@ public class OAuth2ServerConfiguration {
     protected static class AuthorizationServerConfiguration extends
             AuthorizationServerConfigurerAdapter {
 
-        private TokenStore tokenStore = new InMemoryTokenStore();
+        private final TokenStore tokenStore = new InMemoryTokenStore();
 
         @Autowired
         @Qualifier("authenticationManagerBean")

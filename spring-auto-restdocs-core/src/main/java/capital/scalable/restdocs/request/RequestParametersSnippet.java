@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PARAMETERS;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,5 +41,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
 
     protected RequestParam getAnnotation(MethodParameter param) {
         return param.getParameterAnnotation(RequestParam.class);
+    }
+
+    @Override
+    public String getHeader() {
+        return "Query parameters";
     }
 }

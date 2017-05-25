@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JsonConfiguration {
+class JsonConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {

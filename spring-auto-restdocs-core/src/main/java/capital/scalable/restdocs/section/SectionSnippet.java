@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package capital.scalable.restdocs.misc;
+package capital.scalable.restdocs.section;
 
+import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnippets;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.springframework.util.StringUtils.capitalize;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.SnippetRegistry;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
+import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.web.method.HandlerMethod;
@@ -41,8 +47,13 @@ public class SectionSnippet extends TemplatedSnippet {
     private final PropertyPlaceholderHelper propertyPlaceholderHelper =
             new PropertyPlaceholderHelper("{", "}");
 
-    public SectionSnippet() {
+    private final Collection<String> sectionNames;
+    private final boolean skipEmpty;
+
+    public SectionSnippet(Collection<String> sectionNames, boolean skipEmpty) {
         super(SECTION, null);
+        this.sectionNames = sectionNames;
+        this.skipEmpty = skipEmpty;
     }
 
     @Override
@@ -64,7 +75,35 @@ public class SectionSnippet extends TemplatedSnippet {
         model.put("title", title);
         model.put("link", delimit(path));
         model.put("path", path);
+        List<SectionSupport> sections = new ArrayList<>();
+        model.put("sections", sections);
+
+        for (String sectionName : sectionNames) {
+            SectionSupport section = getSectionSnippet(operation, sectionName);
+            if (section != null) {
+                if (!skipEmpty || section.hasContent(operation)) {
+                    sections.add(section);
+                }
+            } else {
+                System.out.println("Section snippet '" + sectionName + "' is configured to be " +
+                        "included in the section but no such snippet is present in configuration");
+            }
+        }
+
         return model;
+    }
+
+    private SectionSupport getSectionSnippet(Operation operation, String snippetName) {
+        for (Snippet snippet : getDefaultSnippets(operation)) {
+            if (snippet instanceof SectionSupport) {
+                SectionSupport sectionSnippet = (SectionSupport) snippet;
+                if (snippetName.equals(sectionSnippet.getFileName())) {
+                    return sectionSnippet;
+                }
+            }
+        }
+
+        return SnippetRegistry.getClassicSnippet(snippetName);
     }
 
     private String delimit(String value) {

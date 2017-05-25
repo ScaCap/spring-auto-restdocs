@@ -16,9 +16,10 @@
 
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_FIELDS;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +48,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private Type getType(final MethodParameter param) {
-        if (param.getParameterType() == List.class) {
+        if (isCollection(param.getParameterType())) {
             return new GenericArrayType() {
 
                 @Override
@@ -58,5 +59,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
         } else {
             return param.getParameterType();
         }
+    }
+
+    @Override
+    public String getHeader() {
+        return "Request fields";
     }
 }

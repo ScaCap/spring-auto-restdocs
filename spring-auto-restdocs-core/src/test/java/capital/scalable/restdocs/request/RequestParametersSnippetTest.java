@@ -56,8 +56,8 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
         this.snippets.expectRequestParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("type", "Integer", "false", "An integer")
-                        .row("text", "String", "true", "A string"));
+                        .row("type", "Integer", "false", "An integer.")
+                        .row("text", "String", "true", "A string."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

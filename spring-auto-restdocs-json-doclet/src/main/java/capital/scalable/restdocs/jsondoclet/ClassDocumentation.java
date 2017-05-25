@@ -16,9 +16,12 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
-import java.io.File;
-import java.io.FileWriter;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +31,8 @@ import com.sun.javadoc.MethodDoc;
 
 public final class ClassDocumentation {
     private String comment = "";
-    private Map<String, String> fields = new HashMap<>();
-    private Map<String, MethodDocumentation> methods = new HashMap<>();
+    private final Map<String, String> fields = new HashMap<>();
+    private final Map<String, MethodDocumentation> methods = new HashMap<>();
 
     private ClassDocumentation() {
         // enforce usage of static factory method
@@ -59,9 +62,9 @@ public final class ClassDocumentation {
         this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
     }
 
-    public void writeToFile(File file) {
-        try (FileWriter fw = new FileWriter(file)) {
-            fw.append(toJson());
+    public void writeToFile(Path path) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
+            writer.write(toJson());
         } catch (IOException e) {
             e.printStackTrace();
         }
