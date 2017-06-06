@@ -17,8 +17,8 @@
 package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.REQUEST_PATTERN;
+import static capital.scalable.restdocs.misc.MethodAndPathSnippet.METHOD_PATH;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
@@ -35,8 +35,8 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        setField(snippet, "expectedType", "method-path");
-        this.snippet.withContents(equalTo("`POST /test`"));
+        this.snippets.expect(METHOD_PATH)
+                .withContents(equalTo("`POST /test`"));
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

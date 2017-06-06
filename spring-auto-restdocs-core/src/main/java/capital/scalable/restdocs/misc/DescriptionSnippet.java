@@ -20,7 +20,6 @@ import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBr
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
-import static capital.scalable.restdocs.SnippetRegistry.DESCRIPTION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +29,8 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippet extends TemplatedSnippet {
+
+    public static final String DESCRIPTION = "description";
 
     public DescriptionSnippet() {
         super(DESCRIPTION, null);
@@ -51,7 +52,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
         methodComment = convertFromJavadoc(methodComment, determineLineBreak(operation));
 
         Map<String, Object> model = new HashMap<>();
-        model.put("description", methodComment);
+        model.put(DESCRIPTION, methodComment);
         return model;
     }
 }

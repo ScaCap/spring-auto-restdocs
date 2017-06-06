@@ -39,6 +39,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippet extends TemplatedSnippet {
 
+    public static final String SECTION = "section";
+
     private final RestDocumentationContextPlaceholderResolverFactory placeholderResolverFactory =
             new RestDocumentationContextPlaceholderResolverFactory();
 
@@ -49,7 +51,7 @@ public class SectionSnippet extends TemplatedSnippet {
     private final boolean skipEmpty;
 
     public SectionSnippet(Collection<String> sectionNames, boolean skipEmpty) {
-        super("section", null);
+        super(SECTION, null);
         this.sectionNames = sectionNames;
         this.skipEmpty = skipEmpty;
     }

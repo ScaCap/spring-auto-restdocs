@@ -27,6 +27,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    public static final String REQUEST_FIELDS = "request-fields";
+
     public JacksonRequestFieldSnippet() {
         super(REQUEST_FIELDS);
     }

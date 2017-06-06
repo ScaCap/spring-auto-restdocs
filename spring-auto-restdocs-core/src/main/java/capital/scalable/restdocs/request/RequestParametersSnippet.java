@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
+    public static final String REQUEST_PARAMETERS = "request-parameters";
+
     public RequestParametersSnippet() {
         super(REQUEST_PARAMETERS, null);
     }

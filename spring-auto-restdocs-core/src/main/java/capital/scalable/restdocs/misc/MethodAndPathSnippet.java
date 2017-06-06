@@ -28,6 +28,8 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 
 public class MethodAndPathSnippet extends TemplatedSnippet {
 
+    public static final String METHOD_PATH = "method-path";
+
     public MethodAndPathSnippet() {
         super(METHOD_PATH, null);
     }

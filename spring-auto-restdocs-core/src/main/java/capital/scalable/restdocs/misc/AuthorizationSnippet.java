@@ -18,7 +18,6 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getAuthorization;
 import static capital.scalable.restdocs.OperationAttributeHelper.setAuthorization;
-import static capital.scalable.restdocs.SnippetRegistry.AUTHORIZATION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +29,8 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 
 public class AuthorizationSnippet extends TemplatedSnippet implements SectionSupport {
 
+    public static final String AUTHORIZATION = "authorization";
+
     private final String defaultAuthorization;
 
     public AuthorizationSnippet(String defaultAuthorization) {
@@ -40,7 +41,7 @@ public class AuthorizationSnippet extends TemplatedSnippet implements SectionSup
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         Map<String, Object> model = new HashMap<>();
-        model.put("authorization", authorizationDescription(operation));
+        model.put(AUTHORIZATION, authorizationDescription(operation));
         return model;
     }
 

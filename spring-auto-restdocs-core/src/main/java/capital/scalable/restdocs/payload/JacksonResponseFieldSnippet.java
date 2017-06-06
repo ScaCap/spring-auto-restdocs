@@ -28,6 +28,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
+    public static final String RESPONSE_FIELDS = "response-fields";
+
     public JacksonResponseFieldSnippet() {
         super(RESPONSE_FIELDS);
     }

@@ -52,7 +52,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
-        this.snippet.expectPathParameters().withContents(
+        this.snippets.expectPathParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string."));
@@ -69,7 +69,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem");
 
-        this.snippet.expectPathParameters().withContents(
+        this.snippets.expectPathParameters().withContents(
                 equalTo("No parameters."));
 
         new PathParametersSnippet().document(operationBuilder

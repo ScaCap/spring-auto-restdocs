@@ -553,7 +553,7 @@ and only the first found JSON file is used.</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring REST Docs 1.1.3.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 1.2.1.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.2.1.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -566,7 +566,7 @@ and only the first found JSON file is used.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.2.1.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -1271,7 +1271,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.1.3.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.2.1.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -1419,7 +1419,7 @@ private String field;</code></pre>
 If you want to build this project yourself, you first have to build and copy the test JAR on your system.</p>
 </div>
 <div class="paragraph">
-<p>We use version 1.1.3.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 1.2.1.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
@@ -1430,7 +1430,7 @@ If you want to build this project yourself, you first have to build and copy the
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.1.3.RELEASE&lt;/version&gt;
+    &lt;version&gt;1.2.1.RELEASE&lt;/version&gt;
     &lt;classifier&gt;test&lt;/classifier&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
@@ -1445,15 +1445,15 @@ If you want to build this project yourself, you first have to build and copy the
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v1.1.3.RELEASE
+git checkout tags/v1.2.1.RELEASE
 ./gradlew build</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Afterwards you copy
-<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.1.3.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.2.1.RELEASE-test.jar</code>
 to
-<code>~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.1.3.RELEASE</code>
+<code>~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.2.1.RELEASE</code>
 so that the test JAR is available to Maven.</p>
 </div>
 </div>
@@ -1472,7 +1472,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-11 16:51:53 CEST
+Last updated 2017-05-25 20:03:38 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
