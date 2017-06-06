@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
@@ -37,7 +38,11 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         Class<?> returnType = method.getReturnType().getParameterType();
         if (returnType == ResponseEntity.class) {
             return firstGenericType(method.getReturnType());
-        } else if (returnType == Page.class) {
+        }
+        else if(returnType == HttpEntity.class){
+            return firstGenericType(method.getReturnType());
+        }
+        else if (returnType == Page.class) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
             return new GenericArrayType() {
