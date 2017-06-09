@@ -36,6 +36,7 @@ import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -117,9 +118,9 @@ public class ItemResource {
      * @return response
      */
     @RequestMapping(value = "{id}", method = PUT)
-    public ItemResponse updateItem(@PathVariable("id") @Id String id,
-            @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        return new ItemResponse(id, itemUpdate.getDescription(), null, null, null);
+    public HttpEntity<ItemResponse> updateItem(@PathVariable("id") @Id String id,
+                                              @RequestBody @Valid ItemUpdateRequest itemUpdate) {
+        return new HttpEntity<>(new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
     }
 
     /**
