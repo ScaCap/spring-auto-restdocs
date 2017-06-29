@@ -119,8 +119,9 @@ public class ItemResource {
      */
     @RequestMapping(value = "{id}", method = PUT)
     public HttpEntity<ItemResponse> updateItem(@PathVariable("id") @Id String id,
-                                              @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        return new HttpEntity<>(new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
+            @RequestBody @Valid ItemUpdateRequest itemUpdate) {
+        return new HttpEntity<>(
+                new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
     }
 
     /**
@@ -172,6 +173,24 @@ public class ItemResource {
         } else {
             return new PageImpl<>(Collections.<ItemResponse>emptyList());
         }
+    }
+
+    /**
+     * Executes a command on item
+     *
+     * @param itemId Item ID.
+     */
+    @RequestMapping(value = "process/{itemId}", method = POST)
+    public void processItem(@PathVariable String itemId, @RequestBody String command) {
+        // process request as Command
+    }
+
+    static class Command {
+        /**
+         * Command to execute
+         */
+        @NotBlank
+        private String command;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

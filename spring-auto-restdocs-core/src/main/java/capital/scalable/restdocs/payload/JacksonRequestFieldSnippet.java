@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.REQUEST_FIELDS;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
@@ -28,13 +26,27 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String REQUEST_FIELDS = "request-fields";
+    private Class<?> requestBodyType;
 
     public JacksonRequestFieldSnippet() {
+        this(null);
+    }
+
+    public JacksonRequestFieldSnippet(Class<?> requestBodyType) {
         super(REQUEST_FIELDS);
+        this.requestBodyType = requestBodyType;
+    }
+
+    public JacksonRequestFieldSnippet requestBodyAsType(Class<?> requestBodyType) {
+        return new JacksonRequestFieldSnippet(requestBodyType);
     }
 
     @Override
     protected Type getType(HandlerMethod method) {
+        if (requestBodyType != null) {
+            return requestBodyType;
+        }
+
         for (MethodParameter param : method.getMethodParameters()) {
             if (isRequestBody(param)) {
                 return getType(param);

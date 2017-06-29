@@ -59,6 +59,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -106,8 +107,7 @@ public abstract class MockMvcBase {
                 .webAppContextSetup(context)
                 .addFilters(springSecurityFilterChain)
                 .alwaysDo(prepareJackson(objectMapper))
-                .alwaysDo(document("{class-name}/{method-name}",
-                        preprocessRequest(), commonResponsePreprocessor()))
+                .alwaysDo(commonDocumentation())
                 .apply(documentationConfiguration(restDocumentation)
                         .uris()
                         .withScheme("http")
@@ -119,6 +119,11 @@ public abstract class MockMvcBase {
                                 requestParameters(), description(), methodAndPath(),
                                 section(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
+    }
+
+    protected RestDocumentationResultHandler commonDocumentation() {
+        return document("{class-name}/{method-name}",
+                preprocessRequest(), commonResponsePreprocessor());
     }
 
     protected OperationResponsePreprocessor commonResponsePreprocessor() {

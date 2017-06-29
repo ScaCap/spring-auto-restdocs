@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.example.items;
 
+import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -99,8 +100,8 @@ public class ItemResourceTest extends MockMvcBase {
     @Test
     public void searchItems() throws Exception {
         mockMvc.perform(get("/items/search")
-                    .param("desc", "main")
-                    .param("hint", "1"))
+                .param("desc", "main")
+                .param("hint", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content", hasSize(1)))
@@ -108,5 +109,14 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.content[0].description", is("main item")))
                 // example for overriding path and preprocessors
                 .andDo(document("{class-name}/search", commonResponsePreprocessor()));
+    }
+
+    @Test
+    public void processItem() throws Exception {
+        mockMvc.perform(post("/items/process/{itemId}", "1")
+                .content("{ \"command\": \"cleanup\" }"))
+                .andExpect(status().isOk())
+                .andDo(commonDocumentation().document(
+                        requestFields().requestBodyAsType(ItemResource.Command.class)));
     }
 }
