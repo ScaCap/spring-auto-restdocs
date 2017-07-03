@@ -16,12 +16,6 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,53 +45,14 @@ public final class ClassDocumentation {
     }
 
     private void setComment(String comment) {
-        this.comment = JsonUtils.escape(comment);
+        this.comment = comment;
     }
 
     private void addField(String name, String comment) {
-        this.fields.put(name, JsonUtils.escape(comment));
+        this.fields.put(name, comment);
     }
 
     private void addMethod(MethodDoc methodDoc) {
         this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
-    }
-
-    public void writeToFile(Path path) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
-            writer.write(toJson());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String toJson() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{\"comment\":\"");
-        builder.append(comment);
-        builder.append("\",\"fields\":{");
-        for (Map.Entry<String, String> e : fields.entrySet()) {
-            builder.append("\"");
-            builder.append(e.getKey());
-            builder.append("\":\"");
-            builder.append(e.getValue());
-            builder.append("\",");
-        }
-        if (builder.charAt(builder.length() - 1) == ',') {
-            builder.deleteCharAt(builder.length() - 1);
-        }
-        builder.append("}");
-        builder.append(",\"methods\":{");
-        for (Map.Entry<String, MethodDocumentation> e : methods.entrySet()) {
-            builder.append("\"");
-            builder.append(e.getKey());
-            builder.append("\": ");
-            builder.append(e.getValue().toJson());
-            builder.append(",");
-        }
-        if (builder.charAt(builder.length() - 1) == ',') {
-            builder.deleteCharAt(builder.length() - 1);
-        }
-        builder.append("}}");
-        return builder.toString();
     }
 }
