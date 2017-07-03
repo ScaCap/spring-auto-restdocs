@@ -16,12 +16,17 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
@@ -33,14 +38,11 @@ public class ExtractDocumentationAsJsonDoclet extends Standard {
 
     public static boolean start(RootDoc root) {
         String destinationDir = destinationDir(root.options());
+        ObjectMapper mapper = createObjectMapper();
+
         for (ClassDoc classDoc : root.classes()) {
             ClassDocumentation cd = ClassDocumentation.fromClassDoc(classDoc);
-            try {
-                writeToFile(destinationDir, cd, classDoc);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new DocletAbortException("Error writing file: " + e);
-            }
+            writeToFile(destinationDir, mapper, classDoc, cd);
         }
         return true;
     }
@@ -55,24 +57,43 @@ public class ExtractDocumentationAsJsonDoclet extends Standard {
         return null;
     }
 
-    private static void writeToFile(String destinationDir, ClassDocumentation cd, ClassDoc classDoc)
-            throws IOException {
-        final Path path = path(destinationDir, classDoc);
-        Files.createDirectories(path);
-        String fileName = classDoc.name() + ".json";
-        cd.writeToFile(path.resolve(fileName));
+    private static void writeToFile(String destinationDir, ObjectMapper mapper,
+            ClassDoc classDoc, ClassDocumentation cd) {
+        try {
+            Path path = path(destinationDir, classDoc);
+            try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
+                mapper.writerFor(ClassDocumentation.class).writeValue(writer, cd);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new DocletAbortException("Error writing file: " + e);
+        }
     }
 
-    private static Path path(String destinationDir, ClassDoc classDoc) {
+    private static Path path(String destinationDir, ClassDoc classDoc) throws IOException {
         String packageName = classDoc.containingPackage().name();
         String packageDir = packageName.replace(".", File.separator);
         Path packagePath = Paths.get(packageDir);
+
         final Path path;
         if (destinationDir != null) {
             path = Paths.get(destinationDir).resolve(packageDir);
         } else {
             path = packagePath;
         }
-        return path;
+
+        Files.createDirectories(path);
+
+        return path.resolve(classDoc.name() + ".json");
+    }
+
+    private static ObjectMapper createObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        return mapper;
     }
 }

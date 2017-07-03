@@ -26,6 +26,7 @@
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>1.2.1.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>1.0.8-SNAPSHOT</spring-auto-restdocs.version>
+        <spring-restdocs.version>1.2.1.RELEASE</spring-restdocs.version>
     </properties>
 
     <dependencies>
