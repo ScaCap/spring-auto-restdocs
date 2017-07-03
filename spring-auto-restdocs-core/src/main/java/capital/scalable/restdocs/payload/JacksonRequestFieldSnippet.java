@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.REQUEST_FIELDS;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
@@ -31,6 +29,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public JacksonRequestFieldSnippet() {
         super(REQUEST_FIELDS);
+    }
+
+    public JacksonRequestFieldSnippet(boolean failOnUndocumentedFields) {
+        super(REQUEST_FIELDS, null, failOnUndocumentedFields);
     }
 
     @Override

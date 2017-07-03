@@ -35,8 +35,16 @@ public abstract class AutoDocumentation {
         return new JacksonRequestFieldSnippet();
     }
 
+    public static Snippet requestFields(boolean failOnUndocumentedFields) {
+        return new JacksonRequestFieldSnippet(failOnUndocumentedFields);
+    }
+
     public static Snippet responseFields() {
         return new JacksonResponseFieldSnippet();
+    }
+
+    public static Snippet responseFields(boolean failOnUndocumentedFields) {
+        return new JacksonResponseFieldSnippet(failOnUndocumentedFields);
     }
 
     public static Snippet pathParameters() {

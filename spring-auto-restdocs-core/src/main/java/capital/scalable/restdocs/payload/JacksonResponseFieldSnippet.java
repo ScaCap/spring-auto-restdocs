@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -35,16 +33,18 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         super(RESPONSE_FIELDS);
     }
 
+    public JacksonResponseFieldSnippet(boolean failOnUndocumentedFields) {
+        super(RESPONSE_FIELDS, null, failOnUndocumentedFields);
+    }
+
     @Override
     protected Type getType(final HandlerMethod method) {
         Class<?> returnType = method.getReturnType().getParameterType();
         if (returnType == ResponseEntity.class) {
             return firstGenericType(method.getReturnType());
-        }
-        else if(returnType == HttpEntity.class){
+        } else if (returnType == HttpEntity.class) {
             return firstGenericType(method.getReturnType());
-        }
-        else if (returnType == Page.class) {
+        } else if (returnType == Page.class) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
             return new GenericArrayType() {

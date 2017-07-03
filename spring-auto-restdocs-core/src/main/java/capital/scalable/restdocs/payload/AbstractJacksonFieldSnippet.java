@@ -21,6 +21,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -43,6 +44,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.web.method.HandlerMethod;
 
 abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
@@ -57,12 +59,19 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         }
     }
 
+    private boolean failOnUndocumentedFields;
+
     protected AbstractJacksonFieldSnippet(String snippetName) {
         this(snippetName, null);
     }
 
     protected AbstractJacksonFieldSnippet(String snippetName, Map<String, Object> attributes) {
-        super(snippetName, attributes);
+        this(snippetName, attributes, false);
+    }
+
+    protected failOnUndocumentedFields(boolean failOnUndocumentedFields) {
+        return super(snippetName, attributes);
+        this.failOnUndocumentedFields = failOnUndocumentedFields;
     }
 
     protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -88,6 +97,9 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
             }
         }
 
+        if (failOnUndocumentedFields) {
+            verifyFieldDescriptors(fieldDescriptors.values());
+        }
         return fieldDescriptors.values();
     }
 
@@ -141,5 +153,18 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     @Override
     public boolean hasContent(Operation operation) {
         return getType(getHandlerMethod(operation)) != null;
+    }
+
+    private void verifyFieldDescriptors(Collection<FieldDescriptor> fieldDescriptors) {
+        List<String> undocumentedFields = new ArrayList<>();
+        for (FieldDescriptor descriptor : fieldDescriptors) {
+            if (isBlank((String) descriptor.getDescription())) {
+                undocumentedFields.add(descriptor.getPath());
+            }
+        }
+        if (!undocumentedFields.isEmpty()) {
+            throw new SnippetException(
+                    "Following fields were not documented: " + undocumentedFields);
+        }
     }
 }
