@@ -176,9 +176,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
 
-        this.snippets.expectRequestFields().withContents(
+        this.snippets.expectResponseFields().withContents(tableWithPrefix("\n",
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("output", "String", "true", "An output."));
+                        .row("output", "String", "true", "An output.")));
 
         new JacksonResponseFieldSnippet().responseBodyAsType(ProcessingResponse.class)
                 .document(operationBuilder
