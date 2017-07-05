@@ -57,7 +57,7 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     @Override
-    protected boolean shouldFailOnUndocumentedFields() {
+    protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
     }
 }

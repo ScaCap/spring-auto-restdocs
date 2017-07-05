@@ -58,7 +58,7 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    protected boolean shouldFailOnUndocumentedFields() {
+    protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
     }
 }

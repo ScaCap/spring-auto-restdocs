@@ -28,6 +28,9 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Data
 class ItemUpdateRequest {
+    /**
+     * Some information about the item.
+     */
     @NotBlank(groups = English.class)
     @Length(max = 20)
     @Size.List({

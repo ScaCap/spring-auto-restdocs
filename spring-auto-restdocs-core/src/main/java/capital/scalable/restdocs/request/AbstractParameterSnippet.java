@@ -62,7 +62,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
             }
         }
 
-        if (shouldFailOnUndocumentedFields()) {
+        if (shouldFailOnUndocumentedParams()) {
             assertAllDocumented(fieldDescriptors, getHeader().toLowerCase());
         }
 
@@ -107,7 +107,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
 
     abstract A getAnnotation(MethodParameter param);
 
-    protected abstract boolean shouldFailOnUndocumentedFields();
+    protected abstract boolean shouldFailOnUndocumentedParams();
 
     @Override
     public String getFileName() {
