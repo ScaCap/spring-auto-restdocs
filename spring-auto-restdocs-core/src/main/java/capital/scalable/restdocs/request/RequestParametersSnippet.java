@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PARAMETERS;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,8 +23,19 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
 
     public static final String REQUEST_PARAMETERS = "request-parameters";
 
+    private final boolean failOnUndocumentedParams;
+
     public RequestParametersSnippet() {
+        this(false);
+    }
+
+    public RequestParametersSnippet(boolean failOnUndocumentedParams) {
         super(REQUEST_PARAMETERS, null);
+        this.failOnUndocumentedParams = failOnUndocumentedParams;
+    }
+
+    public RequestParametersSnippet failOnUndocumentedParams(boolean failOnUndocumentedParams) {
+        return new RequestParametersSnippet(failOnUndocumentedParams);
     }
 
     @Override
@@ -46,5 +55,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     @Override
     public String getHeader() {
         return "Query parameters";
+    }
+
+    @Override
+    protected boolean shouldFailOnUndocumentedFields() {
+        return failOnUndocumentedParams;
     }
 }

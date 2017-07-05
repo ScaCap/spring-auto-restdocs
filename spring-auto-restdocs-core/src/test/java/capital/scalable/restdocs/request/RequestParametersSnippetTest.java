@@ -23,36 +23,43 @@ import static org.mockito.Mockito.when;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
+import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippetTest extends AbstractSnippetTests {
+    private JavadocReader javadocReader;
+    private ConstraintReader constraintReader;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     public RequestParametersSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
     }
 
+    @Before
+    public void setup() {
+        javadocReader = mock(JavadocReader.class);
+        constraintReader = mock(ConstraintReader.class);
+    }
+
     @Test
     public void simpleRequest() throws Exception {
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(),
-                "searchItem", Integer.class, String.class);
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem", Integer.class,
+                String.class);
         initParameters(handlerMethod);
-
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader
-                .resolveMethodParameterComment(TestResource.class, "searchItem", "type"))
-                .thenReturn("An integer");
-        when(javadocReader
-                .resolveMethodParameterComment(TestResource.class, "searchItem", "description"))
-                .thenReturn("A string");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockParamComment("searchItem", "type", "An integer");
+        mockParamComment("searchItem", "description", "A string");
 
         this.snippets.expectRequestParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -63,19 +70,34 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost/items/search?type=main&text=myItem")
                 .build());
     }
 
     @Test
     public void noParameters() throws Exception {
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "items");
+        HandlerMethod handlerMethod = createHandlerMethod("items");
 
         this.snippets.expectRequestParameters().withContents(equalTo("No parameters."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .request("http://localhost/items")
+                .build());
+    }
+
+
+    @Test
+    public void failOnUndocumentedParams() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem", Integer.class,
+                String.class);
+        initParameters(handlerMethod);
+
+        thrown.expect(SnippetException.class);
+        thrown.expectMessage("Following query parameters were not documented: [type, text]");
+
+        new RequestParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
     }
 
@@ -83,6 +105,16 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         for (MethodParameter parameter : handlerMethod.getMethodParameters()) {
             parameter.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
         }
+    }
+
+    private void mockParamComment(String methodName, String parameterName, String comment) {
+        when(javadocReader.resolveMethodParameterComment(TestResource.class, methodName,
+                parameterName)).thenReturn(comment);
+    }
+
+    private HandlerMethod createHandlerMethod(String name, Class<?>... parameterTypes)
+            throws NoSuchMethodException {
+        return new HandlerMethod(new TestResource(), name, parameterTypes);
     }
 
     private static class TestResource {

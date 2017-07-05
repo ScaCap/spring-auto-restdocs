@@ -27,23 +27,26 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String REQUEST_FIELDS = "request-fields";
-    private Type requestBodyType;
+
+    private final Type requestBodyType;
+    private final boolean failOnUndocumentedFields;
 
     public JacksonRequestFieldSnippet() {
-        this(null);
+        this(null, false);
     }
 
-    protected JacksonRequestFieldSnippet(Type requestBodyType) {
-        super(REQUEST_FIELDS);
+    public JacksonRequestFieldSnippet(Type requestBodyType, boolean failOnUndocumentedFields) {
+        super(REQUEST_FIELDS, null);
         this.requestBodyType = requestBodyType;
+        this.failOnUndocumentedFields = failOnUndocumentedFields;
     }
 
     public JacksonRequestFieldSnippet requestBodyAsType(Type requestBodyType) {
-        return new JacksonRequestFieldSnippet(requestBodyType);
+        return new JacksonRequestFieldSnippet(requestBodyType, failOnUndocumentedFields);
     }
 
-    public JacksonRequestFieldSnippet(boolean failOnUndocumentedFields) {
-        super(REQUEST_FIELDS, null, failOnUndocumentedFields);
+    public JacksonRequestFieldSnippet failOnUndocumentedFields(boolean failOnUndocumentedFields) {
+        return new JacksonRequestFieldSnippet(requestBodyType, failOnUndocumentedFields);
     }
 
     @Override
@@ -85,5 +88,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     @Override
     public String getHeader() {
         return "Request fields";
+    }
+
+    @Override
+    protected boolean shouldFailOnUndocumentedFields() {
+        return failOnUndocumentedFields;
     }
 }

@@ -90,8 +90,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
-                .content("{\"field1\":\"test\"}")
                 .build());
     }
 
@@ -104,7 +102,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
-                .request("http://localhost")
                 .build());
     }
 
@@ -124,8 +121,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), mock(ConstraintReader.class))
-                .request("http://localhost")
-                .content("{\"field1\":\"test\"}")
                 .build());
     }
 
@@ -149,43 +144,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
-                .content("{\"type\":\"1\"}")
-                .build());
-    }
-
-    @Test
-    public void failOnUndocumentedField() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem", Item.class);
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(Item.class, "field1"))
-                .thenReturn("");
-        when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
-        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
-        when(constraintReader.getOptionalMessages(Item.class, "field1"))
-                .thenReturn(singletonList("false"));
-        when(constraintReader.getConstraintMessages(Item.class, "field2"))
-                .thenReturn(singletonList("A constraint"));
-
-        thrown.expect(SnippetException.class);
-        thrown.expectMessage("Following fields were not documented");
-        thrown.expectMessage("field1");
-        thrown.expectMessage("field2");
-
-        new JacksonRequestFieldSnippet(true).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
-                .content("{\"field1\":\"test\"}")
                 .build());
     }
 
@@ -204,8 +162,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                         .attribute(ObjectMapper.class.getName(), mapper)
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ConstraintReader.class.getName(), constraintReader)
-                        .request("http://localhost")
-                        .content("{\"command\":\"doIt\"}")
                         .build());
     }
 
@@ -237,6 +193,21 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
         assertThat(hasContent, is(false));
+    }
+
+    @Test
+    public void failOnUndocumentedFields() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
+
+        thrown.expect(SnippetException.class);
+        thrown.expectMessage("Following request fields were not documented: [field1, field2]");
+
+        new JacksonRequestFieldSnippet().failOnUndocumentedFields(true).document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
     }
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {

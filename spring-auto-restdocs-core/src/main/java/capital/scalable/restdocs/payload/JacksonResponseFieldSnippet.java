@@ -28,19 +28,26 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String RESPONSE_FIELDS = "response-fields";
-    private Type responseBodyType;
+
+    private final Type responseBodyType;
+    private final boolean failOnUndocumentedFields;
 
     public JacksonResponseFieldSnippet() {
-        super(RESPONSE_FIELDS);
+        this(null, false);
     }
 
-    public JacksonResponseFieldSnippet(Type responseBodyType) {
-        super(RESPONSE_FIELDS);
+    public JacksonResponseFieldSnippet(Type responseBodyType, boolean failOnUndocumentedFields) {
+        super(RESPONSE_FIELDS, null);
         this.responseBodyType = responseBodyType;
+        this.failOnUndocumentedFields = failOnUndocumentedFields;
     }
 
     public JacksonResponseFieldSnippet responseBodyAsType(Type responseBodyType) {
-        return new JacksonResponseFieldSnippet(responseBodyType);
+        return new JacksonResponseFieldSnippet(responseBodyType, failOnUndocumentedFields);
+    }
+
+    public JacksonResponseFieldSnippet failOnUndocumentedFields(boolean failOnUndocumentedFields) {
+        return new JacksonResponseFieldSnippet(responseBodyType, failOnUndocumentedFields);
     }
 
     @Override
@@ -83,5 +90,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     @Override
     public String getHeader() {
         return "Response fields";
+    }
+
+    @Override
+    protected boolean shouldFailOnUndocumentedFields() {
+        return failOnUndocumentedFields;
     }
 }

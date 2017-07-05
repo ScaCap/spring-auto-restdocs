@@ -16,17 +16,25 @@
 
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.SnippetRegistry.PATH_PARAMETERS;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
 
     public static final String PATH_PARAMETERS = "path-parameters";
+    private final boolean failOnUndocumentedParams;
 
     public PathParametersSnippet() {
+        this(false);
+    }
+
+    public PathParametersSnippet(boolean failOnUndocumentedParams) {
         super(PATH_PARAMETERS, null);
+        this.failOnUndocumentedParams = failOnUndocumentedParams;
+    }
+
+    public PathParametersSnippet failOnUndocumentedParams(boolean failOnUndocumentedParams) {
+        return new PathParametersSnippet(failOnUndocumentedParams);
     }
 
     @Override
@@ -46,5 +54,10 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     @Override
     public String getHeader() {
         return "Path parameters";
+    }
+
+    @Override
+    protected boolean shouldFailOnUndocumentedFields() {
+        return failOnUndocumentedParams;
     }
 }
