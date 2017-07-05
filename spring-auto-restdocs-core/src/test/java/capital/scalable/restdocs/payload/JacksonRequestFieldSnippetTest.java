@@ -21,6 +21,8 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,16 +36,21 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
+    private ObjectMapper mapper;
+    private JavadocReader javadocReader;
+    private ConstraintReader constraintReader;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -52,25 +59,23 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         super(name, templateFormat);
     }
 
-    @Test
-    public void simpleRequest() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
+    @Before
+    public void setup() {
+        mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+        javadocReader = mock(JavadocReader.class);
+        constraintReader = mock(ConstraintReader.class);
+    }
 
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem", Item.class);
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(Item.class, "field1"))
-                .thenReturn("A string");
-        when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("An integer<br>\n Very important\n <p>\n field");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
-        when(constraintReader.isMandatory(NotBlank.class)).thenReturn(true);
-        when(constraintReader.getOptionalMessages(Item.class, "field1"))
-                .thenReturn(singletonList("false"));
-        when(constraintReader.getConstraintMessages(Item.class, "field2"))
-                .thenReturn(singletonList("A constraint"));
+    @Test
+    public void simpleRequest() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer<br>\n Very important\n <p>\n field");
+        mockMandatoryConstraint(NotBlank.class, true);
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
 
         this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
@@ -92,14 +97,9 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noRequestBody() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        this.snippets.expectRequestFields().withContents(
-                equalTo("No request body."));
+        this.snippets.expectRequestFields().withContents(equalTo("No request body."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -110,16 +110,9 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void listRequest() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItems", List.class);
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(Item.class, "field1"))
-                .thenReturn("A string");
-        when(javadocReader.resolveFieldComment(Item.class, "field2"))
-                .thenReturn("An integer");
+        HandlerMethod handlerMethod = createHandlerMethod("addItems", List.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
 
         this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
@@ -138,23 +131,11 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void jsonSubTypesRequest() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addSubItem",
-                ParentItem.class);
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(ParentItem.class, "type"))
-                .thenReturn("A type");
-        when(javadocReader.resolveFieldComment(ParentItem.class, "commonField"))
-                .thenReturn("A common field");
-        when(javadocReader.resolveFieldComment(SubItem1.class, "subItem1Field"))
-                .thenReturn("A sub item 1 field");
-        when(javadocReader.resolveFieldComment(SubItem2.class, "subItem2Field"))
-                .thenReturn("A sub item 2 field");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        HandlerMethod handlerMethod = createHandlerMethod("addSubItem", ParentItem.class);
+        mockFieldComment(ParentItem.class, "type", "A type");
+        mockFieldComment(ParentItem.class, "commonField", "A common field");
+        mockFieldComment(SubItem1.class, "subItem1Field", "A sub item 1 field");
+        mockFieldComment(SubItem2.class, "subItem2Field", "A sub item 2 field");
 
         this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
@@ -208,6 +189,80 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void exactRequestType() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("processItem", String.class);
+        mockFieldComment(ProcessingCommand.class, "command", "A command");
+
+        this.snippets.expectRequestFields().withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("command", "String", "true", "A command."));
+
+        new JacksonRequestFieldSnippet().requestBodyAsType(ProcessingCommand.class)
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .request("http://localhost")
+                        .content("{\"command\":\"doIt\"}")
+                        .build());
+    }
+
+    @Test
+    public void hasContentWithRequestBodyAnnotation() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
+
+        boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .build());
+        assertThat(hasContent, is(true));
+    }
+
+    @Test
+    public void hasContentWithModelAttributeAnnotation() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("processItem", String.class);
+
+        boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .build());
+        assertThat(hasContent, is(true));
+    }
+
+    @Test
+    public void noContent() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItem2");
+
+        boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .build());
+        assertThat(hasContent, is(false));
+    }
+
+    private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
+        when(constraintReader.getConstraintMessages(type, fieldName))
+                .thenReturn(singletonList(comment));
+    }
+
+    private void mockOptionalMessage(Class<?> type, String fieldName, String comment) {
+        when(constraintReader.getOptionalMessages(type, fieldName))
+                .thenReturn(singletonList(comment));
+    }
+
+    private void mockMandatoryConstraint(Class<?> annotation, boolean mandatory) {
+        when(constraintReader.isMandatory(annotation)).thenReturn(mandatory);
+    }
+
+    private void mockFieldComment(Class<?> type, String fieldName, String comment) {
+        when(javadocReader.resolveFieldComment(type, fieldName))
+                .thenReturn(comment);
+    }
+
+    private HandlerMethod createHandlerMethod(String name, Class<?>... parameterTypes)
+            throws NoSuchMethodException {
+        return new HandlerMethod(new TestResource(), name, parameterTypes);
+    }
+
     private String lineBreak() {
         return determineLineBreak(templateFormat);
     }
@@ -229,6 +284,14 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         public void addSubItem(@RequestBody ParentItem item) {
             // NOOP
         }
+
+        public void processItem(@ModelAttribute String item) {
+            // NOOP
+        }
+    }
+
+    private static class ProcessingCommand {
+        private String command;
     }
 
     private static class Item {

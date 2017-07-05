@@ -445,6 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
 <li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
 <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
+    <li><a href="#resources-item-resource-test-process-item">2.8. Process Item</a></li>
 </ul>
 </li>
 </ul>
@@ -1039,7 +1040,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer bb456349-4c14-4115-aa4c-8de9edced908' \
+    -H 'Authorization: Bearer 9cf89eb0-d3f1-4dfb-b25b-296e68424203' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1253,7 +1254,7 @@ Must be one of [ONE, TWO].</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer bb456349-4c14-4115-aa4c-8de9edced908' \
+    -H 'Authorization: Bearer 9cf89eb0-d3f1-4dfb-b25b-296e68424203' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1350,7 +1351,7 @@ Must be a valid ID.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer bb456349-4c14-4115-aa4c-8de9edced908'</code></pre>
+    -H 'Authorization: Bearer 9cf89eb0-d3f1-4dfb-b25b-296e68424203'</code></pre>
 </div>
 </div>
 </div>
@@ -1772,8 +1773,8 @@ Content-Length: 625
   "pageable" : null,
   "total" : 1,
   "totalPages" : 1,
-  "last" : true,
   "totalElements" : 1,
+  "last" : true,
   "size" : 0,
   "number" : 0,
   "sort" : null,
@@ -1784,6 +1785,138 @@ Content-Length: 625
 </div>
 </div>
 </div>
+    <div class="sect2">
+        <h3 id="resources-item-resource-test-process-item"><a class="anchor" href="#resources-item-resource-test-process-item"></a><a class="link" href="#resources-item-resource-test-process-item">2.8.
+            Process Item</a></h3>
+        <div class="paragraph">
+            <p><code>POST /items/process/{itemId}</code></p>
+        </div>
+        <div class="paragraph">
+            <p>Executes a command on an item</p>
+        </div>
+        <div class="sect3">
+            <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
+            <div class="paragraph">
+                <p>Resource is public.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_path_parameters_7"><a class="anchor" href="#_path_parameters_7"></a><a class="link" href="#_path_parameters_7">2.8.2. Path parameters</a></h4>
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Parameter</th>
+                    <th class="tableblock halign-left valign-top">Type</th>
+                    <th class="tableblock halign-left valign-top">Optional</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">itemId</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sect3">
+            <h4 id="_query_parameters_6"><a class="anchor" href="#_query_parameters_6"></a><a class="link" href="#_query_parameters_6">2.8.3. Query parameters</a></h4>
+            <div class="paragraph">
+                <p>No parameters.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_request_fields_8"><a class="anchor" href="#_request_fields_8"></a><a class="link" href="#_request_fields_8">2.8.4. Request fields</a></h4>
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Path</th>
+                    <th class="tableblock halign-left valign-top">Type</th>
+                    <th class="tableblock halign-left valign-top">Optional</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">command</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Command to execute.</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sect3">
+            <h4 id="_response_fields_8"><a class="anchor" href="#_response_fields_8"></a><a class="link" href="#_response_fields_8">2.8.5. Response fields</a></h4>
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Path</th>
+                    <th class="tableblock halign-left valign-top">Type</th>
+                    <th class="tableblock halign-left valign-top">Optional</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Log output.</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sect3">
+            <h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.6. Example request</a></h4>
+            <div class="listingblock">
+                <div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/process/1' -i -X POST \
+    -d '{ "command": "cleanup" }'</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.7. Example response</a></h4>
+            <div class="listingblock">
+                <div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 28
+
+{
+  "output" : "processed"
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>

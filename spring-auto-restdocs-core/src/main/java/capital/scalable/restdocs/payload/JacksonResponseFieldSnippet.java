@@ -28,17 +28,27 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String RESPONSE_FIELDS = "response-fields";
+    private Type responseBodyType;
 
     public JacksonResponseFieldSnippet() {
         super(RESPONSE_FIELDS);
     }
 
-    public JacksonResponseFieldSnippet(boolean failOnUndocumentedFields) {
-        super(RESPONSE_FIELDS, null, failOnUndocumentedFields);
+    public JacksonResponseFieldSnippet(Type responseBodyType) {
+        super(RESPONSE_FIELDS);
+        this.responseBodyType = responseBodyType;
+    }
+
+    public JacksonResponseFieldSnippet responseBodyAsType(Type responseBodyType) {
+        return new JacksonResponseFieldSnippet(responseBodyType);
     }
 
     @Override
     protected Type getType(final HandlerMethod method) {
+        if (responseBodyType != null) {
+            return responseBodyType;
+        }
+
         Class<?> returnType = method.getReturnType().getParameterType();
         if (returnType == ResponseEntity.class) {
             return firstGenericType(method.getReturnType());

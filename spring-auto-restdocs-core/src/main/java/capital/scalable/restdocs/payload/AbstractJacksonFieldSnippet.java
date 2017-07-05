@@ -115,7 +115,6 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     private Collection<Type> resolveActualTypes(Type type) {
-
         if (type instanceof Class) {
             JsonSubTypes jsonSubTypes = (JsonSubTypes) ((Class) type).getAnnotation(
                     JsonSubTypes.class);
@@ -133,8 +132,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
 
     private void resolveFieldDescriptors(Map<String, FieldDescriptor> fieldDescriptors,
             Type type, ObjectWriter writer, TypeFactory typeFactory, JavadocReader javadocReader,
-            ConstraintReader constraintReader)
-            throws JsonMappingException {
+            ConstraintReader constraintReader) throws JsonMappingException {
         FieldDocumentationGenerator generator = new FieldDocumentationGenerator(writer,
                 javadocReader, constraintReader);
         List<FieldDescriptor> descriptors = generator.generateDocumentation(type, typeFactory);

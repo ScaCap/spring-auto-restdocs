@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.example.items;
 
+import static capital.scalable.restdocs.AutoDocumentation.requestFields;
+import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -25,10 +27,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import capital.scalable.restdocs.example.items.ItemResource.Command;
+import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -108,5 +113,16 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.content[0].description", is("main item")))
                 // example for overriding path and preprocessors
                 .andDo(document("{class-name}/search", commonResponsePreprocessor()));
+    }
+
+    @Test
+    public void processItem() throws Exception {
+        mockMvc.perform(post("/items/process/{itemId}", "1")
+                .content("{ \"command\": \"cleanup\" }"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{ \"output\": \"processed\" }"))
+                .andDo(commonDocumentation().document(
+                        requestFields().requestBodyAsType(Command.class),
+                        responseFields().responseBodyAsType(CommandResult.class)));
     }
 }

@@ -20,15 +20,26 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String REQUEST_FIELDS = "request-fields";
+    private Type requestBodyType;
 
     public JacksonRequestFieldSnippet() {
+        this(null);
+    }
+
+    protected JacksonRequestFieldSnippet(Type requestBodyType) {
         super(REQUEST_FIELDS);
+        this.requestBodyType = requestBodyType;
+    }
+
+    public JacksonRequestFieldSnippet requestBodyAsType(Type requestBodyType) {
+        return new JacksonRequestFieldSnippet(requestBodyType);
     }
 
     public JacksonRequestFieldSnippet(boolean failOnUndocumentedFields) {
@@ -37,8 +48,12 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected Type getType(HandlerMethod method) {
+        if (requestBodyType != null) {
+            return requestBodyType;
+        }
+
         for (MethodParameter param : method.getMethodParameters()) {
-            if (isRequestBody(param)) {
+            if (isRequestBody(param) || isModelAttribute(param)) {
                 return getType(param);
             }
         }
@@ -47,6 +62,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private boolean isRequestBody(MethodParameter param) {
         return param.getParameterAnnotation(RequestBody.class) != null;
+    }
+
+    private boolean isModelAttribute(MethodParameter param) {
+        return param.getParameterAnnotation(ModelAttribute.class) != null;
     }
 
     private Type getType(final MethodParameter param) {
