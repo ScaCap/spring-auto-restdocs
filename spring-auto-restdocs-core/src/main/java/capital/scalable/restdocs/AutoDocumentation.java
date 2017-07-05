@@ -35,7 +35,7 @@ public abstract class AutoDocumentation {
         return new JacksonRequestFieldSnippet();
     }
 
-    public static Snippet responseFields() {
+    public static JacksonResponseFieldSnippet responseFields() {
         return new JacksonResponseFieldSnippet();
     }
 

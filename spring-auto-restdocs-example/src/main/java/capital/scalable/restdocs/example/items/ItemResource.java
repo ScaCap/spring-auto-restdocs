@@ -39,6 +39,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -176,13 +177,14 @@ public class ItemResource {
     }
 
     /**
-     * Executes a command on item
+     * Executes a command on an item
      *
      * @param itemId Item ID.
      */
     @RequestMapping(value = "process/{itemId}", method = POST)
-    public void processItem(@PathVariable String itemId, @RequestBody String command) {
+    public String processItem(@PathVariable String itemId, @ModelAttribute String command) {
         // process request as Command
+        return "{ \"output\": \"processed\" }";
     }
 
     static class Command {
@@ -191,6 +193,14 @@ public class ItemResource {
          */
         @NotBlank
         private String command;
+    }
+
+    static class CommandResult {
+        /**
+         * Log output
+         */
+        @NotBlank
+        private String output;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
