@@ -33,6 +33,7 @@ import java.util.Collections;
 import capital.scalable.restdocs.example.constraints.Id;
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
+import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -177,12 +178,21 @@ public class ItemResource {
     }
 
     /**
+     * Executes a command on all items
+     */
+    @RequestMapping(value = "process", method = POST)
+    public String processItem(@RequestBody String command) {
+        // process request as Command
+        return "{ \"output\": \"processed\" }";
+    }
+
+    /**
      * Executes a command on an item
      *
      * @param itemId Item ID.
      */
-    @RequestMapping(value = "process/{itemId}", method = POST)
-    public String processItem(@PathVariable String itemId, @ModelAttribute String command) {
+    @RequestMapping(value = "{itemId}/process", method = POST)
+    public String processItem(@PathVariable String itemId, @ModelAttribute Comannd command) {
         // process request as Command
         return "{ \"output\": \"processed\" }";
     }
@@ -205,5 +215,10 @@ public class ItemResource {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     static class NotFoundException extends RuntimeException {
+    }
+
+    @Data
+    private static class Comannd {
+        private String action;
     }
 }
