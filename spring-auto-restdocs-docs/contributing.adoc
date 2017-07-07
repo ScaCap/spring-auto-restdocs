@@ -53,8 +53,9 @@ git checkout tags/v${spring-restdocs.version}
 ./gradlew build
 ----
 
-Afterwards you have to install the test JAR and
-this is explained in the section above.
+Afterwards the test JAR is located at
+`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-${spring-restdocs.version}-test.jar`
+and has to be installed with the Maven command shown in the section above.
 
 [[contributing-building-build]]
 ==== Build
