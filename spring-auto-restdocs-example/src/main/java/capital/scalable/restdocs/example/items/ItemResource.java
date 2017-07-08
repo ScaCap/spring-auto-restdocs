@@ -34,6 +34,7 @@ import capital.scalable.restdocs.example.constraints.Id;
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
 import lombok.Data;
+import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -178,25 +179,33 @@ public class ItemResource {
     }
 
     /**
-     * Executes a command on all items
+     * Executes a command on all items.
      */
     @RequestMapping(value = "process", method = POST)
-    public String processItem(@RequestBody String command) {
+    public String processAllItems(@RequestBody String command) {
         // process request as Command
         return "{ \"output\": \"processed\" }";
     }
 
     /**
-     * Executes a command on an item
+     * Executes a command on an item.
+     * <p>
+     * This endpoint demos the basic support for @ModelAttribute.
+     * Note that the request body is documented as it would be JSON,
+     * but it is actually form-urlencoded.
+     * Setting the type manually can help to get the right documentation
+     * if the automatic document does not produce the right result.
      *
      * @param itemId Item ID.
      */
     @RequestMapping(value = "{itemId}/process", method = POST)
-    public String processItem(@PathVariable String itemId, @ModelAttribute Comannd command) {
-        // process request as Command
-        return "{ \"output\": \"processed\" }";
+    public CommandResult processSingleItem(@PathVariable String itemId,
+            @ModelAttribute Command command) {
+        return new CommandResult(
+                String.format("Command executed on item %s: %s", itemId, command.getCommand()));
     }
 
+    @Data
     static class Command {
         /**
          * Command to execute
@@ -205,6 +214,7 @@ public class ItemResource {
         private String command;
     }
 
+    @Value
     static class CommandResult {
         /**
          * Log output
@@ -215,10 +225,5 @@ public class ItemResource {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     static class NotFoundException extends RuntimeException {
-    }
-
-    @Data
-    private static class Comannd {
-        private String action;
     }
 }

@@ -445,8 +445,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
 <li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
 <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
-<li><a href="#resources-item-resource-test-process-items">2.8. Process Item</a></li>
-<li><a href="#resources-item-resource-test-process-item">2.9. Process Item</a></li>
+<li><a href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></li>
+<li><a href="#resources-item-resource-test-process-single-item">2.9. Process Single Item</a></li>
 </ul>
 </li>
 </ul>
@@ -1041,7 +1041,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 74434347-2531-4ee6-9f28-1460c5373f6d' \
+    -H 'Authorization: Bearer 32c072f3-e307-4686-ab7d-0debe4ba0b43' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1255,7 +1255,7 @@ Must be one of [ONE, TWO].</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 74434347-2531-4ee6-9f28-1460c5373f6d' \
+    -H 'Authorization: Bearer 32c072f3-e307-4686-ab7d-0debe4ba0b43' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1352,7 +1352,7 @@ Must be a valid ID.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 74434347-2531-4ee6-9f28-1460c5373f6d'</code></pre>
+    -H 'Authorization: Bearer 32c072f3-e307-4686-ab7d-0debe4ba0b43'</code></pre>
 </div>
 </div>
 </div>
@@ -1787,12 +1787,12 @@ Content-Length: 625
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-item-resource-test-process-items"><a class="anchor" href="#resources-item-resource-test-process-items"></a><a class="link" href="#resources-item-resource-test-process-items">2.8. Process Item</a></h3>
+<h3 id="resources-item-resource-test-process-all-items"><a class="anchor" href="#resources-item-resource-test-process-all-items"></a><a class="link" href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></h3>
 <div class="paragraph">
 <p><code>POST /items/process</code></p>
 </div>
 <div class="paragraph">
-<p>Executes a command on an item</p>
+<p>Executes a command on all items.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
@@ -1898,12 +1898,14 @@ Content-Length: 28
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-item-resource-test-process-item"><a class="anchor" href="#resources-item-resource-test-process-item"></a><a class="link" href="#resources-item-resource-test-process-item">2.9. Process Item</a></h3>
+<h3 id="resources-item-resource-test-process-single-item"><a class="anchor" href="#resources-item-resource-test-process-single-item"></a><a class="link" href="#resources-item-resource-test-process-single-item">2.9. Process Single Item</a></h3>
 <div class="paragraph">
 <p><code>POST /items/{itemId}/process</code></p>
 </div>
 <div class="paragraph">
-<p>Executes a command on an item</p>
+<p>Executes a command on an item.<br>
+<br>
+This endpoint demos the basic support for @ModelAttribute. Note that the request body is documented as it would be JSON, but it is actually form-urlencoded. Setting the type manually can help to get the right documentation if the automatic document does not produce the right result.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
@@ -2002,9 +2004,9 @@ Content-Length: 28
 <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?action=increase' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?command=increase' -i -X POST \
     -H 'Content-Type: application/x-www-form-urlencoded' \
-    -d 'action=increase'</code></pre>
+    -d 'command=increase'</code></pre>
 </div>
 </div>
 </div>
@@ -2019,11 +2021,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 28
+Content-Type: application/json;charset=UTF-8
+Content-Length: 55
 
 {
-  "output" : "processed"
+  "output" : "Command executed on item 1: increase"
 }</code></pre>
 </div>
 </div>
@@ -2034,7 +2036,7 @@ Content-Length: 28
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-21 18:21:50 CEST
+Last updated 2017-05-25 19:20:47 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
