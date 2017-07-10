@@ -462,6 +462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#contributing">Contributing</a>
 <ul class="sectlevel2">
 <li><a href="#contributing-building">Building from source</a></li>
+    <li><a href="#contributing-installing-testjar">Install Spring REST Docs test JAR</a></li>
 </ul>
 </li>
 </ul>
@@ -1412,11 +1413,28 @@ private String field;</code></pre>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="contributing-building"><a class="link" href="#contributing-building">Building from source</a></h3>
+
+</div>
+    <div class="sect2">
+        <h3 id="contributing-installing-testjar"><a class="link" href="#contributing-installing-testjar">Install Spring REST Docs test JAR</a></h3>
+        <div class="paragraph">
+            <p>The Spring REST Docs test JAR is not published via Maven, but this project relies on it.
+                If you want to build this project yourself, you need to install the test JAR.
+                The test JAR is located in the lib folder and can be installed as follow:</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">Bash</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.1.RELEASE-test.jar \
+    -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
+    -Dversion=1.2.1.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
+            </div>
+        </div>
 <div class="sect3">
-<h4 id="contributing-building-testjar"><a class="link" href="#contributing-building-testjar">Get spring-restdocs-core test JAR</a></h4>
+    <h4 id="contributing-building-testjar"><a class="link" href="#contributing-building-testjar">Build Spring REST Docs test JAR</a></h4>
 <div class="paragraph">
-<p>The test JAR is not published, but this project relies on it.
-If you want to build this project yourself, you first have to build and copy the test JAR on your system.</p>
+    <p>Building the Spring REST Docs test JAR is not required to build the project,
+        but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
 </div>
 <div class="paragraph">
 <p>We use version 1.2.1.RELEASE of Spring REST Docs in this example.</p>
@@ -1450,11 +1468,9 @@ git checkout tags/v1.2.1.RELEASE
 </div>
 </div>
 <div class="paragraph">
-<p>Afterwards you copy
+    <p>Afterwards the test JAR is located at
 <code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.2.1.RELEASE-test.jar</code>
-to
-<code>~/.m2/repository/org/springframework/restdocs/spring-restdocs-core/1.2.1.RELEASE</code>
-so that the test JAR is available to Maven.</p>
+        and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1472,7 +1488,7 @@ so that the test JAR is available to Maven.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-07-08 14:29:25 CEST
+    Last updated 2017-07-10 13:57:37 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

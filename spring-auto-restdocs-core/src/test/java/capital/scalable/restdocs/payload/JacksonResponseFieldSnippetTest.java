@@ -36,11 +36,14 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.AbstractSnippetTests;
+import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
@@ -50,6 +53,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private ObjectMapper mapper;
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     public JacksonResponseFieldSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
@@ -84,7 +90,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
                 .build());
     }
 
@@ -104,7 +109,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
                 .build());
     }
 
@@ -117,7 +121,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
-                .request("http://localhost")
                 .build());
     }
 
@@ -143,7 +146,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
                 .build());
     }
 
@@ -167,7 +169,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
-                .request("http://localhost")
                 .build());
     }
 
@@ -186,7 +187,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .attribute(ObjectMapper.class.getName(), mapper)
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ConstraintReader.class.getName(), constraintReader)
-                        .request("http://localhost")
                         .build());
     }
 
@@ -209,6 +209,22 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
         assertThat(hasContent, is(false));
     }
+
+    @Test
+    public void failOnUndocumentedFields() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getItem");
+
+        thrown.expect(SnippetException.class);
+        thrown.expectMessage("Following response fields were not documented: [field1, field2]");
+
+        new JacksonResponseFieldSnippet().failOnUndocumentedFields(true).document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))

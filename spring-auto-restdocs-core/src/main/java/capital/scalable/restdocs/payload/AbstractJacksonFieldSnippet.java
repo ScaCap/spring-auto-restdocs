@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintRe
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
+import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static java.util.Collections.singletonList;
 
 import java.lang.reflect.ParameterizedType;
@@ -57,10 +58,6 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         }
     }
 
-    protected AbstractJacksonFieldSnippet(String snippetName) {
-        this(snippetName, null);
-    }
-
     protected AbstractJacksonFieldSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -88,6 +85,9 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
             }
         }
 
+        if (shouldFailOnUndocumentedFields()) {
+            assertAllDocumented(fieldDescriptors.values(), getHeader().toLowerCase());
+        }
         return fieldDescriptors.values();
     }
 
@@ -96,6 +96,8 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     protected abstract Type getType(HandlerMethod method);
+
+    protected abstract boolean shouldFailOnUndocumentedFields();
 
     protected boolean isCollection(Class<?> type) {
         return Collection.class.isAssignableFrom(type) ||

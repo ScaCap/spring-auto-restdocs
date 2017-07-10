@@ -21,6 +21,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static java.util.Collections.singletonList;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
@@ -60,6 +61,11 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
                         param, annot);
             }
         }
+
+        if (shouldFailOnUndocumentedParams()) {
+            assertAllDocumented(fieldDescriptors, getHeader().toLowerCase());
+        }
+
         return fieldDescriptors;
     }
 
@@ -100,6 +106,8 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected abstract String getPath(A annot);
 
     abstract A getAnnotation(MethodParameter param);
+
+    protected abstract boolean shouldFailOnUndocumentedParams();
 
     @Override
     public String getFileName() {
