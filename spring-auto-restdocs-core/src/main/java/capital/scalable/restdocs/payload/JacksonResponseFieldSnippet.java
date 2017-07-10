@@ -16,8 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -30,21 +28,33 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String RESPONSE_FIELDS = "response-fields";
+    private Type responseBodyType;
 
     public JacksonResponseFieldSnippet() {
         super(RESPONSE_FIELDS);
     }
 
+    public JacksonResponseFieldSnippet(Type responseBodyType) {
+        super(RESPONSE_FIELDS);
+        this.responseBodyType = responseBodyType;
+    }
+
+    public JacksonResponseFieldSnippet responseBodyAsType(Type responseBodyType) {
+        return new JacksonResponseFieldSnippet(responseBodyType);
+    }
+
     @Override
     protected Type getType(final HandlerMethod method) {
+        if (responseBodyType != null) {
+            return responseBodyType;
+        }
+
         Class<?> returnType = method.getReturnType().getParameterType();
         if (returnType == ResponseEntity.class) {
             return firstGenericType(method.getReturnType());
-        }
-        else if(returnType == HttpEntity.class){
+        } else if (returnType == HttpEntity.class) {
             return firstGenericType(method.getReturnType());
-        }
-        else if (returnType == Page.class) {
+        } else if (returnType == Page.class) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
             return new GenericArrayType() {

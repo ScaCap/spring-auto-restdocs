@@ -33,12 +33,15 @@ import java.util.Collections;
 import capital.scalable.restdocs.example.constraints.Id;
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
+import lombok.Data;
+import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,8 +122,9 @@ public class ItemResource {
      */
     @RequestMapping(value = "{id}", method = PUT)
     public HttpEntity<ItemResponse> updateItem(@PathVariable("id") @Id String id,
-                                              @RequestBody @Valid ItemUpdateRequest itemUpdate) {
-        return new HttpEntity<>(new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
+            @RequestBody @Valid ItemUpdateRequest itemUpdate) {
+        return new HttpEntity<>(
+                new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
     }
 
     /**
@@ -172,6 +176,51 @@ public class ItemResource {
         } else {
             return new PageImpl<>(Collections.<ItemResponse>emptyList());
         }
+    }
+
+    /**
+     * Executes a command on all items.
+     */
+    @RequestMapping(value = "process", method = POST)
+    public String processAllItems(@RequestBody String command) {
+        // process request as Command
+        return "{ \"output\": \"processed\" }";
+    }
+
+    /**
+     * Executes a command on an item.
+     * <p>
+     * This endpoint demos the basic support for @ModelAttribute.
+     * Note that the request body is documented as it would be JSON,
+     * but it is actually form-urlencoded.
+     * Setting the type manually can help to get the right documentation
+     * if the automatic document does not produce the right result.
+     *
+     * @param itemId Item ID.
+     */
+    @RequestMapping(value = "{itemId}/process", method = POST)
+    public CommandResult processSingleItem(@PathVariable String itemId,
+            @ModelAttribute Command command) {
+        return new CommandResult(
+                String.format("Command executed on item %s: %s", itemId, command.getCommand()));
+    }
+
+    @Data
+    static class Command {
+        /**
+         * Command to execute
+         */
+        @NotBlank
+        private String command;
+    }
+
+    @Value
+    static class CommandResult {
+        /**
+         * Log output
+         */
+        @NotBlank
+        private String output;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.example.items;
 
+import static capital.scalable.restdocs.AutoDocumentation.requestFields;
+import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -25,10 +27,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import capital.scalable.restdocs.example.items.ItemResource.Command;
+import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -99,8 +104,8 @@ public class ItemResourceTest extends MockMvcBase {
     @Test
     public void searchItems() throws Exception {
         mockMvc.perform(get("/items/search")
-                    .param("desc", "main")
-                    .param("hint", "1"))
+                .param("desc", "main")
+                .param("hint", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content", hasSize(1)))
@@ -108,5 +113,27 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.content[0].description", is("main item")))
                 // example for overriding path and preprocessors
                 .andDo(document("{class-name}/search", commonResponsePreprocessor()));
+    }
+
+    @Test
+    public void processAllItems() throws Exception {
+        mockMvc.perform(post("/items/process")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"command\": \"cleanup\" }"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{ \"output\": \"processed\" }"))
+                .andDo(commonDocumentation().document(
+                        requestFields().requestBodyAsType(Command.class),
+                        responseFields().responseBodyAsType(CommandResult.class)));
+    }
+
+    @Test
+    public void processSingleItem() throws Exception {
+        mockMvc.perform(post("/items/{itemId}/process", "1")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content("command=increase"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json("{ \"output\": \"Command executed on item 1: increase\" }"));
     }
 }

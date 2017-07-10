@@ -31,11 +31,11 @@ public abstract class AutoDocumentation {
     private AutoDocumentation() {
     }
 
-    public static Snippet requestFields() {
+    public static JacksonRequestFieldSnippet requestFields() {
         return new JacksonRequestFieldSnippet();
     }
 
-    public static Snippet responseFields() {
+    public static JacksonResponseFieldSnippet responseFields() {
         return new JacksonResponseFieldSnippet();
     }
 
