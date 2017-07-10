@@ -210,6 +210,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));

@@ -116,13 +116,24 @@ public class ItemResourceTest extends MockMvcBase {
     }
 
     @Test
-    public void processItem() throws Exception {
-        mockMvc.perform(post("/items/process/{itemId}", "1")
+    public void processAllItems() throws Exception {
+        mockMvc.perform(post("/items/process")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"command\": \"cleanup\" }"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{ \"output\": \"processed\" }"))
                 .andDo(commonDocumentation().document(
                         requestFields().requestBodyAsType(Command.class),
                         responseFields().responseBodyAsType(CommandResult.class)));
+    }
+
+    @Test
+    public void processSingleItem() throws Exception {
+        mockMvc.perform(post("/items/{itemId}/process", "1")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content("command=increase"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json("{ \"output\": \"Command executed on item 1: increase\" }"));
     }
 }
