@@ -15,6 +15,10 @@ your JSON object. You just add Javadoc to the fields and it will end
 up in the documentation.
 
 Learn more in the [Introducing Spring Auto REST Docs](https://dzone.com/articles/introducing-spring-auto-rest-docs) article.
+The [slides](https://www.slideshare.net/fbenz/introducing-spring-auto-rest-docs)
+and the
+[video recording](https://www.youtube.com/watch?v=M7GEN6Jh6CQ)
+from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also available.
 
 ## Documentation
 
