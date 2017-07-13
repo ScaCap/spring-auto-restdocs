@@ -23,6 +23,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -98,24 +99,31 @@ public class JavadocReaderImpl implements JavadocReader {
     private ClassJavadoc readFiles(Class<?> clazz, String relativePath) {
         if (absoluteBaseDirs.isEmpty()) {
             // No absolute directory is configured and thus we try to find the file relative.
-            ClassJavadoc classJavadoc = readFile(new File(relativePath));
+            ClassJavadoc classJavadoc = readJson(new File(relativePath));
             if (classJavadoc != null) {
                 return classJavadoc;
             }
         } else {
             // Try to find the file in all configured directories.
             for (File dir : absoluteBaseDirs) {
-                ClassJavadoc classJavadoc = readFile(new File(dir, relativePath));
+                ClassJavadoc classJavadoc = readJson(new File(dir, relativePath));
                 if (classJavadoc != null) {
                     return classJavadoc;
                 }
             }
         }
+
+        // might be in some jar on the classpath
+        URL url = getClass().getClassLoader().getResource(relativePath);
+        if (url != null) {
+            return readJson(url);
+        }
+
         log.warn("No Javadoc found for class {}", clazz.getCanonicalName());
         return new ClassJavadoc();
     }
 
-    private ClassJavadoc readFile(File docSource) {
+    private ClassJavadoc readJson(File docSource) {
         try {
             return mapper
                     .readerFor(ClassJavadoc.class)
@@ -125,6 +133,17 @@ public class JavadocReaderImpl implements JavadocReader {
             // is found at the end.
         } catch (IOException e) {
             log.error("Failed to read file {}", docSource.getName(), e);
+        }
+        return null;
+    }
+
+    private ClassJavadoc readJson(URL docSource) {
+        try {
+            return mapper
+                    .readerFor(ClassJavadoc.class)
+                    .readValue(docSource);
+        } catch (IOException e) {
+            log.error("Failed to read url {}", docSource, e);
         }
         return null;
     }
