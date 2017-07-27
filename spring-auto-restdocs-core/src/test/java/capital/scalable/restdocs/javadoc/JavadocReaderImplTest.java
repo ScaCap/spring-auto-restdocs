@@ -37,20 +37,19 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveFieldCommentFromClasspath() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
+        String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
+        assertThat(comment, equalTo("Simple field comment from classpath"));
+    }
+
+    @Test
     public void resolveFieldCommentAcrossDirectories() {
         String nonExistentDir = new File(SOURCE_DIR, "does-not-exist").getPath();
         String javadocDirs = " ," + nonExistentDir + " , " + SOURCE_DIR;
         JavadocReader javadocReader = JavadocReaderImpl.createWith(javadocDirs);
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
         assertThat(comment, equalTo("Simple field comment"));
-    }
-
-    @Test
-    public void resolveShouldNotFailOnNullDir() {
-        String javadocDirs = null;
-        JavadocReader javadocReader = JavadocReaderImpl.createWith(javadocDirs);
-        String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField");
-        assertThat(comment, equalTo(""));
     }
 
     @Test
@@ -61,11 +60,26 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveMethodCommentFromClasspath() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
+        String comment = javadocReader.resolveMethodComment(SimpleType.class, "simpleMethod");
+        assertThat(comment, equalTo("Simple method comment from classpath"));
+    }
+
+    @Test
     public void resolveMethodParameterComment() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
                 "simpleMethod", "simpleParameter");
         assertThat(comment, equalTo("Simple parameter comment"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromClasspath() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
+        String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
+                "simpleMethod", "simpleParameter");
+        assertThat(comment, equalTo("Simple parameter comment from classpath"));
     }
 
     @Test

@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "simpleField": "Simple field comment from classpath"
+  },
+  "methods": {
+    "simpleMethod": {
+      "comment": "Simple method comment from classpath",
+      "parameters": {
+        "simpleParameter": "Simple parameter comment from classpath"
+      }
+    }
+  }
+}
