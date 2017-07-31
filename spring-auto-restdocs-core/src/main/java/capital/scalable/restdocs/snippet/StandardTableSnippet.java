@@ -16,7 +16,7 @@
 
 package capital.scalable.restdocs.snippet;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
+import static capital.scalable.restdocs.OperationAttributeHelper.determineForcedLineBreak;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
@@ -51,9 +51,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
         }
 
-        String lineBreak = determineLineBreak(operation);
+        String forcedLineBreak = determineForcedLineBreak(operation);
 
-        return createModel(handlerMethod, fieldDescriptors, lineBreak);
+        return createModel(handlerMethod, fieldDescriptors, forcedLineBreak);
     }
 
     protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -64,14 +64,14 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod,
-            Collection<FieldDescriptor> fieldDescriptors, String lineBreak) {
+            Collection<FieldDescriptor> fieldDescriptors, String forcedLineBreak) {
         Map<String, Object> model = new HashMap<>();
         enrichModel(model, handlerMethod);
 
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("content", fields);
         for (FieldDescriptor descriptor : fieldDescriptors) {
-            fields.add(createModelForDescriptor(descriptor, lineBreak));
+            fields.add(createModelForDescriptor(descriptor, forcedLineBreak));
         }
         model.put("hasContent", !fieldDescriptors.isEmpty());
         model.put("noContent", fieldDescriptors.isEmpty());
@@ -79,19 +79,20 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor,
-            String lineBreak) {
+            String forcedLineBreak) {
         String path = descriptor.getPath();
         String type = toString(descriptor.getType());
-        String description = convertFromJavadoc(toString(descriptor.getDescription()), lineBreak);
+        String description = convertFromJavadoc(toString(descriptor.getDescription()),
+                forcedLineBreak);
 
         List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
                 OPTIONAL_ATTRIBUTE);
-        String optional = "" + join(optionalMessages, lineBreak);
+        String optional = "" + join(optionalMessages, forcedLineBreak);
 
         List<String> constraints = (List<String>) descriptor.getAttributes().get(
                 CONSTRAINTS_ATTRIBUTE);
 
-        description = joinAndFormat(lineBreak, description, constraints);
+        description = joinAndFormat(description, constraints, forcedLineBreak);
 
         Map<String, Object> model = new HashMap<>();
         model.put("path", path);
@@ -109,25 +110,37 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         }
     }
 
-    private String joinAndFormat(String lineBreak, String description, List<String> constraints) {
-        StringBuilder str = new StringBuilder(description);
+    private String joinAndFormat(String description, List<String> constraints,
+            String forcedLineBreak) {
+        StringBuilder res = new StringBuilder(description);
         if (!description.isEmpty() && !description.endsWith(".")) {
-            str.append('.');
+            res.append('.');
         }
 
+        StringBuilder constr = formatConstraints(constraints, forcedLineBreak);
+        if (res.length() > 0 && constr.length() > 0) {
+            res.append("\n\n");
+        }
+
+        res.append(constr.toString());
+
+        return res.toString();
+    }
+
+    private StringBuilder formatConstraints(List<String> constraints, String forcedLineBreak) {
+        StringBuilder res = new StringBuilder();
         for (String constraint : constraints) {
             if (constraint.trim().isEmpty()) {
                 continue;
             }
-            if (str.length() > 0) {
-                str.append(lineBreak);
+            if (res.length() > 0) {
+                res.append(forcedLineBreak);
             }
-            str.append(constraint.trim());
+            res.append(constraint.trim());
             if (!constraint.endsWith(".")) {
-                str.append('.');
+                res.append('.');
             }
         }
-
-        return str.toString();
+        return res;
     }
 }

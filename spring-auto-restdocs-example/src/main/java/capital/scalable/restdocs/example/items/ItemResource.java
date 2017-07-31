@@ -85,7 +85,6 @@ public class ItemResource {
 
     /**
      * Lists all items.
-     *
      * @return list of all items
      */
     @RequestMapping
@@ -96,7 +95,7 @@ public class ItemResource {
     /**
      * Adds new item.
      *
-     * @param itemUpdate item information
+     * @param itemUpdate Item information
      * @return response
      */
     @RequestMapping(method = POST)
@@ -134,7 +133,7 @@ public class ItemResource {
      * <p>
      * Non existing items are ignored
      *
-     * @param id item ID
+     * @param id Item ID
      */
     @RequestMapping(value = "{id}", method = DELETE)
     public void deleteItem(@PathVariable("id") @Id String id) {
@@ -189,12 +188,16 @@ public class ItemResource {
 
     /**
      * Executes a command on an item.
-     * <p>
+     * <br>
      * This endpoint demos the basic support for @ModelAttribute.
-     * Note that the request body is documented as it would be JSON,
-     * but it is actually form-urlencoded.
-     * Setting the type manually can help to get the right documentation
-     * if the automatic document does not produce the right result.
+     * <p>
+     * Notes:
+     * <ul>
+     * <li>the request body is documented as it would be JSON,
+     * but it is actually form-urlencoded</li>
+     * <li>setting the type manually can help to get the right documentation
+     * if the automatic document does not produce the right result.</li>
+     * </ul>
      *
      * @param itemId Item ID.
      */
