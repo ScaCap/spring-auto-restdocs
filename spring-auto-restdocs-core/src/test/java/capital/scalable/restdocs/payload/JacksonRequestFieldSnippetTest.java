@@ -16,7 +16,6 @@
 
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.determineLineBreak;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
@@ -72,17 +71,14 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
         mockFieldComment(Item.class, "field1", "A string");
-        mockFieldComment(Item.class, "field2", "An integer<br>\n Very important\n <p>\n field");
+        mockFieldComment(Item.class, "field2", "An integer");
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
         this.snippets.expectRequestFields().withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
-                        .row("field2", "Integer", "true", "An integer" + lineBreak()
-                                + "Very important" + lineBreak() + lineBreak()
-                                + "field." + lineBreak()
-                                + "A constraint."));
+                        .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -228,10 +224,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private HandlerMethod createHandlerMethod(String name, Class<?>... parameterTypes)
             throws NoSuchMethodException {
         return new HandlerMethod(new TestResource(), name, parameterTypes);
-    }
-
-    private String lineBreak() {
-        return determineLineBreak(templateFormat);
     }
 
     private static class TestResource {

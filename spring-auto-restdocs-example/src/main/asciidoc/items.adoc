@@ -32,7 +32,7 @@ include::{snippets}/item-resource-test/get-item/http-response.adoc[]
 
 
 [[resources-items-all]]
-=== Get all item
+=== Get all items
 
 `GET /items`
 

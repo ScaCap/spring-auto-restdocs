@@ -45,7 +45,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
@@ -82,7 +81,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
-                                "A decimal." + lineBreak() + "A constraint.")));
+                                "A decimal.\n\nA constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -136,7 +135,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string.")
                                 .row("field2", "Decimal", "true",
-                                        "A decimal." + lineBreak() + "A constraint.")));
+                                        "A decimal.\n\nA constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -158,7 +157,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
-                                "A decimal." + lineBreak() + "A constraint.")));
+                                "A decimal.\n\nA constraint.")));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -245,11 +244,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
             return "Standard [paging](#overview-pagination) response where `content` field is"
                     + " list of following objects:\n";
         }
-    }
-
-    private String lineBreak() {
-        return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
-                ? " +\n" : "<br>";
     }
 
     private HandlerMethod createHandlerMethod(String responseEntityItem)
