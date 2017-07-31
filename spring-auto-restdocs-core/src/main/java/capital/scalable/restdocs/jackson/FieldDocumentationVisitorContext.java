@@ -23,6 +23,7 @@ import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
+import org.springframework.util.ReflectionUtils;
 
 public class FieldDocumentationVisitorContext {
     private final List<FieldDescriptor> fields = new ArrayList<>();
@@ -87,9 +89,14 @@ public class FieldDocumentationVisitorContext {
                 resolveOptionalMessages(javaBaseClass, javaFieldName));
     }
 
-    private List<String> resolveOptionalMessages(Class<?> javaBaseClass,
-            String javaFieldName) {
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
         List<String> optionalMessages = new ArrayList<>();
+
+        if (isPrimitive(javaBaseClass, javaFieldName)) {
+            optionalMessages.add("false");
+            return optionalMessages;
+        }
+
         optionalMessages.addAll(constraintReader.getOptionalMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it
@@ -105,6 +112,14 @@ public class FieldDocumentationVisitorContext {
         }
 
         return optionalMessages;
+    }
+
+    private boolean isPrimitive(Class<?> javaBaseClass, String javaFieldName) {
+        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
+        if (field == null && isGetter(javaFieldName)) {
+            field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
+        }
+        return field != null ? field.getType().isPrimitive() : false;
     }
 
     private List<String> resolveConstraintDescriptions(Class<?> javaBaseClass,

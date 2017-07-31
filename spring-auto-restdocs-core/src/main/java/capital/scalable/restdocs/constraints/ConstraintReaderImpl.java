@@ -17,13 +17,10 @@
 package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
-import static capital.scalable.restdocs.constraints.SkippableConstraintResolver
-        .MANDATORY_VALUE_ANNOTATIONS;
 import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.apache.commons.lang3.ArrayUtils.contains;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.util.ReflectionUtils.findField;
 
@@ -53,11 +50,6 @@ public class ConstraintReaderImpl implements ConstraintReader {
     @Override
     public List<String> getOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
         return skippableConstraintResolver.getOptionalMessages(javaFieldName, javaBaseClass);
-    }
-
-    @Override
-    public boolean isMandatory(Class<?> annotation) {
-        return contains(MANDATORY_VALUE_ANNOTATIONS, annotation);
     }
 
     @Override

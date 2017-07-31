@@ -78,7 +78,7 @@ class SkippableConstraintResolver implements MethodParameterConstraintResolver {
 
         for (Constraint constraint : constraints) {
             if (isSkippable(constraint)) {
-                List<Class> groups = getGroups(constraint);
+                List<Class<?>> groups = getGroups(constraint);
 
                 if (groups.isEmpty()) {
                     defaultOptional = "false";
@@ -97,7 +97,7 @@ class SkippableConstraintResolver implements MethodParameterConstraintResolver {
         return result;
     }
 
-    private List<Class> getGroups(Constraint constraint) {
+    private List<Class<?>> getGroups(Constraint constraint) {
         return descriptionResolver.getGroups(constraint);
     }
 

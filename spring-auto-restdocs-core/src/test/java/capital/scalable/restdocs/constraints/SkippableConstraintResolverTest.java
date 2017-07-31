@@ -17,14 +17,18 @@
 package capital.scalable.restdocs.constraints;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
@@ -49,31 +53,117 @@ public class SkippableConstraintResolverTest {
 
     private SkippableConstraintResolver resolver;
     private MethodParameterConstraintResolver delegate;
+    private GroupDescriptionResolver descriptionResolver;
 
     @Before
     public void setup() {
         delegate = mock(MethodParameterConstraintResolver.class);
-        GroupDescriptionResolver descriptionResolver = mock(GroupDescriptionResolver.class);
+        descriptionResolver = mock(GroupDescriptionResolver.class);
         resolver = new SkippableConstraintResolver(delegate, descriptionResolver);
     }
 
     @Test
+    public void testNoConstraints() {
+        // setup
+        MethodParameter param = mock(MethodParameter.class);
+        when(delegate.resolveForProperty(PROPERTY, CLAZZ))
+                .thenReturn(new ArrayList<Constraint>());
+        when(delegate.resolveForParameter(param))
+                .thenReturn(new ArrayList<Constraint>());
+
+        // when/then
+        List<Constraint> constraints = resolver.resolveForProperty(PROPERTY, CLAZZ);
+        assertThat(constraints.size(), is(0));
+
+        // when/then
+        constraints = resolver.resolveForParameter(param);
+        assertThat(constraints.size(), is(0));
+
+        // when/then
+        List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);
+        assertThat(messages.size(), is(0));
+    }
+
+    @Test
     public void testSkippableConstraints() {
+        // setup
+        MethodParameter param = mock(MethodParameter.class);
         when(delegate.resolveForProperty(PROPERTY, CLAZZ))
                 .thenReturn(CONSTRAINTS);
-        when(delegate.resolveForParameter(any(MethodParameter.class)))
+        when(delegate.resolveForParameter(param))
                 .thenReturn(CONSTRAINTS);
 
+        // when/then
         List<Constraint> constraints = resolver.resolveForProperty(PROPERTY, CLAZZ);
         assertConstraints(constraints);
 
-        constraints = resolver.resolveForParameter(mock(MethodParameter.class));
+        // when/then
+        constraints = resolver.resolveForParameter(param);
         assertConstraints(constraints);
+
+        // when/then
+        List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);
+        assertThat(messages, is(singletonList("false")));
+    }
+
+    @Test
+    public void testOptionalMessagesConstraintGroupsNotApplicable() {
+        // setup
+        Constraint constraint = new Constraint(Size.class.getName(), null);
+        when(delegate.resolveForProperty(PROPERTY, CLAZZ))
+                .thenReturn(singletonList(constraint));
+
+        // when/then
+        List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);
+        assertThat(messages.size(), is(0));
+
+        verify(descriptionResolver, never()).getGroups(constraint);
+    }
+
+    @Test
+    public void testOptionalMessagesNoConstraintGroups() {
+        // setup
+        Constraint constraint = new Constraint(NotNull.class.getName(), null);
+        when(delegate.resolveForProperty(PROPERTY, CLAZZ))
+                .thenReturn(singletonList(constraint));
+        when(descriptionResolver.getGroups(constraint))
+                .thenReturn(new ArrayList<Class<?>>());
+
+        // when/then
+        List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("false"));
+    }
+
+    @Test
+    public void testOptionalMessagesWithConstraintGroups() {
+        // setup
+        Constraint constraint = new Constraint(NotNull.class.getName(), null);
+        when(delegate.resolveForProperty(PROPERTY, CLAZZ))
+                .thenReturn(singletonList(constraint));
+        when(descriptionResolver.getGroups(constraint))
+                .thenReturn(Arrays.asList(GroupA.class, GroupB.class));
+        when(descriptionResolver.resolveGroupDescription(GroupA.class, "false"))
+                .thenReturn("group-A desc");
+        when(descriptionResolver.resolveGroupDescription(GroupB.class, "false"))
+                .thenReturn("group-B desc");
+
+        // when/then
+        List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);
+        assertThat(messages.size(), is(2));
+        assertThat(messages.get(0), is("group-A desc"));
+        assertThat(messages.get(1), is("group-B desc"));
     }
 
     private void assertConstraints(List<Constraint> constraints) {
         assertThat(constraints.size(), is(2));
         assertThat(constraints.get(0).getName(), is(Size.class.getName()));
         assertThat(constraints.get(1).getName(), is(Length.class.getName()));
+    }
+
+    private interface GroupA {
+    }
+
+    private interface GroupB {
     }
 }

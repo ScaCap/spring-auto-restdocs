@@ -26,7 +26,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -40,18 +39,6 @@ import org.springframework.core.MethodParameter;
 public class ConstraintReaderImplTest {
 
     private ConstraintReader reader = new ConstraintReaderImpl();
-
-    @Test
-    public void isMandatory() {
-        assertThat(reader.isMandatory(NotNull.class), is(true));
-        assertThat(reader.isMandatory(NotBlank.class), is(true));
-        assertThat(reader.isMandatory(NotEmpty.class), is(true));
-
-        // sanity check
-        assertThat(reader.isMandatory(Size.class), is(false));
-        assertThat(reader.isMandatory(Override.class), is(false));
-        assertThat(reader.isMandatory(OneOf.class), is(false));
-    }
 
     @Test
     public void getConstraintMessages() {

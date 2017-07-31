@@ -75,7 +75,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("getItem");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
-        mockMandatoryConstraint(NotBlank.class, true);
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
@@ -129,8 +128,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("pagedItems");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
-
-        mockMandatoryConstraint(NotBlank.class, true);
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
@@ -154,7 +151,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("responseEntityItem");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
-        mockMandatoryConstraint(NotBlank.class, true);
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
@@ -234,10 +230,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private void mockOptionalMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getOptionalMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
-    }
-
-    private void mockMandatoryConstraint(Class<?> annotation, boolean mandatory) {
-        when(constraintReader.isMandatory(annotation)).thenReturn(mandatory);
     }
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {
