@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-items">2. Items</a>
 <ul class="sectlevel2">
 <li><a href="#resources-items-get">2.1. Get an item</a></li>
-<li><a href="#resources-items-all">2.2. Get all item</a></li>
+    <li><a href="#resources-items-all">2.2. Get all items</a></li>
 <li><a href="#resources-item-resource-test-add-item">2.3. Add Item</a></li>
 <li><a href="#resources-item-resource-test-update-item">2.4. Update Item</a></li>
 <li><a href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></li>
@@ -632,8 +632,9 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.<br>
-Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.
+    </p>
+        <p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -694,15 +695,17 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-Size must be between 2 and 20 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
+    </p>
+        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -715,8 +718,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -729,8 +733,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-Must be one of [ONE, TWO].</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
+    </p>
+        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -791,7 +796,7 @@ Content-Length: 378
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-items-all"><a class="anchor" href="#resources-items-all"></a><a class="link" href="#resources-items-all">2.2. Get all item</a></h3>
+    <h3 id="resources-items-all"><a class="anchor" href="#resources-items-all"></a><a class="link" href="#resources-items-all">2.2. Get all items</a></h3>
 <div class="paragraph">
 <p><code>GET /items</code></p>
 </div>
@@ -859,15 +864,17 @@ Content-Length: 378
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-Size must be between 2 and 20 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
+    </p>
+        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -880,8 +887,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -894,8 +902,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-Must be one of [ONE, TWO].</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
+    </p>
+        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
@@ -1012,8 +1021,9 @@ Content-Length: 483
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
 EN: false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
-DE: Size must be between 2 and 10 inclusive.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.
+    </p>
+        <p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
 Length must be between 0 and 20 inclusive.</p></td>
 </tr>
@@ -1021,8 +1031,9 @@ Length must be between 0 and 20 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
-DE: Must be one of [klein, groß].<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.
+    </p>
+        <p class="tableblock">DE: Must be one of [klein, groß].<br>
 EN: Must be one of [small, big].<br>
 Size must be between 0 and 1000 inclusive.</p></td>
 </tr>
@@ -1041,7 +1052,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer d0936e63-7212-4335-810c-a185d30389ac' \
+    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1098,8 +1109,9 @@ Location: /items/2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
-Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
+    </p>
+        <p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1133,8 +1145,9 @@ Must be a valid ID.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
 EN: false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.<br>
-DE: Size must be between 2 and 10 inclusive.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.
+    </p>
+        <p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
 Length must be between 0 and 20 inclusive.</p></td>
 </tr>
@@ -1142,8 +1155,9 @@ Length must be between 0 and 20 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.<br>
-DE: Must be one of [klein, groß].<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.
+    </p>
+        <p class="tableblock">DE: Must be one of [klein, groß].<br>
 EN: Must be one of [small, big].<br>
 Size must be between 0 and 1000 inclusive.</p></td>
 </tr>
@@ -1196,15 +1210,17 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-Size must be between 2 and 20 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
+    </p>
+        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1217,8 +1233,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1231,8 +1248,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-Must be one of [ONE, TWO].</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
+    </p>
+        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1255,7 +1273,7 @@ Must be one of [ONE, TWO].</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer d0936e63-7212-4335-810c-a185d30389ac' \
+    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1291,9 +1309,10 @@ Content-Length: 90
 </div>
 <div class="paragraph">
 <p>Deletes item.<br>
-Item must exist.<br>
-<br>
-Non existing items are ignored</p>
+    Item must exist.</p>
+</div>
+    <div class="paragraph">
+        <p>Non existing items are ignored</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
@@ -1323,8 +1342,9 @@ Non existing items are ignored</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">item ID.<br>
-Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
+    </p>
+        <p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1352,7 +1372,7 @@ Must be a valid ID.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer d0936e63-7212-4335-810c-a185d30389ac'</code></pre>
+    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365'</code></pre>
 </div>
 </div>
 </div>
@@ -1407,15 +1427,17 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.<br>
-Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
+    </p>
+        <p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.<br>
-DE: Must be at most 2.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.
+    </p>
+        <p class="tableblock">DE: Must be at most 2.<br>
 EN: Must be at least 1.</p></td>
 </tr>
 </tbody>
@@ -1479,15 +1501,17 @@ EN: Must be at least 1.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-Size must be between 2 and 20 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
+    </p>
+        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1500,8 +1524,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1514,8 +1539,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-Must be one of [ONE, TWO].</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
+    </p>
+        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1606,15 +1632,17 @@ Content-Length: 99
 <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.<br>
-Size must be between 0 and 255 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.
+    </p>
+        <p class="tableblock">Size must be between 0 and 255 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.<br>
-Must be at least 10.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.
+    </p>
+        <p class="tableblock">Must be at least 10.<br>
 Must be at most 100.</p></td>
 </tr>
 </tbody>
@@ -1675,15 +1703,17 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.<br>
-Size must be between 2 and 20 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
+    </p>
+        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1696,8 +1726,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.<br>
-Must be at least 1.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
+    </p>
+        <p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1710,8 +1741,9 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.<br>
-Must be one of [ONE, TWO].</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
+    </p>
+        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1774,8 +1806,8 @@ Content-Length: 625
   "pageable" : null,
   "total" : 1,
   "totalPages" : 1,
-  "totalElements" : 1,
   "last" : true,
+  "totalElements" : 1,
   "size" : 0,
   "number" : 0,
   "sort" : null,
@@ -1904,8 +1936,20 @@ Content-Length: 28
 </div>
 <div class="paragraph">
 <p>Executes a command on an item.<br>
-<br>
-This endpoint demos the basic support for @ModelAttribute. Note that the request body is documented as it would be JSON, but it is actually form-urlencoded. Setting the type manually can help to get the right documentation if the automatic document does not produce the right result.</p>
+    This endpoint demos the basic support for @ModelAttribute.</p>
+</div>
+    <div class="paragraph">
+        <p>Notes:</p>
+    </div>
+    <div class="ulist">
+        <ul>
+            <li>
+                <p>the request body is documented as it would be JSON, but it is actually form-urlencoded</p>
+            </li>
+            <li>
+                <p>setting the type manually can help to get the right documentation if the automatic document does not produce the right result.</p>
+            </li>
+        </ul>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
