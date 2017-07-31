@@ -131,12 +131,12 @@ public class OperationAttributeHelper {
         return (List<Snippet>) operation.getAttributes().get(ATTRIBUTE_NAME_DEFAULT_SNIPPETS);
     }
 
-    public static String determineLineBreak(Operation operation) {
-        return determineLineBreak(getTemplateFormat(operation));
+    public static String determineForcedLineBreak(Operation operation) {
+        return determineForcedLineBreak(getTemplateFormat(operation));
     }
 
     // necessary until https://github.com/spring-projects/spring-restdocs/issues/351 is fixed
-    public static String determineLineBreak(TemplateFormat templateFormat) {
+    public static String determineForcedLineBreak(TemplateFormat templateFormat) {
         return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
                 ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
     }
