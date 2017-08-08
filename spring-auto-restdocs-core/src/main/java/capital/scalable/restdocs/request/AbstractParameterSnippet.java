@@ -23,6 +23,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
 
@@ -76,13 +77,13 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         String pathName = getPath(annot);
 
         String parameterName = hasLength(pathName) ? pathName : javaParameterName;
-        String parameterType = param.getParameterType().getSimpleName();
+        String parameterTypeName = determineTypeName(param.getParameterType());
         String description = javadocReader.resolveMethodParameterComment(
                 handlerMethod.getBeanType(), handlerMethod.getMethod().getName(),
                 javaParameterName);
 
         FieldDescriptor descriptor = fieldWithPath(parameterName)
-                .type(parameterType)
+                .type(parameterTypeName)
                 .description(description);
 
         Attribute constraints = constraintAttribute(param, constraintReader);
@@ -92,16 +93,32 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         fieldDescriptors.add(descriptor);
     }
 
+    private String determineTypeName(Class<?> parameterType) {
+        // returning the same as FieldDocumentationVisitorWrapper
+        switch (primitiveToWrapper(parameterType).getCanonicalName()) {
+        case "java.lang.Long":
+        case "java.lang.Integer":
+        case "java.lang.Short":
+            return "Integer";
+        case "java.lang.Float":
+        case "java.lang.Double":
+        case "java.lang.BigDecimal":
+            return "Decimal";
+        default:
+            return parameterType.getSimpleName();
+        }
+    }
+
     protected Attribute constraintAttribute(MethodParameter param,
             ConstraintReader constraintReader) {
         return new Attribute(CONSTRAINTS_ATTRIBUTE, constraintReader.getConstraintMessages(param));
     }
 
     protected Attribute optionalsAttribute(MethodParameter param, A annot) {
-        return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(annot)));
+        return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(param, annot)));
     }
 
-    protected abstract boolean isRequired(A annot);
+    protected abstract boolean isRequired(MethodParameter param, A annot);
 
     protected abstract String getPath(A annot);
 

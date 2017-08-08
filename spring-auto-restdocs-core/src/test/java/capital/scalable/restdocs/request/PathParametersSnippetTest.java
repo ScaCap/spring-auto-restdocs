@@ -56,15 +56,18 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void simpleRequest() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class);
+        HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
+                int.class);
         initParameters(handlerMethod);
         mockParamComment("addItem", "id", "An integer");
         mockParamComment("addItem", "otherId", "A string");
+        mockParamComment("addItem", "subSubId", "An integer");
 
         this.snippets.expectPathParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
-                        .row("subid", "String", "false", "A string."));
+                        .row("subid", "String", "false", "A string.")
+                        .row("subSubId", "Integer", "false", "An integer."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -117,8 +120,10 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}")
-        public void addItem(@PathVariable Integer id, @PathVariable("subid") String otherId) {
+        @RequestMapping(value = "/items/{id}/subitem/{subid}/{subSubId}")
+        public void addItem(@PathVariable Integer id,
+                @PathVariable("subid") String otherId,
+                @PathVariable(required = false) int subSubId) { // required anyway
             // NOOP
         }
 

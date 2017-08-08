@@ -73,12 +73,16 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(Constraintz.class, "num");
         assertThat(messages.size(), is(1));
-        // fallback
         assertThat(messages.get(0), is("Must be at most 10 (groups: [UnresolvedGroup])"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "bool");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "str");
+        assertThat(messages.size(), is(0)); // array
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum1");
         assertThat(messages.size(), is(1));
-        // fallback
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum2");
@@ -114,6 +118,12 @@ public class ConstraintReaderImplTest {
         assertThat(messages.get(0), is("false (create)"));
 
         messages = reader.getOptionalMessages(Constraintz.class, "num");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "bool");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "str");
         assertThat(messages.size(), is(0));
 
         messages = reader.getOptionalMessages(Constraintz.class, "enum1");
@@ -167,6 +177,10 @@ public class ConstraintReaderImplTest {
 
         @Max(value = 10, groups = UnresolvedGroup.class)
         private long num;
+
+        private boolean bool;
+
+        private char[] str;
 
         private Enum1 enum1;
 

@@ -39,8 +39,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    protected boolean isRequired(RequestParam annot) {
-        return annot.required();
+    protected boolean isRequired(MethodParameter param, RequestParam annot) {
+        return param.getParameterType().isPrimitive()
+                ? true // spring disallows null for primitive
+                : annot.required();
     }
 
     @Override

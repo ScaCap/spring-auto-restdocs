@@ -122,11 +122,11 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(0),
                 is(descriptor("stringField", "Array", "A string", "true")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("booleanField", "Boolean", "A boolean", "false")));
+                is(descriptor("booleanField", "Boolean", "A boolean", "true")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", "false")));
+                is(descriptor("numberField1", "Integer", "An integer", "true")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("numberField2", "Decimal", "A decimal", "false")));
+                is(descriptor("numberField2", "Decimal", "A decimal", "true")));
     }
 
     @Test

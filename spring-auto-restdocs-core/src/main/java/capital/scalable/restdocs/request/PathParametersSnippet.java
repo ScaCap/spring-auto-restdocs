@@ -38,8 +38,10 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     @Override
-    protected boolean isRequired(PathVariable annot) {
-        return true;
+    protected boolean isRequired(MethodParameter param, PathVariable annot) {
+        return param.getParameterType().isPrimitive()
+                ? true // spring disallows null for primitive
+                : annot.required();
     }
 
     @Override

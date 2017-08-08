@@ -56,15 +56,17 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem", Integer.class,
-                String.class);
+                String.class, int.class);
         initParameters(handlerMethod);
         mockParamComment("searchItem", "type", "An integer");
         mockParamComment("searchItem", "description", "A string");
+        mockParamComment("searchItem", "order", "An integer");
 
         this.snippets.expectRequestParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("type", "Integer", "false", "An integer.")
-                        .row("text", "String", "true", "A string."));
+                        .row("text", "String", "true", "A string.")
+                        .row("order", "Integer", "false", "An integer."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -121,7 +123,8 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
         @RequestMapping(value = "/items/search")
         public void searchItem(@RequestParam Integer type,
-                @RequestParam(value = "text", required = false) String description) {
+                @RequestParam(value = "text", required = false) String description,
+                @RequestParam(required = false) int order) { // required anyway
             // NOOP
         }
 

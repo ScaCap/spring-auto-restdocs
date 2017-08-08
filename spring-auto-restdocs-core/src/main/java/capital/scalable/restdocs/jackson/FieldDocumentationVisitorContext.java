@@ -93,7 +93,7 @@ public class FieldDocumentationVisitorContext {
         List<String> optionalMessages = new ArrayList<>();
 
         if (isPrimitive(javaBaseClass, javaFieldName)) {
-            optionalMessages.add("false");
+            optionalMessages.add("true"); // jackson handles null for primitives, keeps the default
             return optionalMessages;
         }
 
