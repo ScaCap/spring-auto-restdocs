@@ -22,8 +22,8 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReade
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
+import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
 import static java.util.Collections.singletonList;
-import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
 
@@ -91,22 +91,6 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         descriptor.attributes(constraints, optionals);
 
         fieldDescriptors.add(descriptor);
-    }
-
-    private String determineTypeName(Class<?> parameterType) {
-        // returning the same as FieldDocumentationVisitorWrapper
-        switch (primitiveToWrapper(parameterType).getCanonicalName()) {
-        case "java.lang.Long":
-        case "java.lang.Integer":
-        case "java.lang.Short":
-            return "Integer";
-        case "java.lang.Float":
-        case "java.lang.Double":
-        case "java.lang.BigDecimal":
-            return "Decimal";
-        default:
-            return parameterType.getSimpleName();
-        }
     }
 
     protected Attribute constraintAttribute(MethodParameter param,

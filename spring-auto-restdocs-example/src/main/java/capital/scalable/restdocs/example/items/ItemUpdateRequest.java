@@ -16,7 +16,6 @@
 
 package capital.scalable.restdocs.example.items;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import capital.scalable.restdocs.example.constraints.OneOf;
@@ -49,10 +48,4 @@ class ItemUpdateRequest {
             @OneOf(value = {"small", "big"}, groups = English.class)
     })
     private String type;
-
-    /**
-     * Order of the item. If not specified it's 0.
-     */
-    @Min(100)
-    private int order;
 }

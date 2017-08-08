@@ -90,11 +90,11 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void failOnUndocumentedParams() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem", Integer.class,
-                String.class);
+                String.class, int.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
-        thrown.expectMessage("Following query parameters were not documented: [type, text]");
+        thrown.expectMessage("Following query parameters were not documented: [type, text, order]");
 
         new RequestParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

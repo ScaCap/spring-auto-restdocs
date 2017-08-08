@@ -27,6 +27,10 @@ public final class FieldUtil {
      * Creates a field name from getter
      */
     public static String fromGetter(String javaMethodName) {
+        if (!isGetter(javaMethodName)) {
+            return javaMethodName;
+        }
+
         int cut = javaMethodName.startsWith("get") ? "get".length() : "is".length();
         return uncapitalize(javaMethodName.substring(cut, javaMethodName.length()));
     }

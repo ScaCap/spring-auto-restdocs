@@ -61,13 +61,13 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("addItem", "id", "An integer");
         mockParamComment("addItem", "otherId", "A string");
-        mockParamComment("addItem", "subSubId", "An integer");
+        mockParamComment("addItem", "partId", "An integer");
 
         this.snippets.expectPathParameters().withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
-                        .row("subSubId", "Integer", "false", "An integer."));
+                        .row("partId", "Integer", "false", "An integer."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -89,11 +89,13 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void failOnUndocumentedParams() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class);
+        HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
+                int.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
-        thrown.expectMessage("Following path parameters were not documented: [id, subid]");
+        thrown.expectMessage(
+                "Following path parameters were not documented: [id, subid, partId]");
 
         new PathParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -120,10 +122,10 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}/{subSubId}")
+        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}")
         public void addItem(@PathVariable Integer id,
                 @PathVariable("subid") String otherId,
-                @PathVariable(required = false) int subSubId) { // required anyway
+                @PathVariable(required = false) int partId) { // required anyway
             // NOOP
         }
 
