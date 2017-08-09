@@ -77,7 +77,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         if (signatureType != null) {
             try {
                 for (Type type : resolveActualTypes(signatureType)) {
-                    resolveFieldDescriptors(fieldDescriptors, type, writer, typeFactory,
+                    resolveFieldDescriptors(fieldDescriptors, type, objectMapper,
                             javadocReader, constraintReader);
                 }
             } catch (JsonMappingException e) {
@@ -121,11 +121,13 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     private void resolveFieldDescriptors(Map<String, FieldDescriptor> fieldDescriptors,
-            Type type, ObjectWriter writer, TypeFactory typeFactory, JavadocReader javadocReader,
+            Type type, ObjectMapper objectMapper, JavadocReader javadocReader,
             ConstraintReader constraintReader) throws JsonMappingException {
-        FieldDocumentationGenerator generator = new FieldDocumentationGenerator(writer,
-                javadocReader, constraintReader);
-        List<FieldDescriptor> descriptors = generator.generateDocumentation(type, typeFactory);
+        FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
+                objectMapper.writer(), objectMapper.getDeserializationConfig(), javadocReader,
+                constraintReader);
+        List<FieldDescriptor> descriptors = generator.generateDocumentation(type,
+                objectMapper.getTypeFactory());
         for (FieldDescriptor descriptor : descriptors) {
             if (fieldDescriptors.get(descriptor.getPath()) == null) {
                 fieldDescriptors.put(descriptor.getPath(), descriptor);

@@ -30,4 +30,15 @@ public class TypeUtilTest {
         assertThat(TypeUtil.determineTypeName(boolean.class), is("Boolean"));
         assertThat(TypeUtil.determineTypeName(Boolean.class), is("Boolean"));
     }
+
+    @Test
+    public void isPrimitive() throws Exception {
+        assertThat(TypeUtil.isPrimitive(TestClass.class, "primitive"), is(true));
+        assertThat(TypeUtil.isPrimitive(TestClass.class, "wrapper"), is(false));
+    }
+
+    static class TestClass {
+        private boolean primitive;
+        private Boolean wrapper;
+    }
 }

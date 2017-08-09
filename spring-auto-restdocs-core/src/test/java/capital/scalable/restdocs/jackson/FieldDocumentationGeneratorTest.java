@@ -48,6 +48,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.hibernate.validator.constraints.Length;
@@ -76,7 +77,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
+                        javadocReader, constraintReader);
         Type type = BasicTypes.class;
 
         // when
@@ -111,7 +113,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = PrimitiveTypes.class;
 
         // when
@@ -127,6 +130,25 @@ public class FieldDocumentationGeneratorTest {
                 is(descriptor("numberField1", "Integer", "An integer", "true")));
         assertThat(fieldDescriptions.get(3),
                 is(descriptor("numberField2", "Decimal", "A decimal", "true")));
+
+        // when change deserialization config
+        mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
+        generator = new FieldDocumentationGenerator(mapper.writer(),
+                mapper.getDeserializationConfig(), javadocReader, constraintReader);
+
+        // when
+        fieldDescriptions = cast(generator.generateDocumentation(type, mapper.getTypeFactory()));
+
+        // then
+        assertThat(fieldDescriptions.size(), is(4));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("stringField", "Array", "A string", "true"))); // array
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("booleanField", "Boolean", "A boolean", "false")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("numberField1", "Integer", "An integer", "false")));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("numberField2", "Decimal", "A decimal", "false")));
     }
 
     @Test
@@ -150,7 +172,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = ComposedTypes.class;
 
         // when
@@ -199,7 +222,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = FirstLevel.class;
 
         // when
@@ -236,7 +260,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = RecursiveType.class;
 
         // when
@@ -269,7 +294,8 @@ public class FieldDocumentationGeneratorTest {
         mapper.registerModule(testModule);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = ExternalSerializer.class;
 
         // when
@@ -300,7 +326,8 @@ public class FieldDocumentationGeneratorTest {
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = JsonAnnotations.class;
 
         // when
@@ -347,7 +374,8 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn("A secured flag");
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = FieldCommentResolution.class;
 
         // when
@@ -392,7 +420,8 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn(singletonList("false"));
 
         FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(), javadocReader, constraintReader);
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = ConstraintResolution.class;
 
         // when
