@@ -74,6 +74,28 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void simpleRequestWithPrimitives() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem2", double.class,
+                boolean.class, int.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem2", "param1", "A decimal");
+        mockParamComment("searchItem2", "param2", "A boolean");
+        mockParamComment("searchItem2", "param3", "An integer");
+
+        this.snippets.expectRequestParameters().withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "Integer", "true", "An integer."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
@@ -122,6 +144,13 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         @RequestMapping(value = "/items/search")
         public void searchItem(@RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
+            // NOOP
+        }
+
+        @RequestMapping(value = "/items/search2")
+        public void searchItem2(@RequestParam double param1,    // required
+                @RequestParam(required = false) boolean param2, // required anyway
+                @RequestParam(defaultValue = "1") int param3) { // not required
             // NOOP
         }
 

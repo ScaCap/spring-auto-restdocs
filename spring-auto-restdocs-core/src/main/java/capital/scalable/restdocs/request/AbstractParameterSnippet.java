@@ -22,6 +22,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReade
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
+import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
 import static java.util.Collections.singletonList;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
@@ -76,13 +77,13 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         String pathName = getPath(annot);
 
         String parameterName = hasLength(pathName) ? pathName : javaParameterName;
-        String parameterType = param.getParameterType().getSimpleName();
+        String parameterTypeName = determineTypeName(param.getParameterType());
         String description = javadocReader.resolveMethodParameterComment(
                 handlerMethod.getBeanType(), handlerMethod.getMethod().getName(),
                 javaParameterName);
 
         FieldDescriptor descriptor = fieldWithPath(parameterName)
-                .type(parameterType)
+                .type(parameterTypeName)
                 .description(description);
 
         Attribute constraints = constraintAttribute(param, constraintReader);
@@ -98,10 +99,10 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     }
 
     protected Attribute optionalsAttribute(MethodParameter param, A annot) {
-        return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(annot)));
+        return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(param, annot)));
     }
 
-    protected abstract boolean isRequired(A annot);
+    protected abstract boolean isRequired(MethodParameter param, A annot);
 
     protected abstract String getPath(A annot);
 

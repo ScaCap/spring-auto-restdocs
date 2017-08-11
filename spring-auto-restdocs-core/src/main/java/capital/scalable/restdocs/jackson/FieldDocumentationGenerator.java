@@ -21,6 +21,7 @@ import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -30,12 +31,16 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 public class FieldDocumentationGenerator {
 
     private final ObjectWriter writer;
+    private final DeserializationConfig deserializationConfig;
     private final JavadocReader javadocReader;
-    private ConstraintReader constraintReader;
+    private final ConstraintReader constraintReader;
 
-    public FieldDocumentationGenerator(ObjectWriter writer, JavadocReader javadocReader,
+    public FieldDocumentationGenerator(ObjectWriter writer,
+            DeserializationConfig deserializationConfig,
+            JavadocReader javadocReader,
             ConstraintReader constraintReader) {
         this.writer = writer;
+        this.deserializationConfig = deserializationConfig;
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
     }
@@ -47,7 +52,7 @@ public class FieldDocumentationGenerator {
 
     public List<FieldDescriptor> generateDocumentation(JavaType type) throws JsonMappingException {
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
-                javadocReader, constraintReader);
+                javadocReader, constraintReader, deserializationConfig);
         writer.acceptJsonFormatVisitor(type, visitorWrapper);
         return visitorWrapper.getContext().getFields();
     }

@@ -18,6 +18,7 @@ package capital.scalable.restdocs.request;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ValueConstants;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
@@ -39,8 +40,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    protected boolean isRequired(RequestParam annot) {
-        return annot.required();
+    protected boolean isRequired(MethodParameter param, RequestParam annot) {
+        return param.getParameterType().isPrimitive()
+                ? ValueConstants.DEFAULT_NONE.equals(annot.defaultValue())
+                : annot.required();
     }
 
     @Override

@@ -85,13 +85,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         String description = convertFromJavadoc(toString(descriptor.getDescription()),
                 forcedLineBreak);
 
-        List<String> optionalMessages = (List<String>) descriptor.getAttributes().get(
-                OPTIONAL_ATTRIBUTE);
-        String optional = "" + join(optionalMessages, forcedLineBreak);
-
-        List<String> constraints = (List<String>) descriptor.getAttributes().get(
-                CONSTRAINTS_ATTRIBUTE);
-
+        String optional = resolveOptional(descriptor, forcedLineBreak);
+        List<String> constraints = resolveConstraints(descriptor);
         description = joinAndFormat(description, constraints, forcedLineBreak);
 
         Map<String, Object> model = new HashMap<>();
@@ -100,6 +95,17 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         model.put("optional", optional);
         model.put("description", description);
         return model;
+    }
+
+    private List<String> resolveConstraints(FieldDescriptor descriptor) {
+        return (List<String>) descriptor.getAttributes()
+                .get(CONSTRAINTS_ATTRIBUTE);
+    }
+
+    private String resolveOptional(FieldDescriptor descriptor, String forcedLineBreak) {
+        List<String> optionalMessages = (List<String>) descriptor.getAttributes()
+                .get(OPTIONAL_ATTRIBUTE);
+        return "" + join(optionalMessages, forcedLineBreak);
     }
 
     private String toString(Object value) {

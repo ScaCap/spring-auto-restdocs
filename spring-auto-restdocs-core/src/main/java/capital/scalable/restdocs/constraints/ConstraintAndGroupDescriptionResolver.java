@@ -50,7 +50,7 @@ public class ConstraintAndGroupDescriptionResolver implements
             constraintDescription = constraint.getName();
         }
 
-        List<Class> groups = getGroups(constraint);
+        List<Class<?>> groups = getGroups(constraint);
         if (groups.isEmpty()) {
             return constraintDescription;
         }
@@ -65,14 +65,14 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     @Override
-    public List<Class> getGroups(Constraint constraint) {
+    public List<Class<?>> getGroups(Constraint constraint) {
         Object rawGroups = constraint.getConfiguration().get(GROUPS);
         if (!(rawGroups instanceof Class[])) {
             return emptyList();
         }
-        Class[] groups = (Class[]) rawGroups;
+        Class<?>[] groups = (Class[]) rawGroups;
 
-        List<Class> result = new ArrayList<>();
+        List<Class<?>> result = new ArrayList<>();
         Collections.addAll(result, groups);
         return result;
     }

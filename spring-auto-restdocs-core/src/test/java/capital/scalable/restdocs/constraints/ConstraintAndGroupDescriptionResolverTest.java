@@ -194,7 +194,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         Constraint constraint =
                 new Constraint("Constraint", Collections.<String, Object>emptyMap());
         // when
-        List<Class> groups = resolver.getGroups(constraint);
+        List<Class<?>> groups = resolver.getGroups(constraint);
         // then
         assertThat(groups.size(), is(0));
     }
@@ -206,7 +206,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         configuration.put(GROUPS, new Class<?>[]{Update.class, Create.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         // when
-        List<Class> groups = resolver.getGroups(constraint);
+        List<Class<?>> groups = resolver.getGroups(constraint);
         // then
         assertThat(groups.size(), is(2));
         assertThat(groups.get(0), equalTo((Class) Update.class));

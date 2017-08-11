@@ -26,7 +26,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -40,18 +39,6 @@ import org.springframework.core.MethodParameter;
 public class ConstraintReaderImplTest {
 
     private ConstraintReader reader = new ConstraintReaderImpl();
-
-    @Test
-    public void isMandatory() {
-        assertThat(reader.isMandatory(NotNull.class), is(true));
-        assertThat(reader.isMandatory(NotBlank.class), is(true));
-        assertThat(reader.isMandatory(NotEmpty.class), is(true));
-
-        // sanity check
-        assertThat(reader.isMandatory(Size.class), is(false));
-        assertThat(reader.isMandatory(Override.class), is(false));
-        assertThat(reader.isMandatory(OneOf.class), is(false));
-    }
 
     @Test
     public void getConstraintMessages() {
@@ -86,12 +73,16 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(Constraintz.class, "num");
         assertThat(messages.size(), is(1));
-        // fallback
         assertThat(messages.get(0), is("Must be at most 10 (groups: [UnresolvedGroup])"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "bool");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "str");
+        assertThat(messages.size(), is(0)); // array
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum1");
         assertThat(messages.size(), is(1));
-        // fallback
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum2");
@@ -127,6 +118,12 @@ public class ConstraintReaderImplTest {
         assertThat(messages.get(0), is("false (create)"));
 
         messages = reader.getOptionalMessages(Constraintz.class, "num");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "bool");
+        assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "str");
         assertThat(messages.size(), is(0));
 
         messages = reader.getOptionalMessages(Constraintz.class, "enum1");
@@ -180,6 +177,10 @@ public class ConstraintReaderImplTest {
 
         @Max(value = 10, groups = UnresolvedGroup.class)
         private long num;
+
+        private boolean bool;
+
+        private char[] str;
 
         private Enum1 enum1;
 

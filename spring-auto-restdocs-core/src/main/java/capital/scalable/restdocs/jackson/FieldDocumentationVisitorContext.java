@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
+import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
@@ -28,18 +29,23 @@ import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
 public class FieldDocumentationVisitorContext {
     private final List<FieldDescriptor> fields = new ArrayList<>();
-    private JavadocReader javadocReader;
-    private ConstraintReader constraintReader;
+    private final JavadocReader javadocReader;
+    private final ConstraintReader constraintReader;
+    private final DeserializationConfig deserializationConfig;
 
     public FieldDocumentationVisitorContext(JavadocReader javadocReader,
-            ConstraintReader constraintReader) {
+            ConstraintReader constraintReader,
+            DeserializationConfig deserializationConfig) {
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
+        this.deserializationConfig = deserializationConfig;
     }
 
     public List<FieldDescriptor> getFields() {
@@ -87,9 +93,16 @@ public class FieldDocumentationVisitorContext {
                 resolveOptionalMessages(javaBaseClass, javaFieldName));
     }
 
-    private List<String> resolveOptionalMessages(Class<?> javaBaseClass,
-            String javaFieldName) {
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
         List<String> optionalMessages = new ArrayList<>();
+
+        if (isPrimitive(javaBaseClass, javaFieldName)) {
+            boolean failOnNullForPrimitives = deserializationConfig.hasDeserializationFeatures(
+                    DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES.getMask());
+            optionalMessages.add("" + !failOnNullForPrimitives);
+            return optionalMessages;
+        }
+
         optionalMessages.addAll(constraintReader.getOptionalMessages(javaBaseClass, javaFieldName));
 
         // fallback to field itself if we got a getter and no annotation on it

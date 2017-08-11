@@ -23,12 +23,22 @@ public final class FieldUtil {
         // utils
     }
 
+    /**
+     * Creates a field name from getter
+     */
     public static String fromGetter(String javaMethodName) {
+        if (!isGetter(javaMethodName)) {
+            return javaMethodName;
+        }
+
         int cut = javaMethodName.startsWith("get") ? "get".length() : "is".length();
         return uncapitalize(javaMethodName.substring(cut, javaMethodName.length()));
     }
 
-    public static boolean isGetter(String javaFieldName) {
-        return javaFieldName.startsWith("get") || javaFieldName.startsWith("is");
+    /**
+     * Determines if method is getter
+     */
+    public static boolean isGetter(String javaMethodName) {
+        return javaMethodName.startsWith("get") || javaMethodName.startsWith("is");
     }
 }

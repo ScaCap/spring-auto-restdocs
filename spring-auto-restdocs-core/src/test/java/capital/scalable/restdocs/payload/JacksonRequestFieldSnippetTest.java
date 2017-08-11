@@ -72,7 +72,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
-        mockMandatoryConstraint(NotBlank.class, true);
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
@@ -215,10 +214,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private void mockOptionalMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getOptionalMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
-    }
-
-    private void mockMandatoryConstraint(Class<?> annotation, boolean mandatory) {
-        when(constraintReader.isMandatory(annotation)).thenReturn(mandatory);
     }
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {
