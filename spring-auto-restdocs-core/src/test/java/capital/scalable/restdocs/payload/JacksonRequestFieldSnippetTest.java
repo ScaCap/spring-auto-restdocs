@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.payload.JacksonRequestFieldSnippet.REQUEST_FIELDS;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
@@ -75,7 +76,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expectRequestFields().withContents(
+        this.snippets.expect(REQUEST_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
@@ -92,7 +93,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     public void noRequestBody() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        this.snippets.expectRequestFields().withContents(equalTo("No request body."));
+        this.snippets.expect(REQUEST_FIELDS).withContents(equalTo("No request body."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -106,7 +107,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
 
-        this.snippets.expectRequestFields().withContents(
+        this.snippets.expect(REQUEST_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Integer", "true", "An integer."));
@@ -127,7 +128,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(SubItem1.class, "subItem1Field", "A sub item 1 field");
         mockFieldComment(SubItem2.class, "subItem2Field", "A sub item 2 field");
 
-        this.snippets.expectRequestFields().withContents(
+        this.snippets.expect(REQUEST_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("type", "String", "true", "A type.")
                         .row("commonField", "String", "true", "A common field.")
@@ -147,7 +148,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem", String.class);
         mockFieldComment(ProcessingCommand.class, "command", "A command");
 
-        this.snippets.expectRequestFields().withContents(
+        this.snippets.expect(REQUEST_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("command", "String", "true", "A command."));
 

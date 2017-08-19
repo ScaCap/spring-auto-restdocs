@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.request;
 
 
+import static capital.scalable.restdocs.request.PathParametersSnippet.PATH_PARAMETERS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -63,7 +64,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("addItem", "otherId", "A string");
         mockParamComment("addItem", "partId", "An integer");
 
-        this.snippets.expectPathParameters().withContents(
+        this.snippets.expect(PATH_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
@@ -80,7 +81,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem");
 
-        this.snippets.expectPathParameters().withContents(equalTo("No parameters."));
+        this.snippets.expect(PATH_PARAMETERS).withContents(equalTo("No parameters."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
