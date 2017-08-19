@@ -16,6 +16,9 @@
 
 package capital.scalable.restdocs.jackson;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.DeserializationConfig;
@@ -38,25 +41,28 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
     private final FieldDocumentationVisitorContext context;
     private final String path;
     private final InternalFieldInfo fieldInfo;
+    private final Set<JavaType> visited;
 
     FieldDocumentationVisitorWrapper(FieldDocumentationVisitorContext context, String path,
-            InternalFieldInfo fieldInfo) {
-        this(null, context, path, fieldInfo);
+            InternalFieldInfo fieldInfo, Set<JavaType> visited) {
+        this(null, context, path, fieldInfo, visited);
     }
 
     FieldDocumentationVisitorWrapper(SerializerProvider provider,
-            FieldDocumentationVisitorContext context, String path, InternalFieldInfo fieldInfo) {
+            FieldDocumentationVisitorContext context, String path, InternalFieldInfo fieldInfo,
+            Set<JavaType> visited) {
         this.provider = provider;
         this.context = context;
         this.path = path;
         this.fieldInfo = fieldInfo;
+        this.visited = visited;
     }
 
     public static FieldDocumentationVisitorWrapper create(JavadocReader javadocReader,
             ConstraintReader constraintReader, DeserializationConfig deserializationConfig) {
         return new FieldDocumentationVisitorWrapper(
                 new FieldDocumentationVisitorContext(javadocReader, constraintReader,
-                        deserializationConfig), "", null);
+                        deserializationConfig), "", null, new HashSet<JavaType>());
     }
 
     @Override
@@ -72,8 +78,9 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
     @Override
     public JsonObjectFormatVisitor expectObjectFormat(JavaType type) throws JsonMappingException {
         addFieldIfPresent("Object");
-        if (shouldExpand()) {
-            return new FieldDocumentationObjectVisitor(provider, context, path);
+        if (shouldExpand() && !wasVisited(type)) {
+            return new FieldDocumentationObjectVisitor(provider, context, path,
+                    withVisitedType(type));
         } else {
             return new JsonObjectFormatVisitor.Base();
         }
@@ -82,8 +89,9 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
     @Override
     public JsonArrayFormatVisitor expectArrayFormat(JavaType type) throws JsonMappingException {
         addFieldIfPresent("Array");
-        if (shouldExpand()) {
-            return new FieldDocumentationArrayVisitor(provider, context, path);
+        if (shouldExpand() && !wasVisited(type)) {
+            return new FieldDocumentationArrayVisitor(provider, context, path,
+                    withVisitedType(type));
         } else {
             return new JsonArrayFormatVisitor.Base();
         }
@@ -143,5 +151,15 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
 
     private boolean shouldExpand() {
         return fieldInfo == null || fieldInfo.shouldExpand();
+    }
+
+    private Set<JavaType> withVisitedType(JavaType type) {
+        Set<JavaType> result = new HashSet<>(visited);
+        result.add(type);
+        return result;
+    }
+
+    private boolean wasVisited(JavaType type) {
+        return visited.contains(type);
     }
 }

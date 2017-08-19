@@ -53,32 +53,32 @@ public class FieldDocumentationVisitorContext {
     }
 
     public void addField(InternalFieldInfo info, String jsonType) {
-        Class<?> javaFieldClass = info.getJavaBaseClass();
+        Class<?> javaBaseClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
 
-        String comment = resolveComment(javaFieldClass, javaFieldName);
+        String comment = resolveComment(javaBaseClass, javaFieldName);
         String jsonFieldPath = info.getJsonFieldPath();
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
                 .type(jsonType)
                 .description(comment);
 
-        Attribute constraints = constraintAttribute(javaFieldClass, javaFieldName);
-        Attribute optionals = optionalAttribute(javaFieldClass, javaFieldName);
+        Attribute constraints = constraintAttribute(javaBaseClass, javaFieldName);
+        Attribute optionals = optionalAttribute(javaBaseClass, javaFieldName);
         fieldDescriptor.attributes(constraints, optionals);
 
         fields.add(fieldDescriptor);
     }
 
-    private String resolveComment(Class<?> javaFieldClass, String javaFieldName) {
-        String comment = javadocReader.resolveFieldComment(javaFieldClass, javaFieldName);
+    private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
+        String comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldName);
         if (isBlank(comment)) {
             // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodComment(javaFieldClass, javaFieldName);
+            comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldName);
         }
         if (isBlank(comment) && isGetter(javaFieldName)) {
             // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldComment(javaFieldClass, fromGetter(javaFieldName));
+            comment = javadocReader.resolveFieldComment(javaBaseClass, fromGetter(javaFieldName));
         }
         return comment;
     }
