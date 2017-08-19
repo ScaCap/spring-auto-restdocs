@@ -118,7 +118,7 @@ jar {
 }
 ----
 <1> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
-<2> Determines directory where snippets are saved. Mandatory for jsonDoclet configuration.
+<2> (Optional) Determines directory where snippets are saved. Defaults to `generated-snippets` in build directory.
 <3> (Optional) Determines where JSON files are saved.
 Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
