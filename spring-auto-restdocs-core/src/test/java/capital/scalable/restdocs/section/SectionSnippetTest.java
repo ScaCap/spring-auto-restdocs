@@ -76,13 +76,13 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         "==== Authorization\n\n" +
                         "include::{snippets}/defaultSnippets/authorization.adoc[]\n\n" +
                         "==== Path parameters\n\n" +
-                        "include::{snippets}/defaultSnippets/path-parameters.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-path-parameters.adoc[]\n\n" +
                         "==== Query parameters\n\n" +
-                        "include::{snippets}/defaultSnippets/request-parameters.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-request-parameters.adoc[]\n\n" +
                         "==== Request fields\n\n" +
-                        "include::{snippets}/defaultSnippets/request-fields.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-request-fields.adoc[]\n\n" +
                         "==== Response fields\n\n" +
-                        "include::{snippets}/defaultSnippets/response-fields.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-response-fields.adoc[]\n\n" +
                         "==== Example request\n\n" +
                         "include::{snippets}/defaultSnippets/curl-request.adoc[]\n\n" +
                         "==== Example response\n\n" +
@@ -112,7 +112,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         "==== Example response\n\n" +
                         "include::{snippets}/customSnippets/http-response.adoc[]\n\n" +
                         "==== Response fields\n\n" +
-                        "include::{snippets}/customSnippets/response-fields.adoc[]\n\n" +
+                        "include::{snippets}/customSnippets/auto-response-fields.adoc[]\n\n" +
                         "==== Example request\n\n" +
                         "include::{snippets}/customSnippets/http-request.adoc[]\n"));
 

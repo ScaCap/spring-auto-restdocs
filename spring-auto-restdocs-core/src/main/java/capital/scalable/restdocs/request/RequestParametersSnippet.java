@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ValueConstants;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
-    public static final String REQUEST_PARAMETERS = "request-parameters";
+    public static final String REQUEST_PARAMETERS = "auto-request-parameters";
 
     private final boolean failOnUndocumentedParams;
 

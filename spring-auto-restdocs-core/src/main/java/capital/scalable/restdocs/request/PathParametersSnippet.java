@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
 
-    public static final String PATH_PARAMETERS = "path-parameters";
+    public static final String PATH_PARAMETERS = "auto-path-parameters";
     private final boolean failOnUndocumentedParams;
 
     public PathParametersSnippet() {

@@ -18,7 +18,7 @@ Assuming of course that you already documented your code with Javadoc.
 .Template itself
 [source,asciidoc]
 ----
-include::../../../spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates/asciidoctor/section.snippet[]
+include::../../../spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates/asciidoctor/default-section.snippet[]
 ----
 
 .Template placeholders
@@ -97,6 +97,7 @@ By default, these snippets in the following order are linked inside section snip
 
 |===
 
+[[snippets-section-customization]]
 ==== Customisation options
 
 If you want to configure custom sections and their order, instead of using `AutoDocumentation.section()` you can use
@@ -116,3 +117,12 @@ AutoDocumentation.sectionBuilder()
 ----
 <1> only selected snippets will be used in the specified order
 <2> whether snippets having no content should be skipped from section
+
+
+[[snippets-section-custom-snippet]]
+==== Custom snippet in section
+
+If you want your custom snippet to be part of section snippet with automatically recognised header and include link (file name),
+you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.
+Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration's
+builder `withDefaults(...)` and include snippet name among SectionBuilder's `snippetNames(...)`.

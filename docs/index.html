@@ -448,6 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#snippets-response-fields">Response fields snippet</a></li>
 <li><a href="#snippets-section">Section snippet</a></li>
 <li><a href="#snippets-custom">Custom snippet</a></li>
+    <li><a href="#snippets-customization">Snippet customization</a></li>
 </ul>
 </li>
 <li><a href="#constraints">Documenting constraints</a>
@@ -1188,7 +1189,7 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 </table>
 </div>
 <div class="sect3">
-<h4 id="_customisation_options"><a class="link" href="#_customisation_options">Customisation options</a></h4>
+    <h4 id="snippets-section-customization"><a class="link" href="#snippets-section-customization">Customisation options</a></h4>
 <div class="paragraph">
 <p>If you want to configure custom sections and their order, instead of using <code>AutoDocumentation.section()</code> you can use
  <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
@@ -1219,16 +1220,40 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 </table>
 </div>
 </div>
+    <div class="sect3">
+        <h4 id="snippets-section-custom-snippet"><a class="link" href="#snippets-section-custom-snippet">Custom snippet in section</a></h4>
+        <div class="paragraph">
+            <p>If you want your custom snippet to be part of section snippet with automatically recognised header and include link (file name),
+                you have to implement <a
+                        href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/section/SectionSupport.java">SectionSupport</a>
+                interface.
+                Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration&#8217;s
+                builder <code>withDefaults(&#8230;&#8203;)</code> and include snippet name among SectionBuilder&#8217;s <code>snippetNames(&#8230;&#8203;)</code>.</p>
+        </div>
+    </div>
 </div>
 <div class="sect2">
 <h3 id="snippets-custom"><a class="link" href="#snippets-custom">Custom snippet</a></h3>
 <div class="paragraph">
 <p>Custom snippets are created by subclassing the <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/snippet/Snippet.java">Snippet</a> interface
-(or more conveniently <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/snippet/TemplatedSnippet.java">TemplatedSnippet</a>). If you want your custom
- snippet to be part of section snippet with automatically recognised header and include link (file name),
- you have to implement <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/section/SectionSupport.java">SectionSupport</a> interface.
- Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration&#8217;s
- builder <code>withDefaults(&#8230;&#8203;)</code> and include snippet name among SectionBuilder&#8217;s <code>snippetNames(&#8230;&#8203;)</code>.</p>
+    (or more conveniently <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/snippet/TemplatedSnippet.java">TemplatedSnippet</a>).
+    Template for the snippet must be put into <code>org/springframework/restdocs/templates/asciidoctor</code>
+    (optionally also <code>org/springframework/restdocs/templates/markdown</code>) resource package. The template name
+    must correspond with the snippet name passed to the class constructor.
+    You can also <a href="#snippets-section-custom-snippet">include your custom snippet in a section</a>.</p>
+</div>
+</div>
+    <div class="sect2">
+        <h3 id="snippets-customization"><a class="link" href="#snippets-customization">Snippet customization</a></h3>
+        <div class="paragraph">
+            <p>Provide your own template in <code>org/springframework/restdocs/templates/asciidoctor</code> (or <code>markdown</code>) package of your resources.
+                You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v1.2.1.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST
+                    Docs templates</a>
+                and <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates">Auto REST Docs
+                    templates</a>.
+                Important is to omit <code>default-</code> part from the template name so that the resolution algorithm will prefer this custom template.
+                See also <a href="http://docs.spring.io/spring-restdocs/docs/1.2.1.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional
+                details.</p>
 </div>
 </div>
 </div>
@@ -1486,7 +1511,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-07-31 20:33:00 CEST
+    Last updated 2017-08-19 19:39:44 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

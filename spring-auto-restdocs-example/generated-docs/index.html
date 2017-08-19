@@ -607,42 +607,20 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 <div class="sect3">
 <h4 id="_authorization"><a class="anchor" href="#_authorization"></a><a class="link" href="#_authorization">2.1.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a><a class="link" href="#_path_parameters">2.1.2. Path parameters</a></h4>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.
-    </p>
-        <p class="tableblock">Must be a valid ID.</p></td>
-</tr>
-</tbody>
-</table>
+    <div class="paragraph">
+        <p>Unresolved directive in items.adoc -
+            include::/Users/duro/dev/spring-auto-restdocs/spring-auto-restdocs-example/target/generated-snippets/item-resource-test/get-item/path-parameters.adoc[]</p>
+    </div>
 </div>
 <div class="sect3">
 <h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a><a class="link" href="#_request_fields">2.1.3. Request fields</a></h4>
 <div class="paragraph">
-<p>No request body.</p>
+    <p>Unresolved directive in items.adoc - include::/Users/duro/dev/spring-auto-restdocs/spring-auto-restdocs-example/target/generated-snippets/item-resource-test/get-item/request-fields.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>We do not have to care whether to include a snippet or not,
@@ -651,106 +629,10 @@ because the template returns "No data." instead of an empty table.</p>
 </div>
 <div class="sect3">
 <h4 id="_response_fields"><a class="anchor" href="#_response_fields"></a><a class="link" href="#_response_fields">2.1.4. Response fields</a></h4>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-    </p>
-        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-    </p>
-        <p class="tableblock">Must be at least 1.<br>
-Must be at most 10.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.bool</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-    </p>
-        <p class="tableblock">Must be at least 1.<br>
-Must be at most 10.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.amount</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-    </p>
-        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-</tr>
-</tbody>
-</table>
+    <div class="paragraph">
+        <p>Unresolved directive in items.adoc -
+            include::/Users/duro/dev/spring-auto-restdocs/spring-auto-restdocs-example/target/generated-snippets/item-resource-test/get-item/response-fields.adoc[]</p>
+    </div>
 </div>
 <div class="sect3">
 <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a><a class="link" href="#_example_request_response">2.1.5. Example request/response</a></h4>
@@ -809,117 +691,22 @@ Content-Length: 378
 <div class="sect3">
 <h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a><a class="link" href="#_request_fields_2">2.2.2. Request fields</a></h4>
 <div class="paragraph">
-<p>No request body.</p>
+    <p>Unresolved directive in items.adoc -
+        include::/Users/duro/dev/spring-auto-restdocs/spring-auto-restdocs-example/target/generated-snippets/item-resource-test/get-all-items/request-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_response_fields_2"><a class="anchor" href="#_response_fields_2"></a><a class="link" href="#_response_fields_2">2.2.3. Response fields</a></h4>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-    </p>
-        <p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-    </p>
-        <p class="tableblock">Must be at least 1.<br>
-Must be at most 10.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.bool</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean attribute.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-    </p>
-        <p class="tableblock">Must be at least 1.<br>
-Must be at most 10.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.amount</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amount attribute.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-    </p>
-        <p class="tableblock">Must be one of [ONE, TWO].</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
-</tr>
-</tbody>
-</table>
+    <div class="paragraph">
+        <p>Unresolved directive in items.adoc -
+            include::/Users/duro/dev/spring-auto-restdocs/spring-auto-restdocs-example/target/generated-snippets/item-resource-test/get-all-items/response-fields.adoc[]</p>
+    </div>
 </div>
 <div class="sect3">
 <h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a><a class="link" href="#_example_request_response_2">2.2.4. Example request/response</a></h4>
@@ -983,7 +770,7 @@ Content-Length: 483
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
 <div class="paragraph">
-<p>User access token required.</p>
+    <p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1052,7 +839,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365' \
+    -H 'Authorization: Bearer e05f70d1-17e4-4bd0-a48a-401243ef1323' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1084,7 +871,7 @@ Location: /items/2</code></pre>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
 <div class="paragraph">
-<p>User access token required.</p>
+    <p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1273,7 +1060,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365' \
+    -H 'Authorization: Bearer e05f70d1-17e4-4bd0-a48a-401243ef1323' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1317,7 +1104,7 @@ Content-Length: 90
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
 <div class="paragraph">
-<p>User access token required.</p>
+    <p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1372,7 +1159,7 @@ Content-Length: 90
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 571c8c45-c99f-4438-8920-356e4b059365'</code></pre>
+    -H 'Authorization: Bearer e05f70d1-17e4-4bd0-a48a-401243ef1323'</code></pre>
 </div>
 </div>
 </div>
@@ -1402,7 +1189,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1601,7 +1388,7 @@ Content-Length: 99
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1805,9 +1592,9 @@ Content-Length: 625
   } ],
   "pageable" : null,
   "total" : 1,
-  "totalPages" : 1,
-  "last" : true,
   "totalElements" : 1,
+  "last" : true,
+  "totalPages" : 1,
   "size" : 0,
   "number" : 0,
   "sort" : null,
@@ -1829,7 +1616,7 @@ Content-Length: 625
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1954,7 +1741,7 @@ Content-Length: 28
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
 <div class="paragraph">
-<p>Resource is public.</p>
+    <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
