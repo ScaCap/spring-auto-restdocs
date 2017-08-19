@@ -12,18 +12,18 @@ include::{snippets}/item-resource-test/get-item/authorization.adoc[]
 
 ==== Path parameters
 
-include::{snippets}/item-resource-test/get-item/path-parameters.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-path-parameters.adoc[]
 
 ==== Request fields
 
-include::{snippets}/item-resource-test/get-item/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-request-fields.adoc[]
 
 We do not have to care whether to include a snippet or not,
 because the template returns "No data." instead of an empty table.
 
 ==== Response fields
 
-include::{snippets}/item-resource-test/get-item/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-response-fields.adoc[]
 
 ==== Example request/response
 
@@ -46,11 +46,11 @@ include::{snippets}/item-resource-test/get-all-items/authorization.adoc[]
 
 ==== Request fields
 
-include::{snippets}/item-resource-test/get-all-items/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/auto-request-fields.adoc[]
 
 ==== Response fields
 
-include::{snippets}/item-resource-test/get-all-items/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/auto-response-fields.adoc[]
 
 ==== Example request/response
 
