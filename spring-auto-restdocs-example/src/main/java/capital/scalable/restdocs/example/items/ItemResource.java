@@ -85,6 +85,7 @@ public class ItemResource {
 
     /**
      * Lists all items.
+     *
      * @return list of all items
      */
     @RequestMapping
@@ -200,6 +201,7 @@ public class ItemResource {
      * </ul>
      *
      * @param itemId Item ID.
+     * @title Process One Item
      */
     @RequestMapping(value = "{itemId}/process", method = POST)
     public CommandResult processSingleItem(@PathVariable String itemId,

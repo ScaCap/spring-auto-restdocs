@@ -43,6 +43,16 @@ class ClassJavadoc {
         }
     }
 
+    public String getMethodTitle(String methodName) {
+        MethodJavadoc methodJavadoc = methods.get(methodName);
+
+        if (methodJavadoc != null) {
+            return methodJavadoc.getTitle();
+        } else {
+            return "";
+        }
+    }
+
     public String getMethodParameterComment(String methodName, String parameterName) {
         MethodJavadoc methodJavadoc = methods.get(methodName);
         if (methodJavadoc != null) {
@@ -57,6 +67,7 @@ class ClassJavadoc {
     }
 
     static class MethodJavadoc {
+        private String title;
         private String comment;
         private Map<String, String> parameters = new HashMap<>();
 
@@ -66,6 +77,10 @@ class ClassJavadoc {
 
         public String getParameterComment(String parameterName) {
             return trimToEmpty(parameters.get(parameterName));
+        }
+
+        public String getTitle() {
+            return trimToEmpty(title);
         }
     }
 }

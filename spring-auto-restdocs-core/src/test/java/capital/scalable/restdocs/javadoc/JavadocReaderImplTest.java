@@ -67,6 +67,20 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveMethodTitle() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
+        assertThat(comment, equalTo("Simple method title"));
+    }
+
+    @Test
+    public void resolveMethodTitleFromClasspath() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
+        String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
+        assertThat(comment, equalTo("Simple method title from classpath"));
+    }
+
+    @Test
     public void resolveMethodParameterComment() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
@@ -91,6 +105,8 @@ public class JavadocReaderImplTest {
         assertThat(comment, is(""));
         comment = javadocReader.resolveMethodComment(NotExisting.class, "simpleMethod");
         assertThat(comment, is(""));
+        comment = javadocReader.resolveMethodTitle(NotExisting.class, "simpleMethod");
+        assertThat(comment, is(""));
         comment = javadocReader.resolveMethodParameterComment(NotExisting.class, "simpleMethod",
                 "simpleParameter");
         assertThat(comment, is(""));
@@ -104,6 +120,8 @@ public class JavadocReaderImplTest {
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField2");
         assertThat(comment, is(""));
         comment = javadocReader.resolveMethodComment(SimpleType.class, "simpleMethod2");
+        assertThat(comment, is(""));
+        comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod2");
         assertThat(comment, is(""));
         comment = javadocReader.resolveMethodParameterComment(SimpleType.class, "simpleMethod",
                 "simpleParameter2");
