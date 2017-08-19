@@ -32,11 +32,6 @@ configurations {
     jsondoclet
 }
 
-ext {
-    snippetsDir = file("$buildDir/generated-snippets")
-    javadocJsonDir = file("$buildDir/generated-javadoc-json")
-}
-
 repositories {
      mavenLocal()
      mavenCentral()
@@ -61,16 +56,12 @@ dependencies {
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     source = sourceSets.main.allJava
     classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
-
     dependsOn jsonDoclet
 }
 

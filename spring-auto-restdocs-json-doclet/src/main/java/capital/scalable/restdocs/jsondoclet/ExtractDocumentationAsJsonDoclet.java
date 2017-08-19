@@ -54,7 +54,7 @@ public class ExtractDocumentationAsJsonDoclet extends Standard {
                 return os[1];
             }
         }
-        return null;
+        return "../generated-javadoc-json";
     }
 
     private static void writeToFile(String destinationDir, ObjectMapper mapper,
