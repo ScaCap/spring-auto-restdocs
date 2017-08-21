@@ -20,7 +20,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
@@ -28,6 +27,7 @@ import org.springframework.web.method.HandlerMethod;
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String RESPONSE_FIELDS = "response-fields";
+    public static final String SPRING_DATA_PAGE_CLASS = "org.springframework.data.domain.Page";
 
     private final Type responseBodyType;
     private final boolean failOnUndocumentedFields;
@@ -61,7 +61,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (returnType == HttpEntity.class) {
             return firstGenericType(method.getReturnType());
-        } else if (returnType == Page.class) {
+        } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
             return new GenericArrayType() {
@@ -84,7 +84,8 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
-        return Page.class.isAssignableFrom(handlerMethod.getReturnType().getParameterType());
+        return SPRING_DATA_PAGE_CLASS.equals(
+                handlerMethod.getReturnType().getParameterType().getCanonicalName());
     }
 
     @Override

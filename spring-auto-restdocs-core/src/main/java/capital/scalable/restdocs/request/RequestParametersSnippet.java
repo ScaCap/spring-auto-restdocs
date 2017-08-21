@@ -19,7 +19,6 @@ package capital.scalable.restdocs.request;
 import java.util.Map;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;
@@ -27,6 +26,8 @@ import org.springframework.web.method.HandlerMethod;
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
     public static final String REQUEST_PARAMETERS = "request-parameters";
+    public static final String SPRING_DATA_PAGEABLE_CLASS =
+            "org.springframework.data.domain.Pageable";
 
     private final boolean failOnUndocumentedParams;
 
@@ -78,7 +79,8 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     private boolean isPageable(MethodParameter param) {
-        return Pageable.class.isAssignableFrom(param.getParameterType());
+        return SPRING_DATA_PAGEABLE_CLASS.equals(
+                param.getParameterType().getCanonicalName());
     }
 
 
