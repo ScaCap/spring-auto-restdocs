@@ -1,4 +1,6 @@
-{{#hasContent}}Parameter | Type | Optional | Description
+{{#isPageRequest}}Supports standard [paging](#overview-pagination) query parameters.
+
+{{/isPageRequest}}{{#hasContent}}Parameter | Type | Optional | Description
 --------- | ---- | -------- | -----------
 {{#content}}
 {{path}} | {{type}} | {{optional}} | {{description}}

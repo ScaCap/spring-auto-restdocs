@@ -16,9 +16,13 @@
 
 package capital.scalable.restdocs.request;
 
+import java.util.Map;
+
 import org.springframework.core.MethodParameter;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
+import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
@@ -54,6 +58,29 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     protected RequestParam getAnnotation(MethodParameter param) {
         return param.getParameterAnnotation(RequestParam.class);
     }
+
+    @Override
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
+        boolean isPageRequest = isPageRequest(handlerMethod);
+        model.put("isPageRequest", isPageRequest);
+        if (isPageRequest) {
+            model.put("noContent", false);
+        }
+    }
+
+    private boolean isPageRequest(HandlerMethod method) {
+        for (MethodParameter param : method.getMethodParameters()) {
+            if (isPageable(param)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isPageable(MethodParameter param) {
+        return Pageable.class.isAssignableFrom(param.getParameterType());
+    }
+
 
     @Override
     public String getHeader() {

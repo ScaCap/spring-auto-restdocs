@@ -66,7 +66,6 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     private Map<String, Object> createModel(HandlerMethod handlerMethod,
             Collection<FieldDescriptor> fieldDescriptors, String forcedLineBreak) {
         Map<String, Object> model = new HashMap<>();
-        enrichModel(model, handlerMethod);
 
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("content", fields);
@@ -75,6 +74,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         }
         model.put("hasContent", !fieldDescriptors.isEmpty());
         model.put("noContent", fieldDescriptors.isEmpty());
+
+        enrichModel(model, handlerMethod);
+
         return model;
     }
 

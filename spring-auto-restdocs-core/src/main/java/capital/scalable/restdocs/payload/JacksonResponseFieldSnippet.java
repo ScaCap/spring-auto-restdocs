@@ -80,11 +80,11 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
-        model.put("isPagedResponse", handlerMethod != null && isPageResponse(handlerMethod));
+        model.put("isPageResponse", isPageResponse(handlerMethod));
     }
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
-        return handlerMethod.getReturnType().getParameterType() == Page.class;
+        return Page.class.isAssignableFrom(handlerMethod.getReturnType().getParameterType());
     }
 
     @Override
