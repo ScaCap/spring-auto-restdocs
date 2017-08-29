@@ -71,6 +71,11 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
+    public String resolveMethodTitle(Class<?> javaBaseClass, String javaMethodName) {
+        return classJavadoc(javaBaseClass).getMethodTitle(javaMethodName);
+    }
+
+    @Override
     public String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
             String javaParameterName) {
         return classJavadoc(javaBaseClass)
