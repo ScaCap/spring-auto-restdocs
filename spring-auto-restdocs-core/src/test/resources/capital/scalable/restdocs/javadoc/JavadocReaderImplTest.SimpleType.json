@@ -4,6 +4,7 @@
   },
   "methods": {
     "simpleMethod": {
+      "title": "Simple method title from classpath",
       "comment": "Simple method comment from classpath",
       "parameters": {
         "simpleParameter": "Simple parameter comment from classpath"

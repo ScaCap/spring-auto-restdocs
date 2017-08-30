@@ -34,6 +34,12 @@ public class JavadocReaderImplIntegrationTest {
         // line breaks are not handled here - pure javadoc
         assertThat(comment, equalTo("Very useful method<br>\n with new line"));
 
+        comment = javadocReader.resolveMethodTitle(IntegrationType.class, "dummyMethod");
+        assertThat(comment, equalTo("My Dummy Method"));
+
+        comment = javadocReader.resolveMethodTitle(IntegrationType.class, "dummyMethod2");
+        assertThat(comment, equalTo(""));
+
         comment = javadocReader.resolveMethodParameterComment(IntegrationType.class, "dummyMethod",
                 "kindaParameter");
         assertThat(comment, equalTo("mandatory param"));
@@ -54,8 +60,12 @@ public class JavadocReaderImplIntegrationTest {
          * with new line
          *
          * @param kindaParameter mandatory param
+         * @title My Dummy Method
          */
         private void dummyMethod(String kindaParameter) {
+        }
+
+        private void dummyMethod2() {
         }
     }
 }

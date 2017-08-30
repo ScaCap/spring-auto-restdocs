@@ -26,12 +26,17 @@ import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
-import static org.springframework.restdocs.generate.RestDocumentationGenerator.ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
+import static org.springframework.restdocs.generate.RestDocumentationGenerator
+        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import capital.scalable.restdocs.javadoc.JavadocReader;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;
@@ -40,13 +45,21 @@ import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippetTest extends AbstractSnippetTests {
 
+    private JavadocReader javadocReader;
+
     public SectionSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
+    }
+
+    @Before
+    public void setup() {
+        javadocReader = mock(JavadocReader.class);
     }
 
     @Test
     public void noSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-noSnippets]]\n" +
@@ -59,6 +72,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
                         .request("http://localhost/items/1")
                         .build());
@@ -67,6 +81,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     @Test
     public void defaultSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-defaultSnippets]]\n" +
@@ -88,10 +103,10 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         "==== Example response\n\n" +
                         "include::{snippets}/defaultSnippets/http-response.adoc[]\n"));
 
-        new SectionBuilder()
-                .build()
+        new SectionBuilder().build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 authorization("Public"), pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
@@ -103,6 +118,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     @Test
     public void customSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-customSnippets]]\n" +
@@ -121,6 +137,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
@@ -132,6 +149,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     @Test
     public void skipEmpty() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-skipEmpty]]\n" +
@@ -150,6 +168,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 authorization("Public"), pathParameters(), requestParameters(),
                                 requestFields(), responseFields(), curlRequest(),
@@ -158,7 +177,36 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         .build());
     }
 
+    @Test
+    public void customTitle() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "Custom title");
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-customTitle]]\n" +
+                        "=== Custom title\n\n" +
+                        "include::{snippets}/customTitle/method-path.adoc[]\n\n" +
+                        "include::{snippets}/customTitle/description.adoc[]\n"));
+
+        new SectionBuilder()
+                .snippetNames()
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+
+    private void mockMethodTitle(Class<?> javaBaseClass, String methodName, String title) {
+        when(javadocReader.resolveMethodTitle(javaBaseClass, methodName))
+                .thenReturn(title);
+    }
+
     private static class TestResource {
+
 
         public void getItemById() {
             // NOOP

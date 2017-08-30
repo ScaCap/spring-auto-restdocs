@@ -1097,7 +1097,7 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{title}</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Get Item By Id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Derived from method name. For example: <code>getItemById</code>.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="#snippets-customization-title">Section title</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{snippets}</p></td>
@@ -1188,7 +1188,9 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 </table>
 </div>
 <div class="sect3">
-<h4 id="_customisation_options"><a class="link" href="#_customisation_options">Customisation options</a></h4>
+    <h4 id="snippets-customization"><a class="link" href="#snippets-customization">Customisation options</a></h4>
+    <div class="sect4">
+        <h5 id="snippets-customization-order"><a class="link" href="#snippets-customization-order">Sections and order</a></h5>
 <div class="paragraph">
 <p>If you want to configure custom sections and their order, instead of using <code>AutoDocumentation.section()</code> you can use
  <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
@@ -1218,6 +1220,42 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 </tr>
 </table>
 </div>
+</div>
+    <div class="sect4">
+        <h5 id="snippets-customization-title"><a class="link" href="#snippets-customization-title">Section title</a></h5>
+        <div class="paragraph">
+            <p>Section title uses text from <code>@title</code> Javadoc tag on the handler method.
+                If missing, it&#8217;s derived from the method name, e.g. <code>getItemById</code> &#8594; <em>Get Item By Id</em>.</p>
+        </div>
+        <div class="paragraph">
+            <p>If you use <code>@title</code> tag and want to generate regular Javadoc we well,
+                you need to include this tag among custom tags in plugin configuration.</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">Custom maven-javadoc-plugin configuration</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;plugin&gt;
+    &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;attach-javadocs&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;jar&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;tags&gt;
+                    &lt;tag&gt;
+                        &lt;name&gt;title&lt;/name&gt;
+                        &lt;placement&gt;m&lt;/placement&gt;
+                    &lt;/tag&gt;
+                &lt;/tags&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <div class="sect2">
@@ -1486,7 +1524,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-07-31 20:33:00 CEST
+    Last updated 2017-08-19 17:44:51 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

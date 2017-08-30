@@ -21,8 +21,10 @@ import java.util.Map;
 
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ParamTag;
+import com.sun.javadoc.Tag;
 
 public class MethodDocumentation {
+    private String title = "";
     private String comment = "";
     private final Map<String, String> parameters = new HashMap<>();
 
@@ -37,6 +39,11 @@ public class MethodDocumentation {
         for (ParamTag param : methodDoc.paramTags()) {
             md.parameters.put(param.parameterName(), param.parameterComment());
         }
+        Tag[] title = methodDoc.tags("@title");
+        if (title.length > 0) {
+            md.title = title[0].text();
+        }
+
         return md;
     }
 }
