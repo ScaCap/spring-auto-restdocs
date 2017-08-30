@@ -26,7 +26,7 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
-    public static final String RESPONSE_FIELDS = "response-fields";
+    public static final String RESPONSE_FIELDS = "auto-response-fields";
     public static final String SPRING_DATA_PAGE_CLASS = "org.springframework.data.domain.Page";
 
     private final Type responseBodyType;

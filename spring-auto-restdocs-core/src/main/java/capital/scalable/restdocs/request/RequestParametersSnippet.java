@@ -25,7 +25,7 @@ import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
-    public static final String REQUEST_PARAMETERS = "request-parameters";
+    public static final String REQUEST_PARAMETERS = "auto-request-parameters";
     public static final String SPRING_DATA_PAGEABLE_CLASS =
             "org.springframework.data.domain.Pageable";
 

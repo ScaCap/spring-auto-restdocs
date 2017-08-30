@@ -8,22 +8,22 @@
 
 ==== Authorization
 
-include::{snippets}/item-resource-test/get-item/authorization.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-authorization.adoc[]
 
 ==== Path parameters
 
-include::{snippets}/item-resource-test/get-item/path-parameters.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-path-parameters.adoc[]
 
 ==== Request fields
 
-include::{snippets}/item-resource-test/get-item/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-request-fields.adoc[]
 
 We do not have to care whether to include a snippet or not,
 because the template returns "No data." instead of an empty table.
 
 ==== Response fields
 
-include::{snippets}/item-resource-test/get-item/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-item/auto-response-fields.adoc[]
 
 ==== Example request/response
 
@@ -42,15 +42,15 @@ This endpoint really returns all items and that is always 100.
 
 ==== Authorization
 
-include::{snippets}/item-resource-test/get-all-items/authorization.adoc[]
+include::{snippets}/item-resource-test/get-all-items/auto-authorization.adoc[]
 
 ==== Request fields
 
-include::{snippets}/item-resource-test/get-all-items/request-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/auto-request-fields.adoc[]
 
 ==== Response fields
 
-include::{snippets}/item-resource-test/get-all-items/response-fields.adoc[]
+include::{snippets}/item-resource-test/get-all-items/auto-response-fields.adoc[]
 
 ==== Example request/response
 
@@ -61,10 +61,10 @@ The array shortening feature intercepted here and reduced the 100 items to 3.
 include::{snippets}/item-resource-test/get-all-items/http-response.adoc[]
 
 // Use of all in one section snippets
-include::{snippets}/item-resource-test/add-item/section.adoc[]
-include::{snippets}/item-resource-test/update-item/section.adoc[]
-include::{snippets}/item-resource-test/delete-item/section.adoc[]
-include::{snippets}/item-resource-test/get-child-item/section.adoc[]
-include::{snippets}/item-resource-test/search/section.adoc[]
-include::{snippets}/item-resource-test/process-all-items/section.adoc[]
-include::{snippets}/item-resource-test/process-single-item/section.adoc[]
+include::{snippets}/item-resource-test/add-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/update-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/delete-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/get-child-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/search/auto-section.adoc[]
+include::{snippets}/item-resource-test/process-all-items/auto-section.adoc[]
+include::{snippets}/item-resource-test/process-single-item/auto-section.adoc[]

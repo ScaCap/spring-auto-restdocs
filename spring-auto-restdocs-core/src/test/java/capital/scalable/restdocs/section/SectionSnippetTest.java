@@ -64,8 +64,8 @@ public class SectionSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-noSnippets]]\n" +
                         "=== Get Item By Id\n\n" +
-                        "include::{snippets}/noSnippets/method-path.adoc[]\n\n" +
-                        "include::{snippets}/noSnippets/description.adoc[]\n"));
+                        "include::{snippets}/noSnippets/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/noSnippets/auto-description.adoc[]\n"));
 
         new SectionBuilder()
                 .snippetNames()
@@ -86,18 +86,18 @@ public class SectionSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-defaultSnippets]]\n" +
                         "=== Get Item By Id\n\n" +
-                        "include::{snippets}/defaultSnippets/method-path.adoc[]\n\n" +
-                        "include::{snippets}/defaultSnippets/description.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-description.adoc[]\n\n" +
                         "==== Authorization\n\n" +
-                        "include::{snippets}/defaultSnippets/authorization.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-authorization.adoc[]\n\n" +
                         "==== Path parameters\n\n" +
-                        "include::{snippets}/defaultSnippets/path-parameters.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-path-parameters.adoc[]\n\n" +
                         "==== Query parameters\n\n" +
-                        "include::{snippets}/defaultSnippets/request-parameters.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-request-parameters.adoc[]\n\n" +
                         "==== Request fields\n\n" +
-                        "include::{snippets}/defaultSnippets/request-fields.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-request-fields.adoc[]\n\n" +
                         "==== Response fields\n\n" +
-                        "include::{snippets}/defaultSnippets/response-fields.adoc[]\n\n" +
+                        "include::{snippets}/defaultSnippets/auto-response-fields.adoc[]\n\n" +
                         "==== Example request\n\n" +
                         "include::{snippets}/defaultSnippets/curl-request.adoc[]\n\n" +
                         "==== Example response\n\n" +
@@ -123,12 +123,12 @@ public class SectionSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-customSnippets]]\n" +
                         "=== Get Item By Id\n\n" +
-                        "include::{snippets}/customSnippets/method-path.adoc[]\n\n" +
-                        "include::{snippets}/customSnippets/description.adoc[]\n\n" +
+                        "include::{snippets}/customSnippets/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/customSnippets/auto-description.adoc[]\n\n" +
                         "==== Example response\n\n" +
                         "include::{snippets}/customSnippets/http-response.adoc[]\n\n" +
                         "==== Response fields\n\n" +
-                        "include::{snippets}/customSnippets/response-fields.adoc[]\n\n" +
+                        "include::{snippets}/customSnippets/auto-response-fields.adoc[]\n\n" +
                         "==== Example request\n\n" +
                         "include::{snippets}/customSnippets/http-request.adoc[]\n"));
 
@@ -154,10 +154,10 @@ public class SectionSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-skipEmpty]]\n" +
                         "=== Get Item By Id\n\n" +
-                        "include::{snippets}/skipEmpty/method-path.adoc[]\n\n" +
-                        "include::{snippets}/skipEmpty/description.adoc[]\n\n" +
+                        "include::{snippets}/skipEmpty/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/skipEmpty/auto-description.adoc[]\n\n" +
                         "==== Authorization\n\n" +
-                        "include::{snippets}/skipEmpty/authorization.adoc[]\n\n" +
+                        "include::{snippets}/skipEmpty/auto-authorization.adoc[]\n\n" +
                         "==== Example request\n\n" +
                         "include::{snippets}/skipEmpty/curl-request.adoc[]\n\n" +
                         "==== Example response\n\n" +
@@ -185,8 +185,8 @@ public class SectionSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(SECTION)
                 .withContents(equalTo("[[resources-customTitle]]\n" +
                         "=== Custom title\n\n" +
-                        "include::{snippets}/customTitle/method-path.adoc[]\n\n" +
-                        "include::{snippets}/customTitle/description.adoc[]\n"));
+                        "include::{snippets}/customTitle/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/customTitle/auto-description.adoc[]\n"));
 
         new SectionBuilder()
                 .snippetNames()

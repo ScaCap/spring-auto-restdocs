@@ -18,6 +18,7 @@ package capital.scalable.restdocs.request;
 
 
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
+import static capital.scalable.restdocs.request.RequestParametersSnippet.REQUEST_PARAMETERS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -62,7 +63,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem", "type", "An integer");
         mockParamComment("searchItem", "description", "A string");
 
-        this.snippets.expectRequestParameters().withContents(
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("type", "Integer", "false", "An integer.")
                         .row("text", "String", "true", "A string."));
@@ -83,7 +84,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2", "param2", "A boolean");
         mockParamComment("searchItem2", "param3", "An integer");
 
-        this.snippets.expectRequestParameters().withContents(
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
@@ -100,7 +101,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
-        this.snippets.expectRequestParameters().withContents(equalTo("No parameters."));
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -129,7 +130,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem3", Pageable.class);
         initParameters(handlerMethod);
 
-        this.snippets.expectRequestParameters().withContents(equalTo(paginationPrefix()));
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo(paginationPrefix()));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -144,7 +145,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem4", "text", "A text");
 
-        this.snippets.expectRequestParameters().withContents(
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Parameter", "Type", "Optional", "Description")
                                 .row("text", "Integer", "false", "A text.")));

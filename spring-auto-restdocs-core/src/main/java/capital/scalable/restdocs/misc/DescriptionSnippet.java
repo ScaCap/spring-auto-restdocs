@@ -31,7 +31,7 @@ import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippet extends TemplatedSnippet {
 
-    public static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "auto-description";
 
     public DescriptionSnippet() {
         super(DESCRIPTION, null);
@@ -48,7 +48,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
         methodComment = convertFromJavadoc(methodComment, determineForcedLineBreak(operation));
 
         Map<String, Object> model = new HashMap<>();
-        model.put(DESCRIPTION, methodComment);
+        model.put("description", methodComment);
         return model;
     }
 }
