@@ -7,9 +7,9 @@ import capital.scalable.restdocs.section.SectionSupport;
 import org.springframework.restdocs.operation.Operation;
 
 public class SnippetRegistry {
-    public static final String AUTHORIZATION = "authorization";
-    public static final String DESCRIPTION = "description";
-    public static final String METHOD_PATH = "method-path";
+    public static final String AUTHORIZATION = "auto-authorization";
+    public static final String DESCRIPTION = "auto-description";
+    public static final String METHOD_PATH = "auto-method-path";
     public static final String PATH_PARAMETERS = "auto-path-parameters";
     public static final String REQUEST_PARAMETERS = "auto-request-parameters";
     public static final String REQUEST_FIELDS = "auto-request-fields";

@@ -18,7 +18,7 @@ Assuming of course that you already documented your code with Javadoc.
 .Template itself
 [source,asciidoc]
 ----
-include::../../../spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates/asciidoctor/default-section.snippet[]
+include::../../../spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates/asciidoctor/default-auto-section.snippet[]
 ----
 
 .Template placeholders

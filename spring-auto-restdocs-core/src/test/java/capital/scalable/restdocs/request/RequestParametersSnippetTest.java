@@ -17,6 +17,7 @@
 package capital.scalable.restdocs.request;
 
 
+import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.request.RequestParametersSnippet.REQUEST_PARAMETERS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;

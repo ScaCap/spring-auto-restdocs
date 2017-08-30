@@ -42,7 +42,7 @@ import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippet extends TemplatedSnippet {
 
-    public static final String SECTION = "section";
+    public static final String SECTION = "auto-section";
 
     private final RestDocumentationContextPlaceholderResolverFactory placeholderResolverFactory =
             new RestDocumentationContextPlaceholderResolverFactory();
