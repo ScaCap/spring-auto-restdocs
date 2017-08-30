@@ -130,7 +130,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem3", Pageable.class);
         initParameters(handlerMethod);
 
-        this.snippets.expectRequestParameters().withContents(equalTo(paginationPrefix()));
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo(paginationPrefix()));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -145,7 +145,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem4", "text", "A text");
 
-        this.snippets.expectRequestParameters().withContents(
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Parameter", "Type", "Optional", "Description")
                                 .row("text", "Integer", "false", "A text.")));
