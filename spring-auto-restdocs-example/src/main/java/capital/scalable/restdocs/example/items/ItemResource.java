@@ -38,6 +38,7 @@ import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -170,11 +171,12 @@ public class ItemResource {
     @RequestMapping("search")
     public Page<ItemResponse> searchItem(
             @RequestParam("desc") @NotBlank @Size(max = 255) String descMatch,
-            @RequestParam(required = false) @Min(10) @Max(100) Integer hint) {
+            @RequestParam(required = false) @Min(10) @Max(100) Integer hint,
+            Pageable page) {
         if (ITEM.getDescription().contains(descMatch)) {
-            return new PageImpl<>(singletonList(ITEM));
+            return new PageImpl<>(singletonList(ITEM), page, 1);
         } else {
-            return new PageImpl<>(Collections.<ItemResponse>emptyList());
+            return new PageImpl<>(Collections.<ItemResponse>emptyList(), page, 0);
         }
     }
 

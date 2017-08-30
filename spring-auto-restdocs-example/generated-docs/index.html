@@ -498,9 +498,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="overview-pagination"><a class="anchor" href="#overview-pagination"></a><a class="link" href="#overview-pagination">1.2. Pagination</a></h3>
 <div class="paragraph">
-<p>Spring pagination facilities offer following:</p>
+    <p>Spring pagination facilities offer following request parameters:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
+    <caption class="title">Table 1. Request parameters</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -520,13 +521,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Page you want to retrieve. Starts at 0.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Page you want to retrieve, 0 indexed and defaults to 0.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">size</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Size of the page you want to retrieve.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Size of the page you want to retrieve, defaults to 20.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sort</p></td>
@@ -536,6 +537,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Default sort direction is ascending. Use multiple sort parameters if you want to
 switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p></td>
 </tr>
+</tbody>
+</table>
+    <div class="paragraph">
+        <p>Pagination response has following structure:</p>
+    </div>
+    <table class="tableblock frame-all grid-all spread">
+        <caption class="title">Table 2. Response structure</caption>
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Path</th>
+            <th class="tableblock halign-left valign-top">Type</th>
+            <th class="tableblock halign-left valign-top">Optional</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">content</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object Array</p></td>
@@ -1052,7 +1075,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 498a440b-8a29-4c7a-9645-22ea6129a103' \
+    -H 'Authorization: Bearer 35f2fe44-f0df-47ac-a7ed-83d485ea4519' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1273,7 +1296,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 498a440b-8a29-4c7a-9645-22ea6129a103' \
+    -H 'Authorization: Bearer 35f2fe44-f0df-47ac-a7ed-83d485ea4519' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1372,7 +1395,7 @@ Content-Length: 90
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 498a440b-8a29-4c7a-9645-22ea6129a103'</code></pre>
+    -H 'Authorization: Bearer 35f2fe44-f0df-47ac-a7ed-83d485ea4519'</code></pre>
 </div>
 </div>
 </div>
@@ -1612,6 +1635,9 @@ Content-Length: 99
 </div>
 <div class="sect3">
 <h4 id="_query_parameters_5"><a class="anchor" href="#_query_parameters_5"></a><a class="link" href="#_query_parameters_5">2.7.3. Query parameters</a></h4>
+    <div class="paragraph">
+        <p>Supports standard <a href="#overview-pagination">paging</a> query parameters.</p>
+    </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 25%;">
@@ -1780,7 +1806,7 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 625
+Content-Length: 739
 
 {
   "content" : [ {
@@ -1803,12 +1829,19 @@ Content-Length: 625
     } ],
     "description" : "main item"
   } ],
-  "pageable" : null,
+  "pageable" : {
+    "page" : 0,
+    "size" : 20,
+    "sort" : null,
+    "offset" : 0,
+    "pageNumber" : 0,
+    "pageSize" : 20
+  },
   "total" : 1,
-  "totalElements" : 1,
   "totalPages" : 1,
   "last" : true,
-  "size" : 0,
+  "totalElements" : 1,
+  "size" : 20,
   "number" : 0,
   "sort" : null,
   "numberOfElements" : 1,
@@ -2082,7 +2115,7 @@ Content-Length: 55
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2016-11-25 17:33:45 CET
+    Last updated 2017-08-30 12:53:34 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
