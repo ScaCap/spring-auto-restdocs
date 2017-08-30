@@ -1,0 +1,7 @@
+{{#hasContent}}{{#isPageResponse}}Standard [paging](#overview-pagination) response where `content` field is list of following objects:
+
+{{/isPageResponse}}Path | Type | Optional | Description
+---- | ---- | -------- | -----------
+{{#content}}
+{{path}} | {{type}} | {{optional}} | {{description}}
+{{/content}}{{/hasContent}}{{#noContent}}No response body.{{/noContent}}

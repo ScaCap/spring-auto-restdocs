@@ -7,13 +7,13 @@ import capital.scalable.restdocs.section.SectionSupport;
 import org.springframework.restdocs.operation.Operation;
 
 public class SnippetRegistry {
-    public static final String AUTHORIZATION = "authorization";
-    public static final String DESCRIPTION = "description";
-    public static final String METHOD_PATH = "method-path";
-    public static final String PATH_PARAMETERS = "path-parameters";
-    public static final String REQUEST_PARAMETERS = "request-parameters";
-    public static final String REQUEST_FIELDS = "request-fields";
-    public static final String RESPONSE_FIELDS = "response-fields";
+    public static final String AUTHORIZATION = "auto-authorization";
+    public static final String DESCRIPTION = "auto-description";
+    public static final String METHOD_PATH = "auto-method-path";
+    public static final String PATH_PARAMETERS = "auto-path-parameters";
+    public static final String REQUEST_PARAMETERS = "auto-request-parameters";
+    public static final String REQUEST_FIELDS = "auto-request-fields";
+    public static final String RESPONSE_FIELDS = "auto-response-fields";
     public static final String CURL_REQUEST = "curl-request";
     public static final String HTTP_REQUEST = "http-request";
     public static final String HTTP_RESPONSE = "http-response";

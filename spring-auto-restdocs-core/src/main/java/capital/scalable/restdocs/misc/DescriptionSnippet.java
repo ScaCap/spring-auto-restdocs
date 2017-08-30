@@ -24,13 +24,14 @@ import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import java.util.HashMap;
 import java.util.Map;
 
+import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippet extends TemplatedSnippet {
 
-    public static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "auto-description";
 
     public DescriptionSnippet() {
         super(DESCRIPTION, null);
@@ -39,20 +40,15 @@ public class DescriptionSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
+        JavadocReader javadocReader = getJavadocReader(operation);
 
-        String methodComment;
-        if (handlerMethod != null) {
-            methodComment = getJavadocReader(operation)
-                    .resolveMethodComment(handlerMethod.getBeanType(),
-                            handlerMethod.getMethod().getName());
-        } else {
-            methodComment = "";
-        }
+        String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName());
 
         methodComment = convertFromJavadoc(methodComment, determineForcedLineBreak(operation));
 
         Map<String, Object> model = new HashMap<>();
-        model.put(DESCRIPTION, methodComment);
+        model.put("description", methodComment);
         return model;
     }
 }

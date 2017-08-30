@@ -228,8 +228,17 @@ include::section-snippet.adoc[]
 === Custom snippet
 
 Custom snippets are created by subclassing the link:{restdocs-package}/snippet/Snippet.java[Snippet] interface
-(or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]). If you want your custom
- snippet to be part of section snippet with automatically recognised header and include link (file name),
- you have to implement link:{core-package}/section/SectionSupport.java[SectionSupport] interface.
- Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration's
- builder `withDefaults(...)` and include snippet name among SectionBuilder's `snippetNames(...)`.
+(or more conveniently link:{restdocs-package}/snippet/TemplatedSnippet.java[TemplatedSnippet]).
+Template for the snippet must be put into `org/springframework/restdocs/templates/asciidoctor`
+(optionally also `org/springframework/restdocs/templates/markdown`) resource package. The template name
+must correspond with the snippet name passed to the class constructor.
+You can also <<snippets-section-custom-snippet,include your custom snippet in a section>>.
+
+[[snippets-customization]]
+=== Snippet customization
+
+Provide your own template in `org/springframework/restdocs/templates/asciidoctor` (or `markdown`) package of your resources.
+You can override link:https://github.com/spring-projects/spring-restdocs/tree/v${spring-restdocs.version}/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates[REST Docs templates]
+and link:https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates[Auto REST Docs templates].
+Important is to omit `default-` part from the template name so that the resolution algorithm will prefer this custom template.
+See also link:http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/#documenting-your-api-customizing-snippets[original documentation] for additional details.

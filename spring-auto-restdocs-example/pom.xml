@@ -171,6 +171,14 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <tags>
+                                <tag>
+                                    <name>title</name>
+                                    <placement>m</placement>
+                                </tag>
+                            </tags>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>generate-javadoc-json</id>

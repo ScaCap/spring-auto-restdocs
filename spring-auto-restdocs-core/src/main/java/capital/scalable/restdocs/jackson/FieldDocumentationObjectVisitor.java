@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.jackson;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,12 +31,14 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
 
     private final FieldDocumentationVisitorContext context;
     private final String path;
+    private final Set<JavaType> visited;
 
     public FieldDocumentationObjectVisitor(SerializerProvider provider,
-            FieldDocumentationVisitorContext context, String path) {
+            FieldDocumentationVisitorContext context, String path, Set<JavaType> visited) {
         super(provider);
         this.context = context;
         this.path = path;
+        this.visited = visited;
     }
 
     @Override
@@ -57,11 +61,11 @@ public class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Bas
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
         boolean shouldExpand = shouldExpand(prop);
 
-        InternalFieldInfo fieldInfo =
-                new InternalFieldInfo(javaBaseClass, fieldName, fieldPath, shouldExpand);
+        InternalFieldInfo fieldInfo = new InternalFieldInfo(javaBaseClass, fieldName, fieldPath,
+                shouldExpand);
 
-        JsonFormatVisitorWrapper visitor =
-                new FieldDocumentationVisitorWrapper(getProvider(), context, fieldPath, fieldInfo);
+        JsonFormatVisitorWrapper visitor = new FieldDocumentationVisitorWrapper(getProvider(),
+                context, fieldPath, fieldInfo, visited);
 
         ser.acceptJsonFormatVisitor(visitor, type);
     }

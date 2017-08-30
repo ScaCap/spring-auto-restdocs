@@ -4,6 +4,7 @@
   },
   "methods": {
     "simpleMethod": {
+      "title": "Simple method title",
       "comment": "Simple method comment",
       "parameters": {
         "simpleParameter": "Simple parameter comment"
