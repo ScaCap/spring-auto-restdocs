@@ -46,7 +46,6 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2'
     compile group: 'org.springframework.data', name: 'spring-data-commons'
-    compile group: 'javax.el', name: 'javax.el-api'
     compile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: version
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
