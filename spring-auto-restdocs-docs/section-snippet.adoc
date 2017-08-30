@@ -12,7 +12,7 @@ Assuming of course that you already documented your code with Javadoc.
 .Asciidoc
 [source,asciidoc]
 ----
-\include::{snippets}/your-endpoint/section.adoc[]
+\include::{snippets}/your-endpoint/auto-section.adoc[]
 ----
 
 .Template itself
