@@ -78,11 +78,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(tableWithPrefix("\n",
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
-                                "A decimal.\n\nA constraint.")));
+                                "A decimal.\n\nA constraint."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -98,10 +98,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(tableWithPrefix("\n",
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
-                        .row("[].field2", "Decimal", "true", "A decimal.")));
+                        .row("[].field2", "Decimal", "true", "A decimal."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -154,11 +154,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(tableWithPrefix("\n",
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
-                                "A decimal.\n\nA constraint.")));
+                                "A decimal.\n\nA constraint."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -173,9 +173,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(tableWithPrefix("\n",
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("output", "String", "true", "An output.")));
+                        .row("output", "String", "true", "An output."));
 
         new JacksonResponseFieldSnippet().responseBodyAsType(ProcessingResponse.class)
                 .document(operationBuilder
@@ -240,10 +240,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private String paginationPrefix() {
         if ("adoc".equals(templateFormat.getFileExtension())) {
             return "Standard <<overview-pagination,paging>> response where `content` field is"
-                    + " list of following objects:\n";
+                    + " list of following objects:\n\n";
         } else {
             return "Standard [paging](#overview-pagination) response where `content` field is"
-                    + " list of following objects:\n";
+                    + " list of following objects:\n\n";
         }
     }
 

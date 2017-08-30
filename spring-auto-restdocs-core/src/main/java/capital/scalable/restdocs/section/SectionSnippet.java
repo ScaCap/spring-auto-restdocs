@@ -19,6 +19,7 @@ package capital.scalable.restdocs.section;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnippets;
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.springframework.util.StringUtils.capitalize;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.SnippetRegistry;
+import capital.scalable.restdocs.javadoc.JavadocReader;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
 import org.springframework.restdocs.snippet.Snippet;
@@ -59,13 +62,9 @@ public class SectionSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
-        final String title;
-        if (handlerMethod != null) {
-            title = join(splitByCharacterTypeCamelCase(
-                    capitalize(handlerMethod.getMethod().getName())), ' ');
-        } else {
-            title = "";
-        }
+        JavadocReader javadocReader = getJavadocReader(operation);
+
+        String title = resolveTitle(handlerMethod, javadocReader);
 
         // resolve path
         String path = propertyPlaceholderHelper.replacePlaceholders(operation.getName(),
@@ -91,6 +90,16 @@ public class SectionSnippet extends TemplatedSnippet {
         }
 
         return model;
+    }
+
+    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+        String title = javadocReader.resolveMethodTitle(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName());
+        if (StringUtils.isBlank(title)) {
+            title = join(splitByCharacterTypeCamelCase(
+                    capitalize(handlerMethod.getMethod().getName())), ' ');
+        }
+        return title;
     }
 
     private SectionSupport getSectionSnippet(Operation operation, String snippetName) {

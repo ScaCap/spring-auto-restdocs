@@ -31,7 +31,7 @@ include::../../../spring-auto-restdocs-core/src/main/resources/org/springframewo
 
 | {title}
 | Get Item By Id
-| Derived from method name. For example: `getItemById`.
+| See <<snippets-section-customization-title>>.
 
 | {snippets}
 | target/generated-snippets
@@ -100,6 +100,9 @@ By default, these snippets in the following order are linked inside section snip
 [[snippets-section-customization]]
 ==== Customisation options
 
+[[snippets-section-customization-order]]
+===== Sections and order
+
 If you want to configure custom sections and their order, instead of using `AutoDocumentation.section()` you can use
  `AutoDocumentation.sectionBuilder()` in the following manner:
 
@@ -118,6 +121,38 @@ AutoDocumentation.sectionBuilder()
 <1> only selected snippets will be used in the specified order
 <2> whether snippets having no content should be skipped from section
 
+[[snippets-section-customization-title]]
+===== Section title
+
+Section title uses text from `@title` Javadoc tag on the handler method.
+If missing, it's derived from the method name, e.g. `getItemById` -> _Get Item By Id_.
+
+If you use `@title` tag and want to generate regular Javadoc we well,
+you need to include this tag among custom tags in plugin configuration.
+
+.Custom maven-javadoc-plugin configuration
+[source,xml]
+----
+<plugin>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>attach-javadocs</id>
+            <goals>
+                <goal>jar</goal>
+            </goals>
+            <configuration>
+                <tags>
+                    <tag>
+                        <name>title</name>
+                        <placement>m</placement>
+                    </tag>
+                </tags>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
 
 [[snippets-section-custom-snippet]]
 ==== Custom snippet in section

@@ -30,10 +30,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
+import org.springframework.data.domain.Pageable;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 
@@ -124,6 +124,38 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void pageRequest_noParams() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem3", Pageable.class);
+        initParameters(handlerMethod);
+
+        this.snippets.expectRequestParameters().withContents(equalTo(paginationPrefix()));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void pageRequest_withParams() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem4", int.class, Pageable.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem4", "text", "A text");
+
+        this.snippets.expectRequestParameters().withContents(
+                tableWithPrefix(paginationPrefix(),
+                        tableWithHeader("Parameter", "Type", "Optional", "Description")
+                                .row("text", "Integer", "false", "A text.")));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
     private void initParameters(HandlerMethod handlerMethod) {
         for (MethodParameter parameter : handlerMethod.getMethodParameters()) {
             parameter.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
@@ -140,15 +172,21 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         return new HandlerMethod(new TestResource(), name, parameterTypes);
     }
 
+    private String paginationPrefix() {
+        if ("adoc".equals(templateFormat.getFileExtension())) {
+            return "Supports standard <<overview-pagination,paging>> query parameters.\n\n";
+        } else {
+            return "Supports standard [paging](#overview-pagination) query parameters.\n\n";
+        }
+    }
+
     private static class TestResource {
 
-        @RequestMapping(value = "/items/search")
         public void searchItem(@RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
             // NOOP
         }
 
-        @RequestMapping(value = "/items/search2")
         public void searchItem2(@RequestParam double param1,    // required
                 @RequestParam(required = false) boolean param2, // required anyway
                 @RequestParam(defaultValue = "1") int param3) { // not required
@@ -156,6 +194,14 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         }
 
         public void items() {
+            // NOOP
+        }
+
+        public void searchItem3(Pageable page) {
+            // NOOP
+        }
+
+        public void searchItem4(@RequestParam int text, Pageable page) {
             // NOOP
         }
     }
