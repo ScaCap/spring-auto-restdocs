@@ -250,13 +250,6 @@ public class FieldDocumentationGeneratorTest {
         // given
         ObjectMapper mapper = createMapper();
         JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(RecursiveType.class, "value"))
-                .thenReturn("Type value");
-        when(javadocReader.resolveFieldComment(RecursiveType.class, "children"))
-                .thenReturn("Child types");
-        when(javadocReader.resolveFieldComment(RecursiveType.class, "sibling"))
-                .thenReturn("Sibling type");
-
         ConstraintReader constraintReader = mock(ConstraintReader.class);
 
         FieldDocumentationGenerator generator =
@@ -269,13 +262,19 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(3));
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("value", "String", "Type value", "true")));
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("children", "Array", "Child types", "true")));
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("sibling", "Object", "Sibling type", "true")));
+        assertThat(fieldDescriptions.size(), is(12));
+        assertThat(fieldDescriptions.get(0), is(descriptor("sub1", "Array", null, "true")));
+        assertThat(fieldDescriptions.get(1), is(descriptor("sub2", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(2), is(descriptor("sub3", "Array", null, "true")));
+        assertThat(fieldDescriptions.get(3), is(descriptor("sub4", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(4), is(descriptor("sub5", "Array", null, "true")));
+        assertThat(fieldDescriptions.get(5), is(descriptor("sub6", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(6), is(descriptor("sub7", "Array", null, "true")));
+        assertThat(fieldDescriptions.get(7), is(descriptor("sub7[].sub1", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(8), is(descriptor("sub7[].sub2", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(9), is(descriptor("sub8", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(10), is(descriptor("sub8.sub1", "Object", null, "true")));
+        assertThat(fieldDescriptions.get(11), is(descriptor("sub8.sub2", "Object", null, "true")));
     }
 
     @Test
@@ -584,10 +583,26 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class RecursiveType {
-        private String value;
+        // explicitly prevented expansion
         @RestdocsNotExpanded
-        private List<RecursiveType> children;
+        private List<RecursiveType> sub1;
         @RestdocsNotExpanded
-        private RecursiveType sibling;
+        private RecursiveType sub2;
+        @RestdocsNotExpanded
+        private List<RecursiveType2> sub3;
+        @RestdocsNotExpanded
+        private RecursiveType2 sub4;
+
+        // implicitly prevented recursion
+        private List<RecursiveType> sub5;
+        private RecursiveType sub6;
+
+        private List<RecursiveType2> sub7;
+        private RecursiveType2 sub8;
+    }
+
+    private static class RecursiveType2 {
+        private RecursiveType sub1;
+        private RecursiveType2 sub2;
     }
 }
