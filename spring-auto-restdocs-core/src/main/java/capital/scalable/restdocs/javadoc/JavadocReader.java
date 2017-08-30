@@ -21,6 +21,8 @@ public interface JavadocReader {
 
     String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName);
 
+    String resolveMethodTitle(Class<?> javaBaseClass, String javaMethodName);
+
     String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
             String javaParameterName);
 }

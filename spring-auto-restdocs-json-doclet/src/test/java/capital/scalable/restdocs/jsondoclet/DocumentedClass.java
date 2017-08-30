@@ -45,6 +45,7 @@ class DocumentedClass {
      *
      * @param when  when to initiate
      * @param force true if force
+     * @title Do initiate
      */
     private void initiate(String when, boolean force, int notDocumented) {
     }

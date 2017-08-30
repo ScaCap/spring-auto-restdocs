@@ -16,37 +16,35 @@
 
 package capital.scalable.restdocs.constraints;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 
+
 class SkippableConstraintResolver implements MethodParameterConstraintResolver {
-    public static final Class<?>[] MANDATORY_VALUE_ANNOTATIONS =
-            {NotNull.class, NotEmpty.class, NotBlank.class};
+    public static final Collection<String> MANDATORY_VALUE_ANNOTATIONS = Arrays.asList(
+            new String[]{
+                    "javax.validation.constraints.NotNull",
+                    "org.hibernate.validator.constraints.NotBlank",
+                    "org.hibernate.validator.constraints.NotEmpty"
+            });
 
     private final MethodParameterConstraintResolver delegate;
     private final GroupDescriptionResolver descriptionResolver;
-    private final Collection<String> skippableConstraints;
 
     public SkippableConstraintResolver(MethodParameterConstraintResolver delegate,
             GroupDescriptionResolver descriptionResolver) {
         this.delegate = delegate;
         this.descriptionResolver = descriptionResolver;
-        this.skippableConstraints = new ArrayList<>();
-        for (Class<?> a : MANDATORY_VALUE_ANNOTATIONS) {
-            this.skippableConstraints.add(a.getCanonicalName());
-        }
     }
 
     private boolean isSkippable(Constraint constraint) {
-        return skippableConstraints.contains(constraint.getName());
+        return MANDATORY_VALUE_ANNOTATIONS.contains(constraint.getName());
     }
 
     @Override
