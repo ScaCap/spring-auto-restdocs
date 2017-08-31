@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.3.RELEASE'
+        springBootVersion = "1.5.3.RELEASE"
     }
     repositories {
         jcenter()
@@ -8,16 +8,16 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'org.asciidoctor.convert'
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "org.asciidoctor.convert"
 
-group = 'capital.scalable'
-version = '1.0.9-SNAPSHOT'
+group = "capital.scalable"
+version = "1.0.9-SNAPSHOT"
 
 description = """Spring Auto REST Docs Example Project"""
 
@@ -25,7 +25,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+	options.encoding = "UTF-8"
 }
 
 configurations {
@@ -42,19 +42,19 @@ repositories {
      mavenCentral()
 }
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2'
-    compile group: 'org.springframework.data', name: 'spring-data-commons'
-    compile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: version
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
-        exclude(module: 'commons-logging')
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.security.oauth:spring-security-oauth2"
+    compile "org.springframework.data:spring-data-commons"
+    compile "capital.scalable:spring-auto-restdocs-core:$version"
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module: "commons-logging")
     }
-    testCompile group: 'com.jayway.jsonpath', name: 'json-path-assert'
-    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-core'
-    testCompile group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc'
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: version
+    testCompile "com.jayway.jsonpath:json-path-assert"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:1.2.1.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:1.2.1.RELEASE"
+    compileOnly "org.projectlombok:lombok"
+    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$version"
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -62,22 +62,22 @@ task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     classpath = sourceSets.main.compileClasspath
     destinationDir = javadocJsonDir
     options.docletpath = configurations.jsondoclet.files.asType(List)
-    options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
+    options.doclet = "capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet"
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
+    systemProperty "org.springframework.restdocs.outputDir", snippetsDir
+    systemProperty "org.springframework.restdocs.javadocJsonDir", javadocJsonDir
 
     dependsOn jsonDoclet
 }
 
 asciidoctor {
-    sourceDir = file('src/main/asciidoc')
+    sourceDir = file("src/main/asciidoc")
     outputDir = file("$buildDir/generated-docs")
-    options backend: 'html', doctype: 'book'
-    attributes 'source-highlighter': 'highlightjs', 'snippets': snippetsDir
+    options backend: "html", doctype: "book"
+    attributes "source-highlighter": "highlightjs", "snippets": snippetsDir
 
     dependsOn test
 }
@@ -86,7 +86,7 @@ asciidoctor.doLast {
     copy {
         from file("$buildDir/generated-docs/html5")
         into file("$sourceSets.main.output.classesDir/public")
-        include 'index.html'
+        include "index.html"
     }
 }
 

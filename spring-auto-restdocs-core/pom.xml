@@ -112,11 +112,6 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
-                    <systemPropertyVariables>
-                        <org.springframework.restdocs.javadocJsonDir>
-                            ${project.build.directory}/generated-javadoc-json
-                        </org.springframework.restdocs.javadocJsonDir>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -136,7 +131,6 @@
                                 <artifactId>spring-auto-restdocs-json-doclet</artifactId>
                                 <version>${project.parent.version}</version>
                             </docletArtifact>
-                            <destDir>generated-javadoc-json</destDir>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
                             <show>package</show>

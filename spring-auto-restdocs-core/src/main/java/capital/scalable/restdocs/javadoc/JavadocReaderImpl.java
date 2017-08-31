@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 public class JavadocReaderImpl implements JavadocReader {
@@ -49,8 +50,18 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     public static JavadocReaderImpl createWithSystemProperty() {
-        String systemProperty = System.getProperties().getProperty(JAVADOC_JSON_DIR_PROPERTY);
-        return new JavadocReaderImpl(objectMapper(), toAbsoluteDirs(systemProperty));
+        String jsonDir = System.getProperties().getProperty(JAVADOC_JSON_DIR_PROPERTY);
+        if (StringUtils.isEmpty(jsonDir)) {
+            jsonDir = getDefaultJsonDirectory();
+        }
+        return new JavadocReaderImpl(objectMapper(), toAbsoluteDirs(jsonDir));
+    }
+
+    private static String getDefaultJsonDirectory() {
+        if (new File("pom.xml").exists()) {
+            return "target/generated-javadoc-json";
+        }
+        return "build/generated-javadoc-json";
     }
 
     /**

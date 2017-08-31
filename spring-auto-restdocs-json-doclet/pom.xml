@@ -81,7 +81,6 @@
                                 <artifactId>spring-auto-restdocs-json-doclet</artifactId>
                                 <version>${project.parent.version}</version>
                             </docletArtifact>
-                            <destDir>generated-javadoc-json</destDir>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
                             <show>package</show>

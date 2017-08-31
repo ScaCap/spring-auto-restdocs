@@ -591,10 +591,10 @@ and only the first found JSON file is used.</p>
                 &lt;/includes&gt;
                 &lt;systemPropertyVariables&gt;
                     &lt;org.springframework.restdocs.outputDir&gt;
-                        ${snippetsDirectory}
+                        ${project.build.directory}/generated-snippets <i class="conum" data-value="2"></i><b>(2)</b>
                     &lt;/org.springframework.restdocs.outputDir&gt;
                     &lt;org.springframework.restdocs.javadocJsonDir&gt;
-                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="2"></i><b>(2)</b>
+                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="3"></i><b>(3)</b>
                     &lt;/org.springframework.restdocs.javadocJsonDir&gt;
                 &lt;/systemPropertyVariables&gt;
              &lt;/configuration&gt;
@@ -616,8 +616,8 @@ and only the first found JSON file is used.</p>
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
                             &lt;version&gt;1.0.8&lt;/version&gt;
                         &lt;/docletArtifact&gt;
-                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt;
-                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt;
+                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                         &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
                         &lt;show&gt;package&lt;/show&gt;
                     &lt;/configuration&gt;
@@ -637,7 +637,12 @@ and only the first found JSON file is used.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Multiple directories can be listed by separating them with <code>,</code>.
+<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>(Optional) Determines where JSON files are saved. Defaults to <code>generated-javadoc-json</code> in build directory.
+Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 </table>
@@ -650,26 +655,26 @@ The directories are processed in order and only the first found JSON file is use
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="1"></i><b>(1)</b>
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="3"></i><b>(3)</b>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.8' <i class="conum" data-value="2"></i><b>(2)</b>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.8' <i class="conum" data-value="1"></i><b>(1)</b>
     jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.8'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     source = sourceSets.main.allJava
     classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir
+    destinationDir = javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <i class="conum" data-value="2"></i><b>(2)</b>
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
 
     dependsOn jsonDoclet
 }
@@ -683,12 +688,18 @@ jar {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Multiple directories can be listed by separating them with <code>,</code>.
-The directories are processed in order and only the first found JSON file is used.</td>
+<td>Has to be <code>compile</code> instead of <code>testCompile</code> if <code>@RestdocsNotExpanded</code> is used.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Has to be <code>compile</code> instead of <code>testCompile</code> if <code>@RestdocsNotExpanded</code> is used.</td>
+<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>(Optional) Determines where JSON files are saved.
+Defaults to <code>generated-javadoc-json</code> in build directory.
+Multiple directories can be listed by separating them with <code>,</code>.
+The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 </table>
 </div>
@@ -706,8 +717,7 @@ protected ObjectMapper objectMapper;
 protected MockMvc mockMvc;
 
 @Rule
-public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation(
-    System.getProperties().getProperty("org.springframework.restdocs.outputDir"));
+public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
 @Before
 public void setUp() throws Exception {
@@ -1544,7 +1554,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-08-30 17:51:23 CEST
+Last updated 2017-08-30 22:08:32 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
