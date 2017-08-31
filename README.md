@@ -22,27 +22,30 @@ from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also avail
 
 ## Documentation
 
-* [Latest / master](https://scacap.github.io/spring-auto-restdocs)
+[Current 1.0.8 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.8/docs/index.html) reference guide.
 
-* [Version 1.0.8](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/f0a49f1f3c429a7fd17c25e98806fc5bad08429c/docs/index.html)
+Latest master [1.0.9-SNAPSHOT](https://scacap.github.io/spring-auto-restdocs) reference guide.
 
-* [Version 1.0.7](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/25464f899d96cba889e48de309f0ee878588afe2/docs/index.html)
-
-* [Version 1.0.6](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/b2a1bbb12f7a7ccf499bc81d6caebe8f7a449321/docs/index.html)
-
-* [Version 1.0.5](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/12ad534d101363edfd1d41b22507c602e004b489/docs/index.html)
-
-* [Version 1.0.4](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/3d78a2deb0f0a880c40426417f0cd0bfb02d34a6/docs/index.html)
+Older releases: 
+[1.0.7](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.7/docs/index.html), 
+[1.0.6](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.6/docs/index.html), 
+[1.0.5](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.5/docs/index.html), 
+[1.0.4](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.4/docs/index.html).
 
 ## Main features
 
-* Automatic documentation of request and response fields.
-* Automatic documentation of path and query parameters.
-* Automatic documentation of field and parameter constraints
-* A helper to document authentication.
-* A snippet that includes all other snippets.
-* Shorten JSON arrays in example requests and responses.
-* Replace binary example requests and responses with `<binary>`.
+* Automatic documentation of 
+[request](https://scacap.github.io/spring-auto-restdocs/#snippets-request-fields) and 
+[response](https://scacap.github.io/spring-auto-restdocs/#snippets-response-fields) fields, 
+[path](https://scacap.github.io/spring-auto-restdocs/#snippets-path-parameters) and 
+[query](https://scacap.github.io/spring-auto-restdocs/#snippets-request-parameters) parameters using Jackson and Javadoc
+* Automatic documentation of field and parameter 
+[optionality](https://scacap.github.io/spring-auto-restdocs/#constraints-optionality) and 
+[constraints](https://scacap.github.io/spring-auto-restdocs/#constraints) using JSR 303 annotations
+* Automatic documentation of [entire endpoint](https://scacap.github.io/spring-auto-restdocs/#snippets-section) with [customizations](https://scacap.github.io/spring-auto-restdocs/#snippets-section-customization)
+* A helper to document [authentication](https://scacap.github.io/spring-auto-restdocs/#snippets-authorization)
+* Support for [paging](https://scacap.github.io/spring-auto-restdocs/#paging)
+* Convenient [preprocessors](https://scacap.github.io/spring-auto-restdocs/#preprocessors)
 
 ## Usage
 

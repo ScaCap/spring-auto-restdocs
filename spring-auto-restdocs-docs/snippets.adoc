@@ -25,7 +25,8 @@ GET /items
 [[snippets-description]]
 === Description snippet
 
-link:{core-package}/misc/DescriptionSnippet.java[Description snippet] outputs the Controller's method's Javadoc. Currently only basic `<br>` and `<p>` tags are supported.
+link:{core-package}/misc/DescriptionSnippet.java[Description snippet] outputs the Controller's method's Javadoc.
+Currently only basic `br`, `p`, `ul` and `li` tags are supported.
 
 .Code
 [source,java]
@@ -33,9 +34,11 @@ link:{core-package}/misc/DescriptionSnippet.java[Description snippet] outputs th
 /**
  * Returns list of all items.
  * <p>
- * Use query parameters to filter the list by:<br>
- * - orderNumber<br>
- * - type
+ * Use query parameters to filter the list by:
+ * <ul>
+ *   <li>orderNumber</li>
+ *   <li>type</li>
+ * </ul>
  */
 @RequestMapping...
 public ItemResponse getItems() { ... }
@@ -173,7 +176,8 @@ static class ItemUpdateRequest {
 | description
 | String
 | true
-| Item description. +
+| Item description.
+
 Size must be between 0 and 20 inclusive.
 
 |===
@@ -217,7 +221,8 @@ static class ItemResponse {
 | orderNumber
 | Integer
 | true
-| Item's order number. +
+| Item's order number.
+
 Must be at least 1.
 
 |===

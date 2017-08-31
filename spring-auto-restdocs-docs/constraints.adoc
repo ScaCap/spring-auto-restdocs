@@ -7,6 +7,30 @@ Here we are going a step further and automatically use constraints
 and the constraint groups to derive whether a field is optional
 and to add the constraint descriptions to the field descriptions.
 
+.Example
+[source,java]
+----
+/**
+ * Username
+ */
+@NotNull
+@Size(min = 2, max = 50)
+private String username;
+----
+
+.Result
+|===
+|Parameter|Type|Optional|Description
+
+| username
+| String
+| false
+| Username.
+
+Size must be between 2 and 50.
+
+|===
+
 [[constraints-optionality]]
 === Constraint that determine optionality
 
