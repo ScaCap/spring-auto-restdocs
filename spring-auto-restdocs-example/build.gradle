@@ -46,7 +46,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.security.oauth:spring-security-oauth2"
     compile "org.springframework.data:spring-data-commons"
-    compile "javax.el:javax.el-api"
     compile "capital.scalable:spring-auto-restdocs-core:$version"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
