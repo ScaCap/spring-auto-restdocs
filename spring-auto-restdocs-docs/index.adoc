@@ -47,7 +47,7 @@ Is Jackson required for automatic field documentation?::
 Is a multi-module project setup supported?::
   The JSON doclet and the REST Docs snippets produce files.
   Therefore, all files should be placed on the filesystem.
-  JSON files files will be additionally looked up from classpath,
+  JSON files will be additionally looked up from classpath,
   so modularization of codebase is fully supported.
   For advanced customization, multiple source directories for the JSON files
   can be configured (see <<gettingstarted-usage,usage>>).

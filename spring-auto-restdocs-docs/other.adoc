@@ -18,9 +18,9 @@ See example project for link:{example-dir}/src/main/asciidoc/index.adoc#overview
 [[preprocessors]]
 === Preprocessors
 
-Preprocessors are available for use in order to improve the quality of endpoint examples.
+Preprocessors are available for use in order to improve quality of endpoint examples.
 
 - link:{core-package}/response/BinaryReplacementContentModifier.java[binary replacement]: replaces content with `<binary>` for common mime types
 - link:{core-package}/response/ArrayLimitingJsonContentModifier.java[limit json array length]: limits all arrays in json to 3 items
 
-For list of standard preprocessors see link:{restdocs-package}//operation/preprocess/Preprocessors.java[Preprocessors].
+For list of standard preprocessors see link:{restdocs-package}/operation/preprocess/Preprocessors.java[Preprocessors].
