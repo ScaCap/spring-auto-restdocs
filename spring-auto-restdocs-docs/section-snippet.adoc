@@ -1,5 +1,3 @@
-:core-dir: https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core
-:core-package: {core-dir}/src/main/java/capital/scalable/restdocs
 :restdocs-package: https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs
 
 [[snippets-section]]

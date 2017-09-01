@@ -127,6 +127,7 @@ The directories are processed in order and only the first found JSON file is use
 . Configure MockMvc
 +
 [source,java]
+.Test class
 ----
 @Autowired
 private WebApplicationContext context;
@@ -174,6 +175,8 @@ public void setUp() throws Exception {
 [[gettingstarted-sample]]
 === Sample application
 
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project] includes a sample application that demonstrates most features:
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project]
+includes a sample application that demonstrates most features.
 
-The generated documentation of the example project can be viewed https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
+The generated documentation of the example project can be viewed
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
