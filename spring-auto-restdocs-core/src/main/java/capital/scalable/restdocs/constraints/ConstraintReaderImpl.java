@@ -33,19 +33,36 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
+import org.springframework.util.ClassUtils;
 
 public class ConstraintReaderImpl implements ConstraintReader {
+
+    private static final boolean isValidationPresent =
+            ClassUtils.isPresent("javax.validation.Validator", ConstraintReaderImpl.class.getClassLoader());
+
     private ConstraintAndGroupDescriptionResolver constraintDescriptionResolver =
             new ConstraintAndGroupDescriptionResolver(
                     new ResourceBundleConstraintDescriptionResolver());
 
-    private final SkippableConstraintResolver skippableConstraintResolver =
-            new SkippableConstraintResolver(
-                    new MethodParameterValidatorConstraintResolver(),
-                    constraintDescriptionResolver);
+    private final SkippableConstraintResolver skippableConstraintResolver;
 
-    private MethodParameterConstraintResolver constraintResolver =
-            new HumanReadableConstraintResolver(skippableConstraintResolver);
+    private final MethodParameterConstraintResolver constraintResolver;
+
+    private ConstraintReaderImpl(MethodParameterConstraintResolver methodParameterConstraintResolver) {
+        skippableConstraintResolver = new SkippableConstraintResolver(
+                methodParameterConstraintResolver,
+                constraintDescriptionResolver);
+        constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
+    }
+
+    public static ConstraintReaderImpl create() {
+        if (isValidationPresent) {
+            return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver());
+        } else {
+            return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver());
+        }
+
+    }
 
     @Override
     public List<String> getOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {

@@ -38,7 +38,7 @@ import org.springframework.core.MethodParameter;
 
 public class ConstraintReaderImplTest {
 
-    private ConstraintReader reader = new ConstraintReaderImpl();
+    private ConstraintReader reader = ConstraintReaderImpl.create();
 
     @Test
     public void getConstraintMessages() {
