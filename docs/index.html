@@ -583,7 +583,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.8&lt;/version&gt;
+    &lt;version&gt;1.0.9&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
@@ -620,7 +620,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                            &lt;version&gt;1.0.8&lt;/version&gt;
+                            &lt;version&gt;1.0.9&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                         &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
@@ -665,8 +665,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.8' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.8'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.9' <i class="conum" data-value="1"></i><b>(1)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.9'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -1533,7 +1533,7 @@ private String field;</code></pre>
 <p>Paging support in an endpoint is automatically recognized if request handler method contains <code>Pageable</code> parameter
 and response is of type <code>Page</code>. This is then mentioned in request and response snippets by linking
 to common section explaining the details of supported paging parameters/fields.
-This section have to be created manally and must be tagged as <code>[[overview-pagination]]</code>.
+This section has to be created manally and must be tagged as <code>[[overview-pagination]]</code>.
 See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/src/main/asciidoc/index.adoc#overview-pagination">paging section</a> template.</p>
 </div>
 </div>
@@ -1548,12 +1548,12 @@ See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/BinaryReplacementContentModifier.java">binary replacement</a>: replaces content with <code>&lt;binary&gt;</code> for common mime types</p>
 </li>
 <li>
-<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/ArrayLimitingJsonContentModifier.java">limit json array length</a>: limits all arrays in json to 3 items</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/ArrayLimitingJsonContentModifier.java">limit JSON array length</a>: limits all JSON arrays to 3 items</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>For list of standard preprocessors see <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/operation/preprocess/Preprocessors.java">Preprocessors</a>.</p>
+<p>For a list of standard preprocessors see <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/operation/preprocess/Preprocessors.java">Preprocessors</a>.</p>
 </div>
 </div>
 </div>
@@ -1637,7 +1637,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-01 00:15:29 CEST
+Last updated 2017-09-12 10:17:24 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
