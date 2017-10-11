@@ -16,6 +16,9 @@
 
 package capital.scalable.restdocs.jackson;
 
+import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -26,9 +29,11 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.slf4j.Logger;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class FieldDocumentationGenerator {
+    private static final Logger log = getLogger(FieldDocumentationGenerator.class);
 
     private final ObjectWriter writer;
     private final DeserializationConfig deserializationConfig;
@@ -45,15 +50,20 @@ public class FieldDocumentationGenerator {
         this.constraintReader = constraintReader;
     }
 
-    public List<FieldDescriptor> generateDocumentation(Type type, TypeFactory typeFactory)
+    public List<FieldDescriptor> generateDocumentation(Type baseType, TypeFactory typeFactory)
             throws JsonMappingException {
-        return generateDocumentation(typeFactory.constructType(type));
-    }
+        JavaType javaBaseType = typeFactory.constructType(baseType);
+        List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory);
 
-    public List<FieldDescriptor> generateDocumentation(JavaType type) throws JsonMappingException {
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
-                javadocReader, constraintReader, deserializationConfig);
-        writer.acceptJsonFormatVisitor(type, visitorWrapper);
-        return visitorWrapper.getContext().getFields();
+                javadocReader, constraintReader, deserializationConfig,
+                new TypeRegistry(types), typeFactory);
+
+        for (JavaType type : types) {
+            log.debug("(TOP) {}", type.getRawClass().getSimpleName());
+            writer.acceptJsonFormatVisitor(type, visitorWrapper);
+        }
+
+        return visitorWrapper.getFields();
     }
 }

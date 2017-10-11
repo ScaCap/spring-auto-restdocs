@@ -47,6 +47,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,26 +57,23 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
 public class FieldDocumentationGeneratorTest {
 
+    private JavadocReader javadocReader = mock(JavadocReader.class);
+    private ConstraintReader constraintReader = mock(ConstraintReader.class);
+
     @Test
     public void testGenerateDocumentationForBasicTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "stringField"))
-                .thenReturn("A string");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "booleanField"))
-                .thenReturn("A boolean");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "numberField1"))
-                .thenReturn("An integer");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "numberField2"))
-                .thenReturn("A decimal");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(BasicTypes.class, "stringField", "A string");
+        mockFieldComment(BasicTypes.class, "booleanField", "A boolean");
+        mockFieldComment(BasicTypes.class, "numberField1", "An integer");
+        mockFieldComment(BasicTypes.class, "numberField2", "A decimal");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
@@ -82,35 +81,24 @@ public class FieldDocumentationGeneratorTest {
         Type type = BasicTypes.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.size(), is(4));
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("stringField", "String", "A string", "true")));
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("booleanField", "Boolean", "A boolean", "true")));
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", "true")));
-        assertThat(fieldDescriptions.get(3),
-                is(descriptor("numberField2", "Decimal", "A decimal", "true")));
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0), is(descriptor("stringField", "String", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "true")));
+        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "true")));
+        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "true")));
     }
 
     @Test
     public void testGenerateDocumentationForPrimitiveTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "stringField"))
-                .thenReturn("A string");
-        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "booleanField"))
-                .thenReturn("A boolean");
-        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "numberField1"))
-                .thenReturn("An integer");
-        when(javadocReader.resolveFieldComment(PrimitiveTypes.class, "numberField2"))
-                .thenReturn("A decimal");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(PrimitiveTypes.class, "stringField", "A string");
+        mockFieldComment(PrimitiveTypes.class, "booleanField", "A boolean");
+        mockFieldComment(PrimitiveTypes.class, "numberField1", "An integer");
+        mockFieldComment(PrimitiveTypes.class, "numberField2", "A decimal");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -118,18 +106,14 @@ public class FieldDocumentationGeneratorTest {
         Type type = PrimitiveTypes.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
-        assertThat(fieldDescriptions.size(), is(4));
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("stringField", "Array", "A string", "true")));
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("booleanField", "Boolean", "A boolean", "true")));
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", "true")));
-        assertThat(fieldDescriptions.get(3),
-                is(descriptor("numberField2", "Decimal", "A decimal", "true")));
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0), is(descriptor("stringField", "Array", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "true")));
+        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "true")));
+        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "true")));
 
         // when change deserialization config
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
@@ -137,39 +121,26 @@ public class FieldDocumentationGeneratorTest {
                 mapper.getDeserializationConfig(), javadocReader, constraintReader);
 
         // when
-        fieldDescriptions = cast(generator.generateDocumentation(type, mapper.getTypeFactory()));
+        result = cast(generator.generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(4));
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("stringField", "Array", "A string", "true"))); // array
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("booleanField", "Boolean", "A boolean", "false")));
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("numberField1", "Integer", "An integer", "false")));
-        assertThat(fieldDescriptions.get(3),
-                is(descriptor("numberField2", "Decimal", "A decimal", "false")));
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0), is(descriptor("stringField", "Array", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "false")));
+        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "false")));
+        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "false")));
     }
 
     @Test
     public void testGenerateDocumentationForComposedTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(ComposedTypes.class, "objectField"))
-                .thenReturn("An object");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "stringField"))
-                .thenReturn("A string");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "booleanField"))
-                .thenReturn("A boolean");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "numberField1"))
-                .thenReturn("An integer");
-        when(javadocReader.resolveFieldComment(BasicTypes.class, "numberField2"))
-                .thenReturn("A decimal");
-        when(javadocReader.resolveFieldComment(ComposedTypes.class, "arrayField"))
-                .thenReturn("An array");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(ComposedTypes.class, "objectField", "An object");
+        mockFieldComment(BasicTypes.class, "stringField", "A string");
+        mockFieldComment(BasicTypes.class, "booleanField", "A boolean");
+        mockFieldComment(BasicTypes.class, "numberField1", "An integer");
+        mockFieldComment(BasicTypes.class, "numberField2", "A decimal");
+        mockFieldComment(ComposedTypes.class, "arrayField", "An array");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -177,29 +148,30 @@ public class FieldDocumentationGeneratorTest {
         Type type = ComposedTypes.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
+
         // then
-        assertThat(fieldDescriptions.size(), is(10));
-        assertThat(fieldDescriptions.get(0),
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0),
                 is(descriptor("objectField", "Object", "An object", "true")));
-        assertThat(fieldDescriptions.get(1),
+        assertThat(result.get(1),
                 is(descriptor("objectField.stringField", "String", "A string", "true")));
-        assertThat(fieldDescriptions.get(2),
+        assertThat(result.get(2),
                 is(descriptor("objectField.booleanField", "Boolean", "A boolean", "true")));
-        assertThat(fieldDescriptions.get(3),
+        assertThat(result.get(3),
                 is(descriptor("objectField.numberField1", "Integer", "An integer", "true")));
-        assertThat(fieldDescriptions.get(4),
+        assertThat(result.get(4),
                 is(descriptor("objectField.numberField2", "Decimal", "A decimal", "true")));
-        assertThat(fieldDescriptions.get(5),
+        assertThat(result.get(5),
                 is(descriptor("arrayField", "Array", "An array", "true")));
-        assertThat(fieldDescriptions.get(6),
+        assertThat(result.get(6),
                 is(descriptor("arrayField[].stringField", "String", "A string", "true")));
-        assertThat(fieldDescriptions.get(7),
+        assertThat(result.get(7),
                 is(descriptor("arrayField[].booleanField", "Boolean", "A boolean", "true")));
-        assertThat(fieldDescriptions.get(8),
+        assertThat(result.get(8),
                 is(descriptor("arrayField[].numberField1", "Integer", "An integer", "true")));
-        assertThat(fieldDescriptions.get(9),
+        assertThat(result.get(9),
                 is(descriptor("arrayField[].numberField2", "Decimal", "A decimal", "true")));
     }
 
@@ -207,19 +179,11 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForNestedTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(FirstLevel.class, "second"))
-                .thenReturn("2nd level");
-        when(javadocReader.resolveFieldComment(SecondLevel.class, "third"))
-                .thenReturn("3rd level");
-        when(javadocReader.resolveFieldComment(ThirdLevel.class, "fourth"))
-                .thenReturn("4th level");
-        when(javadocReader.resolveFieldComment(FourthLevel.class, "fifth"))
-                .thenReturn("5th level");
-        when(javadocReader.resolveFieldComment(FifthLevel.class, "last"))
-                .thenReturn("An integer");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(FirstLevel.class, "second", "2nd level");
+        mockFieldComment(SecondLevel.class, "third", "3rd level");
+        mockFieldComment(ThirdLevel.class, "fourth", "4th level");
+        mockFieldComment(FourthLevel.class, "fifth", "5th level");
+        mockFieldComment(FifthLevel.class, "last", "An integer");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -227,20 +191,20 @@ public class FieldDocumentationGeneratorTest {
         Type type = FirstLevel.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(5));
-        assertThat(fieldDescriptions.get(0),
+        assertThat(result.size(), is(5));
+        assertThat(result.get(0),
                 is(descriptor("second", "Object", "2nd level", "true")));
-        assertThat(fieldDescriptions.get(1),
+        assertThat(result.get(1),
                 is(descriptor("second.third", "Array", "3rd level", "true")));
-        assertThat(fieldDescriptions.get(2),
+        assertThat(result.get(2),
                 is(descriptor("second.third[].fourth", "Object", "4th level", "true")));
-        assertThat(fieldDescriptions.get(3),
+        assertThat(result.get(3),
                 is(descriptor("second.third[].fourth.fifth", "Array", "5th level", "true")));
-        assertThat(fieldDescriptions.get(4),
+        assertThat(result.get(4),
                 is(descriptor("second.third[].fourth.fifth[].last", "Integer", "An integer",
                         "true")));
     }
@@ -249,44 +213,39 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForRecursiveTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
-
-        FieldDocumentationGenerator generator =
-                new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+        FieldDocumentationGenerator generator = new FieldDocumentationGenerator(mapper.writer(),
+                mapper.getDeserializationConfig(), javadocReader, constraintReader);
         Type type = RecursiveType.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(12));
-        assertThat(fieldDescriptions.get(0), is(descriptor("sub1", "Array", null, "true")));
-        assertThat(fieldDescriptions.get(1), is(descriptor("sub2", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(2), is(descriptor("sub3", "Array", null, "true")));
-        assertThat(fieldDescriptions.get(3), is(descriptor("sub4", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(4), is(descriptor("sub5", "Array", null, "true")));
-        assertThat(fieldDescriptions.get(5), is(descriptor("sub6", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(6), is(descriptor("sub7", "Array", null, "true")));
-        assertThat(fieldDescriptions.get(7), is(descriptor("sub7[].sub1", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(8), is(descriptor("sub7[].sub2", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(9), is(descriptor("sub8", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(10), is(descriptor("sub8.sub1", "Object", null, "true")));
-        assertThat(fieldDescriptions.get(11), is(descriptor("sub8.sub2", "Object", null, "true")));
+        assertThat(result.size(), is(16));
+        assertThat(result.get(0), is(descriptor("sub1", "Array", null, "true")));
+        assertThat(result.get(1), is(descriptor("sub2", "Object", null, "true")));
+        assertThat(result.get(2), is(descriptor("sub3", "Array", null, "true")));
+        assertThat(result.get(3), is(descriptor("sub4", "Object", null, "true")));
+        assertThat(result.get(4), is(descriptor("sub5", "Array", null, "true")));
+        assertThat(result.get(5), is(descriptor("sub6", "Object", null, "true")));
+        assertThat(result.get(6), is(descriptor("sub7", "Array", null, "true")));
+        assertThat(result.get(7), is(descriptor("sub7[].sub1", "Array", null, "true")));
+        assertThat(result.get(8), is(descriptor("sub7[].sub2", "Object", null, "true")));
+        assertThat(result.get(9), is(descriptor("sub7[].sub3", "Array", null, "true")));
+        assertThat(result.get(10), is(descriptor("sub7[].sub4", "Object", null, "true")));
+        assertThat(result.get(11), is(descriptor("sub8", "Object", null, "true")));
+        assertThat(result.get(12), is(descriptor("sub8.sub1", "Array", null, "true")));
+        assertThat(result.get(13), is(descriptor("sub8.sub2", "Object", null, "true")));
+        assertThat(result.get(14), is(descriptor("sub8.sub3", "Array", null, "true")));
+        assertThat(result.get(15), is(descriptor("sub8.sub4", "Object", null, "true")));
     }
 
     @Test
     public void testGenerateDocumentationForExternalSerializer() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(ExternalSerializer.class, "bigDecimal"))
-                .thenReturn("A decimal");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(ExternalSerializer.class, "bigDecimal", "A decimal");
 
         SimpleModule testModule = new SimpleModule("TestModule");
         testModule.addSerializer(new BigDecimalSerializer());
@@ -298,13 +257,12 @@ public class FieldDocumentationGeneratorTest {
         Type type = ExternalSerializer.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(1));
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("bigDecimal", "Decimal", "A decimal", "true")));
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), is(descriptor("bigDecimal", "Decimal", "A decimal", "true")));
     }
 
     @Test
@@ -312,17 +270,11 @@ public class FieldDocumentationGeneratorTest {
         // given
         ObjectMapper mapper = createMapper();
 
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveFieldComment(JsonAnnotations.class, "location"))
-                .thenReturn("A location");
-        when(javadocReader.resolveFieldComment(JsonAnnotations.class, "uri"))
-                .thenReturn("A uri");
+        mockFieldComment(JsonAnnotations.class, "location", "A location");
+        mockFieldComment(JsonAnnotations.class, "uri", "A uri");
         when(javadocReader.resolveMethodComment(JsonAnnotations.class, "getParameter"))
                 .thenReturn("A parameter");
-        when(javadocReader.resolveFieldComment(JsonAnnotations.Meta.class, "headers"))
-                .thenReturn("A header map");
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
+        mockFieldComment(JsonAnnotations.Meta.class, "headers", "A header map");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -330,23 +282,19 @@ public class FieldDocumentationGeneratorTest {
         Type type = JsonAnnotations.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(4));
+        assertThat(result.size(), is(4));
         // @JsonPropertyOrder puts it to first place
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("uri", "String", "A uri", "true")));
+        assertThat(result.get(0), is(descriptor("uri", "String", "A uri", "true")));
         // @JsonProperty
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("path", "String", "A location", "true")));
+        assertThat(result.get(1), is(descriptor("path", "String", "A location", "true")));
         // @JsonGetter
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("param", "String", "A parameter", "true")));
+        assertThat(result.get(2), is(descriptor("param", "String", "A parameter", "true")));
         // @JsonUnwrapped
-        assertThat(fieldDescriptions.get(3),
-                is(descriptor("headers", "Map", "A header map", "true")));
+        assertThat(result.get(3), is(descriptor("headers", "Map", "A header map", "true")));
     }
 
     @Test
@@ -357,20 +305,14 @@ public class FieldDocumentationGeneratorTest {
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.PUBLIC_ONLY));
 
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
-
-        JavadocReader javadocReader = mock(JavadocReader.class);
         // comment on field directly
-        when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "location"))
-                .thenReturn("A location");
+        mockFieldComment(FieldCommentResolution.class, "location", "A location");
         // comment on getter instead of field
         when(javadocReader.resolveMethodComment(FieldCommentResolution.class, "getType"))
                 .thenReturn("A type");
         // comment on field instead of getter
-        when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "uri"))
-                .thenReturn("A uri");
-        when(javadocReader.resolveFieldComment(FieldCommentResolution.class, "secured"))
-                .thenReturn("A secured flag");
+        mockFieldComment(FieldCommentResolution.class, "uri", "A uri");
+        mockFieldComment(FieldCommentResolution.class, "secured", "A secured flag");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -378,22 +320,18 @@ public class FieldDocumentationGeneratorTest {
         Type type = FieldCommentResolution.class;
 
         // when
-        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+        List<ExtendedFieldDescriptor> result = cast(generator
                 .generateDocumentation(type, mapper.getTypeFactory()));
 
         // then
-        assertThat(fieldDescriptions.size(), is(4));
+        assertThat(result.size(), is(4));
         // field comment
-        assertThat(fieldDescriptions.get(0),
-                is(descriptor("location", "String", "A location", "true")));
+        assertThat(result.get(0), is(descriptor("location", "String", "A location", "true")));
         // getter comment
-        assertThat(fieldDescriptions.get(1),
-                is(descriptor("type", "String", "A type", "true")));
+        assertThat(result.get(1), is(descriptor("type", "String", "A type", "true")));
         // field comment
-        assertThat(fieldDescriptions.get(2),
-                is(descriptor("uri", "String", "A uri", "true")));
-        assertThat(fieldDescriptions.get(3),
-                is(descriptor("secured", "Boolean", "A secured flag", "true")));
+        assertThat(result.get(2), is(descriptor("uri", "String", "A uri", "true")));
+        assertThat(result.get(3), is(descriptor("secured", "Boolean", "A secured flag", "true")));
     }
 
     @Test
@@ -401,22 +339,13 @@ public class FieldDocumentationGeneratorTest {
         // given
         ObjectMapper mapper = createMapper();
 
-        JavadocReader javadocReader = mock(JavadocReader.class);
-
-        ConstraintReader constraintReader = mock(ConstraintReader.class);
-        when(constraintReader.getConstraintMessages(ConstraintResolution.class, "location"))
-                .thenReturn(singletonList("A constraint for location"));
-        when(constraintReader.getConstraintMessages(ConstraintResolution.class, "type"))
-                .thenReturn(singletonList("A constraint for type"));
-        when(constraintReader.getOptionalMessages(ConstraintResolution.class, "type"))
-                .thenReturn(singletonList("false"));
-        when(constraintReader.getOptionalMessages(ConstraintResolution.class, "params"))
-                .thenReturn(singletonList("false"));
-        when(constraintReader.getConstraintMessages(ConstraintField.class, "value"))
-                .thenReturn(asList(
-                        "A constraint1 for value", "A constraint2 for value"));
-        when(constraintReader.getOptionalMessages(ConstraintField.class, "value"))
-                .thenReturn(singletonList("false"));
+        mockConstraint(ConstraintResolution.class, "location", "A constraint for location");
+        mockConstraint(ConstraintResolution.class, "type", "A constraint for type");
+        mockOptional(ConstraintResolution.class, "type", "false");
+        mockOptional(ConstraintResolution.class, "params", "false");
+        mockConstraint(ConstraintField.class, "value", "A constraint1 for value",
+                "A constraint2 for value");
+        mockOptional(ConstraintField.class, "value", "false");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -440,6 +369,80 @@ public class FieldDocumentationGeneratorTest {
                         "A constraint1 for value", "A constraint2 for value")));
         assertThat(fieldDescriptions.get(4),
                 is(descriptor("flags", "Array", null, "true")));
+    }
+
+    @Test
+    public void testGenerateDocumentationForJacksonSubTypes() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+
+        mockFieldComment(JsonType1.class, "name", "A name");
+        mockFieldComment(JsonType1.class, "type", "A type");
+        mockFieldComment(JsonType1.class, "base1", "A base 1");
+        mockFieldComment(JsonType1.class, "base2", "A base 2");
+        mockFieldComment(JsonType1.class, "base3", "A base 3");
+        mockFieldComment(JsonType1.class, "base4", "A base 4");
+        mockFieldComment(JsonType1SubType1.class, "base1Sub1", "A base 1 sub 1");
+        mockFieldComment(JsonType1SubType2.class, "base1Sub2", "A base 1 sub 2");
+        mockFieldComment(JsonType2.class, "clazz", "A clazz");
+        mockFieldComment(JsonType2SubType1.class, "base2Sub1", "A base 2 sub 1");
+        mockFieldComment(JsonType2SubType2.class, "base2Sub2", "A base 2 sub 2");
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+        Type type = JsonType1.class;
+
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+
+        // then
+        assertThat(fieldDescriptions.size(), is(14));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("type", "String", "A type", "true")));
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("name", "String", "A name", "true")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("base1", "Array", "A base 1", "true")));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("base2", "Object", "A base 2", "true")));
+        assertThat(fieldDescriptions.get(4),
+                is(descriptor("base3", "Array", "A base 3", "true")));
+        assertThat(fieldDescriptions.get(5),
+                is(descriptor("base3[].clazz", "String", "A clazz", "true")));
+        assertThat(fieldDescriptions.get(6),
+                is(descriptor("base3[].base2Sub1", "String", "A base 2 sub 1", "true")));
+        assertThat(fieldDescriptions.get(7),
+                is(descriptor("base3[].base2Sub2", "String", "A base 2 sub 2", "true")));
+        assertThat(fieldDescriptions.get(8),
+                is(descriptor("base4", "Object", "A base 4", "true")));
+        assertThat(fieldDescriptions.get(9),
+                is(descriptor("base4.clazz", "String", "A clazz", "true")));
+        assertThat(fieldDescriptions.get(10),
+                is(descriptor("base4.base2Sub1", "String", "A base 2 sub 1", "true")));
+        assertThat(fieldDescriptions.get(11),
+                is(descriptor("base4.base2Sub2", "String", "A base 2 sub 2", "true")));
+        assertThat(fieldDescriptions.get(12),
+                is(descriptor("base1Sub1", "String", "A base 1 sub 1", "true")));
+        assertThat(fieldDescriptions.get(13),
+                is(descriptor("base1Sub2", "String", "A base 1 sub 2", "true")));
+    }
+
+    private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
+            String value) {
+        return when(constraintReader.getOptionalMessages(javaBaseClass, fieldName))
+                .thenReturn(singletonList(value));
+    }
+
+    private void mockConstraint(Class<?> javaBaseClass, String fieldName, String... values) {
+        when(constraintReader.getConstraintMessages(javaBaseClass, fieldName))
+                .thenReturn(asList(values));
+    }
+
+    private void mockFieldComment(Class<?> javaBaseClass, String fieldName, String value) {
+        when(javadocReader.resolveFieldComment(javaBaseClass, fieldName))
+                .thenReturn(value);
     }
 
     private ObjectMapper createMapper() {
@@ -596,13 +599,65 @@ public class FieldDocumentationGeneratorTest {
         // implicitly prevented recursion
         private List<RecursiveType> sub5;
         private RecursiveType sub6;
-
+        // unexplored type
         private List<RecursiveType2> sub7;
         private RecursiveType2 sub8;
     }
 
     private static class RecursiveType2 {
-        private RecursiveType sub1;
-        private RecursiveType2 sub2;
+        // implicitly prevented recursion
+        private List<RecursiveType> sub1;
+        private RecursiveType sub2;
+        private List<RecursiveType2> sub3;
+        private RecursiveType2 sub4;
+    }
+
+    @JsonTypeInfo(
+            use = JsonTypeInfo.Id.NAME,
+            include = JsonTypeInfo.As.PROPERTY,
+            property = "type",
+            visible = true
+    )
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = JsonType1SubType1.class, name = "SUB1"),
+            @JsonSubTypes.Type(value = JsonType1SubType2.class, name = "SUB2"),
+    })
+    private static abstract class JsonType1 {
+        private String type;
+        private String name;
+        private List<JsonType1> base1;
+        private JsonType1 base2;
+        private List<JsonType2> base3;
+        private JsonType2 base4;
+    }
+
+    private static class JsonType1SubType1 extends JsonType1 {
+        private String base1Sub1;
+    }
+
+    private static class JsonType1SubType2 extends JsonType1 {
+        private String base1Sub2;
+    }
+
+    @JsonTypeInfo(
+            use = JsonTypeInfo.Id.NAME,
+            include = JsonTypeInfo.As.PROPERTY,
+            property = "clazz",
+            visible = true
+    )
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = JsonType2SubType1.class, name = "x"),
+            @JsonSubTypes.Type(value = JsonType2SubType2.class, name = "y"),
+    })
+    private static abstract class JsonType2 {
+        private String clazz;
+    }
+
+    private static class JsonType2SubType1 extends JsonType2 {
+        private String base2Sub1;
+    }
+
+    private static class JsonType2SubType2 extends JsonType2 {
+        private String base2Sub2;
     }
 }

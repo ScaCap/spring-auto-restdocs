@@ -71,6 +71,8 @@ public class ItemResource {
 
     /**
      * Returns item by ID.
+     * <p>
+     * An example of returning a custom response type.
      *
      * @param id ID of the item.
      * @return response
@@ -86,6 +88,8 @@ public class ItemResource {
 
     /**
      * Lists all items.
+     * <p>
+     * An example of retuning an array/collection.
      *
      * @return list of all items
      */
@@ -96,6 +100,8 @@ public class ItemResource {
 
     /**
      * Adds new item.
+     * <p>
+     * An example of accepting a custom type as request body and returning a {@link ResponseEntity}.
      *
      * @param itemUpdate Item information
      * @return response
@@ -116,6 +122,8 @@ public class ItemResource {
 
     /**
      * Updates existing item.
+     * <p>
+     * An example of returning an {@link HttpEntity}.
      *
      * @param id         Item ID.
      * @param itemUpdate Item information.
@@ -134,6 +142,8 @@ public class ItemResource {
      * Item must exist.
      * <p>
      * Non existing items are ignored
+     * <p>
+     * An example of using path variables.
      *
      * @param id Item ID
      */
@@ -144,6 +154,8 @@ public class ItemResource {
 
     /**
      * Retrieves a child of specified item.
+     * <p>
+     * An example of using parameter validation.
      *
      * @param id      Item ID.
      * @param childId Child ID.
@@ -163,6 +175,8 @@ public class ItemResource {
 
     /**
      * Searches for item based on lookup parameters.
+     * <p>
+     * An example of using Pageable and Page.
      *
      * @param descMatch Lookup on description field.
      * @param hint      Lookup hint.
@@ -182,6 +196,8 @@ public class ItemResource {
 
     /**
      * Executes a command on all items.
+     * <p>
+     * An example of having String as request and response body.
      */
     @RequestMapping(value = "process", method = POST)
     public String processAllItems(@RequestBody String command) {
@@ -201,6 +217,7 @@ public class ItemResource {
      * <li>setting the type manually can help to get the right documentation
      * if the automatic document does not produce the right result.</li>
      * </ul>
+     * An example of using ModelAttribute.
      *
      * @param itemId Item ID.
      * @title Process One Item
@@ -210,6 +227,15 @@ public class ItemResource {
             @ModelAttribute Command command) {
         return new CommandResult(
                 String.format("Command executed on item %s: %s", itemId, command.getCommand()));
+    }
+
+    /**
+     * An example of accepting subtypes.
+     *
+     * @param itemId
+     */
+    @RequestMapping(value = "{itemId}/validate", method = POST)
+    public void validateItem(@PathVariable String itemId) {
     }
 
     @Data

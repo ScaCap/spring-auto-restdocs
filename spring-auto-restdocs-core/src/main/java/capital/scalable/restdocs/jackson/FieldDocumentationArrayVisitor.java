@@ -16,27 +16,29 @@
 
 package capital.scalable.restdocs.jackson;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitable;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatVisitorWrapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
-public class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base {
+class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base {
 
     private final FieldDocumentationVisitorContext context;
     private final String path;
-    private final Set<JavaType> visited;
+    private final TypeRegistry typeRegistry;
+    private final TypeFactory typeFactory;
 
     public FieldDocumentationArrayVisitor(SerializerProvider provider,
-            FieldDocumentationVisitorContext context, String path, Set<JavaType> visited) {
+            FieldDocumentationVisitorContext context, String path, TypeRegistry typeRegistry,
+            TypeFactory typeFactory) {
         super(provider);
         this.context = context;
         this.path = path;
-        this.visited = visited;
+        this.typeRegistry = typeRegistry;
+        this.typeFactory = typeFactory;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base 
             throws JsonMappingException {
         String elementPath = path + "[]";
         JsonFormatVisitorWrapper visitor = new FieldDocumentationVisitorWrapper(getProvider(),
-                context, elementPath, null, visited);
+                context, elementPath, null, typeRegistry, typeFactory);
         handler.acceptJsonFormatVisitor(visitor, elementType);
     }
 }
