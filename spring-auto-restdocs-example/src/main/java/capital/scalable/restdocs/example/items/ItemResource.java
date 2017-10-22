@@ -33,6 +33,7 @@ import java.util.Collections;
 import capital.scalable.restdocs.example.constraints.Id;
 import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
+import capital.scalable.restdocs.example.items.ItemResponse.Metadata1;
 import lombok.Data;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
@@ -65,7 +66,7 @@ public class ItemResource {
             new ItemResponse("child-1", "first child", null, null, null);
 
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", new Metadata("meta1", 22),
+            new ItemResponse("1", "main item", new Metadata1("1", "meta1"),
                     new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE),
                     singletonList(CHILD));
 
@@ -230,12 +231,12 @@ public class ItemResource {
     }
 
     /**
+     * Validates metadata.
+     * <p>
      * An example of accepting subtypes.
-     *
-     * @param itemId
      */
-    @RequestMapping(value = "{itemId}/validate", method = POST)
-    public void validateItem(@PathVariable String itemId) {
+    @RequestMapping(value = "validateMetadata", method = POST)
+    public void validateMetadata(@RequestBody Metadata metadata) {
     }
 
     @Data

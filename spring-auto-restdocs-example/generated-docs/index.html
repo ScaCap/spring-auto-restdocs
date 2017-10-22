@@ -447,6 +447,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
 <li><a href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></li>
 <li><a href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></li>
+    <li><a href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></li>
 </ul>
 </li>
 </ul>
@@ -696,16 +697,28 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -787,12 +800,14 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 378
+Content-Length: 412
 
 {
   "id" : "1",
-  "custom1" : "meta1",
-  "custom2" : 22,
+  "meta" : {
+    "type" : "1",
+    "tag" : "meta1"
+  },
   "attributes" : {
     "text" : "first item",
     "number" : 1,
@@ -803,6 +818,7 @@ Content-Length: 378
   },
   "children" : [ {
     "id" : "child-1",
+    "meta" : null,
     "attributes" : null,
     "children" : null,
     "description" : "first child"
@@ -861,16 +877,28 @@ Content-Length: 378
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[].custom2</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.type</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
@@ -955,12 +983,14 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 483
+Content-Length: 534
 
 [ {
   "id" : "1",
-  "custom1" : "meta1",
-  "custom2" : 22,
+  "meta" : {
+    "type" : "1",
+    "tag" : "meta1"
+  },
   "attributes" : {
     "text" : "first item",
     "number" : 1,
@@ -971,6 +1001,7 @@ Content-Length: 483
   },
   "children" : [ {
     "id" : "child-1",
+    "meta" : null,
     "attributes" : null,
     "children" : null,
     "description" : "first child"
@@ -978,6 +1009,7 @@ Content-Length: 483
   "description" : "main item"
 }, {
   "id" : "child-1",
+  "meta" : null,
   "attributes" : null,
   "children" : null,
   "description" : "first child"
@@ -994,9 +1026,9 @@ Content-Length: 483
 <div class="paragraph">
 <p>Adds new item.</p>
 </div>
-  <div class="paragraph">
-    <p>An example of accepting a custom type as request body and returning a {@link ResponseEntity}.</p>
-  </div>
+    <div class="paragraph">
+        <p>An example of accepting a custom type as request body and returning a {@link ResponseEntity}.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1067,7 +1099,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 566640dd-20e6-4443-9191-9ec463950504' \
+    -H 'Authorization: Bearer df52212c-7605-489c-a1db-75ca76149155' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1096,9 +1128,9 @@ Location: /items/2</code></pre>
 <div class="paragraph">
 <p>Updates existing item.</p>
 </div>
-  <div class="paragraph">
-    <p>An example of returning an {@link HttpEntity}.</p>
-  </div>
+    <div class="paragraph">
+        <p>An example of returning an {@link HttpEntity}.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1204,16 +1236,28 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1284,7 +1328,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 566640dd-20e6-4443-9191-9ec463950504' \
+    -H 'Authorization: Bearer df52212c-7605-489c-a1db-75ca76149155' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1301,10 +1345,11 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 90
+Content-Length: 107
 
 {
   "id" : "1",
+  "meta" : null,
   "attributes" : null,
   "children" : null,
   "description" : "Hot News"
@@ -1325,9 +1370,9 @@ Item must exist.</p>
 <div class="paragraph">
 <p>Non existing items are ignored</p>
 </div>
-  <div class="paragraph">
-    <p>An example of using path variables.</p>
-  </div>
+    <div class="paragraph">
+        <p>An example of using path variables.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1385,7 +1430,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 566640dd-20e6-4443-9191-9ec463950504'</code></pre>
+    -H 'Authorization: Bearer df52212c-7605-489c-a1db-75ca76149155'</code></pre>
 </div>
 </div>
 </div>
@@ -1412,6 +1457,9 @@ X-Frame-Options: DENY</code></pre>
 <div class="paragraph">
 <p>Retrieves a child of specified item.</p>
 </div>
+    <div class="paragraph">
+        <p>An example of using parameter validation.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1491,16 +1539,28 @@ EN: Must be at least 1.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1585,10 +1645,11 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 99
+Content-Length: 116
 
 {
   "id" : "child-1",
+  "meta" : null,
   "attributes" : null,
   "children" : null,
   "description" : "first child"
@@ -1605,6 +1666,9 @@ Content-Length: 99
 <div class="paragraph">
 <p>Searches for item based on lookup parameters.</p>
 </div>
+    <div class="paragraph">
+        <p>An example of using Pageable and Page.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1690,16 +1754,28 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 1.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom2</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+</tr>
+<tr>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom meta attribute 2.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1784,13 +1860,15 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 739
+Content-Length: 779
 
 {
   "content" : [ {
     "id" : "1",
-    "custom1" : "meta1",
-    "custom2" : 22,
+    "meta" : {
+      "type" : "1",
+      "tag" : "meta1"
+    },
     "attributes" : {
       "text" : "first item",
       "number" : 1,
@@ -1801,6 +1879,7 @@ Content-Length: 739
     },
     "children" : [ {
       "id" : "child-1",
+      "meta" : null,
       "attributes" : null,
       "children" : null,
       "description" : "first child"
@@ -1816,9 +1895,9 @@ Content-Length: 739
     "pageSize" : 20
   },
   "total" : 1,
+  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
-  "last" : true,
   "size" : 20,
   "number" : 0,
   "sort" : null,
@@ -1837,6 +1916,9 @@ Content-Length: 739
 <div class="paragraph">
 <p>Executes a command on all items.</p>
 </div>
+    <div class="paragraph">
+        <p>An example of having String as request and response body.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1962,6 +2044,9 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </li>
 </ul>
 </div>
+    <div class="paragraph">
+        <p>An example of using ModelAttribute.</p>
+    </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
 <div class="paragraph">
@@ -2082,6 +2167,107 @@ Content-Length: 55
 {
   "output" : "Command executed on item 1: increase"
 }</code></pre>
+</div>
+</div>
+</div>
+</div>
+    <div class="sect2">
+        <h3 id="resources-item-resource-test-validate-metadata"><a class="anchor" href="#resources-item-resource-test-validate-metadata"></a><a class="link"
+                                                                                                                                                href="#resources-item-resource-test-validate-metadata">2.10.
+            Validate Metadata</a></h3>
+        <div class="paragraph">
+            <p><code>POST /items/validateMetadata</code></p>
+        </div>
+        <div class="paragraph">
+            <p>Validates metadata.</p>
+        </div>
+        <div class="paragraph">
+            <p>An example of accepting subtypes.</p>
+        </div>
+        <div class="sect3">
+            <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
+            <div class="paragraph">
+                <p>OAuth2: Resource is public.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_path_parameters_9"><a class="anchor" href="#_path_parameters_9"></a><a class="link" href="#_path_parameters_9">2.10.2. Path parameters</a></h4>
+            <div class="paragraph">
+                <p>No parameters.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_query_parameters_8"><a class="anchor" href="#_query_parameters_8"></a><a class="link" href="#_query_parameters_8">2.10.3. Query parameters</a></h4>
+            <div class="paragraph">
+                <p>No parameters.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_request_fields_10"><a class="anchor" href="#_request_fields_10"></a><a class="link" href="#_request_fields_10">2.10.4. Request fields</a></h4>
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                    <col style="width: 25%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Path</th>
+                    <th class="tableblock halign-left valign-top">Type</th>
+                    <th class="tableblock halign-left valign-top">Optional</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Determines the type of metadata.</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">tag</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">order</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sect3">
+            <h4 id="_response_fields_10"><a class="anchor" href="#_response_fields_10"></a><a class="link" href="#_response_fields_10">2.10.5. Response fields</a></h4>
+            <div class="paragraph">
+                <p>No response body.</p>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.6. Example request</a></h4>
+            <div class="listingblock">
+                <div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/validateMetadata' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{ "type": "1", "tag": "myItem" }'</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="sect3">
+            <h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.7. Example response</a></h4>
+            <div class="listingblock">
+                <div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>

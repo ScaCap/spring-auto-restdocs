@@ -45,11 +45,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
-
         Collection<FieldDescriptor> fieldDescriptors = emptyList();
-        if (handlerMethod != null) {
             fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
-        }
 
         String forcedLineBreak = determineForcedLineBreak(operation);
 
