@@ -17,6 +17,8 @@
 package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
+import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
+        .CONSTRAINT_CLASS;
 import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -33,35 +35,33 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
-import org.springframework.util.ClassUtils;
 
 public class ConstraintReaderImpl implements ConstraintReader {
 
-    private static final boolean isValidationPresent =
-            ClassUtils.isPresent("javax.validation.Validator", ConstraintReaderImpl.class.getClassLoader());
-
-    private ConstraintAndGroupDescriptionResolver constraintDescriptionResolver =
-            new ConstraintAndGroupDescriptionResolver(
-                    new ResourceBundleConstraintDescriptionResolver());
+    private final ConstraintAndGroupDescriptionResolver constraintDescriptionResolver;
 
     private final SkippableConstraintResolver skippableConstraintResolver;
 
     private final MethodParameterConstraintResolver constraintResolver;
 
-    private ConstraintReaderImpl(MethodParameterConstraintResolver methodParameterConstraintResolver) {
+    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver) {
+        constraintDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
+                new ResourceBundleConstraintDescriptionResolver());
         skippableConstraintResolver = new SkippableConstraintResolver(
-                methodParameterConstraintResolver,
-                constraintDescriptionResolver);
+                actualResolver, constraintDescriptionResolver);
         constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
     }
 
     public static ConstraintReaderImpl create() {
-        if (isValidationPresent) {
-            return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver());
-        } else {
-            return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver());
-        }
+        return CONSTRAINT_CLASS != null ? createWithValidation() : createWithoutValidation();
+    }
 
+    static ConstraintReaderImpl createWithoutValidation() {
+        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver());
+    }
+
+    static ConstraintReaderImpl createWithValidation() {
+        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver());
     }
 
     @Override

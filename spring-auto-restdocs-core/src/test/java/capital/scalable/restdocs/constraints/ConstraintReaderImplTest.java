@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.constraints;
 
+import static capital.scalable.restdocs.constraints.ConstraintReaderImpl.createWithValidation;
+import static capital.scalable.restdocs.constraints.ConstraintReaderImpl.createWithoutValidation;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -38,10 +40,10 @@ import org.springframework.core.MethodParameter;
 
 public class ConstraintReaderImplTest {
 
-    private ConstraintReader reader = ConstraintReaderImpl.create();
-
     @Test
     public void getConstraintMessages() {
+        ConstraintReader reader = createWithValidation();
+
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
 
@@ -92,6 +94,8 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getOptionalMessages() {
+        ConstraintReader reader = createWithValidation();
+
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("false"));
@@ -136,6 +140,8 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getParameterConstraintMessages() throws NoSuchMethodException {
+        ConstraintReader reader = createWithValidation();
+
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
@@ -146,6 +152,25 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(new MethodParameter(method, 1));
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [all, single]"));
+    }
+
+    @Test
+    public void getConstraintMessages_validationNotPresent() {
+        ConstraintReaderImpl reader = createWithoutValidation();
+        assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
+    }
+
+    @Test
+    public void getOptionalMessages_validationNotPresent() {
+        ConstraintReaderImpl reader = createWithoutValidation();
+        assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
+    }
+
+    @Test
+    public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
+        ConstraintReaderImpl reader = createWithoutValidation();
+        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class);
+        assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
     static class Constraintz {

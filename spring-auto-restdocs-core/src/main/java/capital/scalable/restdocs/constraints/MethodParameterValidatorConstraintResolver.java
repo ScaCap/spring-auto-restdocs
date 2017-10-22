@@ -19,6 +19,7 @@ package capital.scalable.restdocs.constraints;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +27,31 @@ import java.util.Map;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ValidatorConstraintResolver;
+import org.springframework.util.ClassUtils;
 
 public class MethodParameterValidatorConstraintResolver extends ValidatorConstraintResolver
         implements MethodParameterConstraintResolver {
+
+    static Class<Annotation> CONSTRAINT_CLASS;
+
+    static {
+        try {
+            CONSTRAINT_CLASS = (Class<Annotation>) ClassUtils.forName("javax.validation.Constraint",
+                    MethodParameterValidatorConstraintResolver.class.getClassLoader());
+        } catch (ClassNotFoundException e) {
+        }
+    }
+
     @Override
     public List<Constraint> resolveForParameter(MethodParameter param) {
+        if (CONSTRAINT_CLASS == null) {
+            return Collections.emptyList();
+        }
+
         List<Constraint> constraints = new ArrayList<>();
         for (Annotation annot : param.getParameterAnnotations()) {
             Class<? extends Annotation> type = annot.annotationType();
-            if (type.getAnnotation(javax.validation.Constraint.class) != null) {
+            if (type.getAnnotation(CONSTRAINT_CLASS) != null) {
                 Constraint constraint = createConstraint(annot, type);
                 constraints.add(constraint);
             }
