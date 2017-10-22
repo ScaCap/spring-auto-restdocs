@@ -46,16 +46,18 @@ Is Jackson required for automatic field documentation?::
   Yes, this project only includes a Jackson visitor so far.
 Is a multi-module project setup supported?::
   The JSON doclet and the REST Docs snippets produce files.
-  Therefore, all results can be copied across modules or projects.
-  Instead of copying, multiple source directories for
-  the JSON files can be configured with the `javadocJsonDir` property.
-  Directories are separated by `,` and are processed in order
-  and only the first found JSON file is used.
+  Therefore, all files should be placed on the filesystem.
+  JSON files will be additionally looked up from classpath,
+  so modularization of codebase is fully supported.
+  For advanced customization, multiple source directories for the JSON files
+  can be configured (see <<gettingstarted-usage,usage>>).
 
 include::getting-started.adoc[]
 
 include::snippets.adoc[]
 
 include::constraints.adoc[]
+
+include::other.adoc[]
 
 include::contributing.adoc[]
