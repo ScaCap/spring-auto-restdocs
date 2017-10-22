@@ -460,12 +460,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#constraints-groups">Constraint groups</a></li>
 </ul>
 </li>
-    <li><a href="#other">Other</a>
-        <ul class="sectlevel2">
-            <li><a href="#paging">Paging support</a></li>
-            <li><a href="#preprocessors">Preprocessors</a></li>
-        </ul>
-    </li>
+<li><a href="#other">Other</a>
+<ul class="sectlevel2">
+<li><a href="#paging">Paging support</a></li>
+<li><a href="#preprocessors">Preprocessors</a></li>
+</ul>
+</li>
 <li><a href="#contributing">Contributing</a>
 <ul class="sectlevel2">
 <li><a href="#contributing-building">Building from source</a></li>
@@ -536,11 +536,11 @@ you write even less.</p>
 <li>
 <p><em>Is a multi-module project setup supported?</em></p>
 <p>The JSON doclet and the REST Docs snippets produce files.
-    Therefore, all files should be placed on the filesystem.
-    JSON files will be additionally looked up from classpath,
-    so modularization of codebase is fully supported.
-    For advanced customization, multiple source directories for the JSON files
-    can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
+Therefore, all files should be placed on the filesystem.
+JSON files will be additionally looked up from classpath,
+so modularization of codebase is fully supported.
+For advanced customization, multiple source directories for the JSON files
+can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 </li>
 </ol>
 </div>
@@ -713,7 +713,7 @@ The directories are processed in order and only the first found JSON file is use
 <li>
 <p>Configure MockMvc</p>
 <div class="listingblock">
-    <div class="title">Test class</div>
+<div class="title">Test class</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">@Autowired
 private WebApplicationContext context;
@@ -765,12 +765,12 @@ public void setUp() throws Exception {
 <div class="sect2">
 <h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample application</a></h3>
 <div class="paragraph">
-    <p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a>
-        includes a sample application that demonstrates most features.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a>
+includes a sample application that demonstrates most features.</p>
 </div>
 <div class="paragraph">
-    <p>The generated documentation of the example project can be viewed
-        <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
+<p>The generated documentation of the example project can be viewed
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
 </div>
 </div>
 </div>
@@ -801,9 +801,8 @@ public ItemResponse getItems() { ... }</code></pre>
 <div class="sect2">
 <h3 id="snippets-description"><a class="link" href="#snippets-description">Description snippet</a></h3>
 <div class="paragraph">
-    <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/DescriptionSnippet.java">Description snippet</a>
-        outputs the Controller&#8217;s method&#8217;s Javadoc.
-        Currently only basic <code>br</code>, <code>p</code>, <code>ul</code> and <code>li</code> tags are supported.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/misc/DescriptionSnippet.java">Description snippet</a> outputs the Controller&#8217;s method&#8217;s Javadoc.
+Currently only basic <code>br</code>, <code>p</code>, <code>ul</code> and <code>li</code> tags are supported.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
@@ -1002,9 +1001,8 @@ static class ItemUpdateRequest {
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Item description.
-    </p>
-        <p class="tableblock">Size must be between 0 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item description.
+</p><p class="tableblock">Size must be between 0 and 20 inclusive.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1063,9 +1061,8 @@ static class ItemResponse {
 <td class="tableblock halign-left valign-top"><p class="tableblock">orderNumber</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-    <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s order number.
-    </p>
-        <p class="tableblock">Must be at least 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s order number.
+</p><p class="tableblock">Must be at least 1.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1326,44 +1323,43 @@ Here we are going a step further and automatically use constraints
 and the constraint groups to derive whether a field is optional
 and to add the constraint descriptions to the field descriptions.</p>
 </div>
-    <div class="listingblock">
-        <div class="title">Example</div>
-        <div class="content">
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * Username
  */
 @NotNull
 @Size(min = 2, max = 50)
 private String username;</code></pre>
-        </div>
-    </div>
-    <table class="tableblock frame-all grid-all spread">
-        <caption class="title">Result</caption>
-        <colgroup>
-            <col style="width: 25%;">
-            <col style="width: 25%;">
-            <col style="width: 25%;">
-            <col style="width: 25%;">
-        </colgroup>
-        <thead>
-        <tr>
-            <th class="tableblock halign-left valign-top">Parameter</th>
-            <th class="tableblock halign-left valign-top">Type</th>
-            <th class="tableblock halign-left valign-top">Optional</th>
-            <th class="tableblock halign-left valign-top">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="tableblock halign-left valign-top"><p class="tableblock">username</p></td>
-            <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-            <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-            <td class="tableblock halign-left valign-top"><p class="tableblock">Username.
-            </p>
-                <p class="tableblock">Size must be between 2 and 50.</p></td>
-        </tr>
-        </tbody>
-    </table>
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Result</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Username.
+</p><p class="tableblock">Size must be between 2 and 50.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect2">
 <h3 id="constraints-optionality"><a class="link" href="#constraints-optionality">Constraint that determine optionality</a></h3>
 <div class="paragraph">
@@ -1529,47 +1525,40 @@ private String field;</code></pre>
 </div>
 </div>
 <div class="sect1">
-    <h2 id="other"><a class="link" href="#other">Other</a></h2>
-    <div class="sectionbody">
-        <div class="sect2">
-            <h3 id="paging"><a class="link" href="#paging">Paging support</a></h3>
-            <div class="paragraph">
-                <p>Paging support in an endpoint is automatically recognized if request handler method contains <code>Pageable</code> parameter
-                    and response is of type <code>Page</code>. This is then mentioned in request and response snippets by linking
-                    to common section explaining the details of supported paging parameters/fields.
-                    This section has to be created manally and must be tagged as <code>[[overview-pagination]]</code>.
-                    See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/src/main/asciidoc/index.adoc#overview-pagination">paging
-                        section</a> template.</p>
-            </div>
-        </div>
-        <div class="sect2">
-            <h3 id="preprocessors"><a class="link" href="#preprocessors">Preprocessors</a></h3>
-            <div class="paragraph">
-                <p>Preprocessors are available for use in order to improve quality of endpoint examples.</p>
-            </div>
-            <div class="ulist">
-                <ul>
-                    <li>
-                        <p>
-                            <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/BinaryReplacementContentModifier.java">binary
-                                replacement</a>: replaces content with <code>&lt;binary&gt;</code> for common mime types</p>
-                    </li>
-                    <li>
-                        <p>
-                            <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/ArrayLimitingJsonContentModifier.java">limit
-                                JSON array length</a>: limits all JSON arrays to 3 items</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="paragraph">
-                <p>For a list of standard preprocessors see <a
-                        href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/operation/preprocess/Preprocessors.java">Preprocessors</a>.
-                </p>
-            </div>
-        </div>
-    </div>
+<h2 id="other"><a class="link" href="#other">Other</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="paging"><a class="link" href="#paging">Paging support</a></h3>
+<div class="paragraph">
+<p>Paging support in an endpoint is automatically recognized if request handler method contains <code>Pageable</code> parameter
+and response is of type <code>Page</code>. This is then mentioned in request and response snippets by linking
+to common section explaining the details of supported paging parameters/fields.
+This section has to be created manally and must be tagged as <code>[[overview-pagination]]</code>.
+See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/src/main/asciidoc/index.adoc#overview-pagination">paging section</a> template.</p>
 </div>
-    <div class="sect1">
+</div>
+<div class="sect2">
+<h3 id="preprocessors"><a class="link" href="#preprocessors">Preprocessors</a></h3>
+<div class="paragraph">
+<p>Preprocessors are available for use in order to improve quality of endpoint examples.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/BinaryReplacementContentModifier.java">binary replacement</a>: replaces content with <code>&lt;binary&gt;</code> for common mime types</p>
+</li>
+<li>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/ArrayLimitingJsonContentModifier.java">limit JSON array length</a>: limits all JSON arrays to 3 items</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For a list of standard preprocessors see <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/operation/preprocess/Preprocessors.java">Preprocessors</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="contributing"><a class="link" href="#contributing">Contributing</a></h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -1648,7 +1637,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Last updated 2017-10-22 18:00:34 CEST
+Last updated 2017-10-22 18:16:36 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
