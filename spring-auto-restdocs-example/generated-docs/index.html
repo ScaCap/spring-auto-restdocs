@@ -1064,7 +1064,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer b68b7398-d3d1-4439-9d6b-11a82a2ac27a' \
+    -H 'Authorization: Bearer 80290421-73fd-4f5e-a7a8-6ebb3d5a9a88' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1278,7 +1278,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer b68b7398-d3d1-4439-9d6b-11a82a2ac27a' \
+    -H 'Authorization: Bearer 80290421-73fd-4f5e-a7a8-6ebb3d5a9a88' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1376,7 +1376,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer b68b7398-d3d1-4439-9d6b-11a82a2ac27a'</code></pre>
+    -H 'Authorization: Bearer 80290421-73fd-4f5e-a7a8-6ebb3d5a9a88'</code></pre>
 </div>
 </div>
 </div>
@@ -1807,14 +1807,14 @@ Content-Length: 739
     "pageSize" : 20
   },
   "total" : 1,
-  "totalElements" : 1,
   "totalPages" : 1,
   "last" : true,
+  "totalElements" : 1,
   "size" : 20,
   "number" : 0,
   "sort" : null,
-  "first" : true,
-  "numberOfElements" : 1
+  "numberOfElements" : 1,
+  "first" : true
 }</code></pre>
 </div>
 </div>
