@@ -17,6 +17,8 @@
 package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
+import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
+        .CONSTRAINT_CLASS;
 import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -35,17 +37,32 @@ import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
-    private ConstraintAndGroupDescriptionResolver constraintDescriptionResolver =
-            new ConstraintAndGroupDescriptionResolver(
-                    new ResourceBundleConstraintDescriptionResolver());
 
-    private final SkippableConstraintResolver skippableConstraintResolver =
-            new SkippableConstraintResolver(
-                    new MethodParameterValidatorConstraintResolver(),
-                    constraintDescriptionResolver);
+    private final ConstraintAndGroupDescriptionResolver constraintDescriptionResolver;
 
-    private MethodParameterConstraintResolver constraintResolver =
-            new HumanReadableConstraintResolver(skippableConstraintResolver);
+    private final SkippableConstraintResolver skippableConstraintResolver;
+
+    private final MethodParameterConstraintResolver constraintResolver;
+
+    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver) {
+        constraintDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
+                new ResourceBundleConstraintDescriptionResolver());
+        skippableConstraintResolver = new SkippableConstraintResolver(
+                actualResolver, constraintDescriptionResolver);
+        constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
+    }
+
+    public static ConstraintReaderImpl create() {
+        return CONSTRAINT_CLASS != null ? createWithValidation() : createWithoutValidation();
+    }
+
+    static ConstraintReaderImpl createWithoutValidation() {
+        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver());
+    }
+
+    static ConstraintReaderImpl createWithValidation() {
+        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver());
+    }
 
     @Override
     public List<String> getOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
