@@ -21,11 +21,9 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
-import static java.util.Collections.singletonList;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,7 +34,6 @@ import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -73,13 +70,11 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
 
         Map<String, FieldDescriptor> fieldDescriptors = new LinkedHashMap<>();
 
-        Type signatureType = getType(handlerMethod);
-        if (signatureType != null) {
+        Type type = getType(handlerMethod);
+        if (type != null) {
             try {
-                for (Type type : resolveActualTypes(signatureType)) {
-                    resolveFieldDescriptors(fieldDescriptors, type, objectMapper,
-                            javadocReader, constraintReader);
-                }
+                resolveFieldDescriptors(fieldDescriptors, type, objectMapper,
+                        javadocReader, constraintReader);
             } catch (JsonMappingException e) {
                 throw new JacksonFieldProcessingException("Error while parsing fields", e);
             }
@@ -102,22 +97,6 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     protected boolean isCollection(Class<?> type) {
         return Collection.class.isAssignableFrom(type) ||
                 (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
-    }
-
-    private Collection<Type> resolveActualTypes(Type type) {
-        if (type instanceof Class) {
-            JsonSubTypes jsonSubTypes = (JsonSubTypes) ((Class) type).getAnnotation(
-                    JsonSubTypes.class);
-            if (jsonSubTypes != null) {
-                Collection<Type> types = new ArrayList<>();
-                for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
-                    types.add(subType.value());
-                }
-                return types;
-            }
-        }
-
-        return singletonList(type);
     }
 
     private void resolveFieldDescriptors(Map<String, FieldDescriptor> fieldDescriptors,

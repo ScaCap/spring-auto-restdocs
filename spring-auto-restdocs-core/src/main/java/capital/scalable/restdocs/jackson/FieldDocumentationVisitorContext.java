@@ -22,6 +22,7 @@ import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 import java.util.ArrayList;
@@ -31,10 +32,13 @@ import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import org.slf4j.Logger;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
 
-public class FieldDocumentationVisitorContext {
+class FieldDocumentationVisitorContext {
+    private static final Logger log = getLogger(FieldDocumentationVisitorContext.class);
+
     private final List<FieldDescriptor> fields = new ArrayList<>();
     private final JavadocReader javadocReader;
     private final ConstraintReader constraintReader;
@@ -53,11 +57,16 @@ public class FieldDocumentationVisitorContext {
     }
 
     public void addField(InternalFieldInfo info, String jsonType) {
+        String jsonFieldPath = info.getJsonFieldPath();
+        String javaFieldTypeName = info.getJavaFieldType().getRawClass().getSimpleName();
+
+        if (isPresent(jsonFieldPath, javaFieldTypeName)) {
+            return; // do not add duplicates
+        }
+
         Class<?> javaBaseClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
-
         String comment = resolveComment(javaBaseClass, javaFieldName);
-        String jsonFieldPath = info.getJsonFieldPath();
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
                 .type(jsonType)
@@ -68,6 +77,20 @@ public class FieldDocumentationVisitorContext {
         fieldDescriptor.attributes(constraints, optionals);
 
         fields.add(fieldDescriptor);
+        log.debug("({}) {} added", jsonFieldPath, javaFieldTypeName);
+    }
+
+    private boolean isPresent(String jsonFieldPath, String javaFieldTypeName) {
+        log.trace(" = WAS ADDED? {}", jsonFieldPath);
+        for (FieldDescriptor descriptor : fields) {
+            if (descriptor.getPath().equals(jsonFieldPath)) {
+                log.trace("   = YES {}", descriptor.getPath());
+                log.debug("({}) {} NOT added", jsonFieldPath, javaFieldTypeName);
+                return true;
+            }
+            log.trace("   = NO {}", descriptor.getPath());
+        }
+        return false;
     }
 
     private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {

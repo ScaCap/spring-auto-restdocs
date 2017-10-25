@@ -5,7 +5,12 @@ import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.util.ReflectionUtils;
 
 public class TypeUtil {
@@ -41,5 +46,39 @@ public class TypeUtil {
             field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
         }
         return field != null ? field.getType().isPrimitive() : false;
+    }
+
+    public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {
+        if (javaType.isCollectionLikeType() || javaType.isArrayType()) {
+            return resolveArrayTypes(javaType.getContentType(), typeFactory);
+        } else {
+            return resolveNonArrayTypes(javaType, typeFactory);
+        }
+    }
+
+    private static List<JavaType> resolveArrayTypes(JavaType contentType, TypeFactory typeFactory) {
+        List<JavaType> contentTypes = resolveAllTypes(contentType, typeFactory);
+        List<JavaType> result = new ArrayList<>();
+        for (JavaType contentSubType : contentTypes) {
+            JavaType contentSubTypeArray = typeFactory.constructArrayType(contentSubType);
+            result.add(contentSubTypeArray);
+        }
+        return result;
+    }
+
+    private static List<JavaType> resolveNonArrayTypes(JavaType javaType, TypeFactory typeFactory) {
+        List<JavaType> types = new ArrayList<>();
+        types.add(javaType);
+
+        Class<?> rawClass = javaType.getRawClass();
+        JsonSubTypes jsonSubTypes = (JsonSubTypes) rawClass.getAnnotation(JsonSubTypes.class);
+        if (jsonSubTypes != null) {
+            for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
+                JavaType javaSubType = typeFactory.constructType(subType.value());
+                types.add(javaSubType);
+            }
+        }
+
+        return types;
     }
 }

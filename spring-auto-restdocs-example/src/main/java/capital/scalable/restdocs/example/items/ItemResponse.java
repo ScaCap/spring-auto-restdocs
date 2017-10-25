@@ -16,6 +16,9 @@
 
 package capital.scalable.restdocs.example.items;
 
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -27,8 +30,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -50,7 +55,6 @@ class ItemResponse {
     /**
      * Metadata.
      */
-    @JsonUnwrapped
     private Metadata meta;
 
     /**
@@ -112,16 +116,44 @@ class ItemResponse {
         private EnumType enumType;
     }
 
+    @NoArgsConstructor
     @AllArgsConstructor
+    @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type", visible = true)
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = Metadata1.class, name = "1"),
+            @JsonSubTypes.Type(value = Metadata2.class, name = "2")
+    })
     static class Metadata {
         /**
-         * Custom meta attribute 1
+         * Determines the type of metadata
          */
-        private String custom1;
+        @NotBlank
+        private String type;
+    }
+
+    @NoArgsConstructor
+    static class Metadata1 extends Metadata {
         /**
-         * Custom meta attribute 2
+         * Tag attribute. Available only if metadata type=1
          */
-        private Integer custom2;
+        private String tag;
+
+        Metadata1(String type, String tag) {
+            super(type);
+            this.tag = tag;
+        }
+    }
+
+    static class Metadata2 extends Metadata {
+        /**
+         * Order attribute. Available only if metadata type=2
+         */
+        private Integer order;
+
+        Metadata2(String type, Integer order) {
+            super(type);
+            this.order = order;
+        }
     }
 
     enum EnumType {

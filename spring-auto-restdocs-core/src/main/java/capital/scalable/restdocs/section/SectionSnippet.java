@@ -22,6 +22,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.StringUtils.capitalize;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.Map;
 import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
 import org.springframework.restdocs.snippet.Snippet;
@@ -41,6 +43,7 @@ import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippet extends TemplatedSnippet {
+    private static final Logger log = getLogger(SectionSnippet.class);
 
     public static final String SECTION = "auto-section";
 
@@ -84,7 +87,7 @@ public class SectionSnippet extends TemplatedSnippet {
                     sections.add(section);
                 }
             } else {
-                System.out.println("Section snippet '" + sectionName + "' is configured to be " +
+                log.warn("Section snippet '" + sectionName + "' is configured to be " +
                         "included in the section but no such snippet is present in configuration");
             }
         }

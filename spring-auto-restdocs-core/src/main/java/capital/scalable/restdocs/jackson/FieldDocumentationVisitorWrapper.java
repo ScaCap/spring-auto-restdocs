@@ -16,8 +16,10 @@
 
 package capital.scalable.restdocs.jackson;
 
-import java.util.HashSet;
-import java.util.Set;
+import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -35,34 +37,42 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNullFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNumberFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonStringFormatVisitor;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.slf4j.Logger;
+import org.springframework.restdocs.payload.FieldDescriptor;
 
-public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
+class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
+    private static final Logger log = getLogger(FieldDocumentationVisitorWrapper.class);
+
     private SerializerProvider provider;
     private final FieldDocumentationVisitorContext context;
     private final String path;
     private final InternalFieldInfo fieldInfo;
-    private final Set<JavaType> visited;
+    private final TypeRegistry typeRegistry;
+    private final TypeFactory typeFactory;
 
     FieldDocumentationVisitorWrapper(FieldDocumentationVisitorContext context, String path,
-            InternalFieldInfo fieldInfo, Set<JavaType> visited) {
-        this(null, context, path, fieldInfo, visited);
+            InternalFieldInfo fieldInfo, TypeRegistry typeRegistry, TypeFactory typeFactory) {
+        this(null, context, path, fieldInfo, typeRegistry, typeFactory);
     }
 
     FieldDocumentationVisitorWrapper(SerializerProvider provider,
             FieldDocumentationVisitorContext context, String path, InternalFieldInfo fieldInfo,
-            Set<JavaType> visited) {
+            TypeRegistry typeRegistry, TypeFactory typeFactory) {
         this.provider = provider;
         this.context = context;
         this.path = path;
         this.fieldInfo = fieldInfo;
-        this.visited = visited;
+        this.typeRegistry = typeRegistry;
+        this.typeFactory = typeFactory;
     }
 
     public static FieldDocumentationVisitorWrapper create(JavadocReader javadocReader,
-            ConstraintReader constraintReader, DeserializationConfig deserializationConfig) {
-        return new FieldDocumentationVisitorWrapper(
-                new FieldDocumentationVisitorContext(javadocReader, constraintReader,
-                        deserializationConfig), "", null, new HashSet<JavaType>());
+            ConstraintReader constraintReader, DeserializationConfig deserializationConfig,
+            TypeRegistry typeRegistry, TypeFactory typeFactory) {
+        FieldDocumentationVisitorContext context = new FieldDocumentationVisitorContext(
+                javadocReader, constraintReader, deserializationConfig);
+        return new FieldDocumentationVisitorWrapper(context, "", null, typeRegistry, typeFactory);
     }
 
     @Override
@@ -78,21 +88,29 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
     @Override
     public JsonObjectFormatVisitor expectObjectFormat(JavaType type) throws JsonMappingException {
         addFieldIfPresent("Object");
-        if (shouldExpand() && !wasVisited(type)) {
+        if (shouldExpand() && (topLevelPath() || !wasVisited(type))) {
+            log.trace("({}) {} expanding", path, toString(type));
             return new FieldDocumentationObjectVisitor(provider, context, path,
-                    withVisitedType(type));
+                    withVisitedType(type), typeFactory);
         } else {
+            log.trace("({}) {} NOT expanding", path, toString(type));
             return new JsonObjectFormatVisitor.Base();
         }
     }
 
     @Override
-    public JsonArrayFormatVisitor expectArrayFormat(JavaType type) throws JsonMappingException {
+    public JsonArrayFormatVisitor expectArrayFormat(JavaType arrayType)
+            throws JsonMappingException {
         addFieldIfPresent("Array");
-        if (shouldExpand() && !wasVisited(type)) {
+        JavaType contentType = arrayType.getContentType();
+        if (contentType != null && shouldExpand() && (topLevelPath() || !wasVisited(contentType))) {
+            log.trace("({}) {} expanding array", path, toString(contentType));
+            // do not add this type to visited now, it will be done in expectObjectFormat for
+            // content type of this array
             return new FieldDocumentationArrayVisitor(provider, context, path,
-                    withVisitedType(type));
+                    typeRegistry, typeFactory);
         } else {
+            log.trace("({}) {} NOT expanding array", path, "<unknown>");
             return new JsonArrayFormatVisitor.Base();
         }
     }
@@ -139,8 +157,8 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         return new JsonMapFormatVisitor.Base(provider);
     }
 
-    public FieldDocumentationVisitorContext getContext() {
-        return context;
+    public List<FieldDescriptor> getFields() {
+        return context.getFields();
     }
 
     private void addFieldIfPresent(String jsonType) {
@@ -153,13 +171,22 @@ public class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrappe
         return fieldInfo == null || fieldInfo.shouldExpand();
     }
 
-    private Set<JavaType> withVisitedType(JavaType type) {
-        Set<JavaType> result = new HashSet<>(visited);
-        result.add(type);
-        return result;
+    private TypeRegistry withVisitedType(JavaType javaType) {
+        // add all subtypes when going deeper
+        // they will be eventually analysed at current level
+        List<JavaType> allTypes = resolveAllTypes(javaType, typeFactory);
+        return typeRegistry.withVisitedTypes(allTypes);
     }
 
     private boolean wasVisited(JavaType type) {
-        return visited.contains(type);
+        return typeRegistry.wasVisited(type);
+    }
+
+    private boolean topLevelPath() {
+        return "".equals(path);
+    }
+
+    private String toString(JavaType type) {
+        return ((Class) type.getRawClass()).getSimpleName();
     }
 }

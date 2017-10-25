@@ -16,16 +16,20 @@
 
 package capital.scalable.restdocs.jackson;
 
+import com.fasterxml.jackson.databind.JavaType;
+
 class InternalFieldInfo {
     private final Class<?> javaBaseClass;
     private final String javaFieldName;
+    private final JavaType javaFieldType;
     private final String jsonFieldPath;
     private final boolean shouldExpand;
 
-    public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName,
+    public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName, JavaType javaFieldType,
             String jsonFieldPath, boolean shouldExpand) {
         this.javaBaseClass = javaBaseClass;
         this.javaFieldName = javaFieldName;
+        this.javaFieldType = javaFieldType;
         this.jsonFieldPath = jsonFieldPath;
         this.shouldExpand = shouldExpand;
     }
@@ -36,6 +40,10 @@ class InternalFieldInfo {
 
     public String getJavaFieldName() {
         return javaFieldName;
+    }
+
+    public JavaType getJavaFieldType() {
+        return javaFieldType;
     }
 
     public String getJsonFieldPath() {

@@ -136,4 +136,12 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(
                         content().json("{ \"output\": \"Command executed on item 1: increase\" }"));
     }
+
+    @Test
+    public void validateMetadata() throws Exception {
+        mockMvc.perform(post("/items/validateMetadata")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"type\": \"1\", \"tag\": \"myItem\" }"))
+                .andExpect(status().isOk());
+    }
 }
