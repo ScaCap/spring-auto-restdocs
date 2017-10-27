@@ -79,6 +79,24 @@ public class SectionSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-noHandlerMethod]]\n" +
+                        "=== No Handler Method\n\n" +
+                        "include::{snippets}/noHandlerMethod/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/noHandlerMethod/auto-description.adoc[]\n"));
+
+        new SectionBuilder()
+                .snippetNames()
+                .build()
+                .document(operationBuilder
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+    @Test
     public void defaultSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");

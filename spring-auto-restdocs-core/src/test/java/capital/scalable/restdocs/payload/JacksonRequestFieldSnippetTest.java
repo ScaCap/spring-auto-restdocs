@@ -102,6 +102,15 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(REQUEST_FIELDS).withContents(equalTo("No request body."));
+
+        new JacksonRequestFieldSnippet().document(operationBuilder
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .build());
+    }
+
+    @Test
     public void listRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItems", List.class);
         mockFieldComment(Item.class, "field1", "A string");
@@ -205,7 +214,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
     }
-
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))

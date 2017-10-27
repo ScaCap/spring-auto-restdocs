@@ -108,6 +108,13 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .build());
+    }
 
     @Test
     public void failOnUndocumentedParams() throws Exception {

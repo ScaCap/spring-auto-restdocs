@@ -35,11 +35,21 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        this.snippets.expect(METHOD_PATH)
-                .withContents(equalTo("`POST /test`"));
+        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(REQUEST_PATTERN, "/test")
+                .request("http://localhost/test")
+                .method("POST")
+                .build());
+    }
+
+    @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+
+        new MethodAndPathSnippet().document(operationBuilder
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")
                 .method("POST")

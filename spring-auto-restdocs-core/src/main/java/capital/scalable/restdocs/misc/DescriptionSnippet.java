@@ -40,6 +40,11 @@ public class DescriptionSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
+        Map<String, Object> model = defaultModel();
+        if (handlerMethod == null) {
+            return model;
+        }
+
         JavadocReader javadocReader = getJavadocReader(operation);
 
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
@@ -47,8 +52,13 @@ public class DescriptionSnippet extends TemplatedSnippet {
 
         methodComment = convertFromJavadoc(methodComment, determineForcedLineBreak(operation));
 
-        Map<String, Object> model = new HashMap<>();
         model.put("description", methodComment);
+        return model;
+    }
+
+    private Map<String, Object> defaultModel() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("description", "");
         return model;
     }
 }
