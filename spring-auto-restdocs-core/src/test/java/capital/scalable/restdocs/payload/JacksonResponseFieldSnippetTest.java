@@ -124,6 +124,15 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .build());
+    }
+
+    @Test
     public void pageResponse() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("pagedItems");
         mockFieldComment(Item.class, "field1", "A string");

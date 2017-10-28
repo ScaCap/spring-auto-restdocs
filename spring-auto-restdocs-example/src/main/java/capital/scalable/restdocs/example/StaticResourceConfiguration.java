@@ -30,12 +30,15 @@ class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/docs/**").addResourceLocations("classpath:public/")
-                .resourceChain(true).addResolver(new PathResourceResolver());
+        registry.addResourceHandler("/docs/**")
+                .addResourceLocations("classpath:/public/")
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/docs").setViewName("forward:docs/index.html");
+        registry.addViewController("/docs")
+                .setViewName("forward:/docs/index.html");
     }
 }

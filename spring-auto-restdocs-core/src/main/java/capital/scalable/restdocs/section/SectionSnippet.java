@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnipp
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -64,22 +65,26 @@ public class SectionSnippet extends TemplatedSnippet {
 
     @Override
     protected Map<String, Object> createModel(Operation operation) {
-        HandlerMethod handlerMethod = getHandlerMethod(operation);
-        JavadocReader javadocReader = getJavadocReader(operation);
+        Map<String, Object> model = defaultModel(operation);
 
+        HandlerMethod handlerMethod = getHandlerMethod(operation);
+        if (handlerMethod == null) {
+            return model;
+        }
+
+        JavadocReader javadocReader = getJavadocReader(operation);
         String title = resolveTitle(handlerMethod, javadocReader);
 
-        // resolve path
-        String path = propertyPlaceholderHelper.replacePlaceholders(operation.getName(),
-                placeholderResolverFactory.create(getDocumentationContext(operation)));
-
-        Map<String, Object> model = new HashMap<>();
         model.put("title", title);
-        model.put("link", delimit(path));
-        model.put("path", path);
-        List<SectionSupport> sections = new ArrayList<>();
-        model.put("sections", sections);
+        model.put("sections", createSections(operation));
 
+        createSections(operation);
+
+        return model;
+    }
+
+    private List<SectionSupport> createSections(Operation operation) {
+        List<SectionSupport> sections = new ArrayList<>();
         for (String sectionName : sectionNames) {
             SectionSupport section = getSectionSnippet(operation, sectionName);
             if (section != null) {
@@ -91,7 +96,19 @@ public class SectionSnippet extends TemplatedSnippet {
                         "included in the section but no such snippet is present in configuration");
             }
         }
+        return sections;
+    }
 
+    private Map<String, Object> defaultModel(Operation operation) {
+        // resolve path
+        String path = propertyPlaceholderHelper.replacePlaceholders(operation.getName(),
+                placeholderResolverFactory.create(getDocumentationContext(operation)));
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", createTitle(operation.getName()));
+        model.put("link", delimit(path));
+        model.put("path", path);
+        model.put("sections", emptyList());
         return model;
     }
 
@@ -99,10 +116,13 @@ public class SectionSnippet extends TemplatedSnippet {
         String title = javadocReader.resolveMethodTitle(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
         if (StringUtils.isBlank(title)) {
-            title = join(splitByCharacterTypeCamelCase(
-                    capitalize(handlerMethod.getMethod().getName())), ' ');
+            title = createTitle(handlerMethod.getMethod().getName());
         }
         return title;
+    }
+
+    private String createTitle(String name) {
+        return join(splitByCharacterTypeCamelCase(capitalize(name)), ' ');
     }
 
     private SectionSupport getSectionSnippet(Operation operation, String snippetName) {

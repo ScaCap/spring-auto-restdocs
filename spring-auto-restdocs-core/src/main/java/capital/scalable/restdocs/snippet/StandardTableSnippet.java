@@ -45,12 +45,17 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     @Override
     protected Map<String, Object> createModel(Operation operation) {
         HandlerMethod handlerMethod = getHandlerMethod(operation);
+        Map<String, Object> model = defaultModel();
+        if (handlerMethod == null) {
+            return model;
+        }
+
         Collection<FieldDescriptor> fieldDescriptors = emptyList();
-            fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
+        fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
 
         String forcedLineBreak = determineForcedLineBreak(operation);
 
-        return createModel(handlerMethod, fieldDescriptors, forcedLineBreak);
+        return createModel(handlerMethod, model, fieldDescriptors, forcedLineBreak);
     }
 
     protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -60,10 +65,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         // can be used to add additional fields
     }
 
-    private Map<String, Object> createModel(HandlerMethod handlerMethod,
+    private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
             Collection<FieldDescriptor> fieldDescriptors, String forcedLineBreak) {
-        Map<String, Object> model = new HashMap<>();
-
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("content", fields);
         for (FieldDescriptor descriptor : fieldDescriptors) {
@@ -74,6 +77,14 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
         enrichModel(model, handlerMethod);
 
+        return model;
+    }
+
+    private Map<String, Object> defaultModel() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("content", "");
+        model.put("hasContent", false);
+        model.put("noContent", true);
         return model;
     }
 

@@ -45,7 +45,11 @@ public abstract class JacksonResultHandlers {
 
         @Override
         public void handle(MvcResult result) throws Exception {
-            setHandlerMethod(result.getRequest(), (HandlerMethod) result.getHandler());
+            // HandlerMethod is not present in case of invalid endpoint
+            // or in case of static resource url
+            if (result.getHandler() instanceof HandlerMethod) {
+                setHandlerMethod(result.getRequest(), (HandlerMethod) result.getHandler());
+            }
             setObjectMapper(result.getRequest(), objectMapper);
             initRequestPattern(result.getRequest());
             setJavadocReader(result.getRequest(), JavadocReaderImpl.createWithSystemProperty());

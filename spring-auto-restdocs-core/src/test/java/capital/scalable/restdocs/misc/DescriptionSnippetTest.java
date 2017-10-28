@@ -35,18 +35,25 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void description() throws Exception {
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(),
-                "testDescription");
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
         JavadocReader javadocReader = mock(JavadocReader.class);
         when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
                 .thenReturn("Sample method comment");
 
-        this.snippets.expect(DESCRIPTION)
-                .withContents(equalTo("Sample method comment"));
+        this.snippets.expect(DESCRIPTION).withContents(equalTo("Sample method comment"));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost/test")
+                .build());
+    }
+
+    @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(DESCRIPTION).withContents(equalTo(""));
+
+        new DescriptionSnippet().document(operationBuilder
                 .request("http://localhost/test")
                 .build());
     }

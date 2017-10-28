@@ -89,6 +89,14 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void noHandlerMethod() throws Exception {
+        this.snippets.expect(PATH_PARAMETERS).withContents(equalTo("No parameters."));
+
+        new PathParametersSnippet().document(operationBuilder
+                .build());
+    }
+
+    @Test
     public void failOnUndocumentedParams() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
                 int.class);
