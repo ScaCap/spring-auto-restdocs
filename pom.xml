@@ -56,7 +56,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <spring-restdocs.version>1.2.1.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>1.2.2.RELEASE</spring-restdocs.version>
     </properties>
 
     <build>
