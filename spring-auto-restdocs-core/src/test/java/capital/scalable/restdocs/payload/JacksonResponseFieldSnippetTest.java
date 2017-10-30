@@ -230,7 +230,23 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void escaping() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("processItem");
+        mockFieldComment(ProcessingResponse.class, "output", "An output | result");
 
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("output", "String", "true", "An output \\| result."));
+
+        new JacksonResponseFieldSnippet().responseBodyAsType(ProcessingResponse.class)
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
+    }
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
