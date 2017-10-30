@@ -230,6 +230,24 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void deprecated() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("removeItem");
+        mockFieldComment(DeprecatedItem.class, "index", "item's index");
+        mockDeprecated(DeprecatedItem.class, "index", "use index2");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("index", "Integer", "true",
+                                "**Deprecated.** Use index2.\n\nItem's index."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
@@ -243,6 +261,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {
         when(javadocReader.resolveFieldComment(type, fieldName))
+                .thenReturn(comment);
+    }
+
+    private void mockDeprecated(Class<?> type, String fieldName, String comment) {
+        when(javadocReader.resolveFieldTag(type, fieldName, "deprecated"))
                 .thenReturn(comment);
     }
 
@@ -286,6 +309,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         public String processItem() {
             return "";
         }
+
+        public DeprecatedItem removeItem() {
+            return null;
+        }
     }
 
     private static class Item {
@@ -298,6 +325,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         public Item(String field1) {
             this.field1 = field1;
         }
+    }
+
+    private static class DeprecatedItem {
+        @Deprecated
+        private int index;
     }
 
     private static class ProcessingResponse {

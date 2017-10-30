@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintRe
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
@@ -88,7 +89,8 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
 
         Attribute constraints = constraintAttribute(param, constraintReader);
         Attribute optionals = optionalsAttribute(param, annot);
-        descriptor.attributes(constraints, optionals);
+        Attribute deprecated = deprecatedAttribute(param, annot, javadocReader);
+        descriptor.attributes(constraints, optionals, deprecated);
 
         fieldDescriptors.add(descriptor);
     }
@@ -100,6 +102,12 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
 
     protected Attribute optionalsAttribute(MethodParameter param, A annot) {
         return new Attribute(OPTIONAL_ATTRIBUTE, singletonList(!isRequired(param, annot)));
+    }
+
+    protected Attribute deprecatedAttribute(MethodParameter param, A annot,
+            JavadocReader javadocReader) {
+        return new Attribute(DEPRECATED_ATTRIBUTE,
+                param.getParameterAnnotation(Deprecated.class) != null ? "" : null);
     }
 
     protected abstract boolean isRequired(MethodParameter param, A annot);

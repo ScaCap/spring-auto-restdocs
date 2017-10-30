@@ -217,6 +217,30 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         .build());
     }
 
+    @Test
+    public void deprecated() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+        when(javadocReader.resolveMethodTag(TestResource.class, "getItemById", "deprecated"))
+                .thenReturn("it is");
+
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-deprecated]]\n" +
+                        "=== Get Item By Id (deprecated)\n\n" +
+                        "include::{snippets}/deprecated/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/deprecated/auto-description.adoc[]\n"));
+
+        new SectionBuilder()
+                .snippetNames()
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
+                        .request("http://localhost/items/1")
+                        .build());
+    }
 
     private void mockMethodTitle(Class<?> javaBaseClass, String methodName, String title) {
         when(javadocReader.resolveMethodTag(javaBaseClass, methodName, "title"))

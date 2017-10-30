@@ -215,6 +215,25 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void deprecated() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("removeItem", DeprecatedItem.class);
+        mockFieldComment(DeprecatedItem.class, "index", "item's index");
+        mockDeprecated(DeprecatedItem.class, "index", "use index2");
+
+        this.snippets.expect(REQUEST_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("index", "Integer", "true",
+                                "**Deprecated.** Use index2.\n\nItem's index."));
+
+        new JacksonRequestFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -227,6 +246,11 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {
         when(javadocReader.resolveFieldComment(type, fieldName))
+                .thenReturn(comment);
+    }
+
+    private void mockDeprecated(Class<?> type, String fieldName, String comment) {
+        when(javadocReader.resolveFieldTag(type, fieldName, "deprecated"))
                 .thenReturn(comment);
     }
 
@@ -256,6 +280,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         public void processItem(@ModelAttribute String item) {
             // NOOP
         }
+
+        public void removeItem(@RequestBody DeprecatedItem item) {
+            // NOOP
+        }
     }
 
     private static class ProcessingCommand {
@@ -269,6 +297,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         private Integer field2;
     }
 
+    private static class DeprecatedItem {
+        @Deprecated
+        private int index;
+    }
 
     @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type", visible = true)
     @JsonSubTypes({

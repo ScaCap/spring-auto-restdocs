@@ -16,7 +16,7 @@
 
 package capital.scalable.restdocs.javadoc;
 
-import static org.springframework.util.StringUtils.hasText;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,10 +73,6 @@ class ClassJavadoc {
         } else {
             return "";
         }
-    }
-
-    private static String trimToEmpty(String value) {
-        return hasText(value) ? value : "";
     }
 
     static class MethodJavadoc {

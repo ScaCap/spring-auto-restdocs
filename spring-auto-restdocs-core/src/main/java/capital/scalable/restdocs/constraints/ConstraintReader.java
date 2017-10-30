@@ -23,6 +23,7 @@ import org.springframework.core.MethodParameter;
 public interface ConstraintReader {
     String CONSTRAINTS_ATTRIBUTE = "constraints";
     String OPTIONAL_ATTRIBUTE = "optionals";
+    String DEPRECATED_ATTRIBUTE = "deprecated";
 
     List<String> getConstraintMessages(Class<?> javaBaseClass, String javaFieldName);
 

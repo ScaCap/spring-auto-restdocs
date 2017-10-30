@@ -21,6 +21,8 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentatio
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,7 +36,6 @@ import java.util.Map;
 
 import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.javadoc.JavadocReader;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
@@ -115,8 +116,14 @@ public class SectionSnippet extends TemplatedSnippet {
     private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "title");
-        if (StringUtils.isBlank(title)) {
+        if (isBlank(title)) {
             title = createTitle(handlerMethod.getMethod().getName());
+        }
+        boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
+        String deprecated = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "deprecated");
+        if (isDeprecated || isNotBlank(deprecated)) {
+            title += " (deprecated)";
         }
         return title;
     }

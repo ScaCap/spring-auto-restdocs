@@ -239,6 +239,26 @@ public class ItemResource {
     public void validateMetadata(@RequestBody Metadata metadata) {
     }
 
+    /**
+     * Clones an item.
+     * <p>
+     * An example of deprecation.
+     *
+     * @deprecated use something else
+     */
+    @Deprecated
+    @RequestMapping(value = "cloneItem", method = POST)
+    public void cloneItem(@RequestBody CloneData data) {
+    }
+
+    static class CloneData {
+        /**
+         * New item's name
+         */
+        @Deprecated
+        private String name;
+    }
+
     @Data
     static class Command {
         /**

@@ -16,12 +16,15 @@
 
 package capital.scalable.restdocs.snippet;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.determineForcedLineBreak;
+import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
+import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
@@ -31,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.util.TemplateFormatting;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
@@ -53,9 +57,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         Collection<FieldDescriptor> fieldDescriptors = emptyList();
         fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
 
-        String forcedLineBreak = determineForcedLineBreak(operation);
+        TemplateFormatting templateFormatting = determineTemplateFormatting(operation);
 
-        return createModel(handlerMethod, model, fieldDescriptors, forcedLineBreak);
+        return createModel(handlerMethod, model, fieldDescriptors, templateFormatting);
     }
 
     protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
@@ -66,11 +70,11 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
-            Collection<FieldDescriptor> fieldDescriptors, String forcedLineBreak) {
+            Collection<FieldDescriptor> fieldDescriptors, TemplateFormatting templateFormatting) {
         List<Map<String, Object>> fields = new ArrayList<>();
         model.put("content", fields);
         for (FieldDescriptor descriptor : fieldDescriptors) {
-            fields.add(createModelForDescriptor(descriptor, forcedLineBreak));
+            fields.add(createModelForDescriptor(descriptor, templateFormatting));
         }
         model.put("hasContent", !fieldDescriptors.isEmpty());
         model.put("noContent", fieldDescriptors.isEmpty());
@@ -89,15 +93,16 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     protected Map<String, Object> createModelForDescriptor(FieldDescriptor descriptor,
-            String forcedLineBreak) {
+            TemplateFormatting templateFormatting) {
         String path = descriptor.getPath();
         String type = toString(descriptor.getType());
-        String description = convertFromJavadoc(toString(descriptor.getDescription()),
-                forcedLineBreak);
+        String methodComment = resolveComment(descriptor);
+        String deprecated = resolveDeprecated(descriptor);
+        String description = convertFromJavadoc(deprecated + methodComment, templateFormatting);
 
-        String optional = resolveOptional(descriptor, forcedLineBreak);
+        String optional = resolveOptional(descriptor, templateFormatting);
         List<String> constraints = resolveConstraints(descriptor);
-        description = joinAndFormat(description, constraints, forcedLineBreak);
+        description = joinAndFormat(description, constraints, templateFormatting);
 
         Map<String, Object> model = new HashMap<>();
         model.put("path", path);
@@ -112,10 +117,24 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
                 .get(CONSTRAINTS_ATTRIBUTE);
     }
 
-    private String resolveOptional(FieldDescriptor descriptor, String forcedLineBreak) {
+    private String resolveOptional(FieldDescriptor descriptor,
+            TemplateFormatting templateFormatting) {
         List<String> optionalMessages = (List<String>) descriptor.getAttributes()
                 .get(OPTIONAL_ATTRIBUTE);
-        return "" + join(optionalMessages, forcedLineBreak);
+        return "" + join(optionalMessages, templateFormatting.getLineBreak());
+    }
+
+    private String resolveComment(FieldDescriptor descriptor) {
+        return capitalize(addDot(toString(descriptor.getDescription())));
+    }
+
+    private String resolveDeprecated(FieldDescriptor descriptor) {
+        Object deprecated = descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE);
+        if (deprecated != null) {
+            return "<b>Deprecated.</b> " + capitalize(addDot(toString(deprecated))) + "<p>";
+        } else {
+            return "";
+        }
     }
 
     private String toString(Object value) {
@@ -127,13 +146,13 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String joinAndFormat(String description, List<String> constraints,
-            String forcedLineBreak) {
+            TemplateFormatting templateFormatting) {
         StringBuilder res = new StringBuilder(description);
         if (!description.isEmpty() && !description.endsWith(".")) {
             res.append('.');
         }
 
-        StringBuilder constr = formatConstraints(constraints, forcedLineBreak);
+        StringBuilder constr = formatConstraints(constraints, templateFormatting.getLineBreak());
         if (res.length() > 0 && constr.length() > 0) {
             res.append("\n\n");
         }

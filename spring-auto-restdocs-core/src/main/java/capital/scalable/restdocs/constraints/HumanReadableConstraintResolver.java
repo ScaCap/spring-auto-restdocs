@@ -16,7 +16,7 @@
 
 package capital.scalable.restdocs.constraints;
 
-import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
+import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;

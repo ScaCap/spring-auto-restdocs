@@ -113,6 +113,23 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+    @Test
+    public void deprecated() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("removeItem", int.class);
+        initParameters(handlerMethod);
+        mockParamComment("removeItem", "index", "item's index");
+
+        this.snippets.expect(PATH_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
+
+        new PathParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
     private void initParameters(HandlerMethod handlerMethod) {
         for (MethodParameter parameter : handlerMethod.getMethodParameters()) {
             parameter.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
@@ -141,6 +158,9 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         @RequestMapping(value = "/items")
         public void addItem() {
             // NOOP
+        }
+
+        public void removeItem(@Deprecated @PathVariable int index) {
         }
     }
 }
