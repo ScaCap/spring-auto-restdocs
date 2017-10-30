@@ -1099,7 +1099,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 96cee481-3e57-4307-b4d4-3e368972668e' \
+    -H 'Authorization: Bearer 04049013-b04b-4dda-9284-a0ba6c919fc8' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1328,7 +1328,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 96cee481-3e57-4307-b4d4-3e368972668e' \
+    -H 'Authorization: Bearer 04049013-b04b-4dda-9284-a0ba6c919fc8' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1430,7 +1430,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 96cee481-3e57-4307-b4d4-3e368972668e'</code></pre>
+    -H 'Authorization: Bearer 04049013-b04b-4dda-9284-a0ba6c919fc8'</code></pre>
 </div>
 </div>
 </div>
@@ -1890,19 +1890,19 @@ Content-Length: 779
     "page" : 0,
     "size" : 20,
     "sort" : null,
-    "offset" : 0,
     "pageNumber" : 0,
-    "pageSize" : 20
+    "pageSize" : 20,
+    "offset" : 0
   },
   "total" : 1,
-  "totalPages" : 1,
   "totalElements" : 1,
   "last" : true,
-  "size" : 20,
-  "number" : 0,
+  "totalPages" : 1,
   "sort" : null,
+  "first" : true,
   "numberOfElements" : 1,
-  "first" : true
+  "size" : 20,
+  "number" : 0
 }</code></pre>
 </div>
 </div>
@@ -2275,7 +2275,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-09 15:54:35 CEST
+Last updated 2017-10-28 15:42:38 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
