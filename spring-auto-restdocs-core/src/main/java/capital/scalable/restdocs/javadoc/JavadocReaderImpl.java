@@ -77,13 +77,13 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
-    public String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName) {
-        return classJavadoc(javaBaseClass).getMethodComment(javaMethodName);
+    public String resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
+        return classJavadoc(javaBaseClass).getFieldTag(javaFieldName, tagName);
     }
 
     @Override
-    public String resolveMethodTitle(Class<?> javaBaseClass, String javaMethodName) {
-        return classJavadoc(javaBaseClass).getMethodTitle(javaMethodName);
+    public String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName) {
+        return classJavadoc(javaBaseClass).getMethodComment(javaMethodName);
     }
 
     @Override
@@ -91,6 +91,11 @@ public class JavadocReaderImpl implements JavadocReader {
             String javaParameterName) {
         return classJavadoc(javaBaseClass)
                 .getMethodParameterComment(javaMethodName, javaParameterName);
+    }
+
+    @Override
+    public String resolveMethodTag(Class<?> javaBaseClass, String javaMethodName, String tagName) {
+        return classJavadoc(javaBaseClass).getMethodTag(javaMethodName, tagName);
     }
 
     private ClassJavadoc classJavadoc(Class<?> clazz) {

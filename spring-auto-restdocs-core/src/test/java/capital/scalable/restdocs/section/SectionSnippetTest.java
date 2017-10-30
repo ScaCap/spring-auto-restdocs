@@ -219,7 +219,7 @@ public class SectionSnippetTest extends AbstractSnippetTests {
 
 
     private void mockMethodTitle(Class<?> javaBaseClass, String methodName, String title) {
-        when(javadocReader.resolveMethodTitle(javaBaseClass, methodName))
+        when(javadocReader.resolveMethodTag(javaBaseClass, methodName, "title"))
                 .thenReturn(title);
     }
 

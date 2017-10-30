@@ -1,13 +1,21 @@
 {
   "fields": {
-    "simpleField": "Simple field comment from classpath"
+    "simpleField": {
+      "comment": "Simple field comment from classpath",
+      "tags": {
+        "deprecated": "Deprecation comment from classpath"
+      }
+    }
   },
   "methods": {
     "simpleMethod": {
-      "title": "Simple method title from classpath",
       "comment": "Simple method comment from classpath",
       "parameters": {
         "simpleParameter": "Simple parameter comment from classpath"
+      },
+      "tags": {
+        "title": "Simple method title from classpath",
+        "deprecated": "Deprecation comment from classpath"
       }
     }
   }
