@@ -562,7 +562,7 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">content</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Object Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Actual items.</p></td>
 </tr>
@@ -770,9 +770,15 @@ Must be at most 10.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -800,7 +806,7 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 412
+Content-Length: 459
 
 {
   "id" : "1",
@@ -821,8 +827,10 @@ Content-Length: 412
     "meta" : null,
     "attributes" : null,
     "children" : null,
+    "tags" : null,
     "description" : "first child"
   } ],
+  "tags" : [ "top-level" ],
   "description" : "main item"
 }</code></pre>
 </div>
@@ -950,9 +958,15 @@ Must be at most 10.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
@@ -983,7 +997,7 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 534
+Content-Length: 598
 
 [ {
   "id" : "1",
@@ -1004,14 +1018,17 @@ Content-Length: 534
     "meta" : null,
     "attributes" : null,
     "children" : null,
+    "tags" : null,
     "description" : "first child"
   } ],
+  "tags" : [ "top-level" ],
   "description" : "main item"
 }, {
   "id" : "child-1",
   "meta" : null,
   "attributes" : null,
   "children" : null,
+  "tags" : null,
   "description" : "first child"
 } ]</code></pre>
 </div>
@@ -1099,7 +1116,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer cc34a7a1-b5b2-48f8-8272-c3000623e47b' \
+    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1309,9 +1326,15 @@ Must be at most 10.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1328,7 +1351,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer cc34a7a1-b5b2-48f8-8272-c3000623e47b' \
+    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1345,13 +1368,14 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 107
+Content-Length: 124
 
 {
   "id" : "1",
   "meta" : null,
   "attributes" : null,
   "children" : null,
+  "tags" : null,
   "description" : "Hot News"
 }</code></pre>
 </div>
@@ -1430,7 +1454,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer cc34a7a1-b5b2-48f8-8272-c3000623e47b'</code></pre>
+    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b'</code></pre>
 </div>
 </div>
 </div>
@@ -1612,9 +1636,15 @@ Must be at most 10.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1645,13 +1675,14 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 116
+Content-Length: 133
 
 {
   "id" : "child-1",
   "meta" : null,
   "attributes" : null,
   "children" : null,
+  "tags" : null,
   "description" : "first child"
 }</code></pre>
 </div>
@@ -1827,9 +1858,15 @@ Must be at most 10.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
@@ -1860,7 +1897,7 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 779
+Content-Length: 830
 
 {
   "content" : [ {
@@ -1882,27 +1919,29 @@ Content-Length: 779
       "meta" : null,
       "attributes" : null,
       "children" : null,
+      "tags" : null,
       "description" : "first child"
     } ],
+    "tags" : [ "top-level" ],
     "description" : "main item"
   } ],
   "pageable" : {
     "page" : 0,
     "size" : 20,
     "sort" : null,
+    "offset" : 0,
     "pageNumber" : 0,
-    "pageSize" : 20,
-    "offset" : 0
+    "pageSize" : 20
   },
   "total" : 1,
   "totalElements" : 1,
   "last" : true,
   "totalPages" : 1,
-  "sort" : null,
-  "first" : true,
-  "numberOfElements" : 1,
   "size" : 20,
-  "number" : 0
+  "number" : 0,
+  "sort" : null,
+  "numberOfElements" : 1,
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -2196,9 +2235,30 @@ Content-Length: 55
 </div>
 <div class="sect3">
 <h4 id="_query_parameters_8"><a class="anchor" href="#_query_parameters_8"></a><a class="link" href="#_query_parameters_8">2.10.3. Query parameters</a></h4>
-<div class="paragraph">
-<p>No parameters.</p>
-</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lala</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_request_fields_10"><a class="anchor" href="#_request_fields_10"></a><a class="link" href="#_request_fields_10">2.10.4. Request fields</a></h4>
@@ -2275,7 +2335,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-28 15:42:38 CEST
+Last updated 2017-10-30 22:06:44 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
