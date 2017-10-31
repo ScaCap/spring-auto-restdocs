@@ -178,6 +178,20 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void responseEntityResponseWithoutGenerics() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("responseEntityItem2");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
     public void exactResponseType() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
@@ -296,6 +310,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
 
         public ResponseEntity<Item> responseEntityItem() {
+            return ResponseEntity.ok(new Item("test"));
+        }
+
+        public ResponseEntity responseEntityItem2() {
             return ResponseEntity.ok(new Item("test"));
         }
 
