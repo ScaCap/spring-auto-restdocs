@@ -25,7 +25,7 @@ import com.sun.javadoc.MethodDoc;
 
 public final class ClassDocumentation {
     private String comment = "";
-    private final Map<String, String> fields = new HashMap<>();
+    private final Map<String, FieldDocumentation> fields = new HashMap<>();
     private final Map<String, MethodDocumentation> methods = new HashMap<>();
 
     private ClassDocumentation() {
@@ -36,7 +36,7 @@ public final class ClassDocumentation {
         ClassDocumentation cd = new ClassDocumentation();
         cd.setComment(classDoc.commentText());
         for (FieldDoc fieldDoc : classDoc.fields(false)) {
-            cd.addField(fieldDoc.name(), fieldDoc.commentText());
+            cd.addField(fieldDoc);
         }
         for (MethodDoc methodDoc : classDoc.methods(false)) {
             cd.addMethod(methodDoc);
@@ -48,8 +48,8 @@ public final class ClassDocumentation {
         this.comment = comment;
     }
 
-    private void addField(String name, String comment) {
-        this.fields.put(name, comment);
+    private void addField(FieldDoc fieldDoc) {
+        this.fields.put(fieldDoc.name(), FieldDocumentation.fromFieldDoc(fieldDoc));
     }
 
     private void addMethod(MethodDoc methodDoc) {

@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 class DocumentedClass {
     /**
      * Location of resource
+     *
+     * @see path
      */
     public String location;
 
@@ -36,6 +38,8 @@ class DocumentedClass {
 
     /**
      * Executes request on specified location
+     *
+     * @title Execute request
      */
     public void execute() {
     }
@@ -46,6 +50,7 @@ class DocumentedClass {
      * @param when  when to initiate
      * @param force true if force
      * @title Do initiate
+     * @deprecated use other method
      */
     private void initiate(String when, boolean force, int notDocumented) {
     }
