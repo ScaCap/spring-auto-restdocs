@@ -1,13 +1,21 @@
 {
   "fields": {
-    "simpleField": "Simple field comment"
+    "simpleField": {
+      "comment": "Simple field comment",
+      "tags": {
+        "deprecated": "Deprecation comment"
+      }
+    }
   },
   "methods": {
     "simpleMethod": {
-      "title": "Simple method title",
       "comment": "Simple method comment",
       "parameters": {
         "simpleParameter": "Simple parameter comment"
+      },
+      "tags": {
+        "title": "Simple method title",
+        "deprecated": "Deprecation comment"
       }
     }
   }

@@ -113,8 +113,8 @@ public class SectionSnippet extends TemplatedSnippet {
     }
 
     private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
-        String title = javadocReader.resolveMethodTitle(handlerMethod.getBeanType(),
-                handlerMethod.getMethod().getName());
+        String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "title");
         if (StringUtils.isBlank(title)) {
             title = createTitle(handlerMethod.getMethod().getName());
         }

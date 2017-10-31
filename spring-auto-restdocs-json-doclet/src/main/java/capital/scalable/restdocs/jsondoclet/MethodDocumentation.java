@@ -16,6 +16,8 @@
 
 package capital.scalable.restdocs.jsondoclet;
 
+import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagName;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +26,9 @@ import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.Tag;
 
 public class MethodDocumentation {
-    private String title = "";
     private String comment = "";
     private final Map<String, String> parameters = new HashMap<>();
+    private final Map<String, String> tags = new HashMap<>();
 
     private MethodDocumentation() {
         // enforce usage of static factory method
@@ -36,12 +38,13 @@ public class MethodDocumentation {
         MethodDocumentation md = new MethodDocumentation();
         md.comment = methodDoc.commentText();
 
-        for (ParamTag param : methodDoc.paramTags()) {
-            md.parameters.put(param.parameterName(), param.parameterComment());
-        }
-        Tag[] title = methodDoc.tags("@title");
-        if (title.length > 0) {
-            md.title = title[0].text();
+        for (Tag tag : methodDoc.tags()) {
+            if (tag instanceof ParamTag) {
+                ParamTag paramTag = (ParamTag) tag;
+                md.parameters.put(paramTag.parameterName(), paramTag.parameterComment());
+            } else {
+                md.tags.put(cleanupTagName(tag.name()), tag.text());
+            }
         }
 
         return md;

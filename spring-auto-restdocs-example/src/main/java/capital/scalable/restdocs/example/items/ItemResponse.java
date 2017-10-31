@@ -75,7 +75,7 @@ class ItemResponse {
     private String[] tags;
 
     /**
-     * Some information about the item.
+     * Some information | description about the item.
      */
     public String getDescription() {
         return desc;

@@ -140,7 +140,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
         res.append(constr.toString());
 
-        return res.toString();
+        return res.toString().replace("|", "\\|");
     }
 
     private StringBuilder formatConstraints(List<String> constraints, String forcedLineBreak) {
