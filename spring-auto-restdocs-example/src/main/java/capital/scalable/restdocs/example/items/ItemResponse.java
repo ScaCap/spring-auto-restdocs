@@ -70,7 +70,7 @@ class ItemResponse {
     private List<ItemResponse> children;
 
     /**
-     * Some information about the item.
+     * Some information | description about the item.
      */
     public String getDescription() {
         return desc;
