@@ -784,7 +784,7 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -972,7 +972,7 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1116,7 +1116,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b' \
+    -H 'Authorization: Bearer e1f691fa-23dc-4da1-8700-522fc9620010' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1340,7 +1340,7 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1351,7 +1351,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b' \
+    -H 'Authorization: Bearer e1f691fa-23dc-4da1-8700-522fc9620010' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1454,7 +1454,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 08735249-950a-4481-9da2-62ca6ca8c80b'</code></pre>
+    -H 'Authorization: Bearer e1f691fa-23dc-4da1-8700-522fc9620010'</code></pre>
 </div>
 </div>
 </div>
@@ -1650,7 +1650,7 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1872,7 +1872,7 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1934,14 +1934,14 @@ Content-Length: 830
     "pageSize" : 20
   },
   "total" : 1,
+  "totalPages" : 1,
   "totalElements" : 1,
   "last" : true,
-  "totalPages" : 1,
   "size" : 20,
   "number" : 0,
   "sort" : null,
-  "numberOfElements" : 1,
-  "first" : true
+  "first" : true,
+  "numberOfElements" : 1
 }</code></pre>
 </div>
 </div>
@@ -2335,7 +2335,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-30 22:06:44 CET
+Last updated 2017-10-31 14:20:12 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
