@@ -67,6 +67,27 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveMethodCommentFromSuperClassA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassA");
+        assertThat(comment, equalTo("Method comment on class A"));
+    }
+
+    @Test
+    public void resolveMethodCommentFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassB");
+        assertThat(comment, equalTo("Method comment on class B"));
+    }
+
+    @Test
+    public void resolveMethodCommentFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassC");
+        assertThat(comment, equalTo("Method comment on class C"));
+    }
+
+    @Test
     public void resolveMethodTitle() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
@@ -78,6 +99,27 @@ public class JavadocReaderImplTest {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
         String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
         assertThat(comment, equalTo("Simple method title from classpath"));
+    }
+
+    @Test
+    public void resolveMethodTitleFromSuperClassA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassA");
+        assertThat(comment, equalTo("Method title on class A"));
+    }
+
+    @Test
+    public void resolveMethodTitleFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassB");
+        assertThat(comment, equalTo("Method title on class B"));
+    }
+
+    @Test
+    public void resolveMethodTitleFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassC");
+        assertThat(comment, equalTo("Method title on class C"));
     }
 
     @Test
@@ -94,6 +136,30 @@ public class JavadocReaderImplTest {
         String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
                 "simpleMethod", "simpleParameter");
         assertThat(comment, equalTo("Simple parameter comment from classpath"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromSuperClassA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnClassA", "parameter");
+        assertThat(comment, equalTo("Parameter comment on class A"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnClassB", "parameter");
+        assertThat(comment, equalTo("Parameter comment on class B"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnClassC", "parameter");
+        assertThat(comment, equalTo("Parameter comment on class C"));
     }
 
     @Test
@@ -137,6 +203,26 @@ public class JavadocReaderImplTest {
 
         private void simpleMethod(String simpleParameter) {
         }
+    }
+
+    private static class ClassA {
+
+        public void javadocOnClassA(String parameter) {
+        }
+
+        public void javadocOnClassB(String parameter) {
+        }
+
+        public void javadocOnClassC(String parameter) {
+        }
+    }
+
+    private static class ClassB extends ClassA {
+
+    }
+
+    private static class ClassC extends ClassB {
+
     }
 
     private static class NotExisting {

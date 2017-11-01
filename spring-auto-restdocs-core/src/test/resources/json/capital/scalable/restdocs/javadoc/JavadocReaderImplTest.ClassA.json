@@ -1,0 +1,26 @@
+{
+  "fields": {},
+  "methods": {
+    "javadocOnClassA": {
+      "title": "Method title on class A",
+      "comment": "Method comment on class A",
+      "parameters": {
+        "parameter": "Parameter comment on class A"
+      }
+    },
+    "javadocOnClassB": {
+      "title": "Ignored method title on class A",
+      "comment": "Ignored method comment on class A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on class A"
+      }
+    },
+    "javadocOnClassC": {
+      "title": "Ignored method title on class A",
+      "comment": "Ignored method comment on class A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on class A"
+      }
+    }
+  }
+}

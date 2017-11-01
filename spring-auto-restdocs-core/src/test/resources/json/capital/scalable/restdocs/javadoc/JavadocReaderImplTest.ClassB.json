@@ -1,0 +1,12 @@
+{
+  "fields": {},
+  "methods": {
+    "javadocOnClassB": {
+      "title": "Method title on class B",
+      "comment": "Method comment on class B",
+      "parameters": {
+        "parameter": "Parameter comment on class B"
+      }
+    }
+  }
+}

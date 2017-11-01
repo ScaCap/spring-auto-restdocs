@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.javadoc;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.split;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -77,20 +78,34 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
-    public String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName) {
-        return classJavadoc(javaBaseClass).getMethodComment(javaMethodName);
+    public String resolveMethodComment(Class<?> javaBaseClass, final String javaMethodName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodComment(javaMethodName);
+            }
+        });
     }
 
     @Override
-    public String resolveMethodTitle(Class<?> javaBaseClass, String javaMethodName) {
-        return classJavadoc(javaBaseClass).getMethodTitle(javaMethodName);
+    public String resolveMethodTitle(Class<?> javaBaseClass, final String javaMethodName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodTitle(javaMethodName);
+            }
+        });
     }
 
     @Override
-    public String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
-            String javaParameterName) {
-        return classJavadoc(javaBaseClass)
-                .getMethodParameterComment(javaMethodName, javaParameterName);
+    public String resolveMethodParameterComment(Class<?> javaBaseClass, final String javaMethodName,
+            final String javaParameterName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName);
+            }
+        });
     }
 
     private ClassJavadoc classJavadoc(Class<?> clazz) {
@@ -185,5 +200,28 @@ public class JavadocReaderImpl implements JavadocReader {
             }
         }
         return absoluteDirs;
+    }
+
+    /**
+     * Walks up the class hierarchy until a comment is found or top most class is reached.
+     * <p>
+     * As we do not know the full method signature here, we can not check
+     * whether a method in the super class actually overwrites the given method.
+     * However, the Javadoc model ignores method signatures anyway and it
+     * should not cause issues for the usual use case.
+     */
+    private String resolveCommentFromClassHierarchy(Class<?> javaBaseClass,
+            CommentExtractor commentExtractor) {
+        Class<?> currentClass = javaBaseClass;
+        String comment;
+        do {
+            comment = commentExtractor.comment(classJavadoc(currentClass));
+            currentClass = currentClass.getSuperclass();
+        } while (isBlank(comment) && currentClass != null);
+        return comment;
+    }
+
+    private interface CommentExtractor {
+        String comment(ClassJavadoc classJavadoc);
     }
 }
