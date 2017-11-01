@@ -72,7 +72,7 @@ Pagination response has following structure:
 | Path | Type | Optional | Description
 
 | content
-| Object Array
+| Array[Object]
 | false
 | Actual items.
 

@@ -3,6 +3,7 @@ package capital.scalable.restdocs.util;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
+import static org.apache.commons.lang3.StringUtils.chop;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,7 +21,31 @@ public class TypeUtil {
 
     public static String determineTypeName(Class<?> type) {
         // should return the same as FieldDocumentationVisitorWrapper
-        switch (primitiveToWrapper(type).getCanonicalName()) {
+        boolean isArray = false;
+        String canonicalName = primitiveToWrapper(type).getCanonicalName();
+        if (canonicalName.endsWith("[]")) {
+            isArray = true;
+            canonicalName = chop(chop(canonicalName));
+        }
+
+        String finalName = getSimpleName(canonicalName);
+        if (isArray) {
+            return "Array[" + finalName + "]";
+        } else {
+            return finalName;
+        }
+    }
+
+    public static String determineArrayOfType(JavaType contentType) {
+        if (contentType != null) {
+            return "Array[" + determineTypeName(contentType.getRawClass()) + "]";
+        } else {
+            return "Array[Object]";
+        }
+    }
+
+    private static String getSimpleName(String canonicalName) {
+        switch (canonicalName) {
         case "java.lang.Byte":
         case "java.lang.Short":
         case "java.lang.Long":
@@ -32,11 +57,12 @@ public class TypeUtil {
         case "java.math.BigDecimal":
             return "Decimal";
         case "java.lang.Character":
+        case "java.lang.String":
             return "String";
         case "java.lang.Boolean":
             return "Boolean";
         default:
-            return type.getSimpleName();
+            return "Object";
         }
     }
 

@@ -70,6 +70,11 @@ class ItemResponse {
     private List<ItemResponse> children;
 
     /**
+     * Tags.
+     */
+    private String[] tags;
+
+    /**
      * Some information | description about the item.
      */
     public String getDescription() {

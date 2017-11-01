@@ -63,12 +63,12 @@ public class ItemResource {
     private static final BigDecimal AMOUNT = new BigDecimal("3.14");
 
     private static final ItemResponse CHILD =
-            new ItemResponse("child-1", "first child", null, null, null);
+            new ItemResponse("child-1", "first child", null, null, null, null);
 
     private static final ItemResponse ITEM =
             new ItemResponse("1", "main item", new Metadata1("1", "meta1"),
                     new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE),
-                    singletonList(CHILD));
+                    singletonList(CHILD), new String[]{"top-level"});
 
     /**
      * Returns item by ID.
@@ -134,7 +134,7 @@ public class ItemResource {
     public HttpEntity<ItemResponse> updateItem(@PathVariable("id") @Id String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
         return new HttpEntity<>(
-                new ItemResponse(id, itemUpdate.getDescription(), null, null, null));
+                new ItemResponse(id, itemUpdate.getDescription(), null, null, null, null));
     }
 
     /**
@@ -236,7 +236,8 @@ public class ItemResource {
      * An example of accepting subtypes.
      */
     @RequestMapping(value = "validateMetadata", method = POST)
-    public void validateMetadata(@RequestBody Metadata metadata) {
+    public void validateMetadata(@RequestBody Metadata metadata,
+            @RequestParam(required = false) String[] lala) {
     }
 
     @Data
