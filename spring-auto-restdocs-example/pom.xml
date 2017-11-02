@@ -13,7 +13,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-example</artifactId>
-    <version>1.0.10-SNAPSHOT</version> <!-- not related to spring-auto-restdocs version -->
+    <version>1.0.10</version> <!-- not related to spring-auto-restdocs version -->
 
     <name>Spring Auto REST Docs Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>1.2.2.RELEASE</spring-restdocs.version>
-        <spring-auto-restdocs.version>1.0.10-SNAPSHOT</spring-auto-restdocs.version>
+        <spring-auto-restdocs.version>1.0.10</spring-auto-restdocs.version>
     </properties>
 
     <dependencies>
