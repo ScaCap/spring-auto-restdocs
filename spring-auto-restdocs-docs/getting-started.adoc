@@ -172,6 +172,39 @@ public void setUp() throws Exception {
 }
 ----
 
+[[gettingstarted-snapshot]]
+=== Snapshot build
+
+If you want to experiment with snapshot builds, add this repository:
+
+[source,xml]
+.Maven
+----
+<repositories>
+    <repository>
+        <id>sonatype-snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+----
+
+[source,javascript]
+.Gradle
+----
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+----
+
 [[gettingstarted-sample]]
 === Sample application
 
