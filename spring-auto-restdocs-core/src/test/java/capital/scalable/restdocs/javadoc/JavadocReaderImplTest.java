@@ -67,10 +67,10 @@ public class JavadocReaderImplTest {
     }
 
     @Test
-    public void resolveMethodCommentFromSuperClassA() {
+    public void resolveMethodCommentFromInterfaceA() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassA");
-        assertThat(comment, equalTo("Method comment on class A"));
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnInterfaceA");
+        assertThat(comment, equalTo("Method comment on interface A"));
     }
 
     @Test
@@ -102,10 +102,10 @@ public class JavadocReaderImplTest {
     }
 
     @Test
-    public void resolveMethodTitleFromSuperClassA() {
+    public void resolveMethodTitleFromInterfaceA() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassA");
-        assertThat(comment, equalTo("Method title on class A"));
+        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnInterfaceA");
+        assertThat(comment, equalTo("Method title on interface A"));
     }
 
     @Test
@@ -139,11 +139,11 @@ public class JavadocReaderImplTest {
     }
 
     @Test
-    public void resolveMethodParameterCommentFromSuperClassA() {
+    public void resolveMethodParameterCommentFromInterfaceA() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
-                "javadocOnClassA", "parameter");
-        assertThat(comment, equalTo("Parameter comment on class A"));
+                "javadocOnInterfaceA", "parameter");
+        assertThat(comment, equalTo("Parameter comment on interface A"));
     }
 
     @Test
@@ -205,20 +205,28 @@ public class JavadocReaderImplTest {
         }
     }
 
-    private static class ClassA {
+    private interface InterfaceA {
 
-        public void javadocOnClassA(String parameter) {
+        void javadocOnInterfaceA(String parameter);
+
+        void javadocOnClassB(String parameter);
+
+        void javadocOnClassC(String parameter);
+    }
+
+    private static class ClassB implements InterfaceA {
+
+        @Override
+        public void javadocOnInterfaceA(String parameter) {
         }
 
+        @Override
         public void javadocOnClassB(String parameter) {
         }
 
+        @Override
         public void javadocOnClassC(String parameter) {
         }
-    }
-
-    private static class ClassB extends ClassA {
-
     }
 
     private static class ClassC extends ClassB {

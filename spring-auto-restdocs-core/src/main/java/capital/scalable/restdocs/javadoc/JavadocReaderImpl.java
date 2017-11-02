@@ -203,7 +203,11 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     /**
-     * Walks up the class hierarchy until a comment is found or top most class is reached.
+     * Walks up the class hierarchy and interfaces until a comment is found or top most class is reached.
+     * <p>
+     * Javadoc on super classes and Javadoc on interfaces of super classes has precedence
+     * over the Javadoc on direct interfaces of the class. This is only important in the rare
+     * case of competing Javadoc comments.
      * <p>
      * As we do not know the full method signature here, we can not check
      * whether a method in the super class actually overwrites the given method.
@@ -212,13 +216,28 @@ public class JavadocReaderImpl implements JavadocReader {
      */
     private String resolveCommentFromClassHierarchy(Class<?> javaBaseClass,
             CommentExtractor commentExtractor) {
-        Class<?> currentClass = javaBaseClass;
-        String comment;
-        do {
-            comment = commentExtractor.comment(classJavadoc(currentClass));
-            currentClass = currentClass.getSuperclass();
-        } while (isBlank(comment) && currentClass != null);
-        return comment;
+        String comment = commentExtractor.comment(classJavadoc(javaBaseClass));
+        if (isNotBlank(comment)) {
+            // Direct Javadoc on a method always wins.
+            return comment;
+        }
+        // Super class has precedence over interfaces, but this also means that interfaces
+        // of super classes have precedence over interfaces of the class itself.
+        if (javaBaseClass.getSuperclass() != null) {
+            String superClassComment =
+                    resolveCommentFromClassHierarchy(javaBaseClass.getSuperclass(),
+                            commentExtractor);
+            if (isNotBlank(superClassComment)) {
+                return superClassComment;
+            }
+        }
+        for (Class<?> i : javaBaseClass.getInterfaces()) {
+            String interfaceComment = resolveCommentFromClassHierarchy(i, commentExtractor);
+            if (isNotBlank(interfaceComment)) {
+                return interfaceComment;
+            }
+        }
+        return "";
     }
 
     private interface CommentExtractor {

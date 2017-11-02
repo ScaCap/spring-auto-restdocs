@@ -1,0 +1,26 @@
+{
+  "fields": {},
+  "methods": {
+    "javadocOnInterfaceA": {
+      "title": "Method title on interface A",
+      "comment": "Method comment on interface A",
+      "parameters": {
+        "parameter": "Parameter comment on interface A"
+      }
+    },
+    "javadocOnClassB": {
+      "title": "Ignored method title on interface A",
+      "comment": "Ignored method comment on interface A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on interface A"
+      }
+    },
+    "javadocOnClassC": {
+      "title": "Ignored method title on interface A",
+      "comment": "Ignored method comment on interface A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on interface A"
+      }
+    }
+  }
+}
