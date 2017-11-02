@@ -17,10 +17,7 @@ before_install:
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=1.2.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
 script:
-- mvn install -B -V
-- cd spring-auto-restdocs-example
-- ./gradlew check
-- cd ..
+- mvn install -B -V -DskipTests
 after_success:
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk7"
   && "$DEPLOY_DIR/decrypt.sh"
