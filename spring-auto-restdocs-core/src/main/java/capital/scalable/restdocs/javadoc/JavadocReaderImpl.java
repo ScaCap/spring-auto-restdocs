@@ -82,20 +82,35 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
-    public String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName) {
-        return classJavadoc(javaBaseClass).getMethodComment(javaMethodName);
+    public String resolveMethodComment(Class<?> javaBaseClass, final String javaMethodName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodComment(javaMethodName);
+            }
+        });
     }
 
     @Override
-    public String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
-            String javaParameterName) {
-        return classJavadoc(javaBaseClass)
-                .getMethodParameterComment(javaMethodName, javaParameterName);
+    public String resolveMethodTag(Class<?> javaBaseClass, final String javaMethodName,
+            final String tagName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodTag(javaMethodName, tagName);
+            }
+        });
     }
 
     @Override
-    public String resolveMethodTag(Class<?> javaBaseClass, String javaMethodName, String tagName) {
-        return classJavadoc(javaBaseClass).getMethodTag(javaMethodName, tagName);
+    public String resolveMethodParameterComment(Class<?> javaBaseClass, final String javaMethodName,
+            final String javaParameterName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
+            @Override
+            public String comment(ClassJavadoc classJavadoc) {
+                return classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName);
+            }
+        });
     }
 
     private ClassJavadoc classJavadoc(Class<?> clazz) {
@@ -190,5 +205,47 @@ public class JavadocReaderImpl implements JavadocReader {
             }
         }
         return absoluteDirs;
+    }
+
+    /**
+     * Walks up the class hierarchy and interfaces until a comment is found or top most class is reached.
+     * <p>
+     * Javadoc on super classes and Javadoc on interfaces of super classes has precedence
+     * over the Javadoc on direct interfaces of the class. This is only important in the rare
+     * case of competing Javadoc comments.
+     * <p>
+     * As we do not know the full method signature here, we can not check
+     * whether a method in the super class actually overwrites the given method.
+     * However, the Javadoc model ignores method signatures anyway and it
+     * should not cause issues for the usual use case.
+     */
+    private String resolveCommentFromClassHierarchy(Class<?> javaBaseClass,
+            CommentExtractor commentExtractor) {
+        String comment = commentExtractor.comment(classJavadoc(javaBaseClass));
+        if (isNotBlank(comment)) {
+            // Direct Javadoc on a method always wins.
+            return comment;
+        }
+        // Super class has precedence over interfaces, but this also means that interfaces
+        // of super classes have precedence over interfaces of the class itself.
+        if (javaBaseClass.getSuperclass() != null) {
+            String superClassComment =
+                    resolveCommentFromClassHierarchy(javaBaseClass.getSuperclass(),
+                            commentExtractor);
+            if (isNotBlank(superClassComment)) {
+                return superClassComment;
+            }
+        }
+        for (Class<?> i : javaBaseClass.getInterfaces()) {
+            String interfaceComment = resolveCommentFromClassHierarchy(i, commentExtractor);
+            if (isNotBlank(interfaceComment)) {
+                return interfaceComment;
+            }
+        }
+        return "";
+    }
+
+    private interface CommentExtractor {
+        String comment(ClassJavadoc classJavadoc);
     }
 }

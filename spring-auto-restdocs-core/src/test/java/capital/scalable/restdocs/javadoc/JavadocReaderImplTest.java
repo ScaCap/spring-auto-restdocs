@@ -83,6 +83,27 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveMethodCommentFromInterfaceA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnInterfaceA");
+        assertThat(comment, equalTo("Method comment on interface A"));
+    }
+
+    @Test
+    public void resolveMethodCommentFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassB");
+        assertThat(comment, equalTo("Method comment on class B"));
+    }
+
+    @Test
+    public void resolveMethodCommentFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodComment(ClassC.class, "javadocOnClassC");
+        assertThat(comment, equalTo("Method comment on class C"));
+    }
+
+    @Test
     public void resolveMethodTag() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod", "title");
@@ -94,6 +115,28 @@ public class JavadocReaderImplTest {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
         String comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod", "title");
         assertThat(comment, equalTo("Simple method title from classpath"));
+    }
+
+    @Test
+    public void resolveMethodTagFromInterfaceA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment =
+                javadocReader.resolveMethodTag(ClassC.class, "javadocOnInterfaceA", "title");
+        assertThat(comment, equalTo("Method title on interface A"));
+    }
+
+    @Test
+    public void resolveMethodTagFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTag(ClassC.class, "javadocOnClassB", "title");
+        assertThat(comment, equalTo("Method title on class B"));
+    }
+
+    @Test
+    public void resolveMethodTagFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodTag(ClassC.class, "javadocOnClassC", "title");
+        assertThat(comment, equalTo("Method title on class C"));
     }
 
     @Test
@@ -110,6 +153,30 @@ public class JavadocReaderImplTest {
         String comment = javadocReader.resolveMethodParameterComment(SimpleType.class,
                 "simpleMethod", "simpleParameter");
         assertThat(comment, equalTo("Simple parameter comment from classpath"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromInterfaceA() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnInterfaceA", "parameter");
+        assertThat(comment, equalTo("Parameter comment on interface A"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromSuperClassB() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnClassB", "parameter");
+        assertThat(comment, equalTo("Parameter comment on class B"));
+    }
+
+    @Test
+    public void resolveMethodParameterCommentFromClassC() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveMethodParameterComment(ClassC.class,
+                "javadocOnClassC", "parameter");
+        assertThat(comment, equalTo("Parameter comment on class C"));
     }
 
     @Test
@@ -165,6 +232,34 @@ public class JavadocReaderImplTest {
 
         private void simpleMethod(String simpleParameter) {
         }
+    }
+
+    private interface InterfaceA {
+
+        void javadocOnInterfaceA(String parameter);
+
+        void javadocOnClassB(String parameter);
+
+        void javadocOnClassC(String parameter);
+    }
+
+    private static class ClassB implements InterfaceA {
+
+        @Override
+        public void javadocOnInterfaceA(String parameter) {
+        }
+
+        @Override
+        public void javadocOnClassB(String parameter) {
+        }
+
+        @Override
+        public void javadocOnClassC(String parameter) {
+        }
+    }
+
+    private static class ClassC extends ClassB {
+
     }
 
     private static class NotExisting {
