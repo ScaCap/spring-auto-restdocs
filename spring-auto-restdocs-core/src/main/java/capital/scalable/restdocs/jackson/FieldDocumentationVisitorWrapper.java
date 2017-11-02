@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.jackson;
 
+import static capital.scalable.restdocs.util.TypeUtil.determineArrayOfType;
 import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -101,8 +102,8 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     @Override
     public JsonArrayFormatVisitor expectArrayFormat(JavaType arrayType)
             throws JsonMappingException {
-        addFieldIfPresent("Array");
         JavaType contentType = arrayType.getContentType();
+        addFieldIfPresent(determineArrayOfType(contentType));
         if (contentType != null && shouldExpand() && (topLevelPath() || !wasVisited(contentType))) {
             log.trace("({}) {} expanding array", path, toString(contentType));
             // do not add this type to visited now, it will be done in expectObjectFormat for

@@ -70,10 +70,10 @@ public class FieldDocumentationGeneratorTest {
     public void testGenerateDocumentationForBasicTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        mockFieldComment(BasicTypes.class, "stringField", "A string");
-        mockFieldComment(BasicTypes.class, "booleanField", "A boolean");
-        mockFieldComment(BasicTypes.class, "numberField1", "An integer");
-        mockFieldComment(BasicTypes.class, "numberField2", "A decimal");
+        mockFieldComment(BasicTypes.class, "string", "A string");
+        mockFieldComment(BasicTypes.class, "bool", "A boolean");
+        mockFieldComment(BasicTypes.class, "number", "An integer");
+        mockFieldComment(BasicTypes.class, "decimal", "A decimal");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
@@ -85,20 +85,20 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(result.size(), is(4));
-        assertThat(result.get(0), is(descriptor("stringField", "String", "A string", "true")));
-        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "true")));
-        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "true")));
-        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "true")));
+        assertThat(result.get(0), is(descriptor("string", "String", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("bool", "Boolean", "A boolean", "true")));
+        assertThat(result.get(2), is(descriptor("number", "Integer", "An integer", "true")));
+        assertThat(result.get(3), is(descriptor("decimal", "Decimal", "A decimal", "true")));
     }
 
     @Test
     public void testGenerateDocumentationForPrimitiveTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        mockFieldComment(PrimitiveTypes.class, "stringField", "A string");
-        mockFieldComment(PrimitiveTypes.class, "booleanField", "A boolean");
-        mockFieldComment(PrimitiveTypes.class, "numberField1", "An integer");
-        mockFieldComment(PrimitiveTypes.class, "numberField2", "A decimal");
+        mockFieldComment(PrimitiveTypes.class, "string", "A string");
+        mockFieldComment(PrimitiveTypes.class, "bool", "A boolean");
+        mockFieldComment(PrimitiveTypes.class, "number", "An integer");
+        mockFieldComment(PrimitiveTypes.class, "decimal", "A decimal");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -110,10 +110,10 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(result.size(), is(4));
-        assertThat(result.get(0), is(descriptor("stringField", "Array", "A string", "true")));
-        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "true")));
-        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "true")));
-        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "true")));
+        assertThat(result.get(0), is(descriptor("string", "Array[String]", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("bool", "Boolean", "A boolean", "true")));
+        assertThat(result.get(2), is(descriptor("number", "Integer", "An integer", "true")));
+        assertThat(result.get(3), is(descriptor("decimal", "Decimal", "A decimal", "true")));
 
         // when change deserialization config
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
@@ -125,22 +125,22 @@ public class FieldDocumentationGeneratorTest {
 
         // then
         assertThat(result.size(), is(4));
-        assertThat(result.get(0), is(descriptor("stringField", "Array", "A string", "true")));
-        assertThat(result.get(1), is(descriptor("booleanField", "Boolean", "A boolean", "false")));
-        assertThat(result.get(2), is(descriptor("numberField1", "Integer", "An integer", "false")));
-        assertThat(result.get(3), is(descriptor("numberField2", "Decimal", "A decimal", "false")));
+        assertThat(result.get(0), is(descriptor("string", "Array[String]", "A string", "true")));
+        assertThat(result.get(1), is(descriptor("bool", "Boolean", "A boolean", "false")));
+        assertThat(result.get(2), is(descriptor("number", "Integer", "An integer", "false")));
+        assertThat(result.get(3), is(descriptor("decimal", "Decimal", "A decimal", "false")));
     }
 
     @Test
     public void testGenerateDocumentationForComposedTypes() throws Exception {
         // given
         ObjectMapper mapper = createMapper();
-        mockFieldComment(ComposedTypes.class, "objectField", "An object");
-        mockFieldComment(BasicTypes.class, "stringField", "A string");
-        mockFieldComment(BasicTypes.class, "booleanField", "A boolean");
-        mockFieldComment(BasicTypes.class, "numberField1", "An integer");
-        mockFieldComment(BasicTypes.class, "numberField2", "A decimal");
-        mockFieldComment(ComposedTypes.class, "arrayField", "An array");
+        mockFieldComment(ComposedTypes.class, "object", "An object");
+        mockFieldComment(BasicTypes.class, "string", "A string");
+        mockFieldComment(BasicTypes.class, "bool", "A boolean");
+        mockFieldComment(BasicTypes.class, "number", "An integer");
+        mockFieldComment(BasicTypes.class, "decimal", "A decimal");
+        mockFieldComment(ComposedTypes.class, "array", "An array");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
@@ -154,25 +154,25 @@ public class FieldDocumentationGeneratorTest {
         // then
         assertThat(result.size(), is(10));
         assertThat(result.get(0),
-                is(descriptor("objectField", "Object", "An object", "true")));
+                is(descriptor("object", "Object", "An object", "true")));
         assertThat(result.get(1),
-                is(descriptor("objectField.stringField", "String", "A string", "true")));
+                is(descriptor("object.string", "String", "A string", "true")));
         assertThat(result.get(2),
-                is(descriptor("objectField.booleanField", "Boolean", "A boolean", "true")));
+                is(descriptor("object.bool", "Boolean", "A boolean", "true")));
         assertThat(result.get(3),
-                is(descriptor("objectField.numberField1", "Integer", "An integer", "true")));
+                is(descriptor("object.number", "Integer", "An integer", "true")));
         assertThat(result.get(4),
-                is(descriptor("objectField.numberField2", "Decimal", "A decimal", "true")));
+                is(descriptor("object.decimal", "Decimal", "A decimal", "true")));
         assertThat(result.get(5),
-                is(descriptor("arrayField", "Array", "An array", "true")));
+                is(descriptor("array", "Array[Object]", "An array", "true")));
         assertThat(result.get(6),
-                is(descriptor("arrayField[].stringField", "String", "A string", "true")));
+                is(descriptor("array[].string", "String", "A string", "true")));
         assertThat(result.get(7),
-                is(descriptor("arrayField[].booleanField", "Boolean", "A boolean", "true")));
+                is(descriptor("array[].bool", "Boolean", "A boolean", "true")));
         assertThat(result.get(8),
-                is(descriptor("arrayField[].numberField1", "Integer", "An integer", "true")));
+                is(descriptor("array[].number", "Integer", "An integer", "true")));
         assertThat(result.get(9),
-                is(descriptor("arrayField[].numberField2", "Decimal", "A decimal", "true")));
+                is(descriptor("array[].decimal", "Decimal", "A decimal", "true")));
     }
 
     @Test
@@ -199,11 +199,12 @@ public class FieldDocumentationGeneratorTest {
         assertThat(result.get(0),
                 is(descriptor("second", "Object", "2nd level", "true")));
         assertThat(result.get(1),
-                is(descriptor("second.third", "Array", "3rd level", "true")));
+                is(descriptor("second.third", "Array[Object]", "3rd level", "true")));
         assertThat(result.get(2),
                 is(descriptor("second.third[].fourth", "Object", "4th level", "true")));
         assertThat(result.get(3),
-                is(descriptor("second.third[].fourth.fifth", "Array", "5th level", "true")));
+                is(descriptor("second.third[].fourth.fifth", "Array[Object]", "5th level",
+                        "true")));
         assertThat(result.get(4),
                 is(descriptor("second.third[].fourth.fifth[].last", "Integer", "An integer",
                         "true")));
@@ -223,21 +224,21 @@ public class FieldDocumentationGeneratorTest {
 
         // then
         assertThat(result.size(), is(16));
-        assertThat(result.get(0), is(descriptor("sub1", "Array", null, "true")));
+        assertThat(result.get(0), is(descriptor("sub1", "Array[Object]", null, "true")));
         assertThat(result.get(1), is(descriptor("sub2", "Object", null, "true")));
-        assertThat(result.get(2), is(descriptor("sub3", "Array", null, "true")));
+        assertThat(result.get(2), is(descriptor("sub3", "Array[Object]", null, "true")));
         assertThat(result.get(3), is(descriptor("sub4", "Object", null, "true")));
-        assertThat(result.get(4), is(descriptor("sub5", "Array", null, "true")));
+        assertThat(result.get(4), is(descriptor("sub5", "Array[Object]", null, "true")));
         assertThat(result.get(5), is(descriptor("sub6", "Object", null, "true")));
-        assertThat(result.get(6), is(descriptor("sub7", "Array", null, "true")));
-        assertThat(result.get(7), is(descriptor("sub7[].sub1", "Array", null, "true")));
+        assertThat(result.get(6), is(descriptor("sub7", "Array[Object]", null, "true")));
+        assertThat(result.get(7), is(descriptor("sub7[].sub1", "Array[Object]", null, "true")));
         assertThat(result.get(8), is(descriptor("sub7[].sub2", "Object", null, "true")));
-        assertThat(result.get(9), is(descriptor("sub7[].sub3", "Array", null, "true")));
+        assertThat(result.get(9), is(descriptor("sub7[].sub3", "Array[Object]", null, "true")));
         assertThat(result.get(10), is(descriptor("sub7[].sub4", "Object", null, "true")));
         assertThat(result.get(11), is(descriptor("sub8", "Object", null, "true")));
-        assertThat(result.get(12), is(descriptor("sub8.sub1", "Array", null, "true")));
+        assertThat(result.get(12), is(descriptor("sub8.sub1", "Array[Object]", null, "true")));
         assertThat(result.get(13), is(descriptor("sub8.sub2", "Object", null, "true")));
-        assertThat(result.get(14), is(descriptor("sub8.sub3", "Array", null, "true")));
+        assertThat(result.get(14), is(descriptor("sub8.sub3", "Array[Object]", null, "true")));
         assertThat(result.get(15), is(descriptor("sub8.sub4", "Object", null, "true")));
     }
 
@@ -363,12 +364,12 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(1),
                 is(descriptor("type", "Integer", null, "false", "A constraint for type")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("params", "Array", null, "false")));
+                is(descriptor("params", "Array[Object]", null, "false")));
         assertThat(fieldDescriptions.get(3),
                 is(descriptor("params[].value", "String", null, "false",
                         "A constraint1 for value", "A constraint2 for value")));
         assertThat(fieldDescriptions.get(4),
-                is(descriptor("flags", "Array", null, "true")));
+                is(descriptor("flags", "Array[Boolean]", null, "true")));
     }
 
     @Test
@@ -404,11 +405,11 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(1),
                 is(descriptor("name", "String", "A name", "true")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("base1", "Array", "A base 1", "true")));
+                is(descriptor("base1", "Array[Object]", "A base 1", "true")));
         assertThat(fieldDescriptions.get(3),
                 is(descriptor("base2", "Object", "A base 2", "true")));
         assertThat(fieldDescriptions.get(4),
-                is(descriptor("base3", "Array", "A base 3", "true")));
+                is(descriptor("base3", "Array[Object]", "A base 3", "true")));
         assertThat(fieldDescriptions.get(5),
                 is(descriptor("base3[].clazz", "String", "A clazz", "true")));
         assertThat(fieldDescriptions.get(6),
@@ -475,23 +476,23 @@ public class FieldDocumentationGeneratorTest {
     }
 
     private static class BasicTypes {
-        private String stringField;
-        private Boolean booleanField;
-        private Integer numberField1;
-        private Double numberField2;
+        private String string;
+        private Boolean bool;
+        private Integer number;
+        private Double decimal;
 
     }
 
     private static class PrimitiveTypes {
-        private char[] stringField; // array is nullable
-        private boolean booleanField;
-        private int numberField1;
-        private double numberField2;
+        private char[] string; // array is nullable
+        private boolean bool;
+        private int number;
+        private double decimal;
     }
 
     private static class ComposedTypes {
-        private BasicTypes objectField;
-        private List<BasicTypes> arrayField;
+        private BasicTypes object;
+        private List<BasicTypes> array;
     }
 
     private static class FirstLevel {
