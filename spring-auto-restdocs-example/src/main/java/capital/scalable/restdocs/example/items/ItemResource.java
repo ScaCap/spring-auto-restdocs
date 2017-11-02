@@ -244,7 +244,7 @@ public class ItemResource {
      * <p>
      * An example of deprecation.
      *
-     * @deprecated use something else
+     * @deprecated create a new item instead
      */
     @Deprecated
     @RequestMapping(value = "cloneItem", method = POST)

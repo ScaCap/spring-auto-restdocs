@@ -24,3 +24,15 @@ Preprocessors are available for use in order to improve quality of endpoint exam
 - link:{core-package}/response/ArrayLimitingJsonContentModifier.java[limit JSON array length]: limits all JSON arrays to 3 items
 
 For a list of standard preprocessors see link:{restdocs-package}/operation/preprocess/Preprocessors.java[Preprocessors].
+
+[[deprecation]]
+=== Deprecation support
+
+Endpoint or field will be marked as deprecated if at least one of these is present:
+
+- method / field is annotated with `@Deprecated`
+- method's / field's Javadoc has `@deprecated` tag
+
+The deprecation is only visible when using <<snippets-section,Section>> approach. Then it will be shown in the title (also visible in
+TOC) and description. Field's deprecation is shown in description column of request/response table.
+See how it looks in the link:https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html#resources-item-resource-test-clone-item[example project].
