@@ -137,6 +137,32 @@ public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) { .
 
 |===
 
+[[snippets-request-headers]]
+=== Request headers snippet
+
+link:{core-package}/request/RequestHeaderSnippet.java[Request headers snippet] automatically lists headers their type, whether they are optional, and their Javadoc with constraints.
+
+.Code
+[source,java]
+----
+/**
+ * @param lang Language we want the response in.
+ */
+@RequestMapping("/all")
+public ItemResponse getItem(@RequestHeader("Accept-Language") String lang) { ... }
+----
+
+.Result
+|===
+|Parameter|Type|Optional|Description
+
+| lang
+| String
+| true
+| Language we want the response in.
+
+|===
+
 [[snippets-request-fields]]
 === Request fields snippet
 
