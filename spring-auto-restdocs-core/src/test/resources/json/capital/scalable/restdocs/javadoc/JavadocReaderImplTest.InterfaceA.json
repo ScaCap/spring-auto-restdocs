@@ -1,0 +1,32 @@
+{
+  "fields": {},
+  "methods": {
+    "javadocOnInterfaceA": {
+      "comment": "Method comment on interface A",
+      "parameters": {
+        "parameter": "Parameter comment on interface A"
+      },
+      "tags": {
+        "title": "Method title on interface A"
+      }
+    },
+    "javadocOnClassB": {
+      "comment": "Ignored method comment on interface A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on interface A"
+      },
+      "tags": {
+        "title": "Ignored method title on interface A"
+      }
+    },
+    "javadocOnClassC": {
+      "comment": "Ignored method comment on interface A",
+      "parameters": {
+        "parameter": "Ignored parameter comment on interface A"
+      },
+      "tags": {
+        "title": "Ignored method title on interface A"
+      }
+    }
+  }
+}
