@@ -16,10 +16,13 @@
 
 package capital.scalable.restdocs.misc;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.determineForcedLineBreak;
+import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
+import static capital.scalable.restdocs.util.FormatUtil.addDot;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,14 +49,31 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
 
         JavadocReader javadocReader = getJavadocReader(operation);
+        String methodComment = resolveComment(handlerMethod, javadocReader);
+        String deprecated = resolveDeprecated(handlerMethod, javadocReader);
+        String description = convertFromJavadoc(deprecated + methodComment,
+                determineTemplateFormatting(operation));
 
+        model.put("description", description);
+        return model;
+    }
+
+    private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+        boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
+        String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "deprecated");
+        if (isDeprecated || isNotBlank(comment)) {
+            comment = capitalize(addDot(comment));
+            return "<b>Deprecated.</b> " + comment + "<p>";
+        } else {
+            return "";
+        }
+    }
+
+    private String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
-
-        methodComment = convertFromJavadoc(methodComment, determineForcedLineBreak(operation));
-
-        model.put("description", methodComment);
-        return model;
+        return capitalize(addDot(methodComment));
     }
 
     private Map<String, Object> defaultModel() {

@@ -19,7 +19,7 @@ package capital.scalable.restdocs.constraints;
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
         .CONSTRAINT_CLASS;
-import static capital.scalable.restdocs.util.ObjectUtil.arrayToString;
+import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;

@@ -144,4 +144,12 @@ public class ItemResourceTest extends MockMvcBase {
                 .content("{ \"type\": \"1\", \"tag\": \"myItem\" }"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void cloneItem() throws Exception {
+        mockMvc.perform(post("/items/cloneItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"name\": \"xyz\" }"))
+                .andExpect(status().isOk());
+    }
 }

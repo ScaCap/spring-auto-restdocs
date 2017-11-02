@@ -30,6 +30,7 @@ import java.util.Map;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
+import capital.scalable.restdocs.util.TemplateFormatting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContext;
@@ -45,9 +46,6 @@ public class OperationAttributeHelper {
     private static final String ATTRIBUTE_NAME_CONFIGURATION =
             "org.springframework.restdocs.configuration";
     public static final String REQUEST_PATTERN = "REQUEST_PATTERN";
-
-    private static final String LINE_BREAK_ASCIIDOC = " +\n";
-    private static final String LINE_BREAK_MARKDOWN = "<br>";
 
     public static HandlerMethod getHandlerMethod(Operation operation) {
         Map<String, Object> attributes = operation.getAttributes();
@@ -131,13 +129,12 @@ public class OperationAttributeHelper {
         return (List<Snippet>) operation.getAttributes().get(ATTRIBUTE_NAME_DEFAULT_SNIPPETS);
     }
 
-    public static String determineForcedLineBreak(Operation operation) {
-        return determineForcedLineBreak(getTemplateFormat(operation));
+    public static TemplateFormatting determineTemplateFormatting(Operation operation) {
+        return determineTemplateFormatting(getTemplateFormat(operation));
     }
 
-    // necessary until https://github.com/spring-projects/spring-restdocs/issues/351 is fixed
-    public static String determineForcedLineBreak(TemplateFormat templateFormat) {
+    public static TemplateFormatting determineTemplateFormatting(TemplateFormat templateFormat) {
         return templateFormat.getId().equals(TemplateFormats.asciidoctor().getId())
-                ? LINE_BREAK_ASCIIDOC : LINE_BREAK_MARKDOWN;
+                ? TemplateFormatting.ASCIIDOC : TemplateFormatting.MARKDOWN;
     }
 }

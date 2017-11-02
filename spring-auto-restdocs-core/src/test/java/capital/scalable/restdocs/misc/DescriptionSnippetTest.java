@@ -28,9 +28,11 @@ import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippetTest extends AbstractSnippetTests {
+    private TemplateFormat templateFormat;
 
     public DescriptionSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
+        this.templateFormat = templateFormat;
     }
 
     @Test
@@ -38,9 +40,31 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
         JavadocReader javadocReader = mock(JavadocReader.class);
         when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
-                .thenReturn("Sample method comment");
+                .thenReturn("sample method comment");
+        when(javadocReader.resolveMethodTag(TestResource.class, "testDescription", "deprecated"))
+                .thenReturn("");
 
-        this.snippets.expect(DESCRIPTION).withContents(equalTo("Sample method comment"));
+        this.snippets.expect(DESCRIPTION).withContents(equalTo("Sample method comment."));
+
+        new DescriptionSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost/test")
+                .build());
+    }
+
+    @Test
+    public void descriptionWithDeprecated() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
+        JavadocReader javadocReader = mock(JavadocReader.class);
+        when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
+                .thenReturn("sample method comment");
+        when(javadocReader
+                .resolveMethodTag(TestResource.class, "testDescription", "deprecated"))
+                .thenReturn("use different one");
+
+        this.snippets.expect(DESCRIPTION).withContents(equalTo(
+                "**Deprecated.** Use different one.\n\nSample method comment."));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

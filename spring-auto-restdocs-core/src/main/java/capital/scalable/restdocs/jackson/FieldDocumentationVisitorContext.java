@@ -17,14 +17,18 @@
 package capital.scalable.restdocs.jackson;
 
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.slf4j.Logger;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
+import org.springframework.util.ReflectionUtils;
 
 class FieldDocumentationVisitorContext {
     private static final Logger log = getLogger(FieldDocumentationVisitorContext.class);
@@ -74,7 +79,8 @@ class FieldDocumentationVisitorContext {
 
         Attribute constraints = constraintAttribute(javaBaseClass, javaFieldName);
         Attribute optionals = optionalAttribute(javaBaseClass, javaFieldName);
-        fieldDescriptor.attributes(constraints, optionals);
+        Attribute deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
+        fieldDescriptor.attributes(constraints, optionals, deprecated);
 
         fields.add(fieldDescriptor);
         log.debug("({}) {} added", jsonFieldPath, javaFieldTypeName);
@@ -116,6 +122,11 @@ class FieldDocumentationVisitorContext {
                 resolveOptionalMessages(javaBaseClass, javaFieldName));
     }
 
+    private Attribute deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return new Attribute(DEPRECATED_ATTRIBUTE,
+                resolveDeprecatedMessage(javaBaseClass, javaFieldName));
+    }
+
     private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
         List<String> optionalMessages = new ArrayList<>();
 
@@ -155,5 +166,16 @@ class FieldDocumentationVisitorContext {
         }
 
         return descriptions;
+    }
+
+    private String resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
+        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
+        boolean isDeprecated = field != null && field.getAnnotation(Deprecated.class) != null;
+        String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, "deprecated");
+        if (isDeprecated || isNotBlank(comment)) {
+            return trimToEmpty(comment);
+        } else {
+            return null;
+        }
     }
 }
