@@ -16,7 +16,6 @@
 
 package capital.scalable.restdocs.javadoc;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.split;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -78,6 +77,11 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
+    public String resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
+        return classJavadoc(javaBaseClass).getFieldTag(javaFieldName, tagName);
+    }
+
+    @Override
     public String resolveMethodComment(Class<?> javaBaseClass, final String javaMethodName) {
         return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
             @Override
@@ -88,11 +92,12 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
-    public String resolveMethodTitle(Class<?> javaBaseClass, final String javaMethodName) {
+    public String resolveMethodTag(Class<?> javaBaseClass, final String javaMethodName,
+            final String tagName) {
         return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
             @Override
             public String comment(ClassJavadoc classJavadoc) {
-                return classJavadoc.getMethodTitle(javaMethodName);
+                return classJavadoc.getMethodTag(javaMethodName, tagName);
             }
         });
     }

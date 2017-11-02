@@ -87,7 +87,12 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     protected Type firstGenericType(MethodParameter param) {
-        return ((ParameterizedType) param.getGenericParameterType()).getActualTypeArguments()[0];
+        Type type = param.getGenericParameterType();
+        if (type != null && type instanceof ParameterizedType) {
+            return ((ParameterizedType) type).getActualTypeArguments()[0];
+        } else {
+            return Object.class;
+        }
     }
 
     protected abstract Type getType(HandlerMethod method);

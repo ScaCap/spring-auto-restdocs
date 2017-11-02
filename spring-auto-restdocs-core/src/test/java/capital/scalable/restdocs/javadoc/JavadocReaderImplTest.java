@@ -53,6 +53,22 @@ public class JavadocReaderImplTest {
     }
 
     @Test
+    public void resolveFieldTag() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
+        String comment = javadocReader.resolveFieldTag(SimpleType.class, "simpleField",
+                "deprecated");
+        assertThat(comment, equalTo("Deprecation comment"));
+    }
+
+    @Test
+    public void resolveFieldTagFromClasspath() {
+        JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
+        String comment = javadocReader.resolveFieldTag(SimpleType.class, "simpleField",
+                "deprecated");
+        assertThat(comment, equalTo("Deprecation comment from classpath"));
+    }
+
+    @Test
     public void resolveMethodComment() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
         String comment = javadocReader.resolveMethodComment(SimpleType.class, "simpleMethod");
@@ -88,37 +104,38 @@ public class JavadocReaderImplTest {
     }
 
     @Test
-    public void resolveMethodTitle() {
+    public void resolveMethodTag() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
+        String comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod", "title");
         assertThat(comment, equalTo("Simple method title"));
     }
 
     @Test
-    public void resolveMethodTitleFromClasspath() {
+    public void resolveMethodTagFromClasspath() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(null);
-        String comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod");
+        String comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod", "title");
         assertThat(comment, equalTo("Simple method title from classpath"));
     }
 
     @Test
-    public void resolveMethodTitleFromInterfaceA() {
+    public void resolveMethodTagFromInterfaceA() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnInterfaceA");
+        String comment =
+                javadocReader.resolveMethodTag(ClassC.class, "javadocOnInterfaceA", "title");
         assertThat(comment, equalTo("Method title on interface A"));
     }
 
     @Test
-    public void resolveMethodTitleFromSuperClassB() {
+    public void resolveMethodTagFromSuperClassB() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassB");
+        String comment = javadocReader.resolveMethodTag(ClassC.class, "javadocOnClassB", "title");
         assertThat(comment, equalTo("Method title on class B"));
     }
 
     @Test
-    public void resolveMethodTitleFromClassC() {
+    public void resolveMethodTagFromClassC() {
         JavadocReader javadocReader = JavadocReaderImpl.createWith(SOURCE_DIR);
-        String comment = javadocReader.resolveMethodTitle(ClassC.class, "javadocOnClassC");
+        String comment = javadocReader.resolveMethodTag(ClassC.class, "javadocOnClassC", "title");
         assertThat(comment, equalTo("Method title on class C"));
     }
 
@@ -169,9 +186,15 @@ public class JavadocReaderImplTest {
         // json file for class does not exist
         String comment = javadocReader.resolveFieldComment(NotExisting.class, "simpleField2");
         assertThat(comment, is(""));
+        comment = javadocReader.resolveFieldTag(NotExisting.class, "simpleField", "tag");
+        assertThat(comment, is(""));
+        comment = javadocReader.resolveFieldTag(NotExisting.class, "simpleField2", "tag");
+        assertThat(comment, is(""));
         comment = javadocReader.resolveMethodComment(NotExisting.class, "simpleMethod");
         assertThat(comment, is(""));
-        comment = javadocReader.resolveMethodTitle(NotExisting.class, "simpleMethod");
+        comment = javadocReader.resolveMethodTag(NotExisting.class, "simpleMethod", "tag");
+        assertThat(comment, is(""));
+        comment = javadocReader.resolveMethodTag(NotExisting.class, "simpleMethod2", "tag");
         assertThat(comment, is(""));
         comment = javadocReader.resolveMethodParameterComment(NotExisting.class, "simpleMethod",
                 "simpleParameter");
@@ -185,9 +208,15 @@ public class JavadocReaderImplTest {
         // json file exists but field/method/parameter is not present
         String comment = javadocReader.resolveFieldComment(SimpleType.class, "simpleField2");
         assertThat(comment, is(""));
+        comment = javadocReader.resolveFieldTag(SimpleType.class, "simpleField", "tag");
+        assertThat(comment, is(""));
+        comment = javadocReader.resolveFieldTag(SimpleType.class, "simpleField2", "tag");
+        assertThat(comment, is(""));
         comment = javadocReader.resolveMethodComment(SimpleType.class, "simpleMethod2");
         assertThat(comment, is(""));
-        comment = javadocReader.resolveMethodTitle(SimpleType.class, "simpleMethod2");
+        comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod", "tag");
+        assertThat(comment, is(""));
+        comment = javadocReader.resolveMethodTag(SimpleType.class, "simpleMethod2", "tag");
         assertThat(comment, is(""));
         comment = javadocReader.resolveMethodParameterComment(SimpleType.class, "simpleMethod",
                 "simpleParameter2");

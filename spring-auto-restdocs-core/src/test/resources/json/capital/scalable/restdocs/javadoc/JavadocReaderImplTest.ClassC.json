@@ -2,10 +2,12 @@
   "fields": {},
   "methods": {
     "javadocOnClassC": {
-      "title": "Method title on class C",
       "comment": "Method comment on class C",
       "parameters": {
         "parameter": "Parameter comment on class C"
+      },
+      "tags": {
+        "title": "Method title on class C"
       }
     }
   }
