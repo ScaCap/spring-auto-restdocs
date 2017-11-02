@@ -236,8 +236,7 @@ public class ItemResource {
      * An example of accepting subtypes.
      */
     @RequestMapping(value = "validateMetadata", method = POST)
-    public void validateMetadata(@RequestBody Metadata metadata,
-            @RequestParam(required = false) String[] lala) {
+    public void validateMetadata(@RequestBody Metadata metadata) {
     }
 
     /**
