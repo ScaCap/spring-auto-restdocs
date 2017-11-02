@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
@@ -169,10 +170,12 @@ class FieldDocumentationVisitorContext {
 
     private String resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
         Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
-        boolean isDeprecated = field == null
-                ? false
-                : field.getAnnotation(Deprecated.class) != null;
+        boolean isDeprecated = field != null && field.getAnnotation(Deprecated.class) != null;
         String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, "deprecated");
-        return isDeprecated || isNotBlank(comment) ? comment : null;
+        if (isDeprecated || isNotBlank(comment)) {
+            return trimToEmpty(comment);
+        } else {
+            return null;
+        }
     }
 }
