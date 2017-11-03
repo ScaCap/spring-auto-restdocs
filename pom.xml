@@ -5,7 +5,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-parent</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
     <packaging>pom</packaging>
 
     <name>Spring Auto REST Docs Parent POM</name>

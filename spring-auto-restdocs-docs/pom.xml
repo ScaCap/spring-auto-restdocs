@@ -6,7 +6,7 @@
     <parent>
         <groupId>capital.scalable</groupId>
         <artifactId>spring-auto-restdocs-parent</artifactId>
-        <version>1.0.10-SNAPSHOT</version>
+        <version>1.0.10</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
 
     <properties>
         <docs.dir>${project.basedir}/../docs</docs.dir>
-        <latestRelease>1.0.9</latestRelease> <!-- change this when releasing 1.0.10-SNAPSHOT -->
+        <latestRelease>1.0.10</latestRelease> <!-- change this when releasing 1.0.11-SNAPSHOT -->
     </properties>
 
     <build>
