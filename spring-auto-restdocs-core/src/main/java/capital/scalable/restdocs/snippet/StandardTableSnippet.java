@@ -19,6 +19,7 @@ package capital.scalable.restdocs.snippet;
 import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.util.TemplateFormatting;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
@@ -102,7 +104,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
         String optional = resolveOptional(descriptor, templateFormatting);
         List<String> constraints = resolveConstraints(descriptor);
-        description = joinAndFormat(description, constraints, templateFormatting);
+        final String defaultValue = resolveDefaultValue(descriptor);
+        description = joinAndFormat(description, constraints, defaultValue, templateFormatting);
 
         Map<String, Object> model = new HashMap<>();
         model.put("path", path);
@@ -110,6 +113,12 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         model.put("optional", optional);
         model.put("description", description);
         return model;
+    }
+
+    private String defaultValuePrefix(final String description)
+    {
+        // if we have no description, we don't want to add new lines
+        return StringUtils.isEmpty(description) ? StringUtils.EMPTY : "\n\n";
     }
 
     private List<String> resolveConstraints(FieldDescriptor descriptor) {
@@ -137,6 +146,15 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         }
     }
 
+    private String resolveDefaultValue(FieldDescriptor descriptor) {
+        Object defaultValue = descriptor.getAttributes().get(DEFAULT_VALUE_ATTRIBUTE);
+        if (defaultValue != null) {
+            return "Default value: \"" + toString(defaultValue) + "\".";
+        } else {
+            return "";
+        }
+    }
+
     private String toString(Object value) {
         if (value != null) {
             return trimToEmpty(value.toString());
@@ -146,7 +164,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String joinAndFormat(String description, List<String> constraints,
-            TemplateFormatting templateFormatting) {
+                                 final String defaultValue, TemplateFormatting templateFormatting) {
         StringBuilder res = new StringBuilder(description);
         if (!description.isEmpty() && !description.endsWith(".")) {
             res.append('.');
@@ -158,6 +176,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         }
 
         res.append(constr.toString());
+        if (StringUtils.isNotEmpty(defaultValue)) {
+            res.append(defaultValuePrefix(description)).append(defaultValue);
+        }
 
         return res.toString().replace("|", "\\|");
     }

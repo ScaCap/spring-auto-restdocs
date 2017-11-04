@@ -88,7 +88,28 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "Integer", "true", "An integer."));
+                        .row("param3", "Integer", "true", "An integer.\n\nDefault value: \"1\"."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithPrimitivesDefaultValueParameterNotDocumented() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem2", double.class,
+                boolean.class, int.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem2", "param1", "A decimal");
+        mockParamComment("searchItem2", "param2", "A boolean");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "Integer", "true", "Default value: \"1\"."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
