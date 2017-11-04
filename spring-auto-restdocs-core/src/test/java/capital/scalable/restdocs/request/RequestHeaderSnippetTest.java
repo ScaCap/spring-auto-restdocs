@@ -68,7 +68,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(REQUEST_HEADERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
-                        .row("subid", "String", "false", "A string.")
+                        .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true", "A string."));
 
@@ -106,7 +106,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following request headers were not documented: [id, subid, partId, yetAnotherId]");
+                "Following request headers were not documented: [id, subId, partId, yetAnotherId]");
 
         new RequestHeaderSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -152,7 +152,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
         @RequestMapping(value = "/items")
         public void updateItem(@RequestHeader Integer id,
-                @RequestHeader("subid") String otherId,
+                @RequestHeader("subId") String otherId,
                 // partId is required anyway, because it's a primitive type
                 @RequestHeader(required = false) int partId,
                 @RequestHeader(required = false) String yetAnotherId) {

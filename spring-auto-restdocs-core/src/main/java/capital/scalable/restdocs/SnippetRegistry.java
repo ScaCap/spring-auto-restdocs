@@ -11,7 +11,7 @@ public class SnippetRegistry {
     public static final String DESCRIPTION = "auto-description";
     public static final String METHOD_PATH = "auto-method-path";
     public static final String PATH_PARAMETERS = "auto-path-parameters";
-    public static final String REQUEST_HEADRERS = "auto-request-headers";
+    public static final String REQUEST_HEADERS = "auto-request-headers";
     public static final String REQUEST_PARAMETERS = "auto-request-parameters";
     public static final String REQUEST_FIELDS = "auto-request-fields";
     public static final String RESPONSE_FIELDS = "auto-response-fields";
