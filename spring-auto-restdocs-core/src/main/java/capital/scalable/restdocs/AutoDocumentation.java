@@ -22,6 +22,7 @@ import capital.scalable.restdocs.misc.MethodAndPathSnippet;
 import capital.scalable.restdocs.payload.JacksonRequestFieldSnippet;
 import capital.scalable.restdocs.payload.JacksonResponseFieldSnippet;
 import capital.scalable.restdocs.request.PathParametersSnippet;
+import capital.scalable.restdocs.request.RequestHeaderSnippet;
 import capital.scalable.restdocs.request.RequestParametersSnippet;
 import capital.scalable.restdocs.section.SectionBuilder;
 import org.springframework.restdocs.snippet.Snippet;
@@ -41,6 +42,10 @@ public abstract class AutoDocumentation {
 
     public static Snippet pathParameters() {
         return new PathParametersSnippet();
+    }
+
+    public static Snippet requestHeaders() {
+        return new RequestHeaderSnippet();
     }
 
     public static Snippet requestParameters() {

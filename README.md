@@ -39,8 +39,10 @@ Older releases:
 * Automatic documentation of 
 [request](https://scacap.github.io/spring-auto-restdocs/#snippets-request-fields) and 
 [response](https://scacap.github.io/spring-auto-restdocs/#snippets-response-fields) fields, 
-[path](https://scacap.github.io/spring-auto-restdocs/#snippets-path-parameters) and 
-[query](https://scacap.github.io/spring-auto-restdocs/#snippets-request-parameters) parameters using Jackson and Javadoc
+[path](https://scacap.github.io/spring-auto-restdocs/#snippets-path-parameters), 
+[query parameters](https://scacap.github.io/spring-auto-restdocs/#snippets-request-parameters) and 
+[request headers](https://scacap.github.io/spring-auto-restdocs/#snippets-request-headers) 
+using Jackson and Javadoc
 * Automatic documentation of field and parameter 
 [optionality](https://scacap.github.io/spring-auto-restdocs/#constraints-optionality) and 
 [constraints](https://scacap.github.io/spring-auto-restdocs/#constraints) using JSR 303 annotations
