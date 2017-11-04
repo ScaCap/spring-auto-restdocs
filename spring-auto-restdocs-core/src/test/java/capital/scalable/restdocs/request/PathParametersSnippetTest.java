@@ -33,8 +33,9 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.method.HandlerMethod;
 
 public class PathParametersSnippetTest extends AbstractSnippetTests {
@@ -150,7 +151,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
+        @PostMapping("/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
         public void addItem(@PathVariable Integer id,
                 @PathVariable("subid") String otherId,
                 // partId is required anyway, because it's a primitive type
@@ -159,7 +160,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
-        @RequestMapping(value = "/items")
+        @GetMapping("/items")
         public void addItem() {
             // NOOP
         }

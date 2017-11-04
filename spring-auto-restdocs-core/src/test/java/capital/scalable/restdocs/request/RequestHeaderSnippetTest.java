@@ -33,8 +33,9 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 
 public class RequestHeaderSnippetTest extends AbstractSnippetTests {
@@ -150,7 +151,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items")
+        @GetMapping("/items")
         public void updateItem(@RequestHeader Integer id,
                 @RequestHeader("subId") String otherId,
                 // partId is required anyway, because it's a primitive type
@@ -159,7 +160,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
-        @RequestMapping(value = "/items")
+        @PostMapping("/items")
         public void updateItem() {
             // NOOP
         }
