@@ -33,8 +33,9 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.method.HandlerMethod;
 
 public class PathParametersSnippetTest extends AbstractSnippetTests {
@@ -58,17 +59,19 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("addItem", "id", "An integer");
         mockParamComment("addItem", "otherId", "A string");
         mockParamComment("addItem", "partId", "An integer");
+        mockParamComment("addItem", "yetAnotherId", "Another string");
 
         this.snippets.expect(PATH_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
-                        .row("partId", "Integer", "false", "An integer."));
+                        .row("partId", "Integer", "false", "An integer.")
+                        .row("yetAnotherId", "String", "true", "Another string."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -99,12 +102,12 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void failOnUndocumentedParams() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following path parameters were not documented: [id, subid, partId]");
+                "Following path parameters were not documented: [id, subid, partId, yetAnotherId]");
 
         new PathParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -148,14 +151,16 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}")
+        @PostMapping("/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
         public void addItem(@PathVariable Integer id,
                 @PathVariable("subid") String otherId,
-                @PathVariable(required = false) int partId) { // required anyway
+                // partId is required anyway, because it's a primitive type
+                @PathVariable(required = false) int partId,
+                @PathVariable(required = false) String yetAnotherId) {
             // NOOP
         }
 
-        @RequestMapping(value = "/items")
+        @GetMapping("/items")
         public void addItem() {
             // NOOP
         }

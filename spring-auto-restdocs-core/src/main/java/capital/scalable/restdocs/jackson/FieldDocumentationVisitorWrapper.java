@@ -188,6 +188,6 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     }
 
     private String toString(JavaType type) {
-        return ((Class) type.getRawClass()).getSimpleName();
+        return type.getRawClass().getSimpleName();
     }
 }

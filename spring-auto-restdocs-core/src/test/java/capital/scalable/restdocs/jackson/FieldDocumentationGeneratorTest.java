@@ -34,7 +34,6 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -459,10 +458,10 @@ public class FieldDocumentationGeneratorTest {
                 .type(fieldType)
                 .description(comment);
         fieldDescriptor.attributes(
-                new Attribute(OPTIONAL_ATTRIBUTE, Arrays.asList(optional)));
+                new Attribute(OPTIONAL_ATTRIBUTE, singletonList(optional)));
         if (constraints != null) {
             fieldDescriptor.attributes(
-                    new Attribute(CONSTRAINTS_ATTRIBUTE, Arrays.asList(constraints)));
+                    new Attribute(CONSTRAINTS_ATTRIBUTE, asList(constraints)));
         }
         return new ExtendedFieldDescriptor(fieldDescriptor);
     }

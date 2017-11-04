@@ -12,7 +12,7 @@
 Paging support in an endpoint is automatically recognized if request handler method contains `Pageable` parameter
 and response is of type `Page`. This is then mentioned in request and response snippets by linking
 to common section explaining the details of supported paging parameters/fields.
-This section has to be created manally and must be tagged as `\[[overview-pagination]]`.
+This section has to be created manually and must be tagged as `\[[overview-pagination]]`.
 See example project for link:{example-dir}/src/main/asciidoc/index.adoc#overview-pagination[paging section] template.
 
 [[preprocessors]]

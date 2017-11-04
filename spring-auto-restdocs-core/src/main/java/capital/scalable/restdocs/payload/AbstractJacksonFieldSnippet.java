@@ -36,8 +36,6 @@ import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -62,8 +60,6 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod) {
         ObjectMapper objectMapper = getObjectMapper(operation);
-        ObjectWriter writer = objectMapper.writer();
-        TypeFactory typeFactory = objectMapper.getTypeFactory();
 
         JavadocReader javadocReader = getJavadocReader(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);

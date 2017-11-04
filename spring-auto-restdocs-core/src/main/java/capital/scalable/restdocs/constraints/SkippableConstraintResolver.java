@@ -28,11 +28,9 @@ import org.springframework.restdocs.constraints.Constraint;
 
 class SkippableConstraintResolver implements MethodParameterConstraintResolver {
     public static final Collection<String> MANDATORY_VALUE_ANNOTATIONS = Arrays.asList(
-            new String[]{
-                    "javax.validation.constraints.NotNull",
-                    "org.hibernate.validator.constraints.NotBlank",
-                    "org.hibernate.validator.constraints.NotEmpty"
-            });
+            "javax.validation.constraints.NotNull",
+            "org.hibernate.validator.constraints.NotBlank",
+            "org.hibernate.validator.constraints.NotEmpty");
 
     private final MethodParameterConstraintResolver delegate;
     private final GroupDescriptionResolver descriptionResolver;

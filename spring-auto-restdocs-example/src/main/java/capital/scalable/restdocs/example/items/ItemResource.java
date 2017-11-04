@@ -18,9 +18,6 @@ package capital.scalable.restdocs.example.items;
 
 import static capital.scalable.restdocs.example.items.ItemResponse.EnumType.ONE;
 import static java.util.Collections.singletonList;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -43,8 +40,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,7 +79,7 @@ public class ItemResource {
      * @param id ID of the item.
      * @return response
      */
-    @RequestMapping("{id}")
+    @GetMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") @Id String id) {
         if ("1".equals(id)) {
             return ITEM;
@@ -94,7 +95,7 @@ public class ItemResource {
      *
      * @return list of all items
      */
-    @RequestMapping
+    @GetMapping
     public ItemResponse[] allItems() {
         return new ItemResponse[]{ITEM, CHILD};
     }
@@ -107,7 +108,7 @@ public class ItemResource {
      * @param itemUpdate Item information
      * @return response
      */
-    @RequestMapping(method = POST)
+    @PostMapping
     public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate) {
         // New item with unique ID is stored and returned.
         URI location = ServletUriComponentsBuilder
@@ -130,7 +131,7 @@ public class ItemResource {
      * @param itemUpdate Item information.
      * @return response
      */
-    @RequestMapping(value = "{id}", method = PUT)
+    @PutMapping("{id}")
     public HttpEntity<ItemResponse> updateItem(@PathVariable("id") @Id String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate) {
         return new HttpEntity<>(
@@ -148,7 +149,7 @@ public class ItemResource {
      *
      * @param id Item ID
      */
-    @RequestMapping(value = "{id}", method = DELETE)
+    @DeleteMapping("{id}")
     public void deleteItem(@PathVariable("id") @Id String id) {
         // Item with the given ID is deleted.
     }
@@ -162,7 +163,7 @@ public class ItemResource {
      * @param childId Child ID.
      * @return response
      */
-    @RequestMapping("{id}/{child}")
+    @GetMapping("{id}/{child}")
     public ItemResponse getChild(@PathVariable @Id String id,
             @PathVariable("child")
             @Min(value = 1, groups = English.class)
@@ -183,7 +184,7 @@ public class ItemResource {
      * @param hint      Lookup hint.
      * @return response
      */
-    @RequestMapping("search")
+    @GetMapping("search")
     public Page<ItemResponse> searchItem(
             @RequestParam("desc") @NotBlank @Size(max = 255) String descMatch,
             @RequestParam(required = false) @Min(10) @Max(100) Integer hint,
@@ -200,7 +201,7 @@ public class ItemResource {
      * <p>
      * An example of having String as request and response body.
      */
-    @RequestMapping(value = "process", method = POST)
+    @PostMapping("process")
     public String processAllItems(@RequestBody String command) {
         // process request as Command
         return "{ \"output\": \"processed\" }";
@@ -223,7 +224,7 @@ public class ItemResource {
      * @param itemId Item ID.
      * @title Process One Item
      */
-    @RequestMapping(value = "{itemId}/process", method = POST)
+    @PostMapping("{itemId}/process")
     public CommandResult processSingleItem(@PathVariable String itemId,
             @ModelAttribute Command command) {
         return new CommandResult(
@@ -235,7 +236,7 @@ public class ItemResource {
      * <p>
      * An example of accepting subtypes.
      */
-    @RequestMapping(value = "validateMetadata", method = POST)
+    @PostMapping("validateMetadata")
     public void validateMetadata(@RequestBody Metadata metadata) {
     }
 
@@ -247,7 +248,7 @@ public class ItemResource {
      * @deprecated create a new item instead
      */
     @Deprecated
-    @RequestMapping(value = "cloneItem", method = POST)
+    @PostMapping("cloneItem")
     public void cloneItem(@RequestBody CloneData data) {
     }
 

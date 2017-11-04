@@ -71,7 +71,7 @@ public class TypeUtil {
         if (field == null && isGetter(javaFieldName)) {
             field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
         }
-        return field != null ? field.getType().isPrimitive() : false;
+        return field != null && field.getType().isPrimitive();
     }
 
     public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {
@@ -97,7 +97,7 @@ public class TypeUtil {
         types.add(javaType);
 
         Class<?> rawClass = javaType.getRawClass();
-        JsonSubTypes jsonSubTypes = (JsonSubTypes) rawClass.getAnnotation(JsonSubTypes.class);
+        JsonSubTypes jsonSubTypes = rawClass.getAnnotation(JsonSubTypes.class);
         if (jsonSubTypes != null) {
             for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
                 JavaType javaSubType = typeFactory.constructType(subType.value());

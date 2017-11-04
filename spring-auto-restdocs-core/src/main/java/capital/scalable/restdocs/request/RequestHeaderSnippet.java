@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,9 +39,8 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
 
     @Override
     protected boolean isRequired(MethodParameter param, RequestHeader annot) {
-        return param.getParameterType().isPrimitive()
-                ? true // spring disallows null for primitive
-                : annot.required();
+        // Spring disallows null for primitive types
+        return param.getParameterType().isPrimitive() || annot.required();
     }
 
     @Override

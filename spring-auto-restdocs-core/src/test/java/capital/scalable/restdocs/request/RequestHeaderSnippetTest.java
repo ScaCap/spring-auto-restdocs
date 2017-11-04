@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,11 @@
 package capital.scalable.restdocs.request;
 
 
+import static capital.scalable.restdocs.request.RequestHeaderSnippet.REQUEST_HEADERS;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -28,16 +33,10 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
-
-import static capital.scalable.restdocs.request.PathParametersSnippet.PATH_PARAMETERS;
-import static capital.scalable.restdocs.request.RequestHeaderSnippet.REQUEST_HEADERS;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
@@ -70,7 +69,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         this.snippets.expect(REQUEST_HEADERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
-                        .row("subid", "String", "false", "A string.")
+                        .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true", "A string."));
 
@@ -108,7 +107,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following request headers were not documented: [id, subid, partId, yetAnotherId]");
+                "Following request headers were not documented: [id, subId, partId, yetAnotherId]");
 
         new RequestHeaderSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -152,15 +151,16 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items")
+        @GetMapping("/items")
         public void updateItem(@RequestHeader Integer id,
-                @RequestHeader("subid") String otherId,
-                @RequestHeader(required = false) int partId, // required anyway, because it's a primitive type
+                @RequestHeader("subId") String otherId,
+                // partId is required anyway, because it's a primitive type
+                @RequestHeader(required = false) int partId,
                 @RequestHeader(required = false) String yetAnotherId) {
             // NOOP
         }
 
-        @RequestMapping(value = "/items")
+        @PostMapping("/items")
         public void updateItem() {
             // NOOP
         }
