@@ -60,17 +60,19 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("updateItem", "id", "An integer");
         mockParamComment("updateItem", "otherId", "A string");
         mockParamComment("updateItem", "partId", "An integer");
+        mockParamComment("updateItem", "yetAnotherId", "A string");
 
         this.snippets.expect(REQUEST_HEADERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
-                        .row("partId", "Integer", "false", "An integer."));
+                        .row("partId", "Integer", "false", "An integer.")
+                        .row("yetAnotherId", "String", "true", "A string."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -101,12 +103,12 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     @Test
     public void failOnUndocumentedHeaders() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following request headers were not documented: [id, subid, partId]");
+                "Following request headers were not documented: [id, subid, partId, yetAnotherId]");
 
         new RequestHeaderSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -150,10 +152,11 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}")
+        @RequestMapping(value = "/items")
         public void updateItem(@RequestHeader Integer id,
                 @RequestHeader("subid") String otherId,
-                @RequestHeader(required = false) int partId) { // required anyway
+                @RequestHeader(required = false) int partId, // required anyway, because it's a primitive type
+                @RequestHeader(required = false) String yetAnotherId) {
             // NOOP
         }
 
