@@ -97,7 +97,7 @@ public class TypeUtil {
         types.add(javaType);
 
         Class<?> rawClass = javaType.getRawClass();
-        JsonSubTypes jsonSubTypes = (JsonSubTypes) rawClass.getAnnotation(JsonSubTypes.class);
+        JsonSubTypes jsonSubTypes = rawClass.getAnnotation(JsonSubTypes.class);
         if (jsonSubTypes != null) {
             for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
                 JavaType javaSubType = typeFactory.constructType(subType.value());

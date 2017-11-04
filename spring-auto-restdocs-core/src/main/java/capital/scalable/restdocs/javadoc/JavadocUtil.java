@@ -11,7 +11,7 @@ public class JavadocUtil {
     }
 
     public static String convertFromJavadoc(String javadoc, TemplateFormatting templateFormatting) {
-        String converted = javadoc.toString()
+        String converted = javadoc
                 // line breaks in javadoc are ignored
                 .replace("\n", "")
                 // will be replaced with forced line break
@@ -35,7 +35,7 @@ public class JavadocUtil {
 
         String res = trimAndFixLineBreak(converted, FORCED_LB, templateFormatting.getLineBreak());
         res = trimAndFixLineBreak(res, LB, "\n");
-        return res.toString();
+        return res;
     }
 
     private static String trimAndFixLineBreak(String text, String separator, String newSeparator) {
