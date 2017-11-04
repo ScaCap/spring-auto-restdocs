@@ -17,6 +17,11 @@
 package capital.scalable.restdocs.request;
 
 
+import static capital.scalable.restdocs.request.RequestHeaderSnippet.REQUEST_HEADERS;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -28,16 +33,9 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
-
-import static capital.scalable.restdocs.request.PathParametersSnippet.PATH_PARAMETERS;
-import static capital.scalable.restdocs.request.RequestHeaderSnippet.REQUEST_HEADERS;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
@@ -155,7 +153,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         @RequestMapping(value = "/items")
         public void updateItem(@RequestHeader Integer id,
                 @RequestHeader("subid") String otherId,
-                // partId required anyway, because it's a primitive type
+                // partId is required anyway, because it's a primitive type
                 @RequestHeader(required = false) int partId,
                 @RequestHeader(required = false) String yetAnotherId) {
             // NOOP

@@ -71,7 +71,7 @@ public class TypeUtil {
         if (field == null && isGetter(javaFieldName)) {
             field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
         }
-        return field != null ? field.getType().isPrimitive() : false;
+        return field != null && field.getType().isPrimitive();
     }
 
     public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {

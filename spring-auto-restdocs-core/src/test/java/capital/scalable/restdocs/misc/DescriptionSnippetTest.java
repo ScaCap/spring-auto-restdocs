@@ -28,11 +28,9 @@ import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippetTest extends AbstractSnippetTests {
-    private TemplateFormat templateFormat;
 
     public DescriptionSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
-        this.templateFormat = templateFormat;
     }
 
     @Test
