@@ -58,17 +58,19 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("addItem", "id", "An integer");
         mockParamComment("addItem", "otherId", "A string");
         mockParamComment("addItem", "partId", "An integer");
+        mockParamComment("addItem", "yetAnotherId", "Another string");
 
         this.snippets.expect(PATH_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
-                        .row("partId", "Integer", "false", "An integer."));
+                        .row("partId", "Integer", "false", "An integer.")
+                        .row("yetAnotherId", "String", "true", "Another string."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -99,12 +101,12 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void failOnUndocumentedParams() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class);
+                int.class, String.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following path parameters were not documented: [id, subid, partId]");
+                "Following path parameters were not documented: [id, subid, partId, yetAnotherId]");
 
         new PathParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -148,10 +150,12 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}")
+        @RequestMapping(value = "/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
         public void addItem(@PathVariable Integer id,
                 @PathVariable("subid") String otherId,
-                @PathVariable(required = false) int partId) { // required anyway
+                // partId is required anyway, because it's a primitive type
+                @PathVariable(required = false) int partId,
+                @PathVariable(required = false) String yetAnotherId) {
             // NOOP
         }
 

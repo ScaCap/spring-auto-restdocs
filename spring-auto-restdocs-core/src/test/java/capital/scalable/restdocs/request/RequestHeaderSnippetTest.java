@@ -155,7 +155,8 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         @RequestMapping(value = "/items")
         public void updateItem(@RequestHeader Integer id,
                 @RequestHeader("subid") String otherId,
-                @RequestHeader(required = false) int partId, // required anyway, because it's a primitive type
+                // partId required anyway, because it's a primitive type
+                @RequestHeader(required = false) int partId,
                 @RequestHeader(required = false) String yetAnotherId) {
             // NOOP
         }
