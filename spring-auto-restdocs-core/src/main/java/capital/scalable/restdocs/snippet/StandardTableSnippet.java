@@ -54,11 +54,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             return model;
         }
 
-        Collection<FieldDescriptor> fieldDescriptors = emptyList();
-        fieldDescriptors = createFieldDescriptors(operation, handlerMethod);
-
+        Collection<FieldDescriptor> fieldDescriptors =
+                createFieldDescriptors(operation, handlerMethod);
         TemplateFormatting templateFormatting = determineTemplateFormatting(operation);
-
         return createModel(handlerMethod, model, fieldDescriptors, templateFormatting);
     }
 
