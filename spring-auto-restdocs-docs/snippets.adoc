@@ -114,16 +114,20 @@ public ItemResponse getItem(@PathVariable String id) { ... }
 [[snippets-request-parameters]]
 === Request parameters snippet
 
-link:{core-package}/request/RequestParametersSnippet.java[Request parameters snippet] automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.
+link:{core-package}/request/RequestParametersSnippet.java[Request parameters snippet] automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints. If a default value is set, it will also be included.
 
 .Code
 [source,java]
 ----
 /**
  * @param descMatch Lookup on description field.
+ * @param lang Lookup on language.
  */
 @RequestMapping("search")
-public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) { ... }
+public Page<ItemResponse> searchItem(
+ @RequestParam("desc") String descMatch,
+ @RequestParam(value= "language", required = false, defaultValue = "en") String lang
+ ) { ... }
 ----
 
 .Result
@@ -135,12 +139,19 @@ public Page<ItemResponse> searchItem(@RequestParam("desc") String descMatch) { .
 | false
 | Lookup on description field.
 
+| language
+| String
+| true
+| Lookup on language.
+
+Default value: "en".
+
 |===
 
 [[snippets-request-headers]]
 === Request headers snippet
 
-link:{core-package}/request/RequestHeaderSnippet.java[Request headers snippet] automatically lists headers with their type, whether they are optional, and their Javadoc with constraints.
+link:{core-package}/request/RequestHeaderSnippet.java[Request headers snippet] automatically lists headers with their type, whether they are optional, and their Javadoc with constraints. If a default value is set, it will also be included.
 
 .Code
 [source,java]
@@ -149,7 +160,9 @@ link:{core-package}/request/RequestHeaderSnippet.java[Request headers snippet] a
  * @param lang Language we want the response in.
  */
 @RequestMapping("/all")
-public ItemResponse getItem(@RequestHeader("Accept-Language") String lang) { ... }
+public ItemResponse getItem(
+@RequestHeader(value = "Accept-Language", required = false, defaultValue = "en") String lang
+) { ... }
 ----
 
 .Result
@@ -158,8 +171,10 @@ public ItemResponse getItem(@RequestHeader("Accept-Language") String lang) { ...
 
 | Accept-Language
 | String
-| false
+| true
 | Language we want the response in.
+
+Default value: "en".
 
 |===
 

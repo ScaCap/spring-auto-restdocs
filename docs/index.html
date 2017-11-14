@@ -946,16 +946,20 @@ public ItemResponse getItem(@PathVariable String id) { ... }</code></pre>
 <div class="sect2">
 <h3 id="snippets-request-parameters"><a class="link" href="#snippets-request-parameters">Request parameters snippet</a></h3>
 <div class="paragraph">
-<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestParametersSnippet.java">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestParametersSnippet.java">Request parameters snippet</a> automatically lists query parameters including their type, whether they are optional, and their Javadoc with constraints. If a default value is set, it will also be included.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java" data-lang="java">/**
  * @param descMatch Lookup on description field.
+ * @param lang Lookup on language.
  */
 @RequestMapping("search")
-public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatch) { ... }</code></pre>
+public Page&lt;ItemResponse&gt; searchItem(
+ @RequestParam("desc") String descMatch,
+ @RequestParam(value= "language", required = false, defaultValue = "en") String lang
+ ) { ... }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -981,13 +985,20 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on language.
+</p><p class="tableblock">Default value: "en".</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
 <h3 id="snippets-request-headers"><a class="link" href="#snippets-request-headers">Request headers snippet</a></h3>
 <div class="paragraph">
-<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestHeaderSnippet.java">Request headers snippet</a> automatically lists headers with their type, whether they are optional, and their Javadoc with constraints.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/request/RequestHeaderSnippet.java">Request headers snippet</a> automatically lists headers with their type, whether they are optional, and their Javadoc with constraints. If a default value is set, it will also be included.</p>
 </div>
 <div class="listingblock">
 <div class="title">Code</div>
@@ -996,7 +1007,9 @@ public Page&lt;ItemResponse&gt; searchItem(@RequestParam("desc") String descMatc
  * @param lang Language we want the response in.
  */
 @RequestMapping("/all")
-public ItemResponse getItem(@RequestHeader("Accept-Language") String lang) { ... }</code></pre>
+public ItemResponse getItem(
+@RequestHeader(value = "Accept-Language", required = false, defaultValue = "en") String lang
+) { ... }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all spread">
@@ -1019,8 +1032,9 @@ public ItemResponse getItem(@RequestHeader("Accept-Language") String lang) { ...
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Accept-Language</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Language we want the response in.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Language we want the response in.
+</p><p class="tableblock">Default value: "en".</p></td>
 </tr>
 </tbody>
 </table>
@@ -1736,7 +1750,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-04 09:58:35 GMT
+Last updated 2017-11-04 17:46:45 GMT
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

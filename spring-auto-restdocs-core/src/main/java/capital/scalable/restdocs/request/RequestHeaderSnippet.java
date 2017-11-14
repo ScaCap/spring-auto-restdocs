@@ -61,4 +61,9 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
     }
+
+    @Override
+    protected String getDefaultValue(final RequestHeader annotation) {
+        return annotation.defaultValue();
+    }
 }
