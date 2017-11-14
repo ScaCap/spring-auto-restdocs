@@ -16,23 +16,6 @@
 
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
-import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
-import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
-import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
-import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
-import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
-import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
-import static java.util.Collections.singletonList;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.util.StringUtils.hasLength;
-
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
@@ -41,7 +24,26 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
+import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;
+
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
+import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
+import static java.util.Collections.singletonList;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.util.StringUtils.hasLength;
 
 abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTableSnippet
         implements SectionSupport {
@@ -90,9 +92,20 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         Attribute constraints = constraintAttribute(param, constraintReader);
         Attribute optionals = optionalsAttribute(param, annot);
         Attribute deprecated = deprecatedAttribute(param, annot, javadocReader);
-        descriptor.attributes(constraints, optionals, deprecated);
+        final Attribute defaultValue = defaultValueAttribute(annot);
+        if (defaultValue == null) {
+            descriptor.attributes(constraints, optionals, deprecated);
+        } else {
+            descriptor.attributes(constraints, optionals, deprecated, defaultValue);
+        }
 
         fieldDescriptors.add(descriptor);
+    }
+
+    abstract protected String getDefaultValue(A annotation);
+
+    protected boolean isCustomDefaultValue(final String defaultValue) {
+        return defaultValue != null && !ValueConstants.DEFAULT_NONE.equals(defaultValue);
     }
 
     protected Attribute constraintAttribute(MethodParameter param,
@@ -108,6 +121,12 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
             JavadocReader javadocReader) {
         return new Attribute(DEPRECATED_ATTRIBUTE,
                 param.getParameterAnnotation(Deprecated.class) != null ? "" : null);
+    }
+
+    protected Attribute defaultValueAttribute(A annot) {
+        final String defaultValue = getDefaultValue(annot);
+
+        return isCustomDefaultValue(defaultValue) ? new Attribute(DEFAULT_VALUE_ATTRIBUTE, defaultValue) : null;
     }
 
     protected abstract boolean isRequired(MethodParameter param, A annot);

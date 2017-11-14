@@ -61,4 +61,11 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
     }
+
+    @Override
+    protected String getDefaultValue(final PathVariable annotation)
+    {
+        // @PathVariable does not have a default value
+        return null;
+    }
 }

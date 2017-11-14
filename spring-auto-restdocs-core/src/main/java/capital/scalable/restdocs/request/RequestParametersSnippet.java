@@ -93,4 +93,10 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
     }
+
+    @Override
+    protected String getDefaultValue(final RequestParam annotation)
+    {
+        return annotation.defaultValue();
+    }
 }

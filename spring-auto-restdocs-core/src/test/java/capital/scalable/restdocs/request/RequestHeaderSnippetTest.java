@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +33,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 
 public class RequestHeaderSnippetTest extends AbstractSnippetTests {
@@ -71,7 +70,32 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
-                        .row("yetAnotherId", "String", "true", "A string."));
+                        .row("yetAnotherId", "String", "true",
+                                "A string.\n\nDefault value: \"ID\"."));
+
+        new RequestHeaderSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestDefaultValueParameterNotDocumented() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
+                int.class, String.class);
+        initParameters(handlerMethod);
+        mockParamComment("updateItem", "id", "An integer");
+        mockParamComment("updateItem", "otherId", "A string");
+        mockParamComment("updateItem", "partId", "An integer");
+        // yetAnotherId will have an automatic description about its default value
+
+        this.snippets.expect(REQUEST_HEADERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("id", "Integer", "false", "An integer.")
+                        .row("subId", "String", "false", "A string.")
+                        .row("partId", "Integer", "false", "An integer.")
+                        .row("yetAnotherId", "String", "true", "Default value: \"ID\"."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -101,13 +125,13 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void failOnUndocumentedHeaders() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
-                int.class, String.class);
+        HandlerMethod handlerMethod =
+                createHandlerMethod("updateRequiredHeader", Integer.class, String.class, int.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following request headers were not documented: [id, subId, partId, yetAnotherId]");
+                "Following request headers were not documented: [id, subId, partId]");
 
         new RequestHeaderSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -151,16 +175,24 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
-        @GetMapping("/items")
+        @RequestMapping(value = "/items")
         public void updateItem(@RequestHeader Integer id,
                 @RequestHeader("subId") String otherId,
-                // partId is required anyway, because it's a primitive type
                 @RequestHeader(required = false) int partId,
-                @RequestHeader(required = false) String yetAnotherId) {
+                // required anyway, because it's a primitive type
+                @RequestHeader(required = false, defaultValue = "ID") String yetAnotherId) {
             // NOOP
         }
 
-        @PostMapping("/items")
+        @RequestMapping(value = "/itemsRequired")
+        public void updateRequiredHeader(@RequestHeader Integer id,
+                @RequestHeader("subId") String otherId,
+                // required anyway, because it's a primitive type
+                @RequestHeader(required = false) int partId) {
+            // NOOP
+        }
+
+        @RequestMapping(value = "/items")
         public void updateItem() {
             // NOOP
         }
