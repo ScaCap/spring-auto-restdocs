@@ -112,8 +112,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String defaultValuePrefix(final String description)
-    {
+    private String defaultValuePrefix(final String description) {
         // if we have no description, we don't want to add new lines
         return StringUtils.isEmpty(description) ? StringUtils.EMPTY : "\n\n";
     }
@@ -161,7 +160,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String joinAndFormat(String description, List<String> constraints,
-                                 final String defaultValue, TemplateFormatting templateFormatting) {
+            final String defaultValue, TemplateFormatting templateFormatting) {
         StringBuilder res = new StringBuilder(description);
         if (!description.isEmpty() && !description.endsWith(".")) {
             res.append('.');

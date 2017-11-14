@@ -63,8 +63,7 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     }
 
     @Override
-    protected String getDefaultValue(final RequestHeader annotation)
-    {
+    protected String getDefaultValue(final RequestHeader annotation) {
         return annotation.defaultValue();
     }
 }

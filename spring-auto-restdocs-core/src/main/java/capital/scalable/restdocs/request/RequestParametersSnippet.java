@@ -83,7 +83,6 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
                 param.getParameterType().getCanonicalName());
     }
 
-
     @Override
     public String getHeader() {
         return "Query parameters";
@@ -95,8 +94,7 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    protected String getDefaultValue(final RequestParam annotation)
-    {
+    protected String getDefaultValue(final RequestParam annotation) {
         return annotation.defaultValue();
     }
 }

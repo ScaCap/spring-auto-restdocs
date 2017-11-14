@@ -63,8 +63,7 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     @Override
-    protected String getDefaultValue(final PathVariable annotation)
-    {
+    protected String getDefaultValue(final PathVariable annotation) {
         // @PathVariable does not have a default value
         return null;
     }
