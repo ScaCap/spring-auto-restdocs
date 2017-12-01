@@ -563,7 +563,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring REST Docs 1.2.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.2.2.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 1.2.3.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -576,7 +576,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.2.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -1397,10 +1397,10 @@ You can also <a href="#snippets-section-custom-snippet">include your custom snip
 <h3 id="snippets-customization"><a class="link" href="#snippets-customization">Snippet customization</a></h3>
 <div class="paragraph">
 <p>Provide your own template in <code>org/springframework/restdocs/templates/asciidoctor</code> (or <code>markdown</code>) package of your resources.
-You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v1.2.2.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
+You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v1.2.3.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
 and <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates">Auto REST Docs templates</a>.
 Important is to omit <code>default-</code> part from the template name so that the resolution algorithm will prefer this custom template.
-See also <a href="http://docs.spring.io/spring-restdocs/docs/1.2.2.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
+See also <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
 </div>
 </div>
 </div>
@@ -1480,7 +1480,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.2.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -1625,7 +1625,7 @@ private String field;</code></pre>
 <p>Paging support in an endpoint is automatically recognized if request handler method contains <code>Pageable</code> parameter
 and response is of type <code>Page</code>. This is then mentioned in request and response snippets by linking
 to common section explaining the details of supported paging parameters/fields.
-This section has to be created manally and must be tagged as <code>[[overview-pagination]]</code>.
+This section has to be created manually and must be tagged as <code>[[overview-pagination]]</code>.
 See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/src/main/asciidoc/index.adoc#overview-pagination">paging section</a> template.</p>
 </div>
 </div>
@@ -1686,9 +1686,9 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 <div class="listingblock">
 <div class="title">Bash</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.2.RELEASE-test.jar \
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.3.RELEASE-test.jar \
     -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
-    -Dversion=1.2.2.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
+    -Dversion=1.2.3.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
 </div>
 </div>
 </div>
@@ -1699,7 +1699,7 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
 </div>
 <div class="paragraph">
-<p>We use version 1.2.2.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 1.2.3.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
@@ -1710,7 +1710,7 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.2.2.RELEASE&lt;/version&gt;
+    &lt;version&gt;1.2.3.RELEASE&lt;/version&gt;
     &lt;classifier&gt;test&lt;/classifier&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
@@ -1725,13 +1725,13 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v1.2.2.RELEASE
+git checkout tags/v1.2.3.RELEASE
 ./gradlew build</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Afterwards the test JAR is located at
-<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.2.2.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-1.2.3.RELEASE-test.jar</code>
 and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
@@ -1750,7 +1750,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-04 17:46:45 GMT
+Last updated 2017-12-01 21:41:24 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
