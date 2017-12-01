@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "1.5.8.RELEASE"
+        springBootVersion = "1.5.9.RELEASE"
     }
     repositories {
         jcenter()
@@ -21,8 +21,8 @@ version = "2.0.0-SNAPSHOT"
 
 description = """Spring Auto REST Docs Example Project"""
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
