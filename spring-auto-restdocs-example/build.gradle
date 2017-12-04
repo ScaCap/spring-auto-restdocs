@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "1.5.8.RELEASE"
+        springBootVersion = "1.5.9.RELEASE"
     }
     repositories {
         jcenter()
@@ -51,8 +51,8 @@ dependencies {
         exclude(module: "commons-logging")
     }
     testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:1.2.2.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:1.2.2.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:1.2.3.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:1.2.3.RELEASE"
     compileOnly "org.projectlombok:lombok"
     jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$version"
 }
