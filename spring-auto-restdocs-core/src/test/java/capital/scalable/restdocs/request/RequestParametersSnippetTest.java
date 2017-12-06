@@ -119,6 +119,27 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void simpleRequestWithStringDefaultValueParameter() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem2String", double.class,
+                boolean.class, String.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem2String", "param1", "A decimal");
+        mockParamComment("searchItem2String", "param2", "A boolean");
+        mockParamComment("searchItem2String", "param3", "A String");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "String", "true", "A String.\n\nDefault value: \"de\"."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+    @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
@@ -236,6 +257,12 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         public void searchItem2(@RequestParam double param1,    // required
                 @RequestParam(required = false) boolean param2, // required anyway
                 @RequestParam(defaultValue = "1") int param3) { // not required
+            // NOOP
+        }
+
+        public void searchItem2String(@RequestParam double param1,    // required
+                                @RequestParam(required = false) boolean param2, // required anyway
+                                @RequestParam(defaultValue = "de") String param3) { // not required
             // NOOP
         }
 
