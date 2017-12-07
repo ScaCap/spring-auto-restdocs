@@ -46,19 +46,18 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
 
     @Override
     protected boolean isRequired(MethodParameter param, RequestParam annot) {
-        if (param.getParameterType().isPrimitive()) {
-            // a primitive type is required if no defaultValue is set
-            return !hasDefaultValue(annot);
+        if (hasDefaultValue(annot)) {
+            // Having a defaultValue set implies required=false
+            return false;
+        } else if (param.getParameterType().isPrimitive()) {
+            // A primitive type is required if no defaultValue is set, regardless of the value of the required flag
+            return true;
         } else {
-            if (hasDefaultValue(annot)) {
-                // Having a defaultValue set implies required=false
-                return false;
-            }
             return annot.required();
         }
     }
 
-    private boolean hasDefaultValue(RequestParam annot) {
+    private static boolean hasDefaultValue(RequestParam annot) {
         return !ValueConstants.DEFAULT_NONE.equals(annot.defaultValue());
     }
 
