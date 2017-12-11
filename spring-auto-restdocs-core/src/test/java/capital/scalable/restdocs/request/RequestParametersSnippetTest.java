@@ -139,6 +139,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
     }
+
     @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
@@ -261,8 +262,8 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         }
 
         public void searchItem2String(@RequestParam double param1,    // required
-                                @RequestParam(required = false) boolean param2, // required anyway
-                                @RequestParam(defaultValue = "de") String param3) { // not required
+                @RequestParam(required = false) boolean param2, // required anyway
+                @RequestParam(defaultValue = "de") String param3) { // not required
             // NOOP
         }
 
