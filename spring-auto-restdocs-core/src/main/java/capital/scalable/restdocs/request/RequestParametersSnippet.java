@@ -18,7 +18,10 @@ package capital.scalable.restdocs.request;
 
 import java.util.Map;
 
+import capital.scalable.restdocs.OperationAttributeHelper;
 import org.springframework.core.MethodParameter;
+import org.springframework.restdocs.operation.Operation;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;
@@ -91,6 +94,13 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     @Override
     protected boolean shouldFailOnUndocumentedParams() {
         return failOnUndocumentedParams;
+    }
+
+    @Override
+    protected boolean removeParam(FieldDescriptor descriptor, Operation operation) {
+        String requestPattern = OperationAttributeHelper.getRequestPattern(operation);
+        String pattern = "{" + descriptor.getPath() + "}";
+        return requestPattern.contains(pattern);
     }
 
     @Override

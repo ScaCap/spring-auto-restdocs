@@ -197,6 +197,25 @@ public class ItemResource {
     }
 
     /**
+     * Searches for item based on lookup parameters wrapped in a bean.
+     * <p>
+     * An example of using Pageable and Page.
+     *
+     * @param params Wrapper for complex searches.
+     * @return response
+     */
+    @RequestMapping("beanBasedSearch/{subpath}")
+    public Page<ItemResponse> beanBasedSearchItem(
+            SearchParams params,
+            Pageable page) {
+        if (ITEM.getDescription().contains(params.getDescMatch())) {
+            return new PageImpl<>(singletonList(ITEM), page, 1);
+        } else {
+            return new PageImpl<>(Collections.<ItemResponse>emptyList(), page, 0);
+        }
+    }
+
+    /**
      * Executes a command on all items.
      * <p>
      * An example of having String as request and response body.

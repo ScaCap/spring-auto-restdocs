@@ -19,10 +19,12 @@ package capital.scalable.restdocs.request;
 import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.request.RequestParametersSnippet.SPRING_DATA_PAGEABLE_CLASS;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
 import static java.util.Collections.singletonList;
@@ -30,14 +32,24 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.util.StringUtils.hasLength;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.payload.JacksonFieldProcessingException;
 import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
+import capital.scalable.restdocs.util.TypeUtil;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -47,6 +59,10 @@ import org.springframework.web.method.HandlerMethod;
 
 abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTableSnippet
         implements SectionSupport {
+    private static final String[] EXCLUDED_CLASSES_VALUES = new String[]{SPRING_DATA_PAGEABLE_CLASS, "org.springframework.http.HttpRequest"};
+
+    protected static final Set<String> EXCLUDED_CLASSES = new HashSet<>(Arrays.asList(EXCLUDED_CLASSES_VALUES));
+
     protected AbstractParameterSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
     }
@@ -63,6 +79,19 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
             if (annot != null) {
                 addFieldDescriptor(handlerMethod, javadocReader, constraintReader, fieldDescriptors,
                         param, annot);
+            } else {
+                if (!EXCLUDED_CLASSES.contains(param.getParameterType().getCanonicalName())) {
+                    ObjectMapper objectMapper = getObjectMapper(operation);
+
+                    Type type = TypeUtil.getType(param);
+                    if (type != null) {
+                        try {
+                            resolveFieldDescriptors(fieldDescriptors, type, objectMapper, javadocReader, constraintReader, operation);
+                        } catch (JsonMappingException e) {
+                            throw new JacksonFieldProcessingException("Error while parsing fields", e);
+                        }
+                    }
+                }
             }
         }
 
@@ -71,6 +100,29 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         }
 
         return fieldDescriptors;
+    }
+
+    private void resolveFieldDescriptors(List<FieldDescriptor> fieldDescriptors,
+            Type type,
+            ObjectMapper objectMapper,
+            JavadocReader javadocReader,
+            ConstraintReader constraintReader,
+            Operation operation)
+            throws JsonMappingException {
+        FieldDocumentationGenerator generator = new FieldDocumentationGenerator(objectMapper.writer(), objectMapper.getDeserializationConfig(),
+                javadocReader, constraintReader);
+        List<FieldDescriptor> descriptors = generator.generateDocumentation(type, objectMapper.getTypeFactory());
+        for (Iterator<FieldDescriptor> iterator = descriptors.iterator(); iterator.hasNext(); ) {
+            FieldDescriptor descriptor = iterator.next();
+            if (removeParam(descriptor, operation)) {
+                iterator.remove();
+            }
+        }
+        fieldDescriptors.addAll(descriptors);
+    }
+
+    protected boolean removeParam(final FieldDescriptor descriptor, Operation operation) {
+        return true;
     }
 
     private void addFieldDescriptor(HandlerMethod handlerMethod,

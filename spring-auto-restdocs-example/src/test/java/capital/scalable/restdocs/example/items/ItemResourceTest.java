@@ -116,6 +116,18 @@ public class ItemResourceTest extends MockMvcBase {
     }
 
     @Test
+    public void beanBasedSearchItems() throws Exception {
+        mockMvc.perform(get("/items/beanBasedSearch/value")
+                .param("descMatch", "main")
+                .param("hint", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].id", is("1")))
+                .andExpect(jsonPath("$.content[0].description", is("main item")));
+    }
+
+    @Test
     public void processAllItems() throws Exception {
         mockMvc.perform(post("/items/process")
                 .contentType(MediaType.APPLICATION_JSON)

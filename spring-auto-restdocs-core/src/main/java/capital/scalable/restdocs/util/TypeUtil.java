@@ -6,15 +6,30 @@ import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 import static org.apache.commons.lang3.StringUtils.chop;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.springframework.core.MethodParameter;
 import org.springframework.util.ReflectionUtils;
 
 public class TypeUtil {
+    private static Class<?> SCALA_TRAVERSABLE;
+
+    static {
+        try {
+            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
+        } catch (ClassNotFoundException ignored) {
+            // It's fine to not be available outside of Scala projects.
+        }
+    }
+
     private TypeUtil() {
         // util
     }
@@ -72,6 +87,32 @@ public class TypeUtil {
             field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
         }
         return field != null && field.getType().isPrimitive();
+    }
+
+    public static boolean isCollection(Class<?> type) {
+        return Collection.class.isAssignableFrom(type) || (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
+    }
+
+    public static Type getType(final MethodParameter param) {
+        if (TypeUtil.isCollection(param.getParameterType())) {
+            return new GenericArrayType() {
+                @Override
+                public Type getGenericComponentType() {
+                    return firstGenericType(param);
+                }
+            };
+        } else {
+            return param.getParameterType();
+        }
+    }
+
+    public static Type firstGenericType(MethodParameter param) {
+        Type type = param.getGenericParameterType();
+        if (type != null && type instanceof ParameterizedType) {
+            return ((ParameterizedType) type).getActualTypeArguments()[0];
+        } else {
+            return Object.class;
+        }
     }
 
     public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {
