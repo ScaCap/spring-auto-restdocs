@@ -59,6 +59,12 @@ See the [Getting started](https://scacap.github.io/spring-auto-restdocs/#getting
 
 See the [Building from source](https://scacap.github.io/spring-auto-restdocs/#contributing-building) section in the documentation.
 
+# Contributing
+
+- Submit a Pull Request for any enhancement you made.
+- Create an issue describing your particular problem.
+- Ask and answer questions on Stack Overflow using the [spring-auto-restdocs](https://stackoverflow.com/tags/spring-auto-restdocs) tag.
+
 ## License
 
 Spring Auto REST Docs is Open Source software released under the
