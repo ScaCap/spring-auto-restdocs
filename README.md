@@ -59,7 +59,7 @@ See the [Getting started](https://scacap.github.io/spring-auto-restdocs/#getting
 
 See the [Building from source](https://scacap.github.io/spring-auto-restdocs/#contributing-building) section in the documentation.
 
-# Contributing
+## Contributing
 
 - Submit a Pull Request for any enhancement you made.
 - Create an issue describing your particular problem.
