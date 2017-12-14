@@ -23,6 +23,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Locale;
+
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -132,6 +134,23 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
                         .row("param3", "String", "true", "A String.\n\nDefault value: \"de\"."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithCustomTypes() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem5", Locale.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem5", "locale", "A locale");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("locale", "String", "false", "A locale."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -276,6 +295,10 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         }
 
         public void searchItem4(@RequestParam int text, Pageable page) {
+            // NOOP
+        }
+
+        public void searchItem5(@RequestParam Locale locale) {
             // NOOP
         }
 
