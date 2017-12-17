@@ -62,6 +62,15 @@ public class TypeUtil {
         case "java.lang.Boolean":
             return "Boolean";
         default:
+            return getSpecialTypeName(canonicalName);
+        }
+    }
+
+    private static String getSpecialTypeName(String canonicalName) {
+        switch (canonicalName) {
+        case "java.util.Locale":
+            return "String";
+        default:
             return "Object";
         }
     }
