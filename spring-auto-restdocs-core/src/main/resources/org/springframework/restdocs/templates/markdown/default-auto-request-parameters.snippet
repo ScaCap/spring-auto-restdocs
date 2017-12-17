@@ -1,8 +1,8 @@
-{{#isPageRequest}}Supports standard [paging](#overview-pagination) query parameters.
+{{#isPageRequest}}{{pagination-request-md}}
 
-{{/isPageRequest}}{{#hasContent}}Parameter | Type | Optional | Description
+{{/isPageRequest}}{{#hasContent}}{{th-parameter}} | {{th-type}} | {{th-optional}} | {{th-description}}
 --------- | ---- | -------- | -----------
 {{#content}}
 {{path}} | {{type}} | {{optional}} | {{description}}
 {{/content}}
-{{/hasContent}}{{#noContent}}No parameters.{{/noContent}}
+{{/hasContent}}{{#noContent}}{{no-params}}{{/noContent}}

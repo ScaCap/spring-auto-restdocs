@@ -1117,7 +1117,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a771d0c0-a03b-48ee-9511-f33193a506c9' \
+    -H 'Authorization: Bearer f6261400-4aea-4e30-a531-8f622d17ee6e' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1352,7 +1352,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a771d0c0-a03b-48ee-9511-f33193a506c9' \
+    -H 'Authorization: Bearer f6261400-4aea-4e30-a531-8f622d17ee6e' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1455,7 +1455,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer a771d0c0-a03b-48ee-9511-f33193a506c9'</code></pre>
+    -H 'Authorization: Bearer f6261400-4aea-4e30-a531-8f622d17ee6e'</code></pre>
 </div>
 </div>
 </div>
@@ -1699,7 +1699,7 @@ Content-Length: 133
 <p>Searches for item based on lookup parameters.</p>
 </div>
 <div class="paragraph">
-<p>An example of using Pageable and Page.</p>
+<p>An example of using Pageable, Page and customized translation for paging text.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
@@ -1716,7 +1716,7 @@ Content-Length: 133
 <div class="sect3">
 <h4 id="_query_parameters_5"><a class="anchor" href="#_query_parameters_5"></a><a class="link" href="#_query_parameters_5">2.7.3. Query parameters</a></h4>
 <div class="paragraph">
-<p>Supports standard <a href="#overview-pagination">paging</a> query parameters.</p>
+<p>Uses <a href="#overview-pagination">pagination</a> query params.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -1761,7 +1761,7 @@ Must be at most 100.</p></td>
 <div class="sect3">
 <h4 id="_response_fields_7"><a class="anchor" href="#_response_fields_7"></a><a class="link" href="#_response_fields_7">2.7.5. Response fields</a></h4>
 <div class="paragraph">
-<p>Standard <a href="#overview-pagination">paging</a> response where <code>content</code> field is list of following objects:</p>
+<p><a href="#overview-pagination">Pagination</a> response with following <code>content</code>:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -1930,19 +1930,19 @@ Content-Length: 830
     "page" : 0,
     "size" : 20,
     "sort" : null,
+    "offset" : 0,
     "pageNumber" : 0,
-    "pageSize" : 20,
-    "offset" : 0
+    "pageSize" : 20
   },
   "total" : 1,
+  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
-  "last" : true,
-  "sort" : null,
-  "first" : true,
-  "numberOfElements" : 1,
   "size" : 20,
-  "number" : 0
+  "number" : 0,
+  "sort" : null,
+  "numberOfElements" : 1,
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -2406,7 +2406,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-02 01:44:08 CET
+Last updated 2017-11-02 11:03:07 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

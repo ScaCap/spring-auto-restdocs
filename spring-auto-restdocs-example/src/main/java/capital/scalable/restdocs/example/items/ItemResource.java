@@ -178,7 +178,7 @@ public class ItemResource {
     /**
      * Searches for item based on lookup parameters.
      * <p>
-     * An example of using Pageable and Page.
+     * An example of using Pageable, Page and customized translation for paging text.
      *
      * @param descMatch Lookup on description field.
      * @param hint      Lookup hint.

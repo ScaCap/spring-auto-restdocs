@@ -36,3 +36,11 @@ Endpoint or field will be marked as deprecated if at least one of these is prese
 The deprecation is only visible when using <<snippets-section,Section>> approach. Then it will be shown in the title (also visible in
 TOC) and description. Field's deprecation is shown in description column of request/response table.
 See how it looks in the link:https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html#resources-item-resource-test-clone-item[example project].
+
+[[localization]]
+=== Localization support
+
+For custom translations of section titles, table headers and other messages:
+
+1. create a file `SnippetMessages.properties` in `capital.scalable.restdocs.i18n` package.
+2. add translations to the file using keys from link:{master-dir}/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties[DefaultSnippetMessages].

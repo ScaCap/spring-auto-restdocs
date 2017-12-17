@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintRe
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
 import java.lang.reflect.ParameterizedType;
@@ -77,7 +78,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         }
 
         if (shouldFailOnUndocumentedFields()) {
-            assertAllDocumented(fieldDescriptors.values(), getHeader().toLowerCase());
+            assertAllDocumented(fieldDescriptors.values(), translate(getHeaderKey()).toLowerCase());
         }
         return fieldDescriptors.values();
     }
