@@ -21,6 +21,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
+import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -72,6 +73,7 @@ class FieldDocumentationVisitorContext {
         Class<?> javaBaseClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
         String comment = resolveComment(javaBaseClass, javaFieldName);
+        comment = attachTags(comment, resolveSeeTag(javaBaseClass, javaFieldName));
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
                 .type(jsonType)
@@ -97,19 +99,6 @@ class FieldDocumentationVisitorContext {
             log.trace("   = NO {}", descriptor.getPath());
         }
         return false;
-    }
-
-    private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
-        String comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldName);
-        if (isBlank(comment)) {
-            // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldName);
-        }
-        if (isBlank(comment) && isGetter(javaFieldName)) {
-            // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldComment(javaBaseClass, fromGetter(javaFieldName));
-        }
-        return comment;
     }
 
     private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
@@ -177,5 +166,46 @@ class FieldDocumentationVisitorContext {
         } else {
             return null;
         }
+    }
+
+    private String attachTags(String comment, String... tagComments) {
+        for (String tagComment : tagComments) {
+            if (isNotBlank(tagComment)) {
+                comment += "<br>" + addDot(tagComment);
+            }
+        }
+        return comment;
+    }
+
+    private String resolveSeeTag(Class<?> javaBaseClass, String javaFieldName) {
+        String comment = resolveTag(javaBaseClass, javaFieldName, "see");
+        return isNotBlank(comment) ? "See " + comment : "";
+    }
+
+    private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
+        String comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldName);
+        if (isBlank(comment)) {
+            // fallback if fieldName is getter method and comment is on the method itself
+            comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldName);
+        }
+        if (isBlank(comment) && isGetter(javaFieldName)) {
+            // fallback if fieldName is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldComment(javaBaseClass, fromGetter(javaFieldName));
+        }
+        return comment;
+    }
+
+    private String resolveTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
+        String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, tagName);
+        if (isBlank(comment)) {
+            // fallback if fieldName is getter method and comment is on the method itself
+            comment = javadocReader.resolveMethodTag(javaBaseClass, javaFieldName, tagName);
+        }
+        if (isBlank(comment) && isGetter(javaFieldName)) {
+            // fallback if fieldName is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldTag(javaBaseClass, fromGetter(javaFieldName),
+                    tagName);
+        }
+        return comment;
     }
 }
