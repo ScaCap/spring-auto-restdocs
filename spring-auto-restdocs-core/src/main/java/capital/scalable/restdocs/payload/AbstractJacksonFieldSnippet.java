@@ -22,7 +22,6 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReade
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -36,22 +35,11 @@ import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.web.method.HandlerMethod;
 
 abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
-
-    private static Class<?> SCALA_TRAVERSABLE;
-
-    static {
-        try {
-            SCALA_TRAVERSABLE = Class.forName("scala.collection.Traversable");
-        } catch (ClassNotFoundException ignored) {
-            // It's fine to not be available outside of Scala projects.
-        }
-    }
 
     protected AbstractJacksonFieldSnippet(String snippetName, Map<String, Object> attributes) {
         super(snippetName, attributes);
@@ -82,23 +70,9 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         return fieldDescriptors.values();
     }
 
-    protected Type firstGenericType(MethodParameter param) {
-        Type type = param.getGenericParameterType();
-        if (type != null && type instanceof ParameterizedType) {
-            return ((ParameterizedType) type).getActualTypeArguments()[0];
-        } else {
-            return Object.class;
-        }
-    }
-
     protected abstract Type getType(HandlerMethod method);
 
     protected abstract boolean shouldFailOnUndocumentedFields();
-
-    protected boolean isCollection(Class<?> type) {
-        return Collection.class.isAssignableFrom(type) ||
-                (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
-    }
 
     private void resolveFieldDescriptors(Map<String, FieldDescriptor> fieldDescriptors,
             Type type, ObjectMapper objectMapper, JavadocReader javadocReader,

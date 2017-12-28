@@ -16,9 +16,9 @@
 
 package capital.scalable.restdocs.payload;
 
-import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
+import capital.scalable.restdocs.util.TypeUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +57,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
         for (MethodParameter param : method.getMethodParameters()) {
             if (isRequestBody(param) || isModelAttribute(param)) {
-                return getType(param);
+                return TypeUtil.getType(param);
             }
         }
         return null;
@@ -69,20 +69,6 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private boolean isModelAttribute(MethodParameter param) {
         return param.getParameterAnnotation(ModelAttribute.class) != null;
-    }
-
-    private Type getType(final MethodParameter param) {
-        if (isCollection(param.getParameterType())) {
-            return new GenericArrayType() {
-
-                @Override
-                public Type getGenericComponentType() {
-                    return firstGenericType(param);
-                }
-            };
-        } else {
-            return param.getParameterType();
-        }
     }
 
     @Override

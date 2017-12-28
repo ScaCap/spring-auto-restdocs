@@ -20,6 +20,7 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import capital.scalable.restdocs.util.TypeUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
@@ -58,17 +59,17 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
         Class<?> returnType = method.getReturnType().getParameterType();
         if (returnType == ResponseEntity.class) {
-            return firstGenericType(method.getReturnType());
+            return TypeUtil.firstGenericType(method.getReturnType());
         } else if (returnType == HttpEntity.class) {
-            return firstGenericType(method.getReturnType());
+            return TypeUtil.firstGenericType(method.getReturnType());
         } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
-            return firstGenericType(method.getReturnType());
-        } else if (isCollection(returnType)) {
+            return TypeUtil.firstGenericType(method.getReturnType());
+        } else if (TypeUtil.isCollection(returnType)) {
             return new GenericArrayType() {
 
                 @Override
                 public Type getGenericComponentType() {
-                    return firstGenericType(method.getReturnType());
+                    return TypeUtil.firstGenericType(method.getReturnType());
                 }
             };
         } else if ("void".equals(returnType.getName())) {
