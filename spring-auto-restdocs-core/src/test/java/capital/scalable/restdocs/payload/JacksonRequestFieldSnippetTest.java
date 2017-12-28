@@ -52,6 +52,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
 
+    private enum Weight {
+        LIGHT, HEAVY
+    }
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -80,6 +84,24 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
+
+        new JacksonRequestFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithEnum() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithWeight", ItemWithWeight.class);
+        mockFieldComment(ItemWithWeight.class, "weight", "An enum");
+        mockConstraintMessage(ItemWithWeight.class, "weight", "Must be one of [LIGHT, HEAVY]");
+
+        this.snippets.expect(REQUEST_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("weight", "String", "true", "An enum.\n\nMust be one of [LIGHT, HEAVY]."));
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -265,6 +287,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
+        public void addItemWithWeight(@RequestBody ItemWithWeight item) {
+            // NOOP
+        }
+
         public void addItems(@RequestBody List<Item> items) {
             // NOOP
         }
@@ -295,6 +321,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         private String field1;
         @Size(max = 10)
         private Integer field2;
+    }
+
+    private static class ItemWithWeight {
+        private Weight weight;
     }
 
     private static class DeprecatedItem {
