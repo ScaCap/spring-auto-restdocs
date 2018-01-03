@@ -20,6 +20,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnipp
 import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -84,13 +85,14 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private List<SectionSupport> createSections(Operation operation) {
-        List<SectionSupport> sections = new ArrayList<>();
+    private List<Section> createSections(Operation operation) {
+        List<Section> sections = new ArrayList<>();
         for (String sectionName : sectionNames) {
             SectionSupport section = getSectionSnippet(operation, sectionName);
             if (section != null) {
                 if (!skipEmpty || section.hasContent(operation)) {
-                    sections.add(section);
+                    sections.add(
+                            new Section(section.getFileName(), translate(section.getHeaderKey())));
                 }
             } else {
                 log.warn("Section snippet '" + sectionName + "' is configured to be " +
@@ -147,5 +149,15 @@ public class SectionSnippet extends TemplatedSnippet {
 
     private String delimit(String value) {
         return value.replace("/", "-");
+    }
+
+    static class Section {
+        String fileName;
+        String header;
+
+        public Section(String fileName, String header) {
+            this.fileName = fileName;
+            this.header = header;
+        }
     }
 }

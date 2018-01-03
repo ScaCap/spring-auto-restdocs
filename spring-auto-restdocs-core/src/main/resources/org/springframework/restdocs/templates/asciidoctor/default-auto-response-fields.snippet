@@ -1,7 +1,7 @@
-{{#hasContent}}{{#isPageResponse}}Standard <<overview-pagination,paging>> response where `content` field is list of following objects:
+{{#hasContent}}{{#isPageResponse}}{{pagination-response-adoc}}
 
 {{/isPageResponse}}|===
-|Path|Type|Optional|Description
+|{{th-path}}|{{th-type}}|{{th-optional}}|{{th-description}}
 
 {{#content}}
 |{{path}}
@@ -10,4 +10,4 @@
 |{{description}}
 
 {{/content}}
-|==={{/hasContent}}{{#noContent}}No response body.{{/noContent}}
+|==={{/hasContent}}{{#noContent}}{{no-response-body}}{{/noContent}}

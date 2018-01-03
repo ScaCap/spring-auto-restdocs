@@ -53,8 +53,8 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     @Override
-    public String getHeader() {
-        return "Path parameters";
+    public String getHeaderKey() {
+        return "path-parameters";
     }
 
     @Override
@@ -66,5 +66,16 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     protected String getDefaultValue(final PathVariable annotation) {
         // @PathVariable does not have a default value
         return null;
+    }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+                "th-parameter",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "no-params"
+        };
     }
 }
