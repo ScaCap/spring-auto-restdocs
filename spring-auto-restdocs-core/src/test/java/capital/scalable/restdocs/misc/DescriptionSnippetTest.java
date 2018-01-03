@@ -28,6 +28,7 @@ import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippetTest extends AbstractSnippetTests {
+    private JavadocReader javadocReader = mock(JavadocReader.class);
 
     public DescriptionSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
@@ -36,11 +37,8 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
     @Test
     public void description() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
-                .thenReturn("sample method comment");
-        when(javadocReader.resolveMethodTag(TestResource.class, "testDescription", "deprecated"))
-                .thenReturn("");
+        mockMethodComment(TestResource.class, "testDescription", "sample method comment");
+        mockMethodTag(TestResource.class, "testDescription", "deprecated", "");
 
         this.snippets.expect(DESCRIPTION).withContents(equalTo("Sample method comment."));
 
@@ -54,15 +52,27 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
     @Test
     public void descriptionWithDeprecated() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
-        JavadocReader javadocReader = mock(JavadocReader.class);
-        when(javadocReader.resolveMethodComment(TestResource.class, "testDescription"))
-                .thenReturn("sample method comment");
-        when(javadocReader
-                .resolveMethodTag(TestResource.class, "testDescription", "deprecated"))
-                .thenReturn("use different one");
+        mockMethodComment(TestResource.class, "testDescription", "sample method comment");
+        mockMethodTag(TestResource.class, "testDescription", "deprecated", "use different one");
 
         this.snippets.expect(DESCRIPTION).withContents(equalTo(
                 "**Deprecated.** Use different one.\n\nSample method comment."));
+
+        new DescriptionSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .request("http://localhost/test")
+                .build());
+    }
+
+    @Test
+    public void descriptionWithSeeTag() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testDescription");
+        mockMethodComment(TestResource.class, "testDescription", "sample method comment");
+        mockMethodTag(TestResource.class, "testDescription", "see", "something");
+
+        this.snippets.expect(DESCRIPTION).withContents(equalTo(
+                "Sample method comment.\n\nSee something."));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -78,6 +88,18 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         new DescriptionSnippet().document(operationBuilder
                 .request("http://localhost/test")
                 .build());
+    }
+
+    private void mockMethodComment(Class<TestResource> javaBaseClass, String methodName,
+            String comment) {
+        when(javadocReader.resolveMethodComment(javaBaseClass, methodName))
+                .thenReturn(comment);
+    }
+
+    private void mockMethodTag(Class<TestResource> javaBaseClass, String methodName, String tagName,
+            String comment) {
+        when(javadocReader.resolveMethodTag(javaBaseClass, methodName, tagName))
+                .thenReturn(comment);
     }
 
     private static class TestResource {

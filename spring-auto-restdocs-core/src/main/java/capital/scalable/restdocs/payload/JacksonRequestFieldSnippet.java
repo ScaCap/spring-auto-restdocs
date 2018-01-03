@@ -86,12 +86,23 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    public String getHeader() {
-        return "Request fields";
+    public String getHeaderKey() {
+        return "request-fields";
     }
 
     @Override
     protected boolean shouldFailOnUndocumentedFields() {
         return failOnUndocumentedFields;
+    }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+                "th-path",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "no-request-body"
+        };
     }
 }

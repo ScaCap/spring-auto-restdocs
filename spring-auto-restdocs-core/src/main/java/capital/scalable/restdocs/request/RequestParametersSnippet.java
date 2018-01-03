@@ -50,7 +50,8 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
             // Having a defaultValue set implies required=false
             return false;
         } else if (param.getParameterType().isPrimitive()) {
-            // A primitive type is required if no defaultValue is set, regardless of the value of the required flag
+            // A primitive type is required if no defaultValue is set, regardless of the value of
+            // the required flag
             return true;
         } else {
             return annot.required();
@@ -94,8 +95,8 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    public String getHeader() {
-        return "Query parameters";
+    public String getHeaderKey() {
+        return "request-parameters";
     }
 
     @Override
@@ -106,5 +107,18 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     @Override
     protected String getDefaultValue(final RequestParam annotation) {
         return annotation.defaultValue();
+    }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+                "th-parameter",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "pagination-request-adoc",
+                "pagination-request-md",
+                "no-params"
+        };
     }
 }

@@ -1,6 +1,6 @@
-{{#hasContent}}Parameter | Type | Optional | Description
---------- | ---- | -------- | -----------
+{{#hasContent}}{{th-header}} | {{th-type}} | {{th-optional}} | {{th-description}}
+------ | ---- | -------- | -----------
 {{#content}}
 {{path}} | {{type}} | {{optional}} | {{description}}
 {{/content}}
-{{/hasContent}}{{#noContent}}No headers.{{/noContent}}
+{{/hasContent}}{{#noContent}}{{no-headers}}{{/noContent}}
