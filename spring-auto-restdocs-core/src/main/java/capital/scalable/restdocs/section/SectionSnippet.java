@@ -125,9 +125,10 @@ public class SectionSnippet extends TemplatedSnippet {
         String deprecated = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
         if (isDeprecated || isNotBlank(deprecated)) {
-            title += " (deprecated)";
+            return translate("tags-deprecated-title", title);
+        } else {
+            return title;
         }
-        return title;
     }
 
     private String createTitle(String name) {

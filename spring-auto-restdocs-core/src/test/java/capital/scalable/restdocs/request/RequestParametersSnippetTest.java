@@ -90,7 +90,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "Integer", "true", "An integer.\n\nDefault value: \"1\"."));
+                        .row("param3", "Integer", "true", "An integer.\n\nDefault value: '1'."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -111,7 +111,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "Integer", "true", "Default value: \"1\"."));
+                        .row("param3", "Integer", "true", "Default value: '1'."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -133,7 +133,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "String", "true", "A String.\n\nDefault value: \"de\"."));
+                        .row("param3", "String", "true", "A String.\n\nDefault value: 'de'."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

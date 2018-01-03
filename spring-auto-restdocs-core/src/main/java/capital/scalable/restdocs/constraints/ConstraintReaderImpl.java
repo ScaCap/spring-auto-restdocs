@@ -19,6 +19,7 @@ package capital.scalable.restdocs.constraints;
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
         .CONSTRAINT_CLASS;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -112,7 +113,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         // fallback
         if (isBlank(message) || message.equals(enumName)) {
-            message = "Must be one of " + value;
+            message = translate("constraints-enum", value);
         }
         return singletonList(message);
     }

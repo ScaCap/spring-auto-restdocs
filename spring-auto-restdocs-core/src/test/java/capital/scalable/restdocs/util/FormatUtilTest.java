@@ -20,4 +20,13 @@ public class FormatUtilTest {
         assertThat(FormatUtil.addDot("text."), is("text."));
         assertThat(FormatUtil.addDot("text"), is("text."));
     }
+
+    @Test
+    public void join() throws Exception {
+        assertThat(FormatUtil.join(""), is(""));
+        assertThat(FormatUtil.join(", "), is(""));
+        assertThat(FormatUtil.join(", ", null, null), is(""));
+        assertThat(FormatUtil.join(", ", "1"), is("1"));
+        assertThat(FormatUtil.join(", ", "1", null, "2", "  ", "3"), is("1, 2, 3"));
+    }
 }

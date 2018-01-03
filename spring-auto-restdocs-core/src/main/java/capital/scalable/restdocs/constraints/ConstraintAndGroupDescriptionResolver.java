@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.constraints;
 
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -88,7 +89,7 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     private String fallbackGroupDescription(Class group, String constraintDescription) {
-        return constraintDescription + " (groups: [" + group.getSimpleName() + "])";
+        return translate("constraints-groups", constraintDescription, group.getSimpleName());
     }
 
     private String resolvePlainDescription(Constraint constraint) {
