@@ -87,6 +87,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
             constraintMessages.add(
                     constraintDescriptionResolver.resolveDescription(constraint));
         }
+        constraintMessages.addAll(getEnumConstraintMessage(param));
         Collections.sort(constraintMessages);
         return constraintMessages;
     }
@@ -98,7 +99,14 @@ public class ConstraintReaderImpl implements ConstraintReader {
             return emptyList();
         }
 
-        Class<?> rawClass = field.getType();
+        return getEnumConstraintMessage(field.getType());
+    }
+
+    private List<String> getEnumConstraintMessage(MethodParameter param) {
+        return getEnumConstraintMessage(param.getParameterType());
+    }
+
+    private List<String> getEnumConstraintMessage(Class<?> rawClass) {
         if (!rawClass.isEnum()) {
             return emptyList();
         }
