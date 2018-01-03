@@ -3,7 +3,7 @@ package capital.scalable.restdocs.util;
 public class TemplateFormatting {
     private static final String LINE_BREAK_ADOC = " +\n";
     private static final String LINE_BREAK_MD = "<br>";
-    private static final String BOLD_ADOD = "**";
+    private static final String BOLD_ADOC = "**";
     private static final String BOLD_MD = "**";
     private static final String ITALICS_ADOC = "__";
     private static final String ITALICS_MD = "*";
@@ -11,7 +11,7 @@ public class TemplateFormatting {
     private static final String LINK_MD = "[$2]($1)";
 
     public static TemplateFormatting ASCIIDOC =
-            new TemplateFormatting(LINE_BREAK_ADOC, BOLD_ADOD, ITALICS_ADOC, LINK_ADOC);
+            new TemplateFormatting(LINE_BREAK_ADOC, BOLD_ADOC, ITALICS_ADOC, LINK_ADOC);
 
     public static TemplateFormatting MARKDOWN =
             new TemplateFormatting(LINE_BREAK_MD, BOLD_MD, ITALICS_MD, LINK_MD);
