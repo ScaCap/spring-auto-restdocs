@@ -50,8 +50,9 @@ public class DescriptionSnippet extends TemplatedSnippet {
 
         JavadocReader javadocReader = getJavadocReader(operation);
         String methodComment = resolveComment(handlerMethod, javadocReader);
+        String tagComment = resolveSeeTag(handlerMethod, javadocReader);
         String deprecated = resolveDeprecated(handlerMethod, javadocReader);
-        String description = convertFromJavadoc(deprecated + methodComment,
+        String description = convertFromJavadoc(deprecated + methodComment + tagComment,
                 determineTemplateFormatting(operation));
 
         model.put("description", description);
@@ -74,6 +75,12 @@ public class DescriptionSnippet extends TemplatedSnippet {
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
         return capitalize(addDot(methodComment));
+    }
+
+    private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+        String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "see");
+        return isNotBlank(comment) ? "<p>See " + addDot(comment) : "";
     }
 
     private Map<String, Object> defaultModel() {
