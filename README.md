@@ -1,7 +1,7 @@
 # Spring Auto REST Docs
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build Status](https://travis-ci.org/ScaCap/spring-auto-restdocs.svg?branch=master)](https://travis-ci.org/ScaCap/spring-auto-restdocs)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/capital.scalable/spring-auto-restdocs-core/)
+[![Maven Central status](https://img.shields.io/maven-central/v/capital.scalable/spring-auto-restdocs-core.svg)](https://search.maven.org/#search%7Cga%7C1%7Ccapital.scalable%20spring-auto-restdocs)
 
 The aim of this [Spring REST Docs](https://projects.spring.io/spring-restdocs/)
 extension is to help you write even less - both code and documentation.
@@ -58,6 +58,12 @@ See the [Getting started](https://scacap.github.io/spring-auto-restdocs/#getting
 ## Building from source
 
 See the [Building from source](https://scacap.github.io/spring-auto-restdocs/#contributing-building) section in the documentation.
+
+## Contributing
+
+- Submit a Pull Request for any enhancement you made.
+- Create an issue describing your particular problem.
+- Ask and answer questions on Stack Overflow using the [spring-auto-restdocs](https://stackoverflow.com/tags/spring-auto-restdocs) tag.
 
 ## License
 

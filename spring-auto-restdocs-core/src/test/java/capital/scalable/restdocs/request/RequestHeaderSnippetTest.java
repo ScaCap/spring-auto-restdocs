@@ -66,7 +66,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("updateItem", "yetAnotherId", "A string");
 
         this.snippets.expect(REQUEST_HEADERS).withContents(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
@@ -91,7 +91,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         // yetAnotherId will have an automatic description about its default value
 
         this.snippets.expect(REQUEST_HEADERS).withContents(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
@@ -147,7 +147,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("removeItem", "index", "item's index");
 
         this.snippets.expect(REQUEST_HEADERS).withContents(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
 
         new RequestHeaderSnippet().document(operationBuilder

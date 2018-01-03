@@ -429,6 +429,32 @@ public class FieldDocumentationGeneratorTest {
                 is(descriptor("base1Sub2", "String", "A base 1 sub 2", "true")));
     }
 
+    @Test
+    public void testGenerateDocumentationWithTags() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+        mockFieldComment(BasicTypes.class, "string", "A string");
+        mockFieldTag(BasicTypes.class, "string", "see", "this");
+        mockFieldComment(BasicTypes.class, "bool", "A boolean");
+        mockFieldTag(BasicTypes.class, "bool", "see", "<a href=\"xyz\">docs</a>");
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
+                        javadocReader, constraintReader);
+        Type type = BasicTypes.class;
+
+        // when
+        List<ExtendedFieldDescriptor> result = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0),
+                is(descriptor("string", "String", "A string<br>See this.", "true")));
+        assertThat(result.get(1),
+                is(descriptor("bool", "Boolean", "A boolean<br>See <a href=\"xyz\">docs</a>.",
+                        "true")));
+    }
+
     private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
             String value) {
         return when(constraintReader.getOptionalMessages(javaBaseClass, fieldName))
@@ -442,6 +468,12 @@ public class FieldDocumentationGeneratorTest {
 
     private void mockFieldComment(Class<?> javaBaseClass, String fieldName, String value) {
         when(javadocReader.resolveFieldComment(javaBaseClass, fieldName))
+                .thenReturn(value);
+    }
+
+    private void mockFieldTag(Class<?> javaBaseClass, String fieldName, String tagName,
+            String value) {
+        when(javadocReader.resolveFieldTag(javaBaseClass, fieldName, tagName))
                 .thenReturn(value);
     }
 

@@ -89,12 +89,25 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    public String getHeader() {
-        return "Response fields";
+    public String getHeaderKey() {
+        return "response-fields";
     }
 
     @Override
     protected boolean shouldFailOnUndocumentedFields() {
         return failOnUndocumentedFields;
+    }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+                "th-path",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "pagination-response-adoc",
+                "pagination-response-md",
+                "no-response-body"
+        };
     }
 }

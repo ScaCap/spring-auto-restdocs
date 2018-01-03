@@ -21,6 +21,9 @@ public class TypeUtil {
 
     public static String determineTypeName(Class<?> type) {
         // should return the same as FieldDocumentationVisitorWrapper
+        if (type.isEnum()) {
+            return "String";
+        }
         boolean isArray = false;
         String canonicalName = primitiveToWrapper(type).getCanonicalName();
         if (canonicalName.endsWith("[]")) {
@@ -61,6 +64,15 @@ public class TypeUtil {
             return "String";
         case "java.lang.Boolean":
             return "Boolean";
+        default:
+            return getSpecialTypeName(canonicalName);
+        }
+    }
+
+    private static String getSpecialTypeName(String canonicalName) {
+        switch (canonicalName) {
+        case "java.util.Locale":
+            return "String";
         default:
             return "Object";
         }

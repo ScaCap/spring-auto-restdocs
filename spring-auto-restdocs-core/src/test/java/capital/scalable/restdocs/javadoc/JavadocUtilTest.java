@@ -103,4 +103,20 @@ public class JavadocUtilTest {
         assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
                 is(expected));
     }
+
+    @Test
+    public void convertLinkAsciidoc() {
+        String actual = "<a href=\"https://github.com\">GitHub</a>";
+        String expected = "link:https://github.com[GitHub]";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.ASCIIDOC),
+                is(expected));
+    }
+
+    @Test
+    public void convertLinkMarkdown() {
+        String actual = "<a href=\"https://github.com\">GitHub</a>";
+        String expected = "[GitHub](https://github.com)";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
+                is(expected));
+    }
 }

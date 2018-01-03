@@ -19,9 +19,12 @@ package capital.scalable.restdocs.request;
 
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.request.RequestParametersSnippet.REQUEST_PARAMETERS;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.Locale;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -110,6 +113,63 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
                         .row("param3", "Integer", "true", "Default value: \"1\"."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithStringDefaultValueParameter() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem2String", double.class,
+                boolean.class, String.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem2String", "param1", "A decimal");
+        mockParamComment("searchItem2String", "param2", "A boolean");
+        mockParamComment("searchItem2String", "param3", "A String");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "String", "true", "A String.\n\nDefault value: \"de\"."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithCustomTypes() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItem5", Locale.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItem5", "locale", "A locale");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("locale", "String", "false", "A locale."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithEnum() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItemBySize", TestResource.Size.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItemBySize", "size", "An enum");
+        mockConstraintMessage(handlerMethod.getMethodParameters()[0], "Must be one of [SMALL, LARGE]");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("size", "String", "false", "An enum.\n\nMust be one of [SMALL, LARGE]."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -213,6 +273,11 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 parameterName)).thenReturn(comment);
     }
 
+    private void mockConstraintMessage(MethodParameter param, String comment) {
+        when(constraintReader.getConstraintMessages(param))
+                .thenReturn(singletonList(comment));
+    }
+
     private HandlerMethod createHandlerMethod(String name, Class<?>... parameterTypes)
             throws NoSuchMethodException {
         return new HandlerMethod(new TestResource(), name, parameterTypes);
@@ -228,6 +293,10 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
     private static class TestResource {
 
+        public enum Size {
+            SMALL, LARGE
+        }
+
         public void searchItem(@RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
             // NOOP
@@ -236,6 +305,16 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         public void searchItem2(@RequestParam double param1,    // required
                 @RequestParam(required = false) boolean param2, // required anyway
                 @RequestParam(defaultValue = "1") int param3) { // not required
+            // NOOP
+        }
+
+        public void searchItem2String(@RequestParam double param1,    // required
+                @RequestParam(required = false) boolean param2, // required anyway
+                @RequestParam(defaultValue = "de") String param3) { // not required
+            // NOOP
+        }
+
+        public void searchItemBySize(@RequestParam Size size) {
             // NOOP
         }
 
@@ -248,6 +327,10 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         }
 
         public void searchItem4(@RequestParam int text, Pageable page) {
+            // NOOP
+        }
+
+        public void searchItem5(@RequestParam Locale locale) {
             // NOOP
         }
 
