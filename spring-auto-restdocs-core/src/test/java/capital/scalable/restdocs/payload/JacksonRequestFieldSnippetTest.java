@@ -52,10 +52,6 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
 
-    private enum Weight {
-        LIGHT, HEAVY
-    }
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -321,6 +317,10 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         private String field1;
         @Size(max = 10)
         private Integer field2;
+    }
+
+    private enum Weight {
+        LIGHT, HEAVY
     }
 
     private static class ItemWithWeight {
