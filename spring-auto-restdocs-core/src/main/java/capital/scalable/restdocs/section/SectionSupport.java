@@ -21,17 +21,13 @@ import org.springframework.restdocs.operation.Operation;
 public interface SectionSupport {
     /**
      * File name (= section name).
-     *
-     * @return file name
      */
     String getFileName();
 
     /**
-     * Section header.
-     *
-     * @return header
+     * Section header key corresponding to entry in translation file.
      */
-    String getHeader();
+    String getHeaderKey();
 
     /**
      * Flag if section will render non-empty content.

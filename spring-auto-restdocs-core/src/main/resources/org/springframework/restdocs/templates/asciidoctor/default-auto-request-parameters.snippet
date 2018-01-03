@@ -1,7 +1,7 @@
-{{#isPageRequest}}Supports standard <<overview-pagination,paging>> query parameters.
+{{#isPageRequest}}{{pagination-request-adoc}}
 
 {{/isPageRequest}}{{#hasContent}}|===
-|Parameter|Type|Optional|Description
+|{{th-parameter}}|{{th-type}}|{{th-optional}}|{{th-description}}
 
 {{#content}}
 |{{path}}
@@ -10,4 +10,4 @@
 |{{description}}
 
 {{/content}}
-|==={{/hasContent}}{{#noContent}}No parameters.{{/noContent}}
+|==={{/hasContent}}{{#noContent}}{{no-params}}{{/noContent}}

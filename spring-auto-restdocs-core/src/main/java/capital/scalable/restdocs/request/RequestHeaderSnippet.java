@@ -53,8 +53,8 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     }
 
     @Override
-    public String getHeader() {
-        return "Request headers";
+    public String getHeaderKey() {
+        return "request-headers";
     }
 
     @Override
@@ -65,5 +65,16 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     @Override
     protected String getDefaultValue(final RequestHeader annotation) {
         return annotation.defaultValue();
+    }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+                "th-header",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "no-headers"
+        };
     }
 }

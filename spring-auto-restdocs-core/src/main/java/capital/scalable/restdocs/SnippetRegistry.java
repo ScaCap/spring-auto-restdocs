@@ -24,10 +24,10 @@ public class SnippetRegistry {
 
     static {
         CLASSIC_SNIPPETS = new HashMap<>();
-        CLASSIC_SNIPPETS.put(CURL_REQUEST, section(CURL_REQUEST, "Example request", true));
-        CLASSIC_SNIPPETS.put(HTTPIE_REQUEST, section(HTTPIE_REQUEST, "Example request", true));
-        CLASSIC_SNIPPETS.put(HTTP_REQUEST, section(HTTP_REQUEST, "Example request", true));
-        CLASSIC_SNIPPETS.put(HTTP_RESPONSE, section(HTTP_RESPONSE, "Example response", true));
+        CLASSIC_SNIPPETS.put(CURL_REQUEST, section(CURL_REQUEST, "example-request", true));
+        CLASSIC_SNIPPETS.put(HTTPIE_REQUEST, section(HTTPIE_REQUEST, "example-request", true));
+        CLASSIC_SNIPPETS.put(HTTP_REQUEST, section(HTTP_REQUEST, "example-request", true));
+        CLASSIC_SNIPPETS.put(HTTP_RESPONSE, section(HTTP_RESPONSE, "example-response", true));
     }
 
     public static SectionSupport getClassicSnippet(String snippetName) {
@@ -40,12 +40,12 @@ public class SnippetRegistry {
 
     private static class ClassicSnippetSection implements SectionSupport {
         private String fileName;
-        private String header;
+        private String headerKey;
         private boolean hasContent;
 
-        public ClassicSnippetSection(String fileName, String header, boolean hasContent) {
+        public ClassicSnippetSection(String fileName, String headerKey, boolean hasContent) {
             this.fileName = fileName;
-            this.header = header;
+            this.headerKey = headerKey;
             this.hasContent = hasContent;
         }
 
@@ -55,8 +55,8 @@ public class SnippetRegistry {
         }
 
         @Override
-        public String getHeader() {
-            return header;
+        public String getHeaderKey() {
+            return headerKey;
         }
 
         @Override

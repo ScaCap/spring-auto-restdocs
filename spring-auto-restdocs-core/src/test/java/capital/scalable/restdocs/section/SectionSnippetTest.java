@@ -35,8 +35,10 @@ import static org.springframework.restdocs.generate.RestDocumentationGenerator
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;
@@ -46,6 +48,9 @@ import org.springframework.web.method.HandlerMethod;
 public class SectionSnippetTest extends AbstractSnippetTests {
 
     private JavadocReader javadocReader;
+
+    @Rule
+    public TranslationRule translationRule = new TranslationRule();
 
     public SectionSnippetTest(String name, TemplateFormat templateFormat) {
         super(name, templateFormat);
@@ -238,6 +243,45 @@ public class SectionSnippetTest extends AbstractSnippetTests {
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+    @Test
+    public void translation() throws Exception {
+        translationRule.setTestTranslations();
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-translation]]\n" +
+                        "=== Get Item By Id\n\n" +
+                        "include::{snippets}/translation/auto-method-path.adoc[]\n\n" +
+                        "include::{snippets}/translation/auto-description.adoc[]\n\n" +
+                        "==== XAuthorization\n\n" +
+                        "include::{snippets}/translation/auto-authorization.adoc[]\n\n" +
+                        "==== XPath parameters\n\n" +
+                        "include::{snippets}/translation/auto-path-parameters.adoc[]\n\n" +
+                        "==== XQuery parameters\n\n" +
+                        "include::{snippets}/translation/auto-request-parameters.adoc[]\n\n" +
+                        "==== XRequest fields\n\n" +
+                        "include::{snippets}/translation/auto-request-fields.adoc[]\n\n" +
+                        "==== XResponse fields\n\n" +
+                        "include::{snippets}/translation/auto-response-fields.adoc[]\n\n" +
+                        "==== XExample request\n\n" +
+                        "include::{snippets}/translation/curl-request.adoc[]\n\n" +
+                        "==== XExample response\n\n" +
+                        "include::{snippets}/translation/http-response.adoc[]\n"));
+
+        new SectionBuilder().build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                authorization("Public"), pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
     }

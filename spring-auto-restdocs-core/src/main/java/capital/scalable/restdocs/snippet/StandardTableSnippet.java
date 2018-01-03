@@ -22,6 +22,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -64,6 +65,8 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod);
 
+    protected abstract String[] getTranslationKeys();
+
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
         // can be used to add additional fields
     }
@@ -85,6 +88,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
     private Map<String, Object> defaultModel() {
         Map<String, Object> model = new HashMap<>();
+        for (String key : getTranslationKeys()) {
+            model.put(key, translate(key));
+        }
         model.put("content", "");
         model.put("hasContent", false);
         model.put("noContent", true);
