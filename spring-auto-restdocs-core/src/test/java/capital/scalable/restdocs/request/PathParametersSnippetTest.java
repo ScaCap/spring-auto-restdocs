@@ -1,6 +1,9 @@
-/*
- * Copyright 2016 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,8 +15,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.request;
 
 
@@ -83,14 +86,17 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void simpleRequestWithEnum() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("getItemsByShape", TestResource.Shape.class);
+        HandlerMethod handlerMethod = createHandlerMethod("getItemsByShape",
+                TestResource.Shape.class);
         initParameters(handlerMethod);
         mockParamComment("getItemsByShape", "shape", "An enum");
-        mockConstraintMessage(handlerMethod.getMethodParameters()[0], "Must be one of [SPHERIC, SQUARE]");
+        mockConstraintMessage(handlerMethod.getMethodParameters()[0],
+                "Must be one of [SPHERIC, SQUARE]");
 
         this.snippets.expect(PATH_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("shape", "String", "false", "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
+                        .row("shape", "String", "false",
+                                "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

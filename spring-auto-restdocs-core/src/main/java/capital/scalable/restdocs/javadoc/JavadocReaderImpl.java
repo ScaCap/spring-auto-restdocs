@@ -1,6 +1,9 @@
-/*
- * Copyright 2016 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,8 +15,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.javadoc;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -208,7 +211,8 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     /**
-     * Walks up the class hierarchy and interfaces until a comment is found or top most class is reached.
+     * Walks up the class hierarchy and interfaces until a comment is found or top most class is
+     * reached.
      * <p>
      * Javadoc on super classes and Javadoc on interfaces of super classes has precedence
      * over the Javadoc on direct interfaces of the class. This is only important in the rare

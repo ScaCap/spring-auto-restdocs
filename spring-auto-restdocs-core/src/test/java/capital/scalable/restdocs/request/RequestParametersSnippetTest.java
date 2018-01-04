@@ -1,6 +1,9 @@
-/*
- * Copyright 2017 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,8 +15,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.request;
 
 
@@ -162,14 +165,17 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void simpleRequestWithEnum() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("searchItemBySize", TestResource.Size.class);
+        HandlerMethod handlerMethod = createHandlerMethod("searchItemBySize",
+                TestResource.Size.class);
         initParameters(handlerMethod);
         mockParamComment("searchItemBySize", "size", "An enum");
-        mockConstraintMessage(handlerMethod.getMethodParameters()[0], "Must be one of [SMALL, LARGE]");
+        mockConstraintMessage(handlerMethod.getMethodParameters()[0],
+                "Must be one of [SMALL, LARGE]");
 
         this.snippets.expect(REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("size", "String", "false", "An enum.\n\nMust be one of [SMALL, LARGE]."));
+                        .row("size", "String", "false",
+                                "An enum.\n\nMust be one of [SMALL, LARGE]."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
