@@ -1,8 +1,9 @@
 buildscript {
     ext {
-        springBootVersion = "1.5.9.RELEASE"
+        springBootVersion = "2.0.0.M7"
     }
     repositories {
+        maven { url 'https://repo.spring.io/milestone' }
         jcenter()
         mavenCentral()
     }
@@ -14,6 +15,7 @@ buildscript {
 
 apply plugin: "java"
 apply plugin: "org.springframework.boot"
+apply plugin: 'io.spring.dependency-management'
 apply plugin: "org.asciidoctor.convert"
 
 group = "capital.scalable"
@@ -44,7 +46,7 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.security.oauth:spring-security-oauth2"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE"
     compile "org.springframework.data:spring-data-commons"
     compile "capital.scalable:spring-auto-restdocs-core:$version"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
