@@ -111,6 +111,12 @@ public ItemResponse getItem(@PathVariable String id) { ... }
 
 |===
 
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedParams` - if build should fail on at least one undocumented parameter
+
 [[snippets-request-parameters]]
 === Request parameters snippet
 
@@ -147,6 +153,12 @@ public Page<ItemResponse> searchItem(
 Default value: "en".
 
 |===
+
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedParams` - if build should fail on at least one undocumented parameter
 
 [[snippets-request-headers]]
 === Request headers snippet
@@ -223,6 +235,13 @@ Size must be between 0 and 20 inclusive.
 
 |===
 
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedFields` - if build should fail on at least one undocumented field
+- `requestBodyAsType` - specified class should be considered as request type instead of endpoint method's parameter
+
 [[snippets-response-fields]]
 === Response fields snippet
 
@@ -267,6 +286,13 @@ static class ItemResponse {
 Must be at least 1.
 
 |===
+
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedFields` - if build should fail on at least one undocumented field
+- `responseBodyAsType` - specified class should be considered as response type instead of endpoint method's return type
 
 include::section-snippet.adoc[]
 
