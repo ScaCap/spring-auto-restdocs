@@ -25,8 +25,8 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_AT
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
+import static capital.scalable.restdocs.util.FormatUtil.join;
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.ArrayList;
@@ -102,8 +102,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         String path = descriptor.getPath();
         String type = toString(descriptor.getType());
         String methodComment = resolveComment(descriptor);
-        String deprecated = resolveDeprecated(descriptor);
-        String description = convertFromJavadoc(deprecated + methodComment, templateFormatting);
+        String deprecatedComment = resolveDeprecated(descriptor);
+        String completeComment = join("<p>", deprecatedComment, methodComment);
+        String description = convertFromJavadoc(completeComment, templateFormatting);
 
         String optional = resolveOptional(descriptor, templateFormatting);
         List<String> constraints = resolveConstraints(descriptor);
@@ -132,7 +133,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             TemplateFormatting templateFormatting) {
         List<String> optionalMessages = (List<String>) descriptor.getAttributes()
                 .get(OPTIONAL_ATTRIBUTE);
-        return "" + join(optionalMessages, templateFormatting.getLineBreak());
+        return "" + join(templateFormatting.getLineBreak(), optionalMessages.toArray());
     }
 
     private String resolveComment(FieldDescriptor descriptor) {
@@ -142,7 +143,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     private String resolveDeprecated(FieldDescriptor descriptor) {
         Object deprecated = descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE);
         if (deprecated != null) {
-            return "<b>Deprecated.</b> " + capitalize(addDot(toString(deprecated))) + "<p>";
+            return addDot(translate("tags-deprecated", capitalize(toString(deprecated))));
         } else {
             return "";
         }
@@ -151,7 +152,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     private String resolveDefaultValue(FieldDescriptor descriptor) {
         Object defaultValue = descriptor.getAttributes().get(DEFAULT_VALUE_ATTRIBUTE);
         if (defaultValue != null) {
-            return "Default value: \"" + toString(defaultValue) + "\".";
+            return addDot(translate("default-value", toString(defaultValue)));
         } else {
             return "";
         }

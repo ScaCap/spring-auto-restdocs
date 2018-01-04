@@ -16,6 +16,7 @@
 
 package capital.scalable.restdocs.i18n;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -41,19 +42,23 @@ public class SnippetTranslationResolver {
         }
     }
 
-    public static String translate(String key) {
+    public static String translate(String key, Object... args) {
         try {
             if (userMessages != null) {
-                return userMessages.getString(key);
+                return format(userMessages.getString(key), args);
             }
         } catch (MissingResourceException ex) {
             // Continue and return default description, if available
         }
-        return defaultMessages.getString(key);
+        return format(defaultMessages.getString(key), args);
     }
 
     // visible for testing
-    public static void setUserMessages(String name) {
+    static void setUserMessages(String name) {
         userMessages = getBundle(name);
+    }
+
+    private static String format(String message, Object[] args) {
+        return new MessageFormat(message).format(args);
     }
 }

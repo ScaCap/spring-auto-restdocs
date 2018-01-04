@@ -19,9 +19,11 @@ package capital.scalable.restdocs.jackson;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
+import static capital.scalable.restdocs.util.FormatUtil.join;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -73,7 +75,7 @@ class FieldDocumentationVisitorContext {
         Class<?> javaBaseClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
         String comment = resolveComment(javaBaseClass, javaFieldName);
-        comment = attachTags(comment, resolveSeeTag(javaBaseClass, javaFieldName));
+        comment = join("<br>", comment, resolveSeeTag(javaBaseClass, javaFieldName));
 
         FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
                 .type(jsonType)
@@ -168,18 +170,13 @@ class FieldDocumentationVisitorContext {
         }
     }
 
-    private String attachTags(String comment, String... tagComments) {
-        for (String tagComment : tagComments) {
-            if (isNotBlank(tagComment)) {
-                comment += "<br>" + addDot(tagComment);
-            }
-        }
-        return comment;
-    }
-
     private String resolveSeeTag(Class<?> javaBaseClass, String javaFieldName) {
         String comment = resolveTag(javaBaseClass, javaFieldName, "see");
-        return isNotBlank(comment) ? "See " + comment : "";
+        if (isNotBlank(comment)) {
+            return addDot(translate("tags-see", comment));
+        } else {
+            return "";
+        }
     }
 
     private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
