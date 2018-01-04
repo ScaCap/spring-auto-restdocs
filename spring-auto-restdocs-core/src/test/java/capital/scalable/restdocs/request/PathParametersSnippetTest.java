@@ -21,6 +21,7 @@ package capital.scalable.restdocs.request;
 
 
 import static capital.scalable.restdocs.request.PathParametersSnippet.PATH_PARAMETERS;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -75,6 +76,24 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                         .row("subid", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true", "Another string."));
+
+        new PathParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void simpleRequestWithEnum() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getItemsByShape", TestResource.Shape.class);
+        initParameters(handlerMethod);
+        mockParamComment("getItemsByShape", "shape", "An enum");
+        mockConstraintMessage(handlerMethod.getMethodParameters()[0], "Must be one of [SPHERIC, SQUARE]");
+
+        this.snippets.expect(PATH_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("shape", "String", "false", "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -147,12 +166,21 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                 parameterName)).thenReturn(comment);
     }
 
+    private void mockConstraintMessage(MethodParameter param, String comment) {
+        when(constraintReader.getConstraintMessages(param))
+                .thenReturn(singletonList(comment));
+    }
+
     private HandlerMethod createHandlerMethod(String name, Class<?>... parameterTypes)
             throws NoSuchMethodException {
         return new HandlerMethod(new TestResource(), name, parameterTypes);
     }
 
     private static class TestResource {
+
+        enum Shape {
+            SPHERIC, SQUARE
+        }
 
         @PostMapping("/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
         public void addItem(@PathVariable Integer id,
@@ -165,6 +193,11 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
 
         @GetMapping("/items")
         public void addItem() {
+            // NOOP
+        }
+
+        @GetMapping("/items/{shape}")
+        public void getItemsByShape(@PathVariable Shape shape) {
             // NOOP
         }
 

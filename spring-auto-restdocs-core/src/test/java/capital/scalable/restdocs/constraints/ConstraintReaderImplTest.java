@@ -145,7 +145,7 @@ public class ConstraintReaderImplTest {
     public void getParameterConstraintMessages() throws NoSuchMethodException {
         ConstraintReader reader = createWithValidation();
 
-        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class);
+        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class, Enum1.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
         assertThat(messages.size(), is(2));
@@ -155,6 +155,10 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(new MethodParameter(method, 1));
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [all, single]"));
+
+        messages = reader.getConstraintMessages(new MethodParameter(method, 2));
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
     }
 
     @Test
@@ -172,7 +176,7 @@ public class ConstraintReaderImplTest {
     @Test
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
         ConstraintReaderImpl reader = createWithoutValidation();
-        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class);
+        Method method = MethodTest.class.getMethod("exec", Integer.class, String.class, Enum1.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
@@ -229,7 +233,8 @@ public class ConstraintReaderImplTest {
                 @Min(value = 1, groups = Create.class)
                 @Max(value = 2, groups = Update.class) Integer count,
                 @NotBlank
-                @OneOf({"all", "single"}) String type) {
+                @OneOf({"all", "single"}) String type,
+                Enum1 enumeration) {
         }
     }
 }

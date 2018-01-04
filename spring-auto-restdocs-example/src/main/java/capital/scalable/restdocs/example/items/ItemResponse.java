@@ -57,6 +57,12 @@ class ItemResponse {
 
     /**
      * Metadata.
+     * <p>
+     * An example of JsonSubType support.
+     *
+     * @see
+     * <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling">
+     * Jackson type documentation</a>
      */
     private Metadata meta;
 

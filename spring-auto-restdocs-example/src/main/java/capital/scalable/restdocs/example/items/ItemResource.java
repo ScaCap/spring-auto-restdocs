@@ -151,6 +151,8 @@ public class ItemResource {
      * An example of using path variables.
      *
      * @param id Item ID
+     * @see <a href="https://scacap.github.io/spring-auto-restdocs/#snippets-path-parameters">path
+     * parameters documentation</a>
      */
     @DeleteMapping("{id}")
     public void deleteItem(@PathVariable("id") @Id String id) {
@@ -165,6 +167,8 @@ public class ItemResource {
      * @param id      Item ID.
      * @param childId Child ID.
      * @return response
+     * @see <a href="https://scacap.github.io/spring-auto-restdocs/#constraints">constraints
+     * documentation</a>
      */
     @GetMapping("{id}/{child}")
     public ItemResponse getChild(@PathVariable @Id String id,
@@ -186,6 +190,7 @@ public class ItemResource {
      * @param descMatch Lookup on description field.
      * @param hint      Lookup hint.
      * @return response
+     * @see <a href="https://scacap.github.io/spring-auto-restdocs/#paging">paging documentation</a>
      */
     @GetMapping("search")
     public Page<ItemResponse> searchItem(

@@ -226,22 +226,22 @@ public class FieldDocumentationGeneratorTest {
 
         // then
         assertThat(result.size(), is(16));
-        assertThat(result.get(0), is(descriptor("sub1", "Array[Object]", null, "true")));
-        assertThat(result.get(1), is(descriptor("sub2", "Object", null, "true")));
-        assertThat(result.get(2), is(descriptor("sub3", "Array[Object]", null, "true")));
-        assertThat(result.get(3), is(descriptor("sub4", "Object", null, "true")));
-        assertThat(result.get(4), is(descriptor("sub5", "Array[Object]", null, "true")));
-        assertThat(result.get(5), is(descriptor("sub6", "Object", null, "true")));
-        assertThat(result.get(6), is(descriptor("sub7", "Array[Object]", null, "true")));
-        assertThat(result.get(7), is(descriptor("sub7[].sub1", "Array[Object]", null, "true")));
-        assertThat(result.get(8), is(descriptor("sub7[].sub2", "Object", null, "true")));
-        assertThat(result.get(9), is(descriptor("sub7[].sub3", "Array[Object]", null, "true")));
-        assertThat(result.get(10), is(descriptor("sub7[].sub4", "Object", null, "true")));
-        assertThat(result.get(11), is(descriptor("sub8", "Object", null, "true")));
-        assertThat(result.get(12), is(descriptor("sub8.sub1", "Array[Object]", null, "true")));
-        assertThat(result.get(13), is(descriptor("sub8.sub2", "Object", null, "true")));
-        assertThat(result.get(14), is(descriptor("sub8.sub3", "Array[Object]", null, "true")));
-        assertThat(result.get(15), is(descriptor("sub8.sub4", "Object", null, "true")));
+        assertThat(result.get(0), is(descriptor("sub1", "Array[Object]", "", "true")));
+        assertThat(result.get(1), is(descriptor("sub2", "Object", "", "true")));
+        assertThat(result.get(2), is(descriptor("sub3", "Array[Object]", "", "true")));
+        assertThat(result.get(3), is(descriptor("sub4", "Object", "", "true")));
+        assertThat(result.get(4), is(descriptor("sub5", "Array[Object]", "", "true")));
+        assertThat(result.get(5), is(descriptor("sub6", "Object", "", "true")));
+        assertThat(result.get(6), is(descriptor("sub7", "Array[Object]", "", "true")));
+        assertThat(result.get(7), is(descriptor("sub7[].sub1", "Array[Object]", "", "true")));
+        assertThat(result.get(8), is(descriptor("sub7[].sub2", "Object", "", "true")));
+        assertThat(result.get(9), is(descriptor("sub7[].sub3", "Array[Object]", "", "true")));
+        assertThat(result.get(10), is(descriptor("sub7[].sub4", "Object", "", "true")));
+        assertThat(result.get(11), is(descriptor("sub8", "Object", "", "true")));
+        assertThat(result.get(12), is(descriptor("sub8.sub1", "Array[Object]", "", "true")));
+        assertThat(result.get(13), is(descriptor("sub8.sub2", "Object", "", "true")));
+        assertThat(result.get(14), is(descriptor("sub8.sub3", "Array[Object]", "", "true")));
+        assertThat(result.get(15), is(descriptor("sub8.sub4", "Object", "", "true")));
     }
 
     @Test
@@ -362,16 +362,16 @@ public class FieldDocumentationGeneratorTest {
         // then
         assertThat(fieldDescriptions.size(), is(5));
         assertThat(fieldDescriptions.get(0),
-                is(descriptor("location", "String", null, "true", "A constraint for location")));
+                is(descriptor("location", "String", "", "true", "A constraint for location")));
         assertThat(fieldDescriptions.get(1),
-                is(descriptor("type", "Integer", null, "false", "A constraint for type")));
+                is(descriptor("type", "Integer", "", "false", "A constraint for type")));
         assertThat(fieldDescriptions.get(2),
-                is(descriptor("params", "Array[Object]", null, "false")));
+                is(descriptor("params", "Array[Object]", "", "false")));
         assertThat(fieldDescriptions.get(3),
-                is(descriptor("params[].value", "String", null, "false",
+                is(descriptor("params[].value", "String", "", "false",
                         "A constraint1 for value", "A constraint2 for value")));
         assertThat(fieldDescriptions.get(4),
-                is(descriptor("flags", "Array[Boolean]", null, "true")));
+                is(descriptor("flags", "Array[Boolean]", "", "true")));
     }
 
     @Test
@@ -432,6 +432,32 @@ public class FieldDocumentationGeneratorTest {
                 is(descriptor("base1Sub2", "String", "A base 1 sub 2", "true")));
     }
 
+    @Test
+    public void testGenerateDocumentationWithTags() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+        mockFieldComment(BasicTypes.class, "string", "A string");
+        mockFieldTag(BasicTypes.class, "string", "see", "this");
+        mockFieldComment(BasicTypes.class, "bool", "A boolean");
+        mockFieldTag(BasicTypes.class, "bool", "see", "<a href=\"xyz\">docs</a>");
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
+                        javadocReader, constraintReader);
+        Type type = BasicTypes.class;
+
+        // when
+        List<ExtendedFieldDescriptor> result = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0),
+                is(descriptor("string", "String", "A string<br>See this.", "true")));
+        assertThat(result.get(1),
+                is(descriptor("bool", "Boolean", "A boolean<br>See <a href=\"xyz\">docs</a>.",
+                        "true")));
+    }
+
     private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
             String value) {
         return when(constraintReader.getOptionalMessages(javaBaseClass, fieldName))
@@ -445,6 +471,12 @@ public class FieldDocumentationGeneratorTest {
 
     private void mockFieldComment(Class<?> javaBaseClass, String fieldName, String value) {
         when(javadocReader.resolveFieldComment(javaBaseClass, fieldName))
+                .thenReturn(value);
+    }
+
+    private void mockFieldTag(Class<?> javaBaseClass, String fieldName, String tagName,
+            String value) {
+        when(javadocReader.resolveFieldTag(javaBaseClass, fieldName, tagName))
                 .thenReturn(value);
     }
 

@@ -22,6 +22,7 @@ package capital.scalable.restdocs.constraints;
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
         .CONSTRAINT_CLASS;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -90,6 +91,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
             constraintMessages.add(
                     constraintDescriptionResolver.resolveDescription(constraint));
         }
+        constraintMessages.addAll(getEnumConstraintMessage(param));
         Collections.sort(constraintMessages);
         return constraintMessages;
     }
@@ -101,7 +103,14 @@ public class ConstraintReaderImpl implements ConstraintReader {
             return emptyList();
         }
 
-        Class<?> rawClass = field.getType();
+        return getEnumConstraintMessage(field.getType());
+    }
+
+    private List<String> getEnumConstraintMessage(MethodParameter param) {
+        return getEnumConstraintMessage(param.getParameterType());
+    }
+
+    private List<String> getEnumConstraintMessage(Class<?> rawClass) {
         if (!rawClass.isEnum()) {
             return emptyList();
         }
@@ -115,7 +124,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         // fallback
         if (isBlank(message) || message.equals(enumName)) {
-            message = "Must be one of " + value;
+            message = translate("constraints-enum", value);
         }
         return singletonList(message);
     }

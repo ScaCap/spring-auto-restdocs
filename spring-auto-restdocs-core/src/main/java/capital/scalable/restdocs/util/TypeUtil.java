@@ -40,6 +40,9 @@ public class TypeUtil {
 
     public static String determineTypeName(Class<?> type) {
         // should return the same as FieldDocumentationVisitorWrapper
+        if (type.isEnum()) {
+            return "String";
+        }
         boolean isArray = false;
         String canonicalName = primitiveToWrapper(type).getCanonicalName();
         if (canonicalName.endsWith("[]")) {

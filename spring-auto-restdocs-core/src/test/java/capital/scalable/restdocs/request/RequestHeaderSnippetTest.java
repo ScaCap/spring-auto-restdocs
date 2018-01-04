@@ -74,7 +74,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true",
-                                "A string.\n\nDefault value: \"ID\"."));
+                                "A string.\n\nDefault value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -98,7 +98,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
-                        .row("yetAnotherId", "String", "true", "Default value: \"ID\"."));
+                        .row("yetAnotherId", "String", "true", "Default value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
