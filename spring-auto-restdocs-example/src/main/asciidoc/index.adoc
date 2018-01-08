@@ -121,3 +121,4 @@ Pagination response has following structure:
 = Resources
 
 include::items.adoc[]
+include::srd-items.adoc[]
