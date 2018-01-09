@@ -42,7 +42,7 @@ See how it looks in the link:{html-preview}{example-dir}/generated-docs/index.ht
 === See tag support
 
 `@see` Javadoc tag comment will be added to the main description section of an endpoint or a field. +
-Currently supports only html links. Does not support java code references. +
+Currently supports only HTML links. Does not support Java code references. +
 See how it looks in the link:{html-preview}{example-dir}/generated-docs/index.html#resources-item-resource-test-search[example project].
 
 [[localization]]
