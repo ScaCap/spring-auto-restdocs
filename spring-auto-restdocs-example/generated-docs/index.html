@@ -449,6 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></li>
 <li><a href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></li>
 <li><a href="#resources-item-resource-test-clone-item">2.11. Clone Item (deprecated)</a></li>
+<li><a href="#resources-items-get-spring-rest-docs">2.12. Get an item (SARD/SRD mix)</a></li>
 </ul>
 </li>
 </ul>
@@ -1121,7 +1122,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 374b1e19-6e7b-47ce-bf51-d187b892eb4a' \
+    -H 'Authorization: Bearer 5594beae-01ec-412b-9169-b69c30696c18' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1358,7 +1359,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 374b1e19-6e7b-47ce-bf51-d187b892eb4a' \
+    -H 'Authorization: Bearer 5594beae-01ec-412b-9169-b69c30696c18' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1464,7 +1465,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 374b1e19-6e7b-47ce-bf51-d187b892eb4a'</code></pre>
+    -H 'Authorization: Bearer 5594beae-01ec-412b-9169-b69c30696c18'</code></pre>
 </div>
 </div>
 </div>
@@ -1949,19 +1950,19 @@ Content-Length: 830
     "page" : 0,
     "size" : 20,
     "sort" : null,
-    "offset" : 0,
     "pageNumber" : 0,
-    "pageSize" : 20
+    "pageSize" : 20,
+    "offset" : 0
   },
   "total" : 1,
   "totalPages" : 1,
-  "totalElements" : 1,
   "last" : true,
-  "size" : 20,
-  "number" : 0,
+  "totalElements" : 1,
   "sort" : null,
   "first" : true,
-  "numberOfElements" : 1
+  "numberOfElements" : 1,
+  "size" : 20,
+  "number" : 0
 }</code></pre>
 </div>
 </div>
@@ -2420,12 +2421,123 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="resources-items-get-spring-rest-docs"><a class="anchor" href="#resources-items-get-spring-rest-docs"></a><a class="link" href="#resources-items-get-spring-rest-docs">2.12. Get an item (SARD/SRD mix)</a></h3>
+<div class="paragraph">
+<p>This part of the documentation demonstrates the combination of Spring Auto REST Docs with Spring REST Docs:
+The path parameter and response field are manually documented with Spring REST Docs.
+The authorization is still coming from Spring Auto REST Docs and
+the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
+</div>
+<div class="paragraph">
+<p><code>GET /items/{id}</code></p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_11"><a class="anchor" href="#_path_parameters_11"></a><a class="link" href="#_path_parameters_11">2.12.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 3. /items/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_12"><a class="anchor" href="#_response_fields_12"></a><a class="link" href="#_response_fields_12">2.12.3. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">There are more fields but only the ID field is documented.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.12.4. Example request/response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
+Content-Length: 459
+
+{
+  "id" : "1",
+  "meta" : {
+    "type" : "1",
+    "tag" : "meta1"
+  },
+  "attributes" : {
+    "text" : "first item",
+    "number" : 1,
+    "bool" : true,
+    "decimal" : 1.11,
+    "amount" : "3.14 EUR",
+    "enumType" : "ONE"
+  },
+  "children" : [ {
+    "id" : "child-1",
+    "meta" : null,
+    "attributes" : null,
+    "children" : null,
+    "tags" : null,
+    "description" : "first child"
+  } ],
+  "tags" : [ "top-level" ],
+  "description" : "main item"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-02 11:03:07 CET
+Last updated 2018-01-06 21:26:54 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

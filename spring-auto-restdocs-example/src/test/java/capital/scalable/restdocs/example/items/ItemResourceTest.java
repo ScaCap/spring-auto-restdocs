@@ -26,6 +26,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,6 +44,7 @@ import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 public class ItemResourceTest extends MockMvcBase {
 
@@ -154,5 +159,29 @@ public class ItemResourceTest extends MockMvcBase {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"name\": \"xyz\" }"))
                 .andExpect(status().isOk());
+    }
+
+    /**
+     * This test demonstrates that Spring REST Docs can be used in a Spring Auto REST Docs setup.
+     * <p>
+     * All Spring Auto REST Docs snippets are created as well because of the setup in {@link MockMvcBase}.
+     * This is not a requirement and one could use a pure Spring REST Docs setup here.
+     * <p>
+     * The result of the manual documentation below ends up in path-parameters.adoc and response-fields.adoc and
+     * not in auto-path-parameters.adoc or auto-request-fields.adoc.
+     * So there is no conflict and one is free to decide which snippets are included in the documentation.
+     * <p>
+     * RestDocumentationRequestBuilders.get is required for Spring REST Docs' pathParameters to work.
+     * Spring AUTO Rest Docs works with both MockMvcRequestBuilders and RestDocumentationRequestBuilders.
+     */
+    @Test
+    public void getItemWithRestDocs() throws Exception {
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/items/{id}", 1))
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}", commonResponsePreprocessor(),
+                        pathParameters(
+                                parameterWithName("id").description("ID of the item.")),
+                        relaxedResponseFields(fieldWithPath("id")
+                                .description("There are more fields but only the ID field is documented."))));
     }
 }
