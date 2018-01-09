@@ -2,6 +2,7 @@
 :example-dir: {master-dir}/spring-auto-restdocs-example
 :core-package: {master-dir}//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs
 :restdocs-package: https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs
+:html-preview: https://htmlpreview.github.io/?
 
 [[other]]
 == Other
@@ -33,9 +34,16 @@ Endpoint or field will be marked as deprecated if at least one of these is prese
 - method / field is annotated with `@Deprecated`
 - method's / field's Javadoc has `@deprecated` tag
 
-The deprecation is only visible when using <<snippets-section,Section>> approach. Then it will be shown in the title (also visible in
-TOC) and description. Field's deprecation is shown in description column of request/response table.
-See how it looks in the link:https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html#resources-item-resource-test-clone-item[example project].
+Deprecation is shown in the title of an endpoint (also visible in TOC) and description.
+Field's deprecation is shown in description column of request/response table. +
+See how it looks in the link:{html-preview}{example-dir}/generated-docs/index.html#resources-item-resource-test-clone-item[example project].
+
+[[see-tag]]
+=== See tag support
+
+`@see` Javadoc tag comment will be added to the main description section of an endpoint or a field. +
+Currently supports only HTML links. Does not support Java code references. +
+See how it looks in the link:{html-preview}{example-dir}/generated-docs/index.html#resources-item-resource-test-search[example project].
 
 [[localization]]
 === Localization support

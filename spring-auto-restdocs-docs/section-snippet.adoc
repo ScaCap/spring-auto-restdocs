@@ -125,7 +125,7 @@ AutoDocumentation.sectionBuilder()
 Section title uses text from `@title` Javadoc tag on the handler method.
 If missing, it's derived from the method name, e.g. `getItemById` -> _Get Item By Id_.
 
-If you use `@title` tag and want to generate regular Javadoc we well,
+If you use `@title` tag and want to generate regular Javadoc as well,
 you need to include this tag among custom tags in plugin configuration.
 
 .Custom maven-javadoc-plugin configuration

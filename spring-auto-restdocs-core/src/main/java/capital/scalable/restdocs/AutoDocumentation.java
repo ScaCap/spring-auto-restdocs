@@ -43,23 +43,23 @@ public abstract class AutoDocumentation {
         return new JacksonResponseFieldSnippet();
     }
 
-    public static Snippet pathParameters() {
+    public static PathParametersSnippet pathParameters() {
         return new PathParametersSnippet();
     }
 
-    public static Snippet requestHeaders() {
+    public static RequestHeaderSnippet requestHeaders() {
         return new RequestHeaderSnippet();
     }
 
-    public static Snippet requestParameters() {
+    public static RequestParametersSnippet requestParameters() {
         return new RequestParametersSnippet();
     }
 
-    public static Snippet description() {
+    public static DescriptionSnippet description() {
         return new DescriptionSnippet();
     }
 
-    public static Snippet methodAndPath() {
+    public static MethodAndPathSnippet methodAndPath() {
         return new MethodAndPathSnippet();
     }
 
