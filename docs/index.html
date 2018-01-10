@@ -594,7 +594,7 @@ This is demonstrated in the example project.</p>
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.10&lt;/version&gt;
+    &lt;version&gt;1.0.11&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
@@ -631,7 +631,7 @@ This is demonstrated in the example project.</p>
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                            &lt;version&gt;1.0.10&lt;/version&gt;
+                            &lt;version&gt;1.0.11&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                         &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
@@ -676,8 +676,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.10' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.10'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.11' <i class="conum" data-value="1"></i><b>(1)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.11'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -1840,7 +1840,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-09 13:17:48 CET
+Last updated 2018-01-10 11:55:15 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
