@@ -8,6 +8,7 @@ Scalable Capital
 :toclevels: 2
 :sectlinks:
 :table-caption!:
+:revnumber: ${project.version}
 
 [[abstract]]
 
