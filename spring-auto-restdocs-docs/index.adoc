@@ -1,5 +1,5 @@
 = Spring Auto REST Docs
-Scalable Capital
+Scalable Capital - Version ${project.version}
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
