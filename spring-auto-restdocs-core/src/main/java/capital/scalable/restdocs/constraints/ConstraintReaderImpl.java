@@ -1,6 +1,9 @@
-/*
- * Copyright 2016 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,13 +15,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
         .CONSTRAINT_CLASS;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -120,7 +124,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         // fallback
         if (isBlank(message) || message.equals(enumName)) {
-            message = "Must be one of " + value;
+            message = translate("constraints-enum", value);
         }
         return singletonList(message);
     }

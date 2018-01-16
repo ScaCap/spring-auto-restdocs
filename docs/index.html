@@ -546,6 +546,12 @@ so modularization of codebase is fully supported.
 For advanced customization, multiple source directories for the JSON files
 can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 </li>
+<li>
+<p><em>Can Spring REST Docs and Spring Auto REST Docs features be combined?</em></p>
+<p>Yes, this even works in the same test.
+One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
+This is demonstrated in the example project.</p>
+</li>
 </ol>
 </div>
 </div>
@@ -564,7 +570,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring REST Docs 2.0.0.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 1.2.3.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -577,7 +583,7 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -995,6 +1001,19 @@ public Page&lt;ItemResponse&gt; searchItem(
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="link" href="#_configuration_2">Configuration</a></h4>
+<div class="paragraph">
+<p>Configuration available during MockMvc setup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>failOnUndocumentedParams</code> - if build should fail on at least one undocumented parameter</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="snippets-request-headers"><a class="link" href="#snippets-request-headers">Request headers snippet</a></h3>
@@ -1099,6 +1118,22 @@ static class ItemUpdateRequest {
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="_configuration_3"><a class="link" href="#_configuration_3">Configuration</a></h4>
+<div class="paragraph">
+<p>Configuration available during MockMvc setup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>failOnUndocumentedFields</code> - if build should fail on at least one undocumented field</p>
+</li>
+<li>
+<p><code>requestBodyAsType</code> - specified class should be considered as request type instead of endpoint method&#8217;s parameter</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="snippets-response-fields"><a class="link" href="#snippets-response-fields">Response fields snippet</a></h3>
@@ -1159,6 +1194,22 @@ static class ItemResponse {
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="_configuration_4"><a class="link" href="#_configuration_4">Configuration</a></h4>
+<div class="paragraph">
+<p>Configuration available during MockMvc setup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>failOnUndocumentedFields</code> - if build should fail on at least one undocumented field</p>
+</li>
+<li>
+<p><code>responseBodyAsType</code> - specified class should be considered as response type instead of endpoint method&#8217;s return type</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
@@ -1344,7 +1395,7 @@ include::{snippets}/{{path}}/{{fileName}}.adoc[]
 If missing, it&#8217;s derived from the method name, e.g. <code>getItemById</code> &#8594; <em>Get Item By Id</em>.</p>
 </div>
 <div class="paragraph">
-<p>If you use <code>@title</code> tag and want to generate regular Javadoc we well,
+<p>If you use <code>@title</code> tag and want to generate regular Javadoc as well,
 you need to include this tag among custom tags in plugin configuration.</p>
 </div>
 <div class="listingblock">
@@ -1481,7 +1532,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/1.2.3.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -1665,9 +1716,17 @@ See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/
 </ul>
 </div>
 <div class="paragraph">
-<p>The deprecation is only visible when using <a href="#snippets-section">Section</a> approach. Then it will be shown in the title (also visible in
-TOC) and description. Field&#8217;s deprecation is shown in description column of request/response table.
+<p>Deprecation is shown in the title of an endpoint (also visible in TOC) and description.
+Field&#8217;s deprecation is shown in description column of request/response table.<br>
 See how it looks in the <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html#resources-item-resource-test-clone-item">example project</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="see-tag"><a class="link" href="#see-tag">See tag support</a></h3>
+<div class="paragraph">
+<p><code>@see</code> Javadoc tag comment will be added to the main description section of an endpoint or a field.<br>
+Currently supports only HTML links. Does not support Java code references.<br>
+See how it looks in the <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html#resources-item-resource-test-search">example project</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1703,9 +1762,9 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 <div class="listingblock">
 <div class="title">Bash</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.0.RELEASE-test.jar \
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.3.RELEASE-test.jar \
     -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
-    -Dversion=2.0.0.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
+    -Dversion=1.2.3.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
 </div>
 </div>
 </div>
@@ -1767,7 +1826,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-04 01:18:58 CET
+Version 1.0.12-SNAPSHOT<br>
+Last updated 2018-01-11 09:25:58 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

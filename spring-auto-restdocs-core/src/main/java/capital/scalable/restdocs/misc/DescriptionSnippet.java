@@ -1,6 +1,9 @@
-/*
- * Copyright 2016 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,15 +15,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
+import static capital.scalable.restdocs.util.FormatUtil.join;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -50,9 +55,10 @@ public class DescriptionSnippet extends TemplatedSnippet {
 
         JavadocReader javadocReader = getJavadocReader(operation);
         String methodComment = resolveComment(handlerMethod, javadocReader);
-        String tagComment = resolveSeeTag(handlerMethod, javadocReader);
-        String deprecated = resolveDeprecated(handlerMethod, javadocReader);
-        String description = convertFromJavadoc(deprecated + methodComment + tagComment,
+        String seeTagComment = resolveSeeTag(handlerMethod, javadocReader);
+        String deprecatedComment = resolveDeprecated(handlerMethod, javadocReader);
+        String completeComment = join("<p>", deprecatedComment, methodComment, seeTagComment);
+        String description = convertFromJavadoc(completeComment,
                 determineTemplateFormatting(operation));
 
         model.put("description", description);
@@ -61,11 +67,10 @@ public class DescriptionSnippet extends TemplatedSnippet {
 
     private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
-        String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+        String deprecatedDoc = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
-        if (isDeprecated || isNotBlank(comment)) {
-            comment = capitalize(addDot(comment));
-            return "<b>Deprecated.</b> " + comment + "<p>";
+        if (isDeprecated || isNotBlank(deprecatedDoc)) {
+            return addDot(translate("tags-deprecated", capitalize(deprecatedDoc)));
         } else {
             return "";
         }
@@ -74,13 +79,17 @@ public class DescriptionSnippet extends TemplatedSnippet {
     private String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
-        return capitalize(addDot(methodComment));
+        return addDot(capitalize(methodComment));
     }
 
     private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "see");
-        return isNotBlank(comment) ? "<p>See " + addDot(comment) : "";
+        if (isNotBlank(comment)) {
+            return addDot(translate("tags-see", comment));
+        } else {
+            return "";
+        }
     }
 
     private Map<String, Object> defaultModel() {

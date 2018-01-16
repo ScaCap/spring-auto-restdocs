@@ -1,6 +1,9 @@
-/*
- * Copyright 2016 the original author or authors.
- *
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,8 +15,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-
 package capital.scalable.restdocs.request;
 
 
@@ -71,7 +74,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true",
-                                "A string.\n\nDefault value: \"ID\"."));
+                                "A string.\n\nDefault value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -95,7 +98,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
-                        .row("yetAnotherId", "String", "true", "Default value: \"ID\"."));
+                        .row("yetAnotherId", "String", "true", "Default value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)

@@ -8,6 +8,7 @@ Scalable Capital
 :toclevels: 2
 :sectlinks:
 :table-caption!:
+:revnumber: ${project.version}
 
 [[abstract]]
 
@@ -51,6 +52,10 @@ Is a multi-module project setup supported?::
   so modularization of codebase is fully supported.
   For advanced customization, multiple source directories for the JSON files
   can be configured (see <<gettingstarted-usage,usage>>).
+Can Spring REST Docs and Spring Auto REST Docs features be combined?::
+  Yes, this even works in the same test.
+  One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
+  This is demonstrated in the example project.
 
 include::getting-started.adoc[]
 
