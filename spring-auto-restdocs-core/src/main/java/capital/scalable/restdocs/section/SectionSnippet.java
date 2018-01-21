@@ -43,7 +43,6 @@ import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.slf4j.Logger;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
-import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.web.method.HandlerMethod;

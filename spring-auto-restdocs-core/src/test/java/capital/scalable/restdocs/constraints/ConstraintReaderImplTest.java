@@ -29,6 +29,8 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.lang.reflect.Method;
@@ -36,8 +38,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
 
