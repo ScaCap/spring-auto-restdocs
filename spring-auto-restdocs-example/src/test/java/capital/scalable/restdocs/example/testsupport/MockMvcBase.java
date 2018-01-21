@@ -125,20 +125,17 @@ public abstract class MockMvcBase {
     }
 
     protected RequestPostProcessor userToken() {
-        return new RequestPostProcessor() {
-            @Override
-            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-                // If the tests requires setup logic for users, you can place it here.
-                // Authorization headers or cookies for users should be added here as well.
-                String accessToken;
-                try {
-                    accessToken = getAccessToken("test", "test");
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                request.addHeader("Authorization", "Bearer " + accessToken);
-                return documentAuthorization(request, "User access token required.");
+        return request -> {
+            // If the tests requires setup logic for users, you can place it here.
+            // Authorization headers or cookies for users should be added here as well.
+            String accessToken;
+            try {
+                accessToken = getAccessToken("test", "test");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
+            request.addHeader("Authorization", "Bearer " + accessToken);
+            return documentAuthorization(request, "User access token required.");
         };
     }
 
