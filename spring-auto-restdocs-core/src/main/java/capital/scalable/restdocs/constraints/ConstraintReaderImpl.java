@@ -20,14 +20,14 @@
 package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
-import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver
-        .CONSTRAINT_CLASS;
+import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver.CONSTRAINT_CLASS;
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
-import static capital.scalable.restdocs.util.FormatUtil.arrayToString;
+import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.ReflectionUtils.findField;
 
 import java.lang.reflect.Field;
@@ -35,6 +35,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
@@ -42,30 +46,35 @@ import org.springframework.restdocs.constraints.ResourceBundleConstraintDescript
 
 public class ConstraintReaderImpl implements ConstraintReader {
 
+    private static final Logger log = getLogger(ConstraintReaderImpl.class);
+
     private final ConstraintAndGroupDescriptionResolver constraintDescriptionResolver;
 
     private final SkippableConstraintResolver skippableConstraintResolver;
 
     private final MethodParameterConstraintResolver constraintResolver;
 
-    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver) {
+    private final ObjectMapper objectMapper;
+
+    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper) {
         constraintDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
                 new ResourceBundleConstraintDescriptionResolver());
         skippableConstraintResolver = new SkippableConstraintResolver(
                 actualResolver, constraintDescriptionResolver);
         constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
+        this.objectMapper = objectMapper;
     }
 
-    public static ConstraintReaderImpl create() {
-        return CONSTRAINT_CLASS != null ? createWithValidation() : createWithoutValidation();
+    public static ConstraintReaderImpl create(ObjectMapper objectMapper) {
+        return CONSTRAINT_CLASS != null ? createWithValidation(objectMapper) : createWithoutValidation(objectMapper);
     }
 
-    static ConstraintReaderImpl createWithoutValidation() {
-        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver());
+    static ConstraintReaderImpl createWithoutValidation(ObjectMapper objectMapper) {
+        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver(), objectMapper);
     }
 
-    static ConstraintReaderImpl createWithValidation() {
-        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver());
+    static ConstraintReaderImpl createWithValidation(ObjectMapper objectMapper) {
+        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver(), objectMapper);
     }
 
     @Override
@@ -116,8 +125,20 @@ public class ConstraintReaderImpl implements ConstraintReader {
         }
 
         Class<Enum> enumClass = (Class<Enum>) rawClass;
+        List<String> serializedEnumValues = new ArrayList<>();
+        for (Enum e : enumClass.getEnumConstants()) {
+            try {
+                String jsonValue = objectMapper.writeValueAsString(e);
+                // Result is wrapped in double quotes
+                jsonValue = StringUtils.removeStart(jsonValue, "\"");
+                jsonValue = StringUtils.removeEnd(jsonValue, "\"");
+                serializedEnumValues.add(jsonValue);
+            } catch (JsonProcessingException ex) {
+                log.error("Failed to convert enum {}", e, ex);
+            }
+        }
 
-        String value = arrayToString(enumClass.getEnumConstants());
+        String value = collectionToString(serializedEnumValues);
         String enumName = enumClass.getCanonicalName();
         String message = constraintDescriptionResolver.resolveDescription(
                 new Constraint(enumName, singletonMap(VALUE, (Object) value)));

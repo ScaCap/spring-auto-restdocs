@@ -19,6 +19,7 @@
  */
 package capital.scalable.restdocs.util;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -27,12 +28,17 @@ import org.junit.Test;
 
 public class FormatUtilTest {
     @Test
-    public void arrayToString() throws Exception {
+    public void arrayToString() {
         assertThat(FormatUtil.arrayToString(new Object[]{"1", 2, "3"}), is("[1, 2, 3]"));
     }
 
     @Test
-    public void addDot() throws Exception {
+    public void collectionToString() {
+        assertThat(FormatUtil.collectionToString(asList("1", 2, "3")), is("[1, 2, 3]"));
+    }
+
+    @Test
+    public void addDot() {
         assertThat(FormatUtil.addDot(null), is(nullValue()));
         assertThat(FormatUtil.addDot(""), is(""));
         assertThat(FormatUtil.addDot("."), is("."));
@@ -41,7 +47,7 @@ public class FormatUtilTest {
     }
 
     @Test
-    public void join() throws Exception {
+    public void join() {
         assertThat(FormatUtil.join(""), is(""));
         assertThat(FormatUtil.join(", "), is(""));
         assertThat(FormatUtil.join(", ", null, null), is(""));
