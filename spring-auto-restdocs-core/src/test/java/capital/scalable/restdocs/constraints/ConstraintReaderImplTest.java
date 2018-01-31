@@ -36,6 +36,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
@@ -45,7 +47,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages() {
-        ConstraintReader reader = createWithValidation();
+        ConstraintReader reader = createWithValidation(new ObjectMapper());
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
@@ -93,11 +95,15 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "enum2");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Custom enum description: [A, B]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "enum3");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [A first, B second]"));
     }
 
     @Test
     public void getOptionalMessages() {
-        ConstraintReader reader = createWithValidation();
+        ConstraintReader reader = createWithValidation(new ObjectMapper());
 
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(1));
@@ -143,7 +149,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getParameterConstraintMessages() throws NoSuchMethodException {
-        ConstraintReader reader = createWithValidation();
+        ConstraintReader reader = createWithValidation(new ObjectMapper());
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
@@ -164,19 +170,19 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation();
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
         assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
     }
 
     @Test
     public void getOptionalMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation();
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
         assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
     }
 
     @Test
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
-        ConstraintReaderImpl reader = createWithoutValidation();
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
@@ -220,11 +226,29 @@ public class ConstraintReaderImplTest {
 
         @NotNull
         private Enum2 enum2;
+
+        private Enum3 enum3;
     }
 
     enum Enum1 {ONE, TWO}
 
     enum Enum2 {A, B}
+
+    enum Enum3 {
+        A("A first"),
+        B("B second");
+
+        private String jsonValue;
+
+        Enum3(String jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+
+        @JsonValue
+        public String getJsonValue() {
+            return jsonValue;
+        }
+    }
 
     interface UnresolvedGroup {
     }
