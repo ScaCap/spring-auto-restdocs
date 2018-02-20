@@ -269,12 +269,24 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     public void deprecated() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("removeItem");
         mockFieldComment(DeprecatedItem.class, "index", "item's index");
-        mockDeprecated(DeprecatedItem.class, "index", "use index2");
+        mockFieldComment(DeprecatedItem.class, "index2", "item's index2");
+        mockMethodComment(DeprecatedItem.class, "getIndex3", "item's index3");
+        mockMethodComment(DeprecatedItem.class, "getIndex4", "item's index4");
+        // index and getIndex3 have annotations
+        // index2 and getIndex4 have @deprecated Javadoc
+        mockDeprecatedField(DeprecatedItem.class, "index2", "use something else");
+        mockDeprecatedMethod(DeprecatedItem.class, "getIndex4", "use something else");
 
         this.snippets.expect(RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("index", "Integer", "true",
-                                "**Deprecated.** Use index2.\n\nItem's index."));
+                                "**Deprecated.**\n\nItem's index.")
+                        .row("index2", "Integer", "true",
+                                "**Deprecated.** Use something else.\n\nItem's index2.")
+                        .row("index3", "Integer", "true",
+                                "**Deprecated.**\n\nItem's index3.")
+                        .row("index4", "Integer", "true",
+                                "**Deprecated.** Use something else.\n\nItem's index4."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -299,8 +311,18 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn(comment);
     }
 
-    private void mockDeprecated(Class<?> type, String fieldName, String comment) {
-        when(javadocReader.resolveFieldTag(type, fieldName, "deprecated"))
+    private void mockMethodComment(Class<?> type, String fieldName, String comment) {
+        when(javadocReader.resolveMethodComment(type, fieldName))
+                .thenReturn(comment);
+    }
+
+    private void mockDeprecatedMethod(Class<?> type, String methodName, String comment) {
+        when(javadocReader.resolveMethodTag(type, methodName, "deprecated"))
+                .thenReturn(comment);
+    }
+
+    private void mockDeprecatedField(Class<?> type, String methodName, String comment) {
+        when(javadocReader.resolveFieldTag(type, methodName, "deprecated"))
                 .thenReturn(comment);
     }
 
@@ -369,6 +391,17 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private static class DeprecatedItem {
         @Deprecated
         private int index;
+
+        private int index2;
+
+        @Deprecated
+        public int getIndex3() {
+            return index;
+        }
+
+        public int getIndex4() {
+            return index;
+        }
     }
 
     private static class ProcessingResponse {

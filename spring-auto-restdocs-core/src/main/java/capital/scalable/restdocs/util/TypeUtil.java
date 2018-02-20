@@ -24,7 +24,9 @@ import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static org.apache.commons.lang3.ClassUtils.primitiveToWrapper;
 import static org.apache.commons.lang3.StringUtils.chop;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,11 +100,33 @@ public class TypeUtil {
     }
 
     public static boolean isPrimitive(Class<?> javaBaseClass, String javaFieldName) {
+        Field field = findField(javaBaseClass, javaFieldName);
+        return field != null && field.getType().isPrimitive();
+    }
+
+    public static Field findField(Class<?> javaBaseClass, String javaFieldName) {
         Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
         if (field == null && isGetter(javaFieldName)) {
             field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
         }
-        return field != null && field.getType().isPrimitive();
+        return field;
+    }
+
+    public static Method findMethod(Class<?> javaBaseClass, String javaMethodName) {
+        return ReflectionUtils.findMethod(javaBaseClass, javaMethodName);
+    }
+
+    public static <T extends Annotation> T resolveAnnotation(Class<?> javaBaseClass,
+            String javaFieldName, Class<T> annotationClass) {
+        Field field = findField(javaBaseClass, javaFieldName);
+        if (field != null) {
+            return field.getAnnotation(annotationClass);
+        }
+        Method method = findMethod(javaBaseClass, javaFieldName);
+        if (method != null) {
+            return method.getAnnotation(annotationClass);
+        }
+        return null;
     }
 
     public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {
