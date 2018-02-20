@@ -181,29 +181,34 @@ class FieldDocumentationVisitorContext {
         }
     }
 
-    private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
-        String comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldName);
+    private String resolveComment(Class<?> javaBaseClass, String javaFieldOrMethodName) {
+        // prefer method comments first
+        String comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldOrMethodName);
         if (isBlank(comment)) {
-            // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldName);
+            // fallback to field
+            comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldOrMethodName);
         }
-        if (isBlank(comment) && isGetter(javaFieldName)) {
-            // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldComment(javaBaseClass, fromGetter(javaFieldName));
+        if (isBlank(comment) && isGetter(javaFieldOrMethodName)) {
+            // fallback if name is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldComment(javaBaseClass,
+                    fromGetter(javaFieldOrMethodName));
         }
         return comment;
     }
 
-    private String resolveTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
-        String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, tagName);
+    private String resolveTag(Class<?> javaBaseClass, String javaFieldOrMethodName,
+            String tagName) {
+        // prefer method comments first
+        String comment = javadocReader.resolveMethodTag(javaBaseClass, javaFieldOrMethodName,
+                tagName);
         if (isBlank(comment)) {
-            // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodTag(javaBaseClass, javaFieldName, tagName);
+            // fallback to field
+            comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldOrMethodName, tagName);
         }
-        if (isBlank(comment) && isGetter(javaFieldName)) {
-            // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldTag(javaBaseClass, fromGetter(javaFieldName),
-                    tagName);
+        if (isBlank(comment) && isGetter(javaFieldOrMethodName)) {
+            // fallback if name is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldTag(javaBaseClass,
+                    fromGetter(javaFieldOrMethodName), tagName);
         }
         return comment;
     }

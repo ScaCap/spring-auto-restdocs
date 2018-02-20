@@ -104,10 +104,10 @@ public class TypeUtil {
         return field != null && field.getType().isPrimitive();
     }
 
-    public static Field findField(Class<?> javaBaseClass, String javaFieldName) {
-        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
-        if (field == null && isGetter(javaFieldName)) {
-            field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldName));
+    public static Field findField(Class<?> javaBaseClass, String javaFieldOrMethodName) {
+        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldOrMethodName);
+        if (field == null && isGetter(javaFieldOrMethodName)) {
+            field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldOrMethodName));
         }
         return field;
     }
@@ -117,16 +117,35 @@ public class TypeUtil {
     }
 
     public static <T extends Annotation> T resolveAnnotation(Class<?> javaBaseClass,
-            String javaFieldName, Class<T> annotationClass) {
-        Field field = findField(javaBaseClass, javaFieldName);
+            String javaFieldOrMethodName, Class<T> annotationClass) {
+        // prefer method lookup
+        T annotation = findMethodAnnotation(javaBaseClass, javaFieldOrMethodName, annotationClass);
+        if (annotation == null) {
+            // fallback to field
+            return findFieldAnnotation(javaBaseClass, javaFieldOrMethodName, annotationClass);
+        }
+        return annotation;
+    }
+
+    private static <T extends Annotation> T findMethodAnnotation(Class<?> javaBaseClass,
+            String javaMethodName, Class<T> annotationClass) {
+        Method method = findMethod(javaBaseClass, javaMethodName);
+        return method != null ? method.getAnnotation(annotationClass) : null;
+    }
+
+    private static <T extends Annotation> T findFieldAnnotation(Class<?> javaBaseClass,
+            String javaFieldOrMethodName, Class<T> annotationClass) {
+        T annotation = null;
+        // try field name
+        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldOrMethodName);
         if (field != null) {
-            return field.getAnnotation(annotationClass);
+            annotation = field.getAnnotation(annotationClass);
         }
-        Method method = findMethod(javaBaseClass, javaFieldName);
-        if (method != null) {
-            return method.getAnnotation(annotationClass);
+        // try field name from getter
+        if (annotation == null && isGetter(javaFieldOrMethodName)) {
+            field = ReflectionUtils.findField(javaBaseClass, fromGetter(javaFieldOrMethodName));
         }
-        return null;
+        return field != null ? field.getAnnotation(annotationClass) : null;
     }
 
     public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {

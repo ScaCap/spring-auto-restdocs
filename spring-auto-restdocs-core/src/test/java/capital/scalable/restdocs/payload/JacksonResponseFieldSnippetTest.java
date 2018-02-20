@@ -270,9 +270,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("removeItem");
         mockFieldComment(DeprecatedItem.class, "index", "item's index");
         mockFieldComment(DeprecatedItem.class, "index2", "item's index2");
-        mockMethodComment(DeprecatedItem.class, "getIndex3", "item's index3");
-        mockMethodComment(DeprecatedItem.class, "getIndex4", "item's index4");
-        // index and getIndex3 have annotations
+        mockFieldComment(DeprecatedItem.class, "index3", "item's index3");
+        mockFieldComment(DeprecatedItem.class, "index4", "item's index4");
+        mockFieldComment(DeprecatedItem.class, "index5", "item's index5");
+        mockMethodComment(DeprecatedItem.class, "getIndex6", "item's index6");
+
         // index2 and getIndex4 have @deprecated Javadoc
         mockDeprecatedField(DeprecatedItem.class, "index2", "use something else");
         mockDeprecatedMethod(DeprecatedItem.class, "getIndex4", "use something else");
@@ -286,7 +288,35 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .row("index3", "Integer", "true",
                                 "**Deprecated.**\n\nItem's index3.")
                         .row("index4", "Integer", "true",
-                                "**Deprecated.** Use something else.\n\nItem's index4."));
+                                "**Deprecated.** Use something else.\n\nItem's index4.")
+                        .row("index5", "Integer", "true",
+                                "**Deprecated.**\n\nItem's index5.")
+                        .row("index6", "Integer", "true",
+                                "**Deprecated.**\n\nItem's index6."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void comment() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("commentItem");
+        mockFieldComment(CommentedItem.class, "field", "field");
+        mockFieldComment(CommentedItem.class, "field2", "field 2");
+        mockFieldComment(CommentedItem.class, "field3", "field 3");
+        mockMethodComment(CommentedItem.class, "getField3", "method 3"); // preferred
+        mockMethodComment(CommentedItem.class, "getField4", "method 4");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field", "String", "true", "Field.")
+                        .row("field2", "String", "true", "Field 2.")
+                        .row("field3", "String", "true", "Method 3.")
+                        .row("field4", "String", "true", "Method 4."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -311,8 +341,8 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn(comment);
     }
 
-    private void mockMethodComment(Class<?> type, String fieldName, String comment) {
-        when(javadocReader.resolveMethodComment(type, fieldName))
+    private void mockMethodComment(Class<?> type, String methodName, String comment) {
+        when(javadocReader.resolveMethodComment(type, methodName))
                 .thenReturn(comment);
     }
 
@@ -321,8 +351,8 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .thenReturn(comment);
     }
 
-    private void mockDeprecatedField(Class<?> type, String methodName, String comment) {
-        when(javadocReader.resolveFieldTag(type, methodName, "deprecated"))
+    private void mockDeprecatedField(Class<?> type, String fieldName, String comment) {
+        when(javadocReader.resolveFieldTag(type, fieldName, "deprecated"))
                 .thenReturn(comment);
     }
 
@@ -374,6 +404,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         public DeprecatedItem removeItem() {
             return null;
         }
+
+        public CommentedItem commentItem() {
+            return null;
+        }
     }
 
     private static class Item {
@@ -389,18 +423,65 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     private static class DeprecatedItem {
+        // dep. annot on field, no getter
         @Deprecated
         private int index;
 
+        // dep. Javadoc on field, no getter
         private int index2;
+
+        // field, dep. annot on getter
+        private int index3;
+
+        // field, dep. Javadoc on getter
+        private int index4;
+
+        // dep. annot on field, getter
+        @Deprecated
+        private int index5;
 
         @Deprecated
         public int getIndex3() {
-            return index;
+            return index3;
         }
 
+        // deprecation Javadoc
         public int getIndex4() {
-            return index;
+            return index4;
+        }
+
+        public int getIndex5() {
+            return index5;
+        }
+
+        // no real field
+        @Deprecated
+        public int getIndex6() {
+            return 0;
+        }
+    }
+
+    private static class CommentedItem {
+        // comment on field only, no getter
+        private String field;
+
+        // comment on field, empty on getter
+        private String field2;
+
+        // comment on field and getter
+        private String field3;
+
+        public String getField2() {
+            return field2;
+        }
+
+        public String getField3() {
+            return field3;
+        }
+
+        // comment only on getter
+        public String getField4() {
+            return null;
         }
     }
 
