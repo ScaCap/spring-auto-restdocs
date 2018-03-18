@@ -1,0 +1,10 @@
+{
+  "comment" : "A nested class",
+  "fields" : {
+    "someField" : {
+      "comment" : "Field on a nested class",
+      "tags" : { }
+    }
+  },
+  "methods" : { }
+}
