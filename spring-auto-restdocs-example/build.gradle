@@ -1,9 +1,8 @@
 buildscript {
     ext {
-        springBootVersion = "2.0.0.M7"
+        springBootVersion = "2.0.0.RELEASE"
     }
     repositories {
-        maven { url 'https://repo.spring.io/milestone' }
         jcenter()
         mavenCentral()
     }
@@ -35,7 +34,10 @@ configurations {
 }
 
 ext {
-    snippetsDir = file("$buildDir/generated-snippets")
+    // Usually, this would be "$buildDir/generated-snippets", but because this folder
+    // also contains a pom.xml Spring REST Docs' ManualRestDocumentation defaults
+    // to the Maven build folder
+    snippetsDir = file("target/generated-snippets")
     javadocJsonDir = file("$buildDir/generated-javadoc-json")
 }
 
@@ -46,7 +48,7 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.security.oauth:spring-security-oauth2:2.2.1.RELEASE"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
     compile "org.springframework.data:spring-data-commons"
     compile "capital.scalable:spring-auto-restdocs-core:$version"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
