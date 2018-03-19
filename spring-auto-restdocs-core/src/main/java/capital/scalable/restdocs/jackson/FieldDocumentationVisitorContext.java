@@ -28,13 +28,13 @@ import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
+import static capital.scalable.restdocs.util.TypeUtil.resolveAnnotation;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +45,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.slf4j.Logger;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
-import org.springframework.util.ReflectionUtils;
 
 class FieldDocumentationVisitorContext {
     private static final Logger log = getLogger(FieldDocumentationVisitorContext.class);
@@ -163,9 +162,9 @@ class FieldDocumentationVisitorContext {
     }
 
     private String resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
-        Field field = ReflectionUtils.findField(javaBaseClass, javaFieldName);
-        boolean isDeprecated = field != null && field.getAnnotation(Deprecated.class) != null;
-        String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, "deprecated");
+        boolean isDeprecated =
+                resolveAnnotation(javaBaseClass, javaFieldName, Deprecated.class) != null;
+        String comment = resolveTag(javaBaseClass, javaFieldName, "deprecated");
         if (isDeprecated || isNotBlank(comment)) {
             return trimToEmpty(comment);
         } else {
@@ -182,29 +181,34 @@ class FieldDocumentationVisitorContext {
         }
     }
 
-    private String resolveComment(Class<?> javaBaseClass, String javaFieldName) {
-        String comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldName);
+    private String resolveComment(Class<?> javaBaseClass, String javaFieldOrMethodName) {
+        // prefer method comments first
+        String comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldOrMethodName);
         if (isBlank(comment)) {
-            // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodComment(javaBaseClass, javaFieldName);
+            // fallback to field
+            comment = javadocReader.resolveFieldComment(javaBaseClass, javaFieldOrMethodName);
         }
-        if (isBlank(comment) && isGetter(javaFieldName)) {
-            // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldComment(javaBaseClass, fromGetter(javaFieldName));
+        if (isBlank(comment) && isGetter(javaFieldOrMethodName)) {
+            // fallback if name is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldComment(javaBaseClass,
+                    fromGetter(javaFieldOrMethodName));
         }
         return comment;
     }
 
-    private String resolveTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
-        String comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldName, tagName);
+    private String resolveTag(Class<?> javaBaseClass, String javaFieldOrMethodName,
+            String tagName) {
+        // prefer method comments first
+        String comment = javadocReader.resolveMethodTag(javaBaseClass, javaFieldOrMethodName,
+                tagName);
         if (isBlank(comment)) {
-            // fallback if fieldName is getter method and comment is on the method itself
-            comment = javadocReader.resolveMethodTag(javaBaseClass, javaFieldName, tagName);
+            // fallback to field
+            comment = javadocReader.resolveFieldTag(javaBaseClass, javaFieldOrMethodName, tagName);
         }
-        if (isBlank(comment) && isGetter(javaFieldName)) {
-            // fallback if fieldName is getter method but comment is on field itself
-            comment = javadocReader.resolveFieldTag(javaBaseClass, fromGetter(javaFieldName),
-                    tagName);
+        if (isBlank(comment) && isGetter(javaFieldOrMethodName)) {
+            // fallback if name is getter method but comment is on field itself
+            comment = javadocReader.resolveFieldTag(javaBaseClass,
+                    fromGetter(javaFieldOrMethodName), tagName);
         }
         return comment;
     }

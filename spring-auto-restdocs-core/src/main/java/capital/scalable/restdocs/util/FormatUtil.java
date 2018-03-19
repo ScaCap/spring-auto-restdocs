@@ -21,6 +21,9 @@ package capital.scalable.restdocs.util;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.util.StringUtils.arrayToDelimitedString;
+import static org.springframework.util.StringUtils.collectionToDelimitedString;
+
+import java.util.Collection;
 
 public class FormatUtil {
     private FormatUtil() {
@@ -29,6 +32,10 @@ public class FormatUtil {
 
     public static String arrayToString(Object[] o) {
         return "[" + arrayToDelimitedString(o, ", ") + "]";
+    }
+
+    public static String collectionToString(Collection<?> c) {
+        return "[" + collectionToDelimitedString(c, ", ") + "]";
     }
 
     public static String addDot(String text) {
