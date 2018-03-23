@@ -22,11 +22,14 @@ from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also avail
 
 ## Documentation
 
-[Current 1.0.11 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.11/docs/index.html) reference guide.
+[Current 2.0.0 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.0/docs/index.html) reference guide (based on Spring REST Docs 2.x).
 
-Latest master [1.0.12-SNAPSHOT](https://scacap.github.io/spring-auto-restdocs) reference guide.
+[Current 1.0.12 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.12/docs/index.html) reference guide (based on Spring REST Docs 1.x).
+
+Latest master [2.0.1-SNAPSHOT](https://scacap.github.io/spring-auto-restdocs) reference guide.
 
 Older releases: 
+[1.0.11](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.11/docs/index.html),
 [1.0.10](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.10/docs/index.html),
 [1.0.9](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.9/docs/index.html),
 [1.0.8](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.8/docs/index.html),
@@ -43,7 +46,7 @@ Older releases:
 [path](https://scacap.github.io/spring-auto-restdocs/#snippets-path-parameters), 
 [query parameters](https://scacap.github.io/spring-auto-restdocs/#snippets-request-parameters) and 
 [request headers](https://scacap.github.io/spring-auto-restdocs/#snippets-request-headers) 
-using Jackson and Javadoc
+using Jackson and Javadoc/KDoc
 * Automatic documentation of field and parameter 
 [optionality](https://scacap.github.io/spring-auto-restdocs/#constraints-optionality) and 
 [constraints](https://scacap.github.io/spring-auto-restdocs/#constraints) using JSR 303 annotations
