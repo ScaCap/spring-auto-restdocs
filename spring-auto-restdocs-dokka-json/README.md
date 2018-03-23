@@ -9,7 +9,7 @@ The same holds true for this Dokka extension.
 ## Usage with Maven
 
 This Dokka extension can be used with the standard `dokka-maven-plugin`.
-To avoid any incompatibilities, the Dokka version this extensions is build against schould be used.
+To avoid any incompatibilities, the Dokka version of the `dokka-maven-plugin` and of this extension should be the same.
 If this extension is included as a dependency of the plugin, the output format `auto-restdocs-json` can be used.
 
 Example usage:
