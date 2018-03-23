@@ -76,13 +76,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private Type getType(final MethodParameter param) {
         if (isCollection(param.getParameterType())) {
-            return new GenericArrayType() {
-
-                @Override
-                public Type getGenericComponentType() {
-                    return firstGenericType(param);
-                }
-            };
+            return (GenericArrayType) () -> firstGenericType(param);
         } else {
             return param.getParameterType();
         }

@@ -28,6 +28,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -35,8 +37,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
@@ -70,9 +70,9 @@ public class SkippableConstraintResolverTest {
         // setup
         MethodParameter param = mock(MethodParameter.class);
         when(delegate.resolveForProperty(PROPERTY, CLAZZ))
-                .thenReturn(new ArrayList<Constraint>());
+                .thenReturn(new ArrayList<>());
         when(delegate.resolveForParameter(param))
-                .thenReturn(new ArrayList<Constraint>());
+                .thenReturn(new ArrayList<>());
 
         // when/then
         List<Constraint> constraints = resolver.resolveForProperty(PROPERTY, CLAZZ);
@@ -130,7 +130,7 @@ public class SkippableConstraintResolverTest {
         when(delegate.resolveForProperty(PROPERTY, CLAZZ))
                 .thenReturn(singletonList(constraint));
         when(descriptionResolver.getGroups(constraint))
-                .thenReturn(new ArrayList<Class<?>>());
+                .thenReturn(new ArrayList<>());
 
         // when/then
         List<String> messages = resolver.getOptionalMessages(PROPERTY, CLAZZ);

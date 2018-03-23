@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
 <title>Example API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -89,13 +89,12 @@ strong,b{font-weight:bold;line-height:inherit}
 small{font-size:60%;line-height:inherit}
 code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
 ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
-ul,ol,ul.no-bullet,ol.no-bullet{margin-left:1.5em}
+ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
 ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
 ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
-ul.no-bullet{list-style:none}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -131,7 +130,11 @@ strong strong{font-weight:400}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
 .keyseq kbd:last-child{margin-right:0}
-.menuseq,.menu{color:rgba(0,0,0,.8)}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
 b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
 b.button:before{content:"[";padding:0 3px 0 2px}
 b.button:after{content:"]";padding:0 2px 0 3px}
@@ -198,7 +201,7 @@ table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
 table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
 .admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
 .admonitionblock>table td.icon{text-align:center;width:80px}
-.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon img{max-width:initial}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
@@ -254,13 +257,13 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 table.tableblock{max-width:100%;border-collapse:separate}
 table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
-table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
-table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
-table.grid-cols th.tableblock,table.grid-cols td.tableblock{border-width:0 1px 0 0}
-table.grid-all *>tr>.tableblock:last-child,table.grid-cols *>tr>.tableblock:last-child{border-right-width:0}
-table.grid-rows th.tableblock,table.grid-rows td.tableblock{border-width:0 0 1px 0}
-table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:0}
-table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border-width:1px 0 0 0}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px 0}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
 table.frame-all{border-width:1px}
 table.frame-sides{border-width:0 1px}
 table.frame-topbot{border-width:1px 0}
@@ -281,10 +284,12 @@ ul li ol{margin-left:1.5em}
 dl dd{margin-left:1.125em}
 dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
-ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
-ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -301,7 +306,8 @@ ol.lowergreek{list-style-type:lower-greek}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
-.colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
+.colist>table tr>td:first-of-type{padding:.4em .75em 0 .75em;line-height:1;vertical-align:top}
+.colist>table tr>td:first-of-type img{max-width:initial}
 .colist>table tr>td:last-of-type{padding:.25em 0}
 .thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
 .imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
@@ -364,6 +370,7 @@ div.unbreakable{page-break-inside:avoid}
 .yellow{color:#bfbf00}
 .yellow-background{background-color:#fafa00}
 span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
 .admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
 .admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
@@ -658,8 +665,8 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.
-</p><p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -702,8 +709,8 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.
-</p><p class="tableblock">An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.<br>
 See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"> Jackson type documentation</a>.</p></td>
 </tr>
 <tr>
@@ -734,15 +741,15 @@ See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annot
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-</p><p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.</p>
+<p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -755,8 +762,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -769,8 +776,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-</p><p class="tableblock">Must be one of [ONE, TWO].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.</p>
+<p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -797,12 +804,12 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a><a class="link" href="#_example_request_response">2.1.5. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -892,8 +899,8 @@ Content-Length: 459
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.
-</p><p class="tableblock">An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.<br>
 See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"> Jackson type documentation</a>.</p></td>
 </tr>
 <tr>
@@ -924,15 +931,15 @@ See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annot
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-</p><p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.</p>
+<p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -945,8 +952,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -959,8 +966,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-</p><p class="tableblock">Must be one of [ONE, TWO].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.</p>
+<p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
@@ -987,7 +994,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a><a class="link" href="#_example_request_response_2">2.2.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -995,7 +1002,7 @@ Must be at most 10.</p></td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1093,8 +1100,8 @@ Content-Length: 598
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
 EN: false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.
-</p><p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p>
+<p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
 Length must be between 0 and 20 inclusive.</p></td>
 </tr>
@@ -1102,8 +1109,8 @@ Length must be between 0 and 20 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.
-</p><p class="tableblock">DE: Must be one of [klein, groß].<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.</p>
+<p class="tableblock">DE: Must be one of [klein, groß].<br>
 EN: Must be one of [small, big].<br>
 Size must be between 0 and 1000 inclusive.</p></td>
 </tr>
@@ -1120,9 +1127,9 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer d9bc0f66-a8df-4027-b68c-0b2cbd097099' \
+    -H 'Authorization: Bearer 9519f971-ce91-4298-959f-7ed6bf379921' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1131,7 +1138,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1182,8 +1189,8 @@ Location: /items/2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
-</p><p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1217,8 +1224,8 @@ Location: /items/2</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
 EN: false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.
-</p><p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p>
+<p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
 Length must be between 0 and 20 inclusive.</p></td>
 </tr>
@@ -1226,8 +1233,8 @@ Length must be between 0 and 20 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.
-</p><p class="tableblock">DE: Must be one of [klein, groß].<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Country dependent type of the item.</p>
+<p class="tableblock">DE: Must be one of [klein, groß].<br>
 EN: Must be one of [small, big].<br>
 Size must be between 0 and 1000 inclusive.</p></td>
 </tr>
@@ -1262,8 +1269,8 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.
-</p><p class="tableblock">An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.<br>
 See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"> Jackson type documentation</a>.</p></td>
 </tr>
 <tr>
@@ -1294,15 +1301,15 @@ See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annot
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-</p><p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.</p>
+<p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1315,8 +1322,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1329,8 +1336,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-</p><p class="tableblock">Must be one of [ONE, TWO].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.</p>
+<p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1357,9 +1364,9 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer d9bc0f66-a8df-4027-b68c-0b2cbd097099' \
+    -H 'Authorization: Bearer 9519f971-ce91-4298-959f-7ed6bf379921' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1368,7 +1375,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1436,8 +1443,8 @@ Item must exist.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
-</p><p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1464,8 +1471,8 @@ Item must exist.</p>
 <h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer d9bc0f66-a8df-4027-b68c-0b2cbd097099'</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
+    -H 'Authorization: Bearer 9519f971-ce91-4298-959f-7ed6bf379921'</code></pre>
 </div>
 </div>
 </div>
@@ -1473,7 +1480,7 @@ Item must exist.</p>
 <h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1526,15 +1533,15 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.
-</p><p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.
-</p><p class="tableblock">DE: Must be at most 2.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p>
+<p class="tableblock">DE: Must be at most 2.<br>
 EN: Must be at least 1.</p></td>
 </tr>
 </tbody>
@@ -1580,8 +1587,8 @@ EN: Must be at least 1.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.
-</p><p class="tableblock">An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.<br>
 See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"> Jackson type documentation</a>.</p></td>
 </tr>
 <tr>
@@ -1612,15 +1619,15 @@ See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annot
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-</p><p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.</p>
+<p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1633,8 +1640,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1647,8 +1654,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-</p><p class="tableblock">Must be one of [ONE, TWO].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.</p>
+<p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1675,7 +1682,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
 </div>
 </div>
 </div>
@@ -1683,7 +1690,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1756,15 +1763,15 @@ Content-Length: 133
 <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.
-</p><p class="tableblock">Size must be between 0 and 255 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.</p>
+<p class="tableblock">Size must be between 0 and 255 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.
-</p><p class="tableblock">Must be at least 10.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.</p>
+<p class="tableblock">Must be at least 10.<br>
 Must be at most 100.</p></td>
 </tr>
 </tbody>
@@ -1807,8 +1814,8 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.
-</p><p class="tableblock">An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.<br>
 See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"> Jackson type documentation</a>.</p></td>
 </tr>
 <tr>
@@ -1839,15 +1846,15 @@ See <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annot
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.
-</p><p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Textual attribute.</p>
+<p class="tableblock">Size must be between 2 and 20 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1860,8 +1867,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.
-</p><p class="tableblock">Must be at least 1.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal attribute.</p>
+<p class="tableblock">Must be at least 1.<br>
 Must be at most 10.</p></td>
 </tr>
 <tr>
@@ -1874,8 +1881,8 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.enumType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.
-</p><p class="tableblock">Must be one of [ONE, TWO].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enum attribute.</p>
+<p class="tableblock">Must be one of [ONE, TWO].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
@@ -1902,7 +1909,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
 </div>
 </div>
 </div>
@@ -1910,7 +1917,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1918,7 +1925,7 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
-Content-Length: 830
+Content-Length: 1011
 
 {
   "content" : [ {
@@ -1949,20 +1956,30 @@ Content-Length: 830
   "pageable" : {
     "page" : 0,
     "size" : 20,
-    "sort" : null,
-    "offset" : 0,
+    "sort" : {
+      "orders" : [ ],
+      "sorted" : false,
+      "unsorted" : true
+    },
+    "pageSize" : 20,
     "pageNumber" : 0,
-    "pageSize" : 20
+    "offset" : 0,
+    "paged" : true,
+    "unpaged" : false
   },
   "total" : 1,
-  "totalPages" : 1,
   "last" : true,
+  "totalPages" : 1,
   "totalElements" : 1,
-  "size" : 20,
-  "number" : 0,
-  "sort" : null,
+  "sort" : {
+    "orders" : [ ],
+    "sorted" : false,
+    "unsorted" : true
+  },
   "numberOfElements" : 1,
-  "first" : true
+  "first" : true,
+  "size" : 20,
+  "number" : 0
 }</code></pre>
 </div>
 </div>
@@ -2055,7 +2072,7 @@ Content-Length: 830
 <h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/process' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/process' -i -X POST \
     -H 'Content-Type: application/json' \
     -d '{ "command": "cleanup" }'</code></pre>
 </div>
@@ -2065,7 +2082,7 @@ Content-Length: 830
 <h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -2204,7 +2221,7 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?command=increase' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?command=increase' -i -X POST \
     -H 'Content-Type: application/x-www-form-urlencoded' \
     -d 'command=increase'</code></pre>
 </div>
@@ -2214,7 +2231,7 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 <h4 id="_example_response_7"><a class="anchor" href="#_example_response_7"></a><a class="link" href="#_example_response_7">2.9.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -2309,7 +2326,7 @@ Content-Length: 55
 <h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/validateMetadata' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/validateMetadata' -i -X POST \
     -H 'Content-Type: application/json' \
     -d '{ "type": "1", "tag": "myItem" }'</code></pre>
 </div>
@@ -2319,7 +2336,7 @@ Content-Length: 55
 <h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -2384,8 +2401,8 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deprecated.</strong>
-</p><p class="tableblock">New item&#8217;s name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deprecated.</strong></p>
+<p class="tableblock">New item&#8217;s name.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2400,7 +2417,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_example_request_9"><a class="anchor" href="#_example_request_9"></a><a class="link" href="#_example_request_9">2.11.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/cloneItem' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/cloneItem' -i -X POST \
     -H 'Content-Type: application/json' \
     -d '{ "name": "xyz" }'</code></pre>
 </div>
@@ -2410,7 +2427,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_example_response_9"><a class="anchor" href="#_example_response_9"></a><a class="link" href="#_example_response_9">2.11.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -2488,12 +2505,12 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.12.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -2537,11 +2554,11 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-10 11:52:27 CET
+Last updated 2018-01-16 08:44:06 CET
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
 </body>
 </html>

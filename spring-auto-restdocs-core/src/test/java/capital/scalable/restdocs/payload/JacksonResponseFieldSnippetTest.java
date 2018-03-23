@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,6 @@ import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

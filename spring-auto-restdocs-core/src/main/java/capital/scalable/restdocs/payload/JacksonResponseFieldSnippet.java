@@ -67,13 +67,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
-            return new GenericArrayType() {
-
-                @Override
-                public Type getGenericComponentType() {
-                    return firstGenericType(method.getReturnType());
-                }
-            };
+            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else if ("void".equals(returnType.getName())) {
             return null;
         } else {

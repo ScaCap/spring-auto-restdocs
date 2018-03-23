@@ -19,9 +19,9 @@
  */
 package capital.scalable.restdocs.util;
 
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,12 +35,11 @@ public class FieldDescriptorUtil {
 
     public static void assertAllDocumented(Collection<FieldDescriptor> fieldDescriptors,
             String what) {
-        List<String> undocumentedFields = new ArrayList<>();
-        for (FieldDescriptor descriptor : fieldDescriptors) {
-            if (isBlank((String) descriptor.getDescription())) {
-                undocumentedFields.add(descriptor.getPath());
-            }
-        }
+
+        List<String> undocumentedFields = fieldDescriptors.stream()
+                .filter(descriptor -> isBlank((String) descriptor.getDescription()))
+                .map(FieldDescriptor::getPath)
+                .collect(toList());
         if (!undocumentedFields.isEmpty()) {
             throw new SnippetException(
                     "Following " + what + " were not documented: " + undocumentedFields);

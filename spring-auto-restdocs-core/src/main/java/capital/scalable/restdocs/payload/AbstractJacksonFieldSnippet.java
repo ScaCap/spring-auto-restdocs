@@ -113,9 +113,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
         List<FieldDescriptor> descriptors = generator.generateDocumentation(type,
                 objectMapper.getTypeFactory());
         for (FieldDescriptor descriptor : descriptors) {
-            if (fieldDescriptors.get(descriptor.getPath()) == null) {
-                fieldDescriptors.put(descriptor.getPath(), descriptor);
-            }
+            fieldDescriptors.putIfAbsent(descriptor.getPath(), descriptor);
         }
     }
 
