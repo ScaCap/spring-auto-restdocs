@@ -22,7 +22,7 @@ script:
 - ./gradlew check
 - cd ..
 after_success:
-- test "$TRAVIS_BRANCH" = "master"
+- test "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_BRANCH" = "1.0.x"
   && test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk7"
   && "$DEPLOY_DIR/decrypt.sh"
@@ -30,6 +30,7 @@ after_success:
 branches:
   only:
   - master
+  - 1.0.x
 env:
   global:
   - DEPLOY_DIR="$TRAVIS_BUILD_DIR/deploy"
