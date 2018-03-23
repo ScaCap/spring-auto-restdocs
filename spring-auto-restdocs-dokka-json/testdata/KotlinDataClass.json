@@ -1,0 +1,32 @@
+{
+  "comment" : "Class documentation",
+  "fields" : {
+    "text" : {
+      "comment" : "Documentation for text property",
+      "tags" : {
+        "see" : "KotlinDataClass",
+        "deprecated" : "Use something else",
+        "title" : "Custom tag"
+      }
+    },
+    "number" : {
+      "comment" : "Documentation for number property",
+      "tags" : { }
+    }
+  },
+  "methods" : {
+    "add" : {
+      "comment" : "Function add",
+      "parameters" : {
+        "a" : "First param a",
+        "b" : "Second param b"
+      },
+      "tags" : {
+        "parameters" : "Second param b",
+        "see" : "KotlinDataClass",
+        "deprecated" : "Use something else",
+        "title" : "Custom tag"
+      }
+    }
+  }
+}

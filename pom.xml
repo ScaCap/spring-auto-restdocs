@@ -17,6 +17,7 @@
         <module>spring-auto-restdocs-core</module>
         <module>spring-auto-restdocs-example</module>
         <module>spring-auto-restdocs-docs</module>
+        <module>spring-auto-restdocs-dokka-json</module>
     </modules>
 
     <organization>
@@ -126,6 +127,8 @@
                     <roots>
                         <root>src/main/java</root>
                         <root>src/test/java</root>
+                        <root>src/main/kotlin</root>
+                        <root>src/test/kotlin</root>
                     </roots>
                 </configuration>
                 <executions>

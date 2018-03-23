@@ -1,0 +1,26 @@
+{
+  "comment" : "Javadoc on a Java class",
+  "fields" : {
+    "someField" : {
+      "comment" : "A Java field",
+      "tags" : {
+        "see" : "JavaClass",
+        "title" : "Custom tag"
+      }
+    }
+  },
+  "methods" : {
+    "add" : {
+      "comment" : "Method add",
+      "parameters" : {
+        "a" : "First param a",
+        "b" : "Second param b"
+      },
+      "tags" : {
+        "parameters" : "Second param b",
+        "see" : "JavaClass",
+        "title" : "Custom tag"
+      }
+    }
+  }
+}
