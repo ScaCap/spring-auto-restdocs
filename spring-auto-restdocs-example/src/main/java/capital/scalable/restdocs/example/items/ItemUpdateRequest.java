@@ -19,12 +19,12 @@
  */
 package capital.scalable.restdocs.example.items;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import capital.scalable.restdocs.example.constraints.OneOf;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Java object for the JSON request.

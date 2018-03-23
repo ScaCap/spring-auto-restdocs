@@ -23,12 +23,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;

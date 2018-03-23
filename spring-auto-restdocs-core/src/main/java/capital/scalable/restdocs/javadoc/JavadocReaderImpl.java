@@ -86,34 +86,22 @@ public class JavadocReaderImpl implements JavadocReader {
 
     @Override
     public String resolveMethodComment(Class<?> javaBaseClass, final String javaMethodName) {
-        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
-            @Override
-            public String comment(ClassJavadoc classJavadoc) {
-                return classJavadoc.getMethodComment(javaMethodName);
-            }
-        });
+        return resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodComment(javaMethodName));
     }
 
     @Override
     public String resolveMethodTag(Class<?> javaBaseClass, final String javaMethodName,
             final String tagName) {
-        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
-            @Override
-            public String comment(ClassJavadoc classJavadoc) {
-                return classJavadoc.getMethodTag(javaMethodName, tagName);
-            }
-        });
+        return resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodTag(javaMethodName, tagName));
     }
 
     @Override
     public String resolveMethodParameterComment(Class<?> javaBaseClass, final String javaMethodName,
             final String javaParameterName) {
-        return resolveCommentFromClassHierarchy(javaBaseClass, new CommentExtractor() {
-            @Override
-            public String comment(ClassJavadoc classJavadoc) {
-                return classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName);
-            }
-        });
+        return resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName));
     }
 
     private ClassJavadoc classJavadoc(Class<?> clazz) {

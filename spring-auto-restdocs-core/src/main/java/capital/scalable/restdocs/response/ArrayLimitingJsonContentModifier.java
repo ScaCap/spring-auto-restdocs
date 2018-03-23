@@ -35,22 +35,14 @@ public class ArrayLimitingJsonContentModifier extends JsonContentModifier {
     }
 
     private JsonNodeFilter arraysOnly() {
-        return new JsonNodeFilter() {
-            @Override
-            public boolean apply(JsonNode node) {
-                return node.isArray();
-            }
-        };
+        return JsonNode::isArray;
     }
 
     private JsonNodeConsumer shortenArray(final int maxElements) {
-        return new JsonNodeConsumer() {
-            @Override
-            public void accept(JsonNode node) {
-                final int originalSize = node.size();
-                for (int i = maxElements; i < originalSize; i++) {
-                    ((ArrayNode) node).remove(maxElements);
-                }
+        return node -> {
+            final int originalSize = node.size();
+            for (int i = maxElements; i < originalSize; i++) {
+                ((ArrayNode) node).remove(maxElements);
             }
         };
     }

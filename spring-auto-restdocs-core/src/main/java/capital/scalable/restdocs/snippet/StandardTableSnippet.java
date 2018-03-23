@@ -29,10 +29,10 @@ import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translat
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -76,11 +76,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
             Collection<FieldDescriptor> fieldDescriptors, TemplateFormatting templateFormatting) {
-        List<Map<String, Object>> fields = new ArrayList<>();
-        model.put("content", fields);
-        for (FieldDescriptor descriptor : fieldDescriptors) {
-            fields.add(createModelForDescriptor(descriptor, templateFormatting));
-        }
+        model.put("content", fieldDescriptors.stream()
+                .map(descriptor -> createModelForDescriptor(descriptor, templateFormatting))
+                .collect(toList()));
         model.put("hasContent", !fieldDescriptors.isEmpty());
         model.put("noContent", fieldDescriptors.isEmpty());
 

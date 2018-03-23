@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "1.5.9.RELEASE"
+        springBootVersion = "2.0.0.RELEASE"
     }
     repositories {
         jcenter()
@@ -14,15 +14,16 @@ buildscript {
 
 apply plugin: "java"
 apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 apply plugin: "org.asciidoctor.convert"
 
 group = "capital.scalable"
-version = "1.0.12-SNAPSHOT"
+version = "2.0.0-SNAPSHOT"
 
 description = """Spring Auto REST Docs Example Project"""
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
@@ -33,7 +34,10 @@ configurations {
 }
 
 ext {
-    snippetsDir = file("$buildDir/generated-snippets")
+    // Usually, this would be "$buildDir/generated-snippets", but because this folder
+    // also contains a pom.xml Spring REST Docs' ManualRestDocumentation defaults
+    // to the Maven build folder
+    snippetsDir = file("target/generated-snippets")
     javadocJsonDir = file("$buildDir/generated-javadoc-json")
 }
 
@@ -44,16 +48,16 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.security.oauth:spring-security-oauth2"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
     compile "org.springframework.data:spring-data-commons"
     compile "capital.scalable:spring-auto-restdocs-core:$version"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }
     testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:1.2.3.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:1.2.3.RELEASE"
-    compileOnly "org.projectlombok:lombok"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:2.0.0.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.0.RELEASE"
+    compileOnly "org.projectlombok:lombok:1.16.20"
     jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$version"
 }
 

@@ -43,7 +43,6 @@ import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.slf4j.Logger;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.RestDocumentationContextPlaceholderResolverFactory;
-import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.web.method.HandlerMethod;
@@ -139,16 +138,12 @@ public class SectionSnippet extends TemplatedSnippet {
     }
 
     private SectionSupport getSectionSnippet(Operation operation, String snippetName) {
-        for (Snippet snippet : getDefaultSnippets(operation)) {
-            if (snippet instanceof SectionSupport) {
-                SectionSupport sectionSnippet = (SectionSupport) snippet;
-                if (snippetName.equals(sectionSnippet.getFileName())) {
-                    return sectionSnippet;
-                }
-            }
-        }
-
-        return SnippetRegistry.getClassicSnippet(snippetName);
+        return getDefaultSnippets(operation).stream()
+                .filter(snippet -> snippet instanceof SectionSupport)
+                .map(snippet -> (SectionSupport) snippet)
+                .filter(snippet -> snippetName.equals(snippet.getFileName()))
+                .findFirst()
+                .orElseGet(() -> SnippetRegistry.getClassicSnippet(snippetName));
     }
 
     private String delimit(String value) {

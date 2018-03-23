@@ -19,9 +19,6 @@
  */
 package capital.scalable.restdocs.example.security;
 
-import java.util.Collections;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,7 +33,11 @@ class CustomUserDetailsService implements UserDetailsService {
         // Usually, you would consult a database, but for simplicity we hardcode a user
         // with username "test" and password "test".
         if ("test".equals(username)) {
-            return new User(username, "test", Collections.<GrantedAuthority>emptyList());
+            return User.withDefaultPasswordEncoder()
+                    .username(username)
+                    .password("test")
+                    .authorities("USER")
+                    .build();
         } else {
             throw new UsernameNotFoundException(String.format("User %s does not exist!", username));
         }
