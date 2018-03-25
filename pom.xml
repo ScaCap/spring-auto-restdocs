@@ -15,7 +15,6 @@
     <modules>
         <module>spring-auto-restdocs-json-doclet</module>
         <module>spring-auto-restdocs-core</module>
-        <module>spring-auto-restdocs-example</module>
         <module>spring-auto-restdocs-docs</module>
         <module>spring-auto-restdocs-dokka-json</module>
     </modules>

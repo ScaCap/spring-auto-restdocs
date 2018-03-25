@@ -15,7 +15,7 @@
     <artifactId>spring-auto-restdocs-example</artifactId>
     <version>2.0.0</version> <!-- not related to spring-auto-restdocs version -->
 
-    <name>Spring Auto REST Docs Example Project</name>
+    <name>Spring Auto REST Docs Java Web MVC Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 
