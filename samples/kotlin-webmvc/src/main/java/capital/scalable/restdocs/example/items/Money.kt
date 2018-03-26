@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java Web MVC Example Project
+ * Spring Auto REST Docs Kotlin Web MVC Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -17,36 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package capital.scalable.restdocs.example.items;
+package capital.scalable.restdocs.example.items
 
-import java.math.BigDecimal;
+import java.math.BigDecimal
 
 /**
  * Simplified version of Java Money to demonstrate custom serializers.
  */
-public class Money {
+class Money private constructor(private val number: BigDecimal, val currencyCode: String) {
 
-    private final String currencyCode;
+    val numberStripped: BigDecimal
+        get() = if (this.number.signum() == 0) {
+            BigDecimal.ZERO
+        } else this.number.stripTrailingZeros()
 
-    private final BigDecimal number;
+    companion object {
 
-    private Money(BigDecimal number, String currencyCode) {
-        this.currencyCode = currencyCode;
-        this.number = number;
-    }
-
-    public String getCurrencyCode() {
-        return currencyCode;
-    }
-
-    public BigDecimal getNumberStripped() {
-        if (this.number.signum() == 0) {
-            return BigDecimal.ZERO;
+        fun of(number: BigDecimal, currencyCode: String): Money {
+            return Money(number, currencyCode)
         }
-        return this.number.stripTrailingZeros();
-    }
-
-    public static Money of(BigDecimal number, String currencyCode) {
-        return new Money(number, currencyCode);
     }
 }
