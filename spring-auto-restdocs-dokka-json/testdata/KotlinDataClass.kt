@@ -4,6 +4,11 @@ import java.math.BigDecimal
 
 /**
  * Class documentation
+ *
+ * Next paragraph
+ *
+ * * Item 1
+ * * Item 2
  */
 data class KotlinDataClass(
         /**

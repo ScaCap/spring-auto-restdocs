@@ -1,5 +1,5 @@
 {
-  "comment" : "Class documentation",
+  "comment" : "Class documentation<p>Next paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul>",
   "fields" : {
     "text" : {
       "comment" : "Documentation for text property",

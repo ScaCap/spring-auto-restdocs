@@ -2,6 +2,13 @@ import java.math.BigDecimal;
 
 /**
  * Javadoc on a Java class
+ * <p>
+ * Next paragraph
+ *
+ * <ul>
+ *     <li>Item 1</li>
+ *     <li>Item 2</li>
+ * </ul>
  */
 public class JavaClass {
 
