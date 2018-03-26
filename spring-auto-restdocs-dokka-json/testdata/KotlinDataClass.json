@@ -16,7 +16,7 @@
   },
   "methods" : {
     "add" : {
-      "comment" : "Function add",
+      "comment" : "Function add<p><a href=\"http://some-url.com\">some link</a></p>",
       "parameters" : {
         "a" : "First param a",
         "b" : "Second param b"

@@ -26,7 +26,7 @@ public class JavaClass {
      *
      * @param a First param a
      * @param b Second param b
-     * @see JavaClass
+     * @see <a href="http://some-url.com">some link</a>
      * @deprecated Use something else
      * @title Custom tag
      */

@@ -116,8 +116,12 @@ open class JsonOutputBuilder(
             is ContentUnorderedList -> return wrap("<ul>", "</ul>", joinChildren(content))
             is ContentListItem -> return listItem(content)
             is ContentParagraph -> return paragraph(content, topLevel)
+            is ContentExternalLink -> return "<a href=\"${content.href}\">${joinChildren(content)}</a>"
+            // Ignore href of references to other code parts and just show the link text, e.g. class name.
+            is ContentNodeLink -> return joinChildren(content)
+            // Fallback. Some of the content types above are derived from ContentBlock and
+            // thus this one has to be after them.
             is ContentBlock -> return joinChildren(content)
-            is ContentNodeLink -> return content.node?.let { extractContent(it) } ?: ""
             is ContentEmpty -> return ""
             else -> logger.warn("Unhandled content node: $content")
         }

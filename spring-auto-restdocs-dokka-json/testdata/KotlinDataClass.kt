@@ -27,6 +27,8 @@ data class KotlinDataClass(
     /**
      * Function add
      *
+     * [some link](http://some-url.com)
+     *
      * @param a First param a
      * @param b Second param b
      * @see KotlinDataClass

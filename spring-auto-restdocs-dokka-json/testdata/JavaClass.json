@@ -18,7 +18,7 @@
       },
       "tags" : {
         "parameters" : "Second param b",
-        "see" : "JavaClass",
+        "see" : "<a href=\"http://some-url.com\">some link</a>",
         "title" : "Custom tag"
       }
     }
