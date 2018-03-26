@@ -25,6 +25,7 @@ script:
 - cd kotlin-webmvc
 - mvn verify -B
 - cd ..
+- cd ..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
