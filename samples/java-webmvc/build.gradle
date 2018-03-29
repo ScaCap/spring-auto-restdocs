@@ -18,7 +18,7 @@ apply plugin: "io.spring.dependency-management"
 apply plugin: "org.asciidoctor.convert"
 
 group = "capital.scalable"
-version = "2.0.1-SNAPSHOT"
+version = "2.0.1"
 
 description = """Spring Auto REST Docs Example Project"""
 
