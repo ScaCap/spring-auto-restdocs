@@ -81,7 +81,7 @@ open class JsonOutputBuilder(
         val parameterComments = node.content.sections
                 .filter { it.subjectName != null }
                 .map {
-                    Pair(it.subjectName!!, extractContent(it))
+                    Pair(it.subjectName!!, extractContent(it, topLevel = true))
                 }.toMap()
         return Pair(node.name, MethodDocumentation(
                 comment = extractContent(node),
@@ -107,19 +107,49 @@ open class JsonOutputBuilder(
     }
 
     private fun extractContent(content: List<ContentNode>): String {
-        return content.joinToString("") { extractContent(it) }
+        return content.mapIndexed { index, it -> extractContent(it, topLevel = index == 0) }.joinToString("")
     }
 
-    private fun extractContent(content: ContentNode): String {
+    private fun extractContent(content: ContentNode, topLevel: Boolean): String {
         when (content) {
             is ContentText -> return content.text
-            is ContentBlock -> return content.children.joinToString("") { extractContent(it) }
-            is ContentNodeLink -> return content.node?.let { extractContent(it) } ?: ""
+            is ContentUnorderedList -> return wrap("<ul>", "</ul>", joinChildren(content))
+            is ContentListItem -> return listItem(content)
+            is ContentParagraph -> return paragraph(content, topLevel)
+            is ContentExternalLink -> return "<a href=\"${content.href}\">${joinChildren(content)}</a>"
+            // Ignore href of references to other code parts and just show the link text, e.g. class name.
+            is ContentNodeLink -> return joinChildren(content)
+            // Fallback. Some of the content types above are derived from ContentBlock and
+            // thus this one has to be after them.
+            is ContentBlock -> return joinChildren(content)
             is ContentEmpty -> return ""
             else -> logger.warn("Unhandled content node: $content")
         }
         return ""
     }
+
+    private fun paragraph(paragraph: ContentParagraph, topLevel: Boolean): String {
+        return if (topLevel) {
+            // Ignore paragraphs on the top level
+            joinChildren(paragraph)
+        } else {
+            wrap("<p>", "</p>", joinChildren(paragraph))
+        }
+    }
+
+    private fun listItem(item: ContentListItem): String {
+        val child = item.children.singleOrNull()
+        return if (child is ContentParagraph) {
+            // Ignore paragraph if item is nested underneath an item
+            wrap("<li>", "</li>", joinChildren(child))
+        } else {
+            wrap("<li>", "</li>", joinChildren(item))
+        }
+    }
+
+    private fun wrap(prefix: String, suffix: String, body: String): String = "$prefix$body$suffix"
+
+    private fun joinChildren(block: ContentBlock): String = block.children.joinToString("") { extractContent(it, topLevel = false) }
 }
 
 open class JsonFormatService @Inject constructor(private val logger: DokkaLogger) : FormatService {

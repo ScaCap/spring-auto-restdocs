@@ -1,5 +1,5 @@
 {
-  "comment" : "Javadoc on a Java class",
+  "comment" : "Javadoc on a Java class <p> Next paragraph </p><ul> <li>Item 1</li> <li>Item 2</li> </ul>",
   "fields" : {
     "someField" : {
       "comment" : "A Java field",
@@ -18,7 +18,7 @@
       },
       "tags" : {
         "parameters" : "Second param b",
-        "see" : "JavaClass",
+        "see" : "<a href=\"http://some-url.com\">some link</a>",
         "title" : "Custom tag"
       }
     }

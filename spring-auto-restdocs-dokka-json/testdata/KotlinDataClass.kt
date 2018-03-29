@@ -4,6 +4,11 @@ import java.math.BigDecimal
 
 /**
  * Class documentation
+ *
+ * Next paragraph
+ *
+ * * Item 1
+ * * Item 2
  */
 data class KotlinDataClass(
         /**
@@ -21,6 +26,8 @@ data class KotlinDataClass(
 
     /**
      * Function add
+     *
+     * [some link](http://some-url.com)
      *
      * @param a First param a
      * @param b Second param b
