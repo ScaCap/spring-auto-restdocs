@@ -37,26 +37,41 @@ import static org.springframework.restdocs.generate.RestDocumentationGenerator
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runners.Parameterized;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.templates.TemplateFormats;
+import org.springframework.restdocs.test.ExpectedSnippets;
+import org.springframework.restdocs.test.OperationBuilder;
 import org.springframework.web.method.HandlerMethod;
 
-public class SectionSnippetTest extends AbstractSnippetTests {
+public class SectionSnippetTest {
 
     private JavadocReader javadocReader;
 
     @Rule
     public TranslationRule translationRule = new TranslationRule();
 
-    public SectionSnippetTest(String name, TemplateFormat templateFormat) {
-        super(name, templateFormat);
+    @Rule
+    public ExpectedSnippets snippets;
+
+    @Rule
+    public OperationBuilder operationBuilder;
+
+    public SectionSnippetTest() {
+        // Only runs for AsciiDoctor, because Markdown is not supported.
+        TemplateFormat templateFormat = TemplateFormats.asciidoctor();
+        this.snippets = new ExpectedSnippets(templateFormat);
+        this.operationBuilder = new OperationBuilder(templateFormat);
     }
 
     @Before
