@@ -425,7 +425,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 1.0.13-SNAPSHOT</span>
+<span id="revnumber">version 1.0.13</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -595,7 +595,7 @@ This is demonstrated in the example project.</p>
 <pre class="highlightjs highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.12&lt;/version&gt;
+    &lt;version&gt;1.0.13&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
@@ -632,7 +632,7 @@ This is demonstrated in the example project.</p>
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
-                            &lt;version&gt;1.0.12&lt;/version&gt;
+                            &lt;version&gt;1.0.13&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                         &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
@@ -677,8 +677,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.12' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.12'
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '1.0.13' <i class="conum" data-value="1"></i><b>(1)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '1.0.13'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -1228,6 +1228,18 @@ static class ItemResponse {
 </div>
 <div class="sect2">
 <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Section snippets only work if AsciiDoc is used. Markdown is not supported, because Markdown has no includes.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The section snippet combines most common snippets into one convenient file.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
@@ -1245,14 +1257,14 @@ Assuming of course that you already documented your code with Javadoc.</p>
 <pre class="highlightjs highlight"><code class="language-asciidoc" data-lang="asciidoc">[[resources-{{link}}]]
 === {{title}}
 
-include::{snippets}/{{path}}/auto-method-path.adoc[]
+include::auto-method-path.adoc[]
 
-include::{snippets}/{{path}}/auto-description.adoc[]
+include::auto-description.adoc[]
 {{#sections}}
 
 ==== {{header}}
 
-include::{snippets}/{{path}}/{{fileName}}.adoc[]
+include::{{fileName}}.adoc[]
 {{/sections}}</code></pre>
 </div>
 </div>
@@ -1841,8 +1853,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0.13-SNAPSHOT<br>
-Last updated 2018-03-23 17:38:01 CET
+Version 1.0.13<br>
+Last updated 2018-03-29 11:46:29 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
