@@ -3,6 +3,8 @@
 [[snippets-section]]
 === Section snippet
 
+NOTE: Section snippets only work if AsciiDoc is used. Markdown is not supported, because Markdown has no includes.
+
 The section snippet combines most common snippets into one convenient file.
 It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
 Assuming of course that you already documented your code with Javadoc.
