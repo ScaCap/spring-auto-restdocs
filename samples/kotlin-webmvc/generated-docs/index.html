@@ -709,7 +709,9 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.  An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.</p>
+<p class="tableblock">+
 See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
 </tr>
 <tr>
@@ -898,7 +900,9 @@ Content-Length: 459
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.  An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.</p>
+<p class="tableblock">+
 See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
 </tr>
 <tr>
@@ -1052,7 +1056,13 @@ Content-Length: 598
 <p><code>POST /items</code></p>
 </div>
 <div class="paragraph">
-<p>Adds new item.An example of accepting a custom type as request body and returning a ResponseEntity.</p>
+<p>Adds new item.</p>
+</div>
+<div class="paragraph">
+<p>An example of accepting a custom type as request body and returning a ResponseEntity.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
@@ -1124,7 +1134,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 26f0c7c1-d75e-40ab-8aaf-b7d9cc44b030' \
+    -H 'Authorization: Bearer df881f14-8c99-4e50-8e20-d50fa7be5412' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1151,7 +1161,13 @@ X-Frame-Options: DENY</code></pre>
 <p><code>PUT /items/{id}</code></p>
 </div>
 <div class="paragraph">
-<p>Updates existing item.An example of returning an HttpEntity.</p>
+<p>Updates existing item.</p>
+</div>
+<div class="paragraph">
+<p>An example of returning an HttpEntity.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
@@ -1261,7 +1277,9 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.  An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.</p>
+<p class="tableblock">+
 See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
 </tr>
 <tr>
@@ -1357,7 +1375,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 26f0c7c1-d75e-40ab-8aaf-b7d9cc44b030' \
+    -H 'Authorization: Bearer df881f14-8c99-4e50-8e20-d50fa7be5412' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1394,7 +1412,16 @@ Content-Length: 124
 <p><code>DELETE /items/{id}</code></p>
 </div>
 <div class="paragraph">
-<p>Deletes item.Item must exist.Non existing items are ignoredAn example of using path variables.</p>
+<p>Deletes item.Item must exist.</p>
+</div>
+<div class="paragraph">
+<p>Non existing items are ignored</p>
+</div>
+<div class="paragraph">
+<p>An example of using path variables.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
@@ -1453,7 +1480,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 26f0c7c1-d75e-40ab-8aaf-b7d9cc44b030'</code></pre>
+    -H 'Authorization: Bearer df881f14-8c99-4e50-8e20-d50fa7be5412'</code></pre>
 </div>
 </div>
 </div>
@@ -1478,7 +1505,13 @@ X-Frame-Options: DENY</code></pre>
 <p><code>GET /items/{id}/{child}</code></p>
 </div>
 <div class="paragraph">
-<p>Retrieves a child of specified item.An example of using parameter validation.</p>
+<p>Retrieves a child of specified item.</p>
+</div>
+<div class="paragraph">
+<p>An example of using parameter validation.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
@@ -1562,7 +1595,9 @@ EN: Must be at least 1.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.  An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.</p>
+<p class="tableblock">+
 See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
 </tr>
 <tr>
@@ -1692,7 +1727,13 @@ Content-Length: 133
 <p><code>GET /items/search</code></p>
 </div>
 <div class="paragraph">
-<p>Searches for item based on lookup parameters.An example of using Pageable, Page and customized translation for paging text.</p>
+<p>Searches for item based on lookup parameters.</p>
+</div>
+<div class="paragraph">
+<p>An example of using Pageable, Page and customized translation for paging text.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
@@ -1782,7 +1823,9 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.  An example of JsonSubType support.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
+<p class="tableblock">An example of JsonSubType support.</p>
+<p class="tableblock">+
 See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
 </tr>
 <tr>
@@ -1928,9 +1971,9 @@ Content-Length: 1011
       "sorted" : false,
       "unsorted" : true
     },
+    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
@@ -1938,15 +1981,15 @@ Content-Length: 1011
   "totalPages" : 1,
   "totalElements" : 1,
   "last" : true,
+  "size" : 20,
+  "number" : 0,
+  "numberOfElements" : 1,
   "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
-  },
-  "numberOfElements" : 1,
-  "size" : 20,
-  "number" : 0
+  }
 }</code></pre>
 </div>
 </div>
@@ -1958,7 +2001,13 @@ Content-Length: 1011
 <p><code>POST /items/process</code></p>
 </div>
 <div class="paragraph">
-<p>Executes a command on all items.An example of having String as request and response body.</p>
+<p>Executes a command on all items.</p>
+</div>
+<div class="paragraph">
+<p>An example of having String as request and response body.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
@@ -2069,7 +2118,26 @@ X-Frame-Options: DENY
 <p><code>POST /items/{itemId}/process</code></p>
 </div>
 <div class="paragraph">
-<p>Executes a command on an item.This endpoint demos the basic support for @ModelAttribute.Notes:the request body is documented as it would be JSON,but it is actually form-urlencodedsetting the type manually can help to get the right documentationif the automatic document does not produce the right result.An example of using ModelAttribute.</p>
+<p>Executes a command on an item.This endpoint demos the basic support for @ModelAttribute.</p>
+</div>
+<div class="paragraph">
+<p>Notes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the request body is documented as it would be JSON,but it is actually form-urlencoded</p>
+</li>
+<li>
+<p>setting the type manually can help to get the right documentationif the automatic document does not produce the right result.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An example of using ModelAttribute.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
@@ -2201,7 +2269,13 @@ Content-Length: 55
 <p><code>POST /items/validateMetadata</code></p>
 </div>
 <div class="paragraph">
-<p>Validates metadata.An example of accepting subtypes.</p>
+<p>Validates metadata.</p>
+</div>
+<div class="paragraph">
+<p>An example of accepting subtypes.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
@@ -2297,7 +2371,13 @@ X-Frame-Options: DENY</code></pre>
 <p><code>POST /items/cloneItem</code></p>
 </div>
 <div class="paragraph">
-<p>Clones an item.An example of deprecation.</p>
+<p>Clones an item.</p>
+</div>
+<div class="paragraph">
+<p>An example of deprecation.</p>
+</div>
+<div class="paragraph">
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_11"><a class="anchor" href="#_authorization_11"></a><a class="link" href="#_authorization_11">2.11.1. Authorization</a></h4>
@@ -2491,7 +2571,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-26 08:43:51 CEST
+Last updated 2018-03-29 11:51:15 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
