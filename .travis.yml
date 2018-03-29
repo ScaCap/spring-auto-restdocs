@@ -17,8 +17,14 @@ before_install:
   -Dpackaging=jar -Dclassifier=test
 script:
 - mvn install -B -V
-- cd spring-auto-restdocs-example
+- cd samples
+- cd java-webmvc
+- mvn verify -B
 - ./gradlew check
+- cd ..
+- cd kotlin-webmvc
+- mvn verify -B
+- cd ..
 - cd ..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"

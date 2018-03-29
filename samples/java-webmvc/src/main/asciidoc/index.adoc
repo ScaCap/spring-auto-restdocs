@@ -1,0 +1,124 @@
+= Java Web MVC Example API Documentation
+:doctype: book
+:compat-mode:
+:page-layout!:
+:toc: right
+:toclevels: 2
+:sectanchors:
+:sectlinks:
+:sectnums:
+:linkattrs:
+:source-highlighter: highlightjs
+
+
+[[overview]]
+= Overview
+
+[[overview-general]]
+== General
+
+[[overview-http-verbs]]
+=== HTTP verbs
+
+An example of static AsciiDoc.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource (idempotent)
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update an existing resource (idempotent)
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-pagination]]
+=== Pagination
+
+Spring pagination facilities offer following request parameters:
+
+.Request parameters
+|===
+| Path | Type | Optional | Description
+
+| page
+| Integer
+| false
+| Page you want to retrieve, 0 indexed and defaults to 0.
+
+| size
+| Integer
+| false
+| Size of the page you want to retrieve, defaults to 20.
+
+| sort
+| String
+| false
+| Properties that should be sorted by in the format `property,property(,ASC\|DESC)`.
+Default sort direction is ascending. Use multiple sort parameters if you want to
+switch directions, e.g. `?sort=firstname&sort=lastname,asc`.
+|===
+
+Pagination response has following structure:
+
+.Response structure
+|===
+| Path | Type | Optional | Description
+
+| content
+| Array[Object]
+| false
+| Actual items.
+
+| totalElements
+| Integer
+| false
+| Total count.
+
+| totalPages
+| Integer
+| false
+| Total pages with current page size.
+
+| last
+| Boolean
+| false
+| If this page is the last one.
+
+| numberOfElements
+| Integer
+| false
+| Actual size of content array (number of items).
+
+| first
+| Boolean
+| false
+| If this page is the first one.
+
+| sort
+| Object
+| true
+| Sort information object.
+
+| size
+| Integer
+| false
+| Requested size of the page.
+
+| number
+| Integer
+| false
+| Page number.
+|===
+
+[[resources]]
+= Resources
+
+include::items.adoc[]
+include::srd-items.adoc[]
