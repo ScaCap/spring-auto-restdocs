@@ -1,5 +1,5 @@
 {
-  "comment" : "Class documentation",
+  "comment" : "Class documentation<p>Next paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul>",
   "fields" : {
     "text" : {
       "comment" : "Documentation for text property",
@@ -16,7 +16,7 @@
   },
   "methods" : {
     "add" : {
-      "comment" : "Function add",
+      "comment" : "Function add<p><a href=\"http://some-url.com\">some link</a></p>",
       "parameters" : {
         "a" : "First param a",
         "b" : "Second param b"

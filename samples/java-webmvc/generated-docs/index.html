@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
-<title>Example API Documentation</title>
+<title>Java Web MVC Example API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -427,7 +427,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-right">
 <div id="header">
-<h1>Example API Documentation</h1>
+<h1>Java Web MVC Example API Documentation</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
@@ -1129,7 +1129,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer e9f9040c-925f-482b-8bf6-3601a1693407' \
+    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1366,7 +1366,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer e9f9040c-925f-482b-8bf6-3601a1693407' \
+    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1472,7 +1472,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer e9f9040c-925f-482b-8bf6-3601a1693407'</code></pre>
+    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c'</code></pre>
 </div>
 </div>
 </div>
@@ -1961,25 +1961,25 @@ Content-Length: 1011
       "sorted" : false,
       "unsorted" : true
     },
+    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
   "total" : 1,
-  "last" : true,
-  "totalPages" : 1,
   "totalElements" : 1,
-  "first" : true,
+  "totalPages" : 1,
+  "last" : true,
+  "size" : 20,
+  "number" : 0,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
   },
-  "numberOfElements" : 1,
-  "size" : 20,
-  "number" : 0
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -2554,7 +2554,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-16 08:44:06 CET
+Last updated 2018-03-29 11:51:15 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
