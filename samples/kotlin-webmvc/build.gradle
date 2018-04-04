@@ -1,6 +1,8 @@
 buildscript {
     ext {
-        springAutoRestDocsVersion = "2.0.1-SNAPSHOT"
+        kotlinVersion = "1.2.31"
+        springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
+        springRestDocsVersion = "2.0.0.RELEASE"
         springBootVersion = "2.0.0.RELEASE"
         dokkaVersion = "0.9.16"
     }
@@ -10,15 +12,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
     }
 }
 
-plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.31"
-}
+apply plugin: "kotlin"
+apply plugin: "kotlin-spring"
+apply plugin: "kotlin-jpa"
 
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
@@ -35,10 +40,6 @@ targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
-}
-
-configurations {
-    dokkaJson
 }
 
 ext {
@@ -66,9 +67,8 @@ dependencies {
         exclude(module: "commons-logging")
     }
     testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:2.0.0.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.0.RELEASE"
-    dokkaJson "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
 }
 
 test {
@@ -103,5 +103,5 @@ dokka {
     outputFormat = "auto-restdocs-json"
     outputDirectory = javadocJsonDir
     includeNonPublic = true
-    classpath = configurations.dokkaJson
+    dokkaFatJar = "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
 }
