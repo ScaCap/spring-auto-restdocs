@@ -18,7 +18,7 @@
 
     <properties>
         <docs.dir>${project.basedir}/../docs</docs.dir>
-        <latestRelease>2.0.1</latestRelease> <!-- change this when releasing 2.0.1-SNAPSHOT -->
+        <latestRelease>2.0.1</latestRelease> <!-- change this when releasing 2.0.2-SNAPSHOT -->
     </properties>
 
     <build>
