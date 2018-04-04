@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = "1.2.31"
-        springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
+        springAutoRestDocsVersion = "2.0.1"
         springRestDocsVersion = "2.0.0.RELEASE"
         springBootVersion = "2.0.0.RELEASE"
         dokkaVersion = "0.9.16"
@@ -31,7 +31,7 @@ apply plugin: "org.asciidoctor.convert"
 apply plugin: "org.jetbrains.dokka"
 
 group = "capital.scalable"
-version = "2.0.0"
+version = "0.0.1-SNAPSHOT"
 
 description = """Spring Auto REST Docs Kotlin Web MVC Example Project"""
 
