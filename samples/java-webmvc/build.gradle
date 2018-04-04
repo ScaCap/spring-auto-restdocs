@@ -1,6 +1,7 @@
 buildscript {
     ext {
-        springAutoRestDocsVersion = "2.0.1-SNAPSHOT"
+        springAutoRestDocsVersion = "2.0.1"
+        springRestDocsVersion = "2.0.0.RELEASE"
         springBootVersion = "2.0.0.RELEASE"
     }
     repositories {
@@ -8,7 +9,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
     }
 }
@@ -57,8 +58,8 @@ dependencies {
         exclude(module: "commons-logging")
     }
     testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:2.0.0.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.0.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
     compileOnly "org.projectlombok:lombok:1.16.20"
     jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
 }
