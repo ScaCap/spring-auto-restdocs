@@ -1,6 +1,8 @@
 buildscript {
     ext {
         springBootVersion = "1.5.9.RELEASE"
+        springAutoRestDocsVersion = "1.0.14-SNAPSHOT"
+        springRestDocsVersion = "1.2.4.RELEASE"
     }
     repositories {
         jcenter()
@@ -17,7 +19,7 @@ apply plugin: "org.springframework.boot"
 apply plugin: "org.asciidoctor.convert"
 
 group = "capital.scalable"
-version = "1.0.13"
+version = "0.0.1-SNAPSHOT"
 
 description = """Spring Auto REST Docs Example Project"""
 
@@ -46,15 +48,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.security.oauth:spring-security-oauth2"
     compile "org.springframework.data:spring-data-commons"
-    compile "capital.scalable:spring-auto-restdocs-core:$version"
+    compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }
     testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:1.2.3.RELEASE"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:1.2.3.RELEASE"
+    testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
     compileOnly "org.projectlombok:lombok"
-    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$version"
+    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
