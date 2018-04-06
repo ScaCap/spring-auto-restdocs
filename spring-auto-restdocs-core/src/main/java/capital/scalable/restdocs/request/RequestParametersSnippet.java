@@ -57,7 +57,9 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
             // the required flag
             return true;
         } else {
-            return annot.required();
+            // For Types wrapped in Optional or nullable Kotlin types, the required flag in
+            // the annotation is ignored by Spring.
+            return !param.isOptional() && annot.required();
         }
     }
 
