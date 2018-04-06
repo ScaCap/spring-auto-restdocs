@@ -24,6 +24,7 @@ script:
 - cd ..
 - cd kotlin-webmvc
 - mvn verify -B
+- ./gradlew check
 - cd ..
 - cd ..
 after_success:

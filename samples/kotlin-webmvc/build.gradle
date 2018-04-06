@@ -1,38 +1,45 @@
 buildscript {
     ext {
+        kotlinVersion = "1.2.31"
         springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
         springRestDocsVersion = "2.0.0.RELEASE"
         springBootVersion = "2.0.1.RELEASE"
+        dokkaVersion = "0.9.16"
     }
     repositories {
         jcenter()
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
     }
 }
 
-apply plugin: "java"
+apply plugin: "kotlin"
+apply plugin: "kotlin-spring"
+apply plugin: "kotlin-jpa"
+
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
 apply plugin: "org.asciidoctor.convert"
+apply plugin: "org.jetbrains.dokka"
 
 group = "capital.scalable"
 version = "0.0.1-SNAPSHOT"
 
-description = """Spring Auto REST Docs Java Web MVC Example Project"""
+description = """Spring Auto REST Docs Kotlin Web MVC Example Project"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
-}
-
-configurations {
-    jsondoclet
 }
 
 ext {
@@ -49,10 +56,12 @@ repositories {
 }
 
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
     compile "org.springframework.data:spring-data-commons"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
@@ -60,24 +69,13 @@ dependencies {
     testCompile "com.jayway.jsonpath:json-path-assert"
     testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
     testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
-    compileOnly "org.projectlombok:lombok:1.16.20"
-    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
-}
-
-task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
-    source = sourceSets.main.allJava
-    classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir
-    options.docletpath = configurations.jsondoclet.files.asType(List)
-    options.doclet = "capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet"
-    options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
     systemProperty "org.springframework.restdocs.outputDir", snippetsDir
     systemProperty "org.springframework.restdocs.javadocJsonDir", javadocJsonDir
 
-    dependsOn jsonDoclet
+    dependsOn dokka
 }
 
 asciidoctor {
@@ -99,4 +97,11 @@ asciidoctor.doLast {
 
 jar {
     dependsOn asciidoctor
+}
+
+dokka {
+    outputFormat = "auto-restdocs-json"
+    outputDirectory = javadocJsonDir
+    includeNonPublic = true
+    dokkaFatJar = "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
 }
