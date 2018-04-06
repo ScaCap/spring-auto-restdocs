@@ -43,6 +43,8 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     @Override
     protected boolean isRequired(MethodParameter param, RequestHeader annot) {
         // Spring disallows null for primitive types
+        // For types wrapped in Optional or nullable Kotlin types, the required flag in
+        // the annotation is ignored by Spring.
         return param.getParameterType().isPrimitive() || (!param.isOptional() && annot.required());
     }
 

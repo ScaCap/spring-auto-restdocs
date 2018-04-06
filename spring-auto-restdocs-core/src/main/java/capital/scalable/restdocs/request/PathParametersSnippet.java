@@ -43,7 +43,7 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     @Override
     protected boolean isRequired(MethodParameter param, PathVariable annot) {
         // Spring disallows null for primitive types.
-        // For Types wrapped in Optional or nullable Kotlin types, the required flag in
+        // For types wrapped in Optional or nullable Kotlin types, the required flag in
         // the annotation is ignored by Spring.
         return param.getParameterType().isPrimitive() || (!param.isOptional() && annot.required());
     }

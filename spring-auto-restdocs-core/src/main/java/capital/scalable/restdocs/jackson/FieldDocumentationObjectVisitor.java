@@ -52,7 +52,7 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     /**
-     * Called required bean properties like fields/properties annotated with @JsonProperty(required = true)
+     * Called for required bean properties like fields/properties annotated with @JsonProperty(required = true)
      * or non-null Kotlin properties.
      */
     @Override
