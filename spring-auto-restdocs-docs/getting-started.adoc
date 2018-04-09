@@ -6,9 +6,12 @@
 
 Spring Auto REST Docs has the following minimum requirements:
 
-* Java 7
+* Java 8
 * Spring REST Docs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
+
+For Java 7 and Spring REST Docs 1.2.x support,
+please use the 1.0.x version of Spring Auto REST Docs.
 
 [[gettingstarted-usage]]
 === Usage
