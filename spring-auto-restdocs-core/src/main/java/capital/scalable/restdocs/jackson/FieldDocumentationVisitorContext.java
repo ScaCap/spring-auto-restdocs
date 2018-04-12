@@ -84,7 +84,7 @@ class FieldDocumentationVisitorContext {
                 .description(comment);
 
         Attribute constraints = constraintAttribute(javaBaseClass, javaFieldName);
-        Attribute optionals = optionalAttribute(javaBaseClass, javaFieldName);
+        Attribute optionals = optionalAttribute(javaBaseClass, javaFieldName, info.isRequired());
         Attribute deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
         fieldDescriptor.attributes(constraints, optionals, deprecated);
 
@@ -110,9 +110,9 @@ class FieldDocumentationVisitorContext {
                 resolveConstraintDescriptions(javaBaseClass, javaFieldName));
     }
 
-    private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName) {
+    private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName, boolean requiredField) {
         return new Attribute(OPTIONAL_ATTRIBUTE,
-                resolveOptionalMessages(javaBaseClass, javaFieldName));
+                resolveOptionalMessages(javaBaseClass, javaFieldName, requiredField));
     }
 
     private Attribute deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
@@ -120,8 +120,13 @@ class FieldDocumentationVisitorContext {
                 resolveDeprecatedMessage(javaBaseClass, javaFieldName));
     }
 
-    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
+    private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName, boolean requiredField) {
         List<String> optionalMessages = new ArrayList<>();
+
+        if (requiredField) {
+            optionalMessages.add("false");
+            return optionalMessages;
+        }
 
         if (isPrimitive(javaBaseClass, javaFieldName)) {
             boolean failOnNullForPrimitives = deserializationConfig.hasDeserializationFeatures(
