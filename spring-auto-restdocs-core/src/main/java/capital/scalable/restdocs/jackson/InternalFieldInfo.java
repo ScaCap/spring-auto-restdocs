@@ -27,14 +27,20 @@ class InternalFieldInfo {
     private final JavaType javaFieldType;
     private final String jsonFieldPath;
     private final boolean shouldExpand;
+    /**
+     * True for required bean properties like fields annotated with @JsonProperty(required = true)
+     * or non-null properties in Kotlin.
+     */
+    private final boolean required;
 
     public InternalFieldInfo(Class<?> javaBaseClass, String javaFieldName, JavaType javaFieldType,
-            String jsonFieldPath, boolean shouldExpand) {
+            String jsonFieldPath, boolean shouldExpand, boolean required) {
         this.javaBaseClass = javaBaseClass;
         this.javaFieldName = javaFieldName;
         this.javaFieldType = javaFieldType;
         this.jsonFieldPath = jsonFieldPath;
         this.shouldExpand = shouldExpand;
+        this.required = required;
     }
 
     public Class<?> getJavaBaseClass() {
@@ -55,5 +61,9 @@ class InternalFieldInfo {
 
     public boolean shouldExpand() {
         return shouldExpand;
+    }
+
+    public boolean isRequired() {
+        return required;
     }
 }
