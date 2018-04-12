@@ -6,7 +6,7 @@
 
 Spring Auto REST Docs has the following minimum requirements:
 
-* Java 8
+* Java 8 or Kotlin 1.2
 * Spring REST Docs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
 
