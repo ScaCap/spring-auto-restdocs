@@ -26,8 +26,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -65,21 +63,19 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class, String.class, Optional.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("addItem", "id", "An integer");
         mockParamComment("addItem", "otherId", "A string");
         mockParamComment("addItem", "partId", "An integer");
         mockParamComment("addItem", "yetAnotherId", "Another string");
-        mockParamComment("addItem", "optionalId", "Optional string");
 
         this.snippets.expect(PATH_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
-                        .row("yetAnotherId", "String", "true", "Another string.")
-                        .row("optionalId", "String", "true", "Optional string."));
+                        .row("yetAnotherId", "String", "true", "Another string."));
 
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -131,12 +127,12 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
     @Test
     public void failOnUndocumentedParams() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Integer.class, String.class,
-                int.class, String.class, Optional.class);
+                int.class, String.class);
         initParameters(handlerMethod);
 
         thrown.expect(SnippetException.class);
         thrown.expectMessage(
-                "Following path parameters were not documented: [id, subid, partId, yetAnotherId, optionalId]");
+                "Following path parameters were not documented: [id, subid, partId, yetAnotherId]");
 
         new PathParametersSnippet().failOnUndocumentedParams(true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -194,8 +190,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                 @PathVariable("subid") String otherId,
                 // partId is required anyway, because it's a primitive type
                 @PathVariable(required = false) int partId,
-                @PathVariable(required = false) String yetAnotherId,
-                @PathVariable Optional<String> optionalId) {
+                @PathVariable(required = false) String yetAnotherId) {
             // NOOP
         }
 

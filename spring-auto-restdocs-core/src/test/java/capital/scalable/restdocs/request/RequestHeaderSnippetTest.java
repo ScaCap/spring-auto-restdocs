@@ -25,8 +25,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -63,13 +61,12 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
-                int.class, String.class, Optional.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("updateItem", "id", "An integer");
         mockParamComment("updateItem", "otherId", "A string");
         mockParamComment("updateItem", "partId", "An integer");
         mockParamComment("updateItem", "yetAnotherId", "A string");
-        mockParamComment("updateItem", "optionalId", "Optional string");
 
         this.snippets.expect(REQUEST_HEADERS).withContents(
                 tableWithHeader("Header", "Type", "Optional", "Description")
@@ -77,8 +74,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true",
-                                "A string.\n\nDefault value: 'ID'.")
-                        .row("optionalId", "String", "true", "Optional string."));
+                                "A string.\n\nDefault value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -90,7 +86,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequestDefaultValueParameterNotDocumented() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem", Integer.class, String.class,
-                int.class, String.class, Optional.class);
+                int.class, String.class);
         initParameters(handlerMethod);
         mockParamComment("updateItem", "id", "An integer");
         mockParamComment("updateItem", "otherId", "A string");
@@ -102,8 +98,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
-                        .row("yetAnotherId", "String", "true", "Default value: 'ID'.")
-                        .row("optionalId", "String", "true", ""));
+                        .row("yetAnotherId", "String", "true", "Default value: 'ID'."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -188,8 +183,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
                 @RequestHeader("subId") String otherId,
                 @RequestHeader(required = false) int partId,
                 // required anyway, because it's a primitive type
-                @RequestHeader(required = false, defaultValue = "ID") String yetAnotherId,
-                @RequestHeader Optional<String> optionalId) {
+                @RequestHeader(required = false, defaultValue = "ID") String yetAnotherId) {
             // NOOP
         }
 
