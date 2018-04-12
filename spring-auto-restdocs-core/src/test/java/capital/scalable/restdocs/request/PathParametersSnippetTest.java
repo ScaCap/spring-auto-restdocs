@@ -185,7 +185,7 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
             SPHERIC, SQUARE
         }
 
-        @PostMapping("/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}")
+        @PostMapping("/items/{id}/subitem/{subid}/{partId}/{yetAnotherId}/{optionalId}")
         public void addItem(@PathVariable Integer id,
                 @PathVariable("subid") String otherId,
                 // partId is required anyway, because it's a primitive type

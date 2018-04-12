@@ -51,13 +51,25 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
         this.typeFactory = typeFactory;
     }
 
+    /**
+     * Called for required bean properties like fields/properties annotated with @JsonProperty(required = true)
+     * or non-null Kotlin properties.
+     */
     @Override
     public void property(BeanProperty prop) throws JsonMappingException {
-        optionalProperty(prop);
+        property(prop, true);
     }
 
+    /**
+     * Called for all non-required bean properties like all not annotated Java fields
+     * or not annotated nullable Kotlin properties.
+     */
     @Override
     public void optionalProperty(BeanProperty prop) throws JsonMappingException {
+        property(prop, false);
+    }
+
+    public void property(BeanProperty prop, boolean required) throws JsonMappingException {
         String jsonName = prop.getName();
         String fieldName = prop.getMember().getName();
 
@@ -71,19 +83,19 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
                 return;
             }
 
-            visitType(prop, jsonName, fieldName, javaType, ser);
+            visitType(prop, jsonName, fieldName, javaType, ser, required);
         }
     }
 
     private void visitType(BeanProperty prop, String jsonName, String fieldName, JavaType fieldType,
-            JsonSerializer<?> ser) throws JsonMappingException {
+            JsonSerializer<?> ser, boolean required) throws JsonMappingException {
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         log.debug("({}) {}", fieldPath, fieldType.getRawClass().getSimpleName());
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
         boolean shouldExpand = shouldExpand(prop);
 
         InternalFieldInfo fieldInfo = new InternalFieldInfo(javaBaseClass, fieldName, fieldType,
-                fieldPath, shouldExpand);
+                fieldPath, shouldExpand, required);
 
         JsonFormatVisitorWrapper visitor = new FieldDocumentationVisitorWrapper(getProvider(),
                 context, fieldPath, fieldInfo, typeRegistry, typeFactory);

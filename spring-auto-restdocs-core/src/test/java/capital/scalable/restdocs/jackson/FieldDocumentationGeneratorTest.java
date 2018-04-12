@@ -458,6 +458,27 @@ public class FieldDocumentationGeneratorTest {
                         "true")));
     }
 
+    @Test
+    public void testGenerateDocumentationForRequiredProperties() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+        mockFieldComment(RequiredProperties.class, "string", "A string");
+        mockFieldComment(RequiredProperties.class, "number", "An integer");
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
+                        javadocReader, constraintReader);
+        Type type = RequiredProperties.class;
+
+        // when
+        List<ExtendedFieldDescriptor> result = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0), is(descriptor("string", "String", "A string", "false")));
+        assertThat(result.get(1), is(descriptor("number", "Integer", "An integer", "false")));
+    }
+
     private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
             String value) {
         return when(constraintReader.getOptionalMessages(javaBaseClass, fieldName))
@@ -694,5 +715,12 @@ public class FieldDocumentationGeneratorTest {
 
     private static class JsonType2SubType2 extends JsonType2 {
         private String base2Sub2;
+    }
+
+    private static class RequiredProperties {
+        @JsonProperty(required = true)
+        private String string;
+        @JsonProperty(required = true)
+        private Integer number;
     }
 }

@@ -303,19 +303,22 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
             SMALL, LARGE
         }
 
-        public void searchItem(@RequestParam Integer type,
+        public void searchItem(
+                @RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
             // NOOP
         }
 
-        public void searchItem2(@RequestParam double param1,    // required
+        public void searchItem2(
+                @RequestParam double param1,                    // required
                 @RequestParam(required = false) boolean param2, // required anyway
                 @RequestParam(defaultValue = "1") int param3) { // not required
             // NOOP
         }
 
-        public void searchItem2String(@RequestParam double param1,    // required
-                @RequestParam(required = false) boolean param2, // required anyway
+        public void searchItem2String(
+                @RequestParam double param1,                        // required
+                @RequestParam(required = false) boolean param2,     // required anyway
                 @RequestParam(defaultValue = "de") String param3) { // not required
             // NOOP
         }
