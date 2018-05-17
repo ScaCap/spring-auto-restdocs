@@ -209,10 +209,15 @@ repositories {
 ----
 
 [[gettingstarted-sample]]
-=== Sample application
+=== Sample applications
 
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project]
-includes a sample application that demonstrates most features.
+This projects includes a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc[Java example]
+and a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[Kotlin example]
+application that demonstrate most features.
 
-The generated documentation of the example project can be viewed
-https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
+The generated documentation can be viewed for the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html[Java example]
+and the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html[Kotlin example].
