@@ -100,7 +100,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     protected abstract boolean shouldFailOnUndocumentedFields();
 
     protected boolean isCollection(Class<?> type) {
-        return Collection.class.isAssignableFrom(type) ||
+        return Collection.class.isAssignableFrom(type) || Stream.class.isAssignableFrom(type) ||
                 (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
     }
 

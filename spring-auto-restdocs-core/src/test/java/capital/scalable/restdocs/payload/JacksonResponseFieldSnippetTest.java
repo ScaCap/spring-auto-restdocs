@@ -34,6 +34,7 @@ import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -98,6 +99,25 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     @Test
     public void listResponse() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("getItems");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void streamResponse() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getStream");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
@@ -379,6 +399,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
         public List<Item> getItems() {
             return Collections.singletonList(new Item("test"));
+        }
+
+        public Stream<Item> getStream() {
+            return Stream.of(new Item("test"));
         }
 
         public void noItem() {
