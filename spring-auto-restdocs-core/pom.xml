@@ -94,7 +94,6 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
             <version>9.0.2</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

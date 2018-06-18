@@ -29,9 +29,9 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.Snippet;
@@ -130,9 +130,11 @@ public class WebTestClientInitializerTest {
 	public void prepareSnippets() throws IOException {
 
 		// prepare:
-		ApplicationContext contextMock = mock(ApplicationContext.class);
-		AutowireCapableBeanFactory registryMock = mock(DefaultListableBeanFactory.class);
-		when(contextMock.getAutowireCapableBeanFactory()).thenReturn(registryMock);
+		ConfigurableApplicationContext contextMock = mock(
+				ConfigurableApplicationContext.class);
+		ConfigurableListableBeanFactory registryMock = mock(
+				ConfigurableListableBeanFactory.class);
+		when(contextMock.getBeanFactory()).thenReturn(registryMock);
 		DispatcherHandler dispatcherHandlerMock = mock(DispatcherHandler.class);
 		when(contextMock.getBean(eq(DispatcherHandler.class)))
 				.thenReturn(dispatcherHandlerMock);
@@ -163,6 +165,53 @@ public class WebTestClientInitializerTest {
 		assertNotNull(attributes.get(ObjectMapper.class.getName()));
 		assertNotNull(attributes.get(JavadocReader.class.getName()));
 		assertNotNull(attributes.get(ConstraintReader.class.getName()));
+	}
+
+	/**
+	 * Test for method
+	 * {@link WebTestClientInitializer#prepareSnippets(ApplicationContext)} in case of
+	 * multiple invokes.
+	 * @throws IOException See {@link Snippet#document(Operation)}.
+	 */
+	@Test
+	public void prepareSnippets_multipleInvokes_singleInstance() throws IOException {
+
+		// prepare:
+		ConfigurableApplicationContext contextMock = mock(
+				ConfigurableApplicationContext.class);
+		ConfigurableListableBeanFactory registryMock = mock(
+				ConfigurableListableBeanFactory.class);
+		Map<String, WebTestClientInitializer> webTestClientInitializerBeans = new HashMap<>();
+		Mockito.doAnswer(invocation -> {
+			webTestClientInitializerBeans.put(invocation.getArgumentAt(0, String.class),
+					invocation.getArgumentAt(1, WebTestClientInitializer.class));
+			return null;
+		}).when(registryMock).registerSingleton(any(), any());
+		when(contextMock.getBeansOfType(eq(WebTestClientInitializer.class)))
+				.then(invocation -> webTestClientInitializerBeans);
+		when(contextMock.getBeanFactory()).thenReturn(registryMock);
+		DispatcherHandler dispatcherHandlerMock = mock(DispatcherHandler.class);
+		when(contextMock.getBean(eq(DispatcherHandler.class)))
+				.thenReturn(dispatcherHandlerMock);
+		Operation operationMock = mock(Operation.class);
+		WebTestClientInitializer webTestClientInitializer = new WebTestClientInitializer();
+		HandlerResult handlerResultMock = mock(HandlerResult.class);
+		HandlerMethod handlerMethodMock = mock(HandlerMethod.class);
+		Mockito.when(handlerResultMock.getHandler()).thenReturn(handlerMethodMock);
+		webTestClientInitializer.supports(handlerResultMock);
+		when(contextMock.getBean(eq(WebTestClientInitializer.class)))
+				.thenReturn(webTestClientInitializer);
+
+		// perform:
+		Snippet snippet1 = WebTestClientInitializer.prepareSnippets(contextMock);
+		snippet1.document(operationMock);
+		Snippet snippet2 = WebTestClientInitializer.prepareSnippets(contextMock);
+		snippet2.document(operationMock);
+
+		// verify:
+		assertNotNull(snippet1);
+		assertNotNull(snippet2);
+		verify(registryMock).registerSingleton(any(), any());
 	}
 
 }

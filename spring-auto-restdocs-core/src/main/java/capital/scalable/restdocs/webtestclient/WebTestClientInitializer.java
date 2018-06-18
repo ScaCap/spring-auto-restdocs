@@ -19,10 +19,8 @@
  */
 package capital.scalable.restdocs.webtestclient;
 
-import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.web.method.HandlerMethod;
@@ -74,18 +72,16 @@ public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
 	 * method)
 	 */
 	public static Snippet prepareSnippets(ApplicationContext context) {
-		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) context
-				.getAutowireCapableBeanFactory();
 
 		// Register an instance of this class as spring bean:
-		AnnotatedGenericBeanDefinition beanDefinition = new AnnotatedGenericBeanDefinition(
-				WebTestClientInitializer.class);
-		String beanName = new DefaultBeanNameGenerator().generateBeanName(beanDefinition,
-				registry);
-		registry.registerBeanDefinition(beanName, beanDefinition);
+		if (context.getBeansOfType(WebTestClientInitializer.class).isEmpty()) {
+			((ConfigurableApplicationContext) context).getBeanFactory().registerSingleton(
+					WebTestClientInitializer.class.getName(),
+					new WebTestClientInitializer());
 
-		// refresh DispatcherHandler to take this new Handler:
-		context.getBean(DispatcherHandler.class).setApplicationContext(context);
+			// refresh DispatcherHandler to take this new Handler:
+			context.getBean(DispatcherHandler.class).setApplicationContext(context);
+		}
 
 		// create dummy snippet:
 		return operation -> {
