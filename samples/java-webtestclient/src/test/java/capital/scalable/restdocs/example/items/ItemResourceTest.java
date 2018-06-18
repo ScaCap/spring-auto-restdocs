@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java Web MVC Example Project
+ * Spring Auto REST Docs Java WebTestClient Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -102,7 +102,7 @@ public class ItemResourceTest extends WebTestClientTestBase {
 
     @Test
     public void deleteItem() {
-        webTestClient.mutate().filter(userToken()).build().delete().uri("/items/1")
+        webTestClient.mutate().filter(userToken()).build().delete().uri("/items/{id}", 1)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -111,7 +111,7 @@ public class ItemResourceTest extends WebTestClientTestBase {
 
     @Test
     public void getChildItem() {
-        webTestClient.get().uri("/items/1/child-1")
+        webTestClient.get().uri("/items/{id}/{child}", 1, "child-1")
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()

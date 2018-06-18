@@ -101,6 +101,10 @@ public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
 			// create ConstraintReader and put it in operation attributes:
 			operation.getAttributes().put(ConstraintReader.class.getName(),
 					ConstraintReaderImpl.create(objectMapper));
+
+			// copy attribute to be compatible wit MockMvc:
+			operation.getAttributes().put("REQUEST_PATTERN", operation.getAttributes()
+					.get("org.springframework.restdocs.urlTemplate"));
 		};
 	}
 
