@@ -1,0 +1,26 @@
+[[resources-items-get-spring-rest-docs]]
+=== Get an item (SARD/SRD mix)
+
+This part of the documentation demonstrates the combination of Spring Auto REST Docs with Spring REST Docs:
+The path parameter and response field are manually documented with Spring REST Docs.
+The authorization is still coming from Spring Auto REST Docs and
+the cURL and HTTP response are coming from Spring REST Docs in any case.
+
+`GET /items/{id}`
+
+==== Authorization
+
+include::{snippets}/item-resource-test/get-item-with-rest-docs/auto-authorization.adoc[]
+
+==== Path parameters
+
+include::{snippets}/item-resource-test/get-item-with-rest-docs/path-parameters.adoc[]
+
+==== Response fields
+
+include::{snippets}/item-resource-test/get-item-with-rest-docs/response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/item-resource-test/get-item-with-rest-docs/curl-request.adoc[]
+include::{snippets}/item-resource-test/get-item-with-rest-docs/http-response.adoc[]
