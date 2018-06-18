@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>capital.scalable</groupId>
-    <artifactId>spring-auto-restdocs-java-webmvc-example</artifactId>
+    <artifactId>spring-auto-restdocs-java-webtestclient-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Spring Auto REST Docs Java Web MVC Example Project</name>
+    <name>Spring Auto REST Docs Java WebTestClient Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 

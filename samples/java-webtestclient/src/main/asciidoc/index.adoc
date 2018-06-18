@@ -1,4 +1,4 @@
-= Java Web MVC Example API Documentation
+= Java WebTestClient Example API Documentation
 :doctype: book
 :compat-mode:
 :page-layout!:
