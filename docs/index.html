@@ -432,7 +432,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 2.0.1</span>
+<span id="revnumber">version 2.0.2-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -539,6 +539,10 @@ you write even less.</p>
 <p>Yes, it is easy to use in existing or new Spring MVC tests. Take a look at the example.</p>
 </li>
 <li>
+<p><em>Does it work with Spring WebTestClient?</em></p>
+<p>Yes, but only basic support yet. Take a look at the example.</p>
+</li>
+<li>
 <p><em>Does it work with REST Assured tests?</em></p>
 <p>Not yet. We may add support for REST Assured in the future, but your PR is also welcome.</p>
 </li>
@@ -579,7 +583,7 @@ This is demonstrated in the example project.</p>
 <p>Java 7</p>
 </li>
 <li>
-<p>Spring REST Docs 2.0.0.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 2.0.1.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.1.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -592,7 +596,7 @@ This is demonstrated in the example project.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.1.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -730,9 +734,9 @@ The directories are processed in order and only the first found JSON file is use
 </div>
 </li>
 <li>
-<p>Configure MockMvc</p>
+<p>Configure MockMvc or WebTestClient</p>
 <div class="listingblock">
-<div class="title">Test class</div>
+<div class="title">MockMvc Test class</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Autowired
 private WebApplicationContext context;
@@ -773,6 +777,44 @@ public void setUp() throws Exception {
                             AutoDocumentation.description(),
                             AutoDocumentation.methodAndPath(),
                             AutoDocumentation.section()))
+            .build();
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">WebTestClient Test class</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Autowired
+private WebApplicationContext context;
+
+@Autowired
+protected ObjectMapper objectMapper;
+
+protected WebTestClient webTestClient;
+
+@Rule
+public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+
+@Before
+public void setUp() throws Exception {
+    this.webTestClient = WebTestClient
+            .bindToApplicationContext(context)
+            .apply(springSecurity())
+            .configureClient()
+            .baseUrl("http://localhost:8080/")
+            .filter(documentationConfiguration(restDocumentation)
+                .snippets()
+                .withDefaults(WebTestClientInitializer.prepareSnippets(context),
+                           CliDocumentation.curlRequest(),
+                           HttpDocumentation.httpRequest(),
+                           HttpDocumentation.httpResponse(),
+                           AutoDocumentation.requestFields(),
+                           AutoDocumentation.responseFields(),
+                           AutoDocumentation.pathParameters(),
+                           AutoDocumentation.requestParameters(),
+                           AutoDocumentation.description(),
+                           AutoDocumentation.methodAndPath(),
+                           AutoDocumentation.section()))
             .build();
 }</code></pre>
 </div>
@@ -1483,10 +1525,10 @@ You can also <a href="#snippets-section-custom-snippet">include your custom snip
 <h3 id="snippets-customization"><a class="link" href="#snippets-customization">Snippet customization</a></h3>
 <div class="paragraph">
 <p>Provide your own template in <code>org/springframework/restdocs/templates/asciidoctor</code> (or <code>markdown</code>) package of your resources.
-You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.0.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
+You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.1.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
 and <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates">Auto REST Docs templates</a>.
 Important is to omit <code>default-</code> part from the template name so that the resolution algorithm will prefer this custom template.
-See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
+See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.1.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
 </div>
 </div>
 </div>
@@ -1566,7 +1608,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.0.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.1.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -1796,9 +1838,9 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 <div class="listingblock">
 <div class="title">Bash</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.0.RELEASE-test.jar \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.1.RELEASE-test.jar \
     -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
-    -Dversion=2.0.0.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
+    -Dversion=2.0.1.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
 </div>
 </div>
 </div>
@@ -1809,7 +1851,7 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
 </div>
 <div class="paragraph">
-<p>We use version 2.0.0.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 2.0.1.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
@@ -1820,7 +1862,7 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;2.0.0.RELEASE&lt;/version&gt;
+    &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
     &lt;classifier&gt;test&lt;/classifier&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
@@ -1835,13 +1877,13 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v2.0.0.RELEASE
+git checkout tags/v2.0.1.RELEASE
 ./gradlew build</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Afterwards the test JAR is located at
-<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.0.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.1.RELEASE-test.jar</code>
 and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
@@ -1860,8 +1902,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.1<br>
-Last updated 2018-03-29 11:56:38 CEST
+Version 2.0.2-SNAPSHOT<br>
+Last updated 2018-06-18 15:50:28 MESZ
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
