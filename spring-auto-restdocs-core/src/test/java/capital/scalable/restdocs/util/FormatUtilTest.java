@@ -44,6 +44,8 @@ public class FormatUtilTest {
         assertThat(FormatUtil.addDot("."), is("."));
         assertThat(FormatUtil.addDot("text."), is("text."));
         assertThat(FormatUtil.addDot("text"), is("text."));
+        assertThat(FormatUtil.addDot("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>"),
+				is("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>"));
     }
 
     @Test
