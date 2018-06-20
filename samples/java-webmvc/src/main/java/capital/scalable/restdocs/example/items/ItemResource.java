@@ -163,6 +163,12 @@ public class ItemResource {
      * Retrieves a child of specified item.
      * <p>
      * An example of using parameter validation.
+     * <p>
+     * Result:
+     * <ul>
+     * <li>200 OK: Success</li>
+     * <li>404 Not Found: Child or Parent not found</li>
+     * </ul>
      *
      * @param id      Item ID.
      * @param childId Child ID.

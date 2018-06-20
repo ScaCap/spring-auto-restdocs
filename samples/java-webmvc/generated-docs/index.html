@@ -804,7 +804,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a><a class="link" href="#_example_request_response">2.1.5. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -994,7 +994,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a><a class="link" href="#_example_request_response_2">2.2.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X GET</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1129,7 +1129,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c' \
+    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1366,7 +1366,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c' \
+    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1472,7 +1472,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 23d918a4-653f-4e61-9b46-b5e72fd2ba7c'</code></pre>
+    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e'</code></pre>
 </div>
 </div>
 </div>
@@ -1497,13 +1497,23 @@ X-Frame-Options: DENY</code></pre>
 <p><code>GET /items/{id}/{child}</code></p>
 </div>
 <div class="paragraph">
-<p>Retrieves a child of specified item.</p>
+<p>Returns list of all items.</p>
 </div>
 <div class="paragraph">
-<p>An example of using parameter validation.</p>
+<p>Use query parameters to filter the list by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>orderNumber</p>
+</li>
+<li>
+<p>type</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>See <a href="https://scacap.github.io/spring-auto-restdocs/#constraints">constraints documentation</a>.</p>
+<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
@@ -1533,15 +1543,13 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
-<p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p>
-<p class="tableblock">DE: Must be at most 2.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DE: Must be at most 2.<br>
 EN: Must be at least 1.</p></td>
 </tr>
 </tbody>
@@ -1682,7 +1690,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -1909,7 +1917,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -1961,25 +1969,25 @@ Content-Length: 1011
       "sorted" : false,
       "unsorted" : true
     },
-    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
+    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
   "total" : 1,
-  "totalElements" : 1,
-  "totalPages" : 1,
   "last" : true,
-  "size" : 20,
-  "number" : 0,
-  "numberOfElements" : 1,
+  "totalPages" : 1,
+  "totalElements" : 1,
+  "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
   },
-  "first" : true
+  "numberOfElements" : 1,
+  "size" : 20,
+  "number" : 0
 }</code></pre>
 </div>
 </div>
@@ -2471,7 +2479,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+id+</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p></td>
 </tr>
 </tbody>
@@ -2494,8 +2502,8 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+id+</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+String+</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">There are more fields but only the ID field is documented.</p></td>
 </tr>
 </tbody>
@@ -2505,7 +2513,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.12.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2554,7 +2562,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-29 11:51:15 CEST
+Last updated 2018-06-15 10:19:16 MESZ
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
