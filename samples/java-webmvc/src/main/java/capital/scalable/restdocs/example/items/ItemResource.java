@@ -92,13 +92,13 @@ public class ItemResource {
     }
 
     /**
-	 * Returns list of all items.
-	 * <p>
-	 * Use query parameters to filter the list by:
-	 * <ul>
-	 *   <li>orderNumber</li>
-	 *   <li>type</li>
-	 * </ul>
+     * Returns list of all items.
+     * <p>
+     * Use query parameters to filter the list by:
+     * <ul>
+     * <li>orderNumber</li>
+     * <li>type</li>
+     * </ul>
      *
      * @return list of all items
      */
