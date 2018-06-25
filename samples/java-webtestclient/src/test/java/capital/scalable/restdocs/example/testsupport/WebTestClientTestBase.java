@@ -32,7 +32,6 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 
 import java.util.function.Consumer;
 
-import capital.scalable.restdocs.webtestclient.WebTestClientInitializer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -52,6 +51,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import capital.scalable.restdocs.webtestclient.WebTestClientInitializer;
+
 /**
  * Required set up code for WebTestClient tests.
  */
@@ -59,78 +60,78 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 public abstract class WebTestClientTestBase {
 
-	private static final String DEFAULT_AUTHORIZATION = "Resource is public.";
+    private static final String DEFAULT_AUTHORIZATION = "Resource is public.";
 
-	@Autowired
-	private ApplicationContext context;
+    @Autowired
+    private ApplicationContext context;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	protected WebTestClient webTestClient;
+    protected WebTestClient webTestClient;
 
-	@Rule
-	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+    @Rule
+    public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
-	@Before
-	public void setUp() {
-		this.webTestClient = WebTestClient.bindToApplicationContext(context)
-				.apply(springSecurity()).configureClient()
-				.baseUrl("http://localhost:8080/")
-				.filter(documentationConfiguration(restDocumentation).snippets()
-						.withDefaults(WebTestClientInitializer.prepareSnippets(context),
-								curlRequest(), httpRequest(), httpResponse(),
-								requestFields(), responseFields(), pathParameters(),
-								requestParameters(), description(), methodAndPath(),
-								section(), authorization(DEFAULT_AUTHORIZATION)))
-				.build();
-		// TODO: alwaysDo(commonDocumentation())
-	}
+    @Before
+    public void setUp() {
+        this.webTestClient = WebTestClient.bindToApplicationContext(context)
+                .apply(springSecurity()).configureClient()
+                .baseUrl("http://localhost:8080/")
+                .filter(documentationConfiguration(restDocumentation).snippets()
+                        .withDefaults(WebTestClientInitializer.prepareSnippets(context),
+                                curlRequest(), httpRequest(), httpResponse(),
+                                requestFields(), responseFields(), pathParameters(),
+                                requestParameters(), description(), methodAndPath(),
+                                section(), authorization(DEFAULT_AUTHORIZATION)))
+                .build();
+        // TODO: alwaysDo(commonDocumentation())
+    }
 
-	protected <T extends ExchangeResult> Consumer<T> commonDocumentation(
-			Snippet... snippets) {
-		return document("{class-name}/{method-name}", preprocessRequest(),
-				commonResponsePreprocessor(), snippets);
-	}
+    protected <T extends ExchangeResult> Consumer<T> commonDocumentation(
+                    Snippet... snippets) {
+        return document("{class-name}/{method-name}", preprocessRequest(),
+                commonResponsePreprocessor(), snippets);
+    }
 
-	protected OperationResponsePreprocessor commonResponsePreprocessor() {
-		return preprocessResponse(replaceBinaryContent(),
-				limitJsonArrayLength(objectMapper), prettyPrint());
-	}
+    protected OperationResponsePreprocessor commonResponsePreprocessor() {
+        return preprocessResponse(replaceBinaryContent(),
+                limitJsonArrayLength(objectMapper), prettyPrint());
+    }
 
-	protected ExchangeFilterFunction userToken() {
+    protected ExchangeFilterFunction userToken() {
 
-		return (request, next) -> {
-			// If the tests requires setup logic for users, you can place it here.
-			// Authorization headers or cookies for users should be added here as well.
-			// TODO: enable oAuth
-			// String accessToken = getAccessToken("test", "test");
-			// request.headers().add("Authorization", "Bearer " + accessToken);
-			// documentAuthorization(request, "User access token required.");
-			return next.exchange(request);
-		};
-	}
+        return (request, next) -> {
+            // If the tests requires setup logic for users, you can place it here.
+            // Authorization headers or cookies for users should be added here as well.
+            // TODO: enable oAuth
+            // String accessToken = getAccessToken("test", "test");
+            // request.headers().add("Authorization", "Bearer " + accessToken);
+            // documentAuthorization(request, "User access token required.");
+            return next.exchange(request);
+        };
+    }
 
-	private String getAccessToken(String username, String password) {
-		String authorization = "Basic "
-				+ new String(Base64Utils.encode("app:very_secret".getBytes()));
-		String contentType = MediaType.APPLICATION_JSON + ";charset=UTF-8";
+    private String getAccessToken(String username, String password) {
+        String authorization = "Basic "
+                        + new String(Base64Utils.encode("app:very_secret".getBytes()));
+        String contentType = MediaType.APPLICATION_JSON + ";charset=UTF-8";
 
-		String body = new String(webTestClient.post()
-				.uri(uriBuilder -> new DefaultUriBuilderFactory()
-						.uriString("/oauth/token").queryParam("username", username)
-						.queryParam("password", password)
-						.queryParam("grant_type", "password")
-						.queryParam("scope", "read write").queryParam("client_id", "app")
-						.queryParam("client_secret", "very_secret").build())
-				.header("Authorization", authorization)
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED).exchange()
-				.expectStatus().isOk().expectHeader().contentType(contentType)
-				.expectBody().jsonPath("$.access_token").isNotEmpty()
-				.jsonPath("$.token_type").isEqualTo("bearer").jsonPath("$.refresh_token")
-				.isNotEmpty().jsonPath("$.expires_in").isNumber().jsonPath("$.scope")
-				.isEqualTo("read write").returnResult().getResponseBody());
+        String body = new String(webTestClient.post()
+                        .uri(uriBuilder -> new DefaultUriBuilderFactory()
+                                        .uriString("/oauth/token").queryParam("username", username)
+                                        .queryParam("password", password)
+                                        .queryParam("grant_type", "password")
+                                        .queryParam("scope", "read write").queryParam("client_id", "app")
+                                        .queryParam("client_secret", "very_secret").build())
+                        .header("Authorization", authorization)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED).exchange()
+                        .expectStatus().isOk().expectHeader().contentType(contentType)
+                        .expectBody().jsonPath("$.access_token").isNotEmpty()
+                        .jsonPath("$.token_type").isEqualTo("bearer").jsonPath("$.refresh_token")
+                        .isNotEmpty().jsonPath("$.expires_in").isNumber().jsonPath("$.scope")
+                        .isEqualTo("read write").returnResult().getResponseBody());
 
-		return body.substring(17, 53);
-	}
+        return body.substring(17, 53);
+    }
 }

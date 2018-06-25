@@ -40,72 +40,72 @@ import reactor.core.publisher.Mono;
 /** Watches the WebTestClient and applies some attributes on each operation. */
 public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
 
-	/** The called {@link HandlerMethod}. */
-	private HandlerMethod handlerMethod;
+    /** The called {@link HandlerMethod}. */
+    private HandlerMethod handlerMethod;
 
-	@Override
-	public boolean supports(HandlerResult result) {
-		// if a handler method is set: remember it
-		if (result.getHandler() instanceof HandlerMethod) {
-			handlerMethod = (HandlerMethod) result.getHandler();
-		}
-		// all done - nothing more to do
-		return false;
-	}
+    @Override
+    public boolean supports(HandlerResult result) {
+        // if a handler method is set: remember it
+        if (result.getHandler() instanceof HandlerMethod) {
+            handlerMethod = (HandlerMethod) result.getHandler();
+        }
+        // all done - nothing more to do
+        return false;
+    }
 
-	@Override
-	public Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
-		// nothing to do - handler already registered in #supports(HandlerResult)
-		return Mono.empty();
-	}
+    @Override
+    public Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
+        // nothing to do - handler already registered in #supports(HandlerResult)
+        return Mono.empty();
+    }
 
-	@Override
-	public int getOrder() {
-		// make sure that this handler always gets called
-		return HIGHEST_PRECEDENCE;
-	}
+    @Override
+    public int getOrder() {
+        // make sure that this handler always gets called
+        return HIGHEST_PRECEDENCE;
+    }
 
-	/**
-	 * Prepare Snippets for use with the WebTestClient.
-	 * @param context The Spring {@link ApplicationContext}.
-	 * @return The Snippet. (Just a dummy, but the WebTestClient gets initialized by this
-	 * method)
-	 */
-	public static Snippet prepareSnippets(ApplicationContext context) {
+    /**
+     * Prepare Snippets for use with the WebTestClient.
+     * @param context The Spring {@link ApplicationContext}.
+     * @return The Snippet. (Just a dummy, but the WebTestClient gets initialized by this
+     * method)
+     */
+    public static Snippet prepareSnippets(ApplicationContext context) {
 
-		// Register an instance of this class as spring bean:
-		if (context.getBeansOfType(WebTestClientInitializer.class).isEmpty()) {
-			((ConfigurableApplicationContext) context).getBeanFactory().registerSingleton(
-					WebTestClientInitializer.class.getName(),
-					new WebTestClientInitializer());
+        // Register an instance of this class as spring bean:
+        if (context.getBeansOfType(WebTestClientInitializer.class).isEmpty()) {
+            ((ConfigurableApplicationContext) context).getBeanFactory().registerSingleton(
+                    WebTestClientInitializer.class.getName(),
+                    new WebTestClientInitializer());
 
-			// refresh DispatcherHandler to take this new Handler:
-			context.getBean(DispatcherHandler.class).setApplicationContext(context);
-		}
+            // refresh DispatcherHandler to take this new Handler:
+            context.getBean(DispatcherHandler.class).setApplicationContext(context);
+        }
 
-		// create dummy snippet:
-		return operation -> {
-			// put HandlerMethod in operation attributes:
-			HandlerMethod handlerMethod = context
-					.getBean(WebTestClientInitializer.class).handlerMethod;
-			operation.getAttributes().put(HandlerMethod.class.getName(), handlerMethod);
+        // create dummy snippet:
+        return operation -> {
+            // put HandlerMethod in operation attributes:
+            HandlerMethod handlerMethod = context
+                    .getBean(WebTestClientInitializer.class).handlerMethod;
+            operation.getAttributes().put(HandlerMethod.class.getName(), handlerMethod);
 
-			// put ObjectMapper in operation attributes:
-			ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
-			operation.getAttributes().put(ObjectMapper.class.getName(), objectMapper);
+            // put ObjectMapper in operation attributes:
+            ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
+            operation.getAttributes().put(ObjectMapper.class.getName(), objectMapper);
 
-			// create JavadocReader and put it in operation attributes:
-			operation.getAttributes().put(JavadocReader.class.getName(),
-					JavadocReaderImpl.createWithSystemProperty());
+            // create JavadocReader and put it in operation attributes:
+            operation.getAttributes().put(JavadocReader.class.getName(),
+                    JavadocReaderImpl.createWithSystemProperty());
 
-			// create ConstraintReader and put it in operation attributes:
-			operation.getAttributes().put(ConstraintReader.class.getName(),
-					ConstraintReaderImpl.create(objectMapper));
+            // create ConstraintReader and put it in operation attributes:
+            operation.getAttributes().put(ConstraintReader.class.getName(),
+                    ConstraintReaderImpl.create(objectMapper));
 
-			// copy attribute to be compatible wit MockMvc:
-			operation.getAttributes().put("REQUEST_PATTERN", operation.getAttributes()
-					.get("org.springframework.restdocs.urlTemplate"));
-		};
-	}
+            // copy attribute to be compatible wit MockMvc:
+            operation.getAttributes().put("REQUEST_PATTERN", operation.getAttributes()
+                    .get("org.springframework.restdocs.urlTemplate"));
+        };
+    }
 
 }

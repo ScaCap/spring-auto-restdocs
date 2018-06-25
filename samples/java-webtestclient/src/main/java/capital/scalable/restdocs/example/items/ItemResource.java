@@ -107,14 +107,14 @@ public class ItemResource {
     @PostMapping
     public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate, UriComponentsBuilder uriComponentsBuilder) {
         // New item with unique ID is stored and returned.
-		URI location = uriComponentsBuilder
+        URI location = uriComponentsBuilder
                 .path("/{id}")
                 .buildAndExpand("2")
                 .toUri();
 
         return ResponseEntity
                 .created(location)
-				.build();
+                .build();
     }
 
     /**
@@ -187,11 +187,11 @@ public class ItemResource {
     @GetMapping("search")
     public Page<ItemResponse> searchItem(
             @RequestParam("desc") @NotBlank @Size(max = 255) String descMatch,
-			@RequestParam(required = false) @Min(10) @Max(100) Integer hint
-			// TODO: ,@PageableDefault(sort = { "x", "y", "z" }, value = 20) Pageable page
-	) {
-    	Pageable page = Pageable.unpaged();
-		if (ITEM.getDescription().contains(descMatch)) {
+            @RequestParam(required = false) @Min(10) @Max(100) Integer hint
+            // TODO: ,@PageableDefault(sort = { "x", "y", "z" }, value = 20) Pageable page
+    ) {
+        Pageable page = Pageable.unpaged();
+        if (ITEM.getDescription().contains(descMatch)) {
             return new PageImpl<>(singletonList(ITEM), page, 1);
         } else {
             return new PageImpl<>(Collections.<ItemResponse>emptyList(), page, 0);
