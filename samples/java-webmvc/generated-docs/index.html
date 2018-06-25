@@ -859,6 +859,22 @@ Content-Length: 459
 <div class="paragraph">
 <p>This endpoint really returns all items and that is always 100.</p>
 </div>
+<div class="paragraph">
+<p>Returns list of all items.</p>
+</div>
+<div class="paragraph">
+<p>Use query parameters to filter the list by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>orderNumber</p>
+</li>
+<li>
+<p>type</p>
+</li>
+</ul>
+</div>
 <div class="sect3">
 <h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1129,7 +1145,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e' \
+    -H 'Authorization: Bearer 55ad9296-b11a-4713-8370-a6c617d9656a' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1366,7 +1382,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e' \
+    -H 'Authorization: Bearer 55ad9296-b11a-4713-8370-a6c617d9656a' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1472,7 +1488,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer c55135fc-a938-4c0e-aee5-0b97df74978e'</code></pre>
+    -H 'Authorization: Bearer 55ad9296-b11a-4713-8370-a6c617d9656a'</code></pre>
 </div>
 </div>
 </div>
@@ -1497,23 +1513,13 @@ X-Frame-Options: DENY</code></pre>
 <p><code>GET /items/{id}/{child}</code></p>
 </div>
 <div class="paragraph">
-<p>Returns list of all items.</p>
+<p>Retrieves a child of specified item.</p>
 </div>
 <div class="paragraph">
-<p>Use query parameters to filter the list by:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>orderNumber</p>
-</li>
-<li>
-<p>type</p>
-</li>
-</ul>
+<p>An example of using parameter validation.</p>
 </div>
 <div class="paragraph">
-<p>.</p>
+<p>See <a href="https://scacap.github.io/spring-auto-restdocs/#constraints">constraints documentation</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
@@ -1543,13 +1549,15 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DE: Must be at most 2.<br>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p>
+<p class="tableblock">DE: Must be at most 2.<br>
 EN: Must be at least 1.</p></td>
 </tr>
 </tbody>
@@ -1976,9 +1984,9 @@ Content-Length: 1011
     "unpaged" : false
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
+  "last" : true,
   "first" : true,
   "sort" : {
     "orders" : [ ],

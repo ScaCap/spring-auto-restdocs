@@ -92,9 +92,13 @@ public class ItemResource {
     }
 
     /**
-     * Lists all items.
-     * <p>
-     * An example of retuning an array/collection.
+	 * Returns list of all items.
+	 * <p>
+	 * Use query parameters to filter the list by:
+	 * <ul>
+	 *   <li>orderNumber</li>
+	 *   <li>type</li>
+	 * </ul>
      *
      * @return list of all items
      */
@@ -163,12 +167,6 @@ public class ItemResource {
      * Retrieves a child of specified item.
      * <p>
      * An example of using parameter validation.
-     * <p>
-     * Result:
-     * <ul>
-     * <li>200 OK: Success</li>
-     * <li>404 Not Found: Child or Parent not found</li>
-     * </ul>
      *
      * @param id      Item ID.
      * @param childId Child ID.
