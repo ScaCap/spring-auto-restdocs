@@ -35,7 +35,6 @@ import javax.validation.constraints.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +47,8 @@ import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
 import capital.scalable.restdocs.example.items.ItemResponse.Metadata1;
 import lombok.Data;
 import lombok.Value;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Simple REST resource with CRUD operations.
@@ -76,9 +77,9 @@ public class ItemResource {
      * @return response
      */
     @GetMapping("{id}")
-    public ItemResponse getItem(@PathVariable("id") @Id String id) {
+    public Mono<ItemResponse> getItem(@PathVariable("id") @Id String id) {
         if ("1".equals(id)) {
-            return ITEM;
+            return Mono.just(ITEM);
         } else {
             throw new NotFoundException();
         }
@@ -92,8 +93,8 @@ public class ItemResource {
      * @return list of all items
      */
     @GetMapping
-    public ItemResponse[] allItems() {
-        return new ItemResponse[]{ITEM, CHILD};
+    public Flux<ItemResponse> allItems() {
+        return Flux.fromArray(new ItemResponse[]{ITEM, CHILD});
     }
 
     /**
@@ -188,13 +189,11 @@ public class ItemResource {
     public Page<ItemResponse> searchItem(
             @RequestParam("desc") @NotBlank @Size(max = 255) String descMatch,
             @RequestParam(required = false) @Min(10) @Max(100) Integer hint
-            // TODO: ,@PageableDefault(sort = { "x", "y", "z" }, value = 20) Pageable page
     ) {
-        Pageable page = Pageable.unpaged();
         if (ITEM.getDescription().contains(descMatch)) {
-            return new PageImpl<>(singletonList(ITEM), page, 1);
+            return new PageImpl<>(singletonList(ITEM), Pageable.unpaged(), 1);
         } else {
-            return new PageImpl<>(Collections.<ItemResponse>emptyList(), page, 0);
+            return new PageImpl<>(Collections.<ItemResponse>emptyList(), Pageable.unpaged(), 0);
         }
     }
 

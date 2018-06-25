@@ -26,6 +26,8 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
@@ -64,6 +66,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (returnType == HttpEntity.class) {
             return firstGenericType(method.getReturnType());
+        } else if(returnType == Mono.class) {
+            return firstGenericType(method.getReturnType());
+        } else if(returnType == Flux.class) {
+            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
