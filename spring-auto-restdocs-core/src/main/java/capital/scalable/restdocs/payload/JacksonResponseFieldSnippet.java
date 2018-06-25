@@ -26,8 +26,6 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
@@ -66,10 +64,6 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (returnType == HttpEntity.class) {
             return firstGenericType(method.getReturnType());
-        } else if(returnType == Mono.class) {
-            return firstGenericType(method.getReturnType());
-        } else if(returnType == Flux.class) {
-            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
@@ -77,6 +71,19 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         } else if ("void".equals(returnType.getName())) {
             return null;
         } else {
+            try {
+                Class<?> monoClass = Class.forName("reactor.core.publisher.Mono");
+                Class<?> fluxClass = Class.forName("reactor.core.publisher.Flux");
+
+                if(returnType == monoClass) {
+                    return firstGenericType(method.getReturnType());
+                } else if(returnType == fluxClass) {
+                    return (GenericArrayType) () -> firstGenericType(method.getReturnType());
+                }
+            } catch (ClassNotFoundException e) {
+                // reactive api not on classpath - skipping WebFlux return types
+            }
+
             return returnType;
         }
     }
