@@ -176,10 +176,7 @@ public void setUp() throws Exception {
 .WebTestClient Test class
 ----
 @Autowired
-private WebApplicationContext context;
-
-@Autowired
-protected ObjectMapper objectMapper;
+private ApplicationContext context;
 
 protected WebTestClient webTestClient;
 
