@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java Web MVC Example Project
+ * Spring Auto REST Docs Core
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -19,6 +19,12 @@
  */
 package capital.scalable.restdocs.webtestclient;
 
+import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
+import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
@@ -28,19 +34,16 @@ import org.springframework.web.reactive.DispatcherHandler;
 import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.reactive.HandlerResultHandler;
 import org.springframework.web.server.ServerWebExchange;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import capital.scalable.restdocs.constraints.ConstraintReader;
-import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
-import capital.scalable.restdocs.javadoc.JavadocReader;
-import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
 import reactor.core.publisher.Mono;
 
-/** Watches the WebTestClient and applies some attributes on each operation. */
+/**
+ * Watches the WebTestClient and applies some attributes on each operation.
+ */
 public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
 
-    /** The called {@link HandlerMethod}. */
+    /**
+     * The called {@link HandlerMethod}.
+     */
     private HandlerMethod handlerMethod;
 
     @Override
@@ -67,6 +70,7 @@ public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
 
     /**
      * Prepare Snippets for use with the WebTestClient.
+     *
      * @param context The Spring {@link ApplicationContext}.
      * @return The Snippet. (Just a dummy, but the WebTestClient gets initialized by this
      * method)
@@ -103,8 +107,16 @@ public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
                     ConstraintReaderImpl.create(objectMapper));
 
             // copy attribute to be compatible wit MockMvc:
-            operation.getAttributes().put("REQUEST_PATTERN", operation.getAttributes()
-                    .get("org.springframework.restdocs.urlTemplate"));
+            String requestPattern = (String) operation.getAttributes()
+                    .get("org.springframework.restdocs.urlTemplate");
+            if (StringUtils.isNotEmpty(requestPattern)) {
+                operation.getAttributes().put("REQUEST_PATTERN", requestPattern);
+            }
+            else if (operation.getRequest() != null) {
+                String path = operation.getRequest().getUri().getPath();
+                String query = operation.getRequest().getUri().getQuery();
+                operation.getAttributes().put("REQUEST_PATTERN", path + (StringUtils.isNotEmpty(query) ? "?" + query : ""));
+            }
         };
     }
 

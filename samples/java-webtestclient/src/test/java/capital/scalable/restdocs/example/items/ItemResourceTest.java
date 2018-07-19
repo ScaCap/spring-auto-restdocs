@@ -123,7 +123,7 @@ public class ItemResourceTest extends WebTestClientTestBase {
     @Test
     public void searchItems() {
         webTestClient.get()
-				.uri(uriBuilder -> new DefaultUriBuilderFactory().uriString("/items/search")
+				.uri(uriBuilder -> uriBuilder.path("/items/search")
 						.queryParam("desc", "main")
 						.queryParam("hint", "1")
 				.build())
