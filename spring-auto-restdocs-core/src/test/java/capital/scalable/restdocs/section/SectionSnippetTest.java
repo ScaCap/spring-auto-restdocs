@@ -26,6 +26,7 @@ import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_REQUEST;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.SnippetRegistry.LINKS;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -49,6 +50,7 @@ import org.junit.Test;
 import org.junit.runners.Parameterized;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.restdocs.test.ExpectedSnippets;
@@ -226,6 +228,33 @@ public class SectionSnippetTest {
 
         new SectionBuilder()
                 .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST, "my-snippet-name")
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+    @Test
+    public void linkSnippet() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-linkSnippet]]\n" +
+                        "=== Get Item By Id\n\n" +
+                        "include::auto-method-path.adoc[]\n\n" +
+                        "include::auto-description.adoc[]\n\n" +
+                        "==== Hypermedia links\n\n" +
+                        "include::links.adoc[]\n"));
+
+        new SectionBuilder()
+                .snippetNames(LINKS)
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
