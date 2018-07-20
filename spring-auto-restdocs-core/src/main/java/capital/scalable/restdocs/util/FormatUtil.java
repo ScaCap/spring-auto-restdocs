@@ -39,7 +39,7 @@ public class FormatUtil {
     }
 
     public static String addDot(String text) {
-        return isNotBlank(text) && !text.endsWith(".") && !text.endsWith(" ")
+        return isNotBlank(text) && !text.matches("^(?s).*(?:[.?!:;)\"]|</(?:p|ul|ol)>)\\s*$") && !text.endsWith(" ")
                 ? text + "."
                 : text;
     }

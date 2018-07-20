@@ -40,6 +40,8 @@ As AsciiDoc is used, any additional information can be placed here and you don't
 
 This endpoint really returns all items and that is always 100.
 
+include::{snippets}/item-resource-test/get-all-items/auto-description.adoc[]
+
 ==== Authorization
 
 include::{snippets}/item-resource-test/get-all-items/auto-authorization.adoc[]

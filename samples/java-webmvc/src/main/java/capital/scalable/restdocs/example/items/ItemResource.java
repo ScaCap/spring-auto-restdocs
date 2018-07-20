@@ -92,9 +92,13 @@ public class ItemResource {
     }
 
     /**
-     * Lists all items.
+     * Returns list of all items.
      * <p>
-     * An example of retuning an array/collection.
+     * Use query parameters to filter the list by:
+     * <ul>
+     * <li>orderNumber</li>
+     * <li>type</li>
+     * </ul>
      *
      * @return list of all items
      */
