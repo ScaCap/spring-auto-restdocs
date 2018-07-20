@@ -256,6 +256,12 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-webflux</artifactId>
+                <version>5.0.2.RELEASE</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>5.0.2.RELEASE</version>
                 <scope>provided</scope>

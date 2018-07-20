@@ -31,6 +31,8 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     public static final String RESPONSE_FIELDS = "auto-response-fields";
     public static final String SPRING_DATA_PAGE_CLASS = "org.springframework.data.domain.Page";
+    public static final String REACTOR_MONO_CLASS = "reactor.core.publisher.Mono";
+    public static final String REACTOR_FLUX_CLASS = "reactor.core.publisher.Flux";
 
     private final Type responseBodyType;
     private final boolean failOnUndocumentedFields;
@@ -70,6 +72,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else if ("void".equals(returnType.getName())) {
             return null;
+        } else if (REACTOR_MONO_CLASS.equals(returnType.getCanonicalName())) {
+            return firstGenericType(method.getReturnType());
+        } else if (REACTOR_FLUX_CLASS.equals(returnType.getCanonicalName())) {
+            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else {
             return returnType;
         }

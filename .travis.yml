@@ -26,6 +26,9 @@ script:
 - mvn verify -B
 - ./gradlew check
 - cd ..
+- cd java-webtestclient
+- mvn verify -B
+- cd ..
 - cd ..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
