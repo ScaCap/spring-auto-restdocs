@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -175,6 +176,56 @@ public class SectionSnippetTest {
 
         new SectionBuilder()
                 .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST)
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+    @Test
+    public void additionalClassicSnippets() throws Exception {
+        translationRule.setTestTranslations();
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+        SnippetRegistry.addClassicSnippet(new SectionSupport() {
+            @Override
+            public String getFileName() {
+                return "my-snippet-name";
+            }
+
+            @Override
+            public String getHeaderKey() {
+                return "my-snippet-header-key";
+            }
+
+            @Override
+            public boolean hasContent(Operation operation) {
+                return true;
+            }
+        });
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo("[[resources-additionalClassicSnippets]]\n" +
+                        "=== Get Item By Id\n\n" +
+                        "include::auto-method-path.adoc[]\n\n" +
+                        "include::auto-description.adoc[]\n\n" +
+                        "==== XExample response\n\n" +
+                        "include::http-response.adoc[]\n\n" +
+                        "==== XResponse fields\n\n" +
+                        "include::auto-response-fields.adoc[]\n\n" +
+                        "==== XExample request\n\n" +
+                        "include::http-request.adoc[]\n\n" +
+                        "==== My snippet\n\n" +
+                        "include::my-snippet-name.adoc[]\n"));
+
+        new SectionBuilder()
+                .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST, "my-snippet-name")
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
