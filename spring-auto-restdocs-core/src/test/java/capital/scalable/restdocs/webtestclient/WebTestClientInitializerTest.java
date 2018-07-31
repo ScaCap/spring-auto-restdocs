@@ -50,27 +50,24 @@ import reactor.core.publisher.Mono;
 public class WebTestClientInitializerTest {
 
     /**
-     * Test for method {@link WebTestClientInitializer#supports(HandlerResult)}.
+     * Test for method {@link WebTestClientInitializer#supports(Object)}.
      */
     @Test
     public void supports_withHandlerMethod() {
 
         // prepare:
-        HandlerResult handlerResultMock = mock(HandlerResult.class);
-        HandlerMethod handlerMethodMock = mock(HandlerMethod.class);
-        Mockito.when(handlerResultMock.getHandler()).thenReturn(handlerMethodMock);
+        HandlerMethod handlerMethod = mock(HandlerMethod.class);
 
         // perform:
         WebTestClientInitializer testInstance = new WebTestClientInitializer();
-        boolean result = testInstance.supports(handlerResultMock);
+        boolean result = testInstance.supports(handlerMethod);
 
         // verify:
         assertFalse(result);
-        verify(handlerResultMock, atLeast(1)).getHandler();
     }
 
     /**
-     * Test for method {@link WebTestClientInitializer#supports(HandlerResult)} in the
+     * Test for method {@link WebTestClientInitializer#supports(Object)} in the
      * case that the {@linkplain HandlerResult#getHandler() handler} is no
      * {@link HandlerMethod}.
      */
@@ -79,21 +76,18 @@ public class WebTestClientInitializerTest {
 
         // prepare:
         WebTestClientInitializer testInstance = new WebTestClientInitializer();
-        HandlerResult handlerResultMock = mock(HandlerResult.class);
         String noHandlerMethod = "string value just for unit test";
-        Mockito.when(handlerResultMock.getHandler()).thenReturn(noHandlerMethod);
 
         // perform:
-        boolean result = testInstance.supports(handlerResultMock);
+        boolean result = testInstance.supports(noHandlerMethod);
 
         // verify:
         assertFalse(result);
-        verify(handlerResultMock, atLeast(1)).getHandler();
     }
 
     /**
      * Test for method
-     * {@link WebTestClientInitializer#handleResult(ServerWebExchange, HandlerResult)}.
+     * {@link WebTestClientInitializer#handle(ServerWebExchange, Object)}.
      */
     @Test
     public void handleResult_doNothing() {
@@ -104,7 +98,7 @@ public class WebTestClientInitializerTest {
         HandlerResult handlerResult = mock(HandlerResult.class);
 
         // perform:
-        Mono<Void> result = testInstance.handleResult(exchange, handlerResult);
+        Mono<HandlerResult> result = testInstance.handle(exchange, handlerResult);
 
         // verify:
         assertNull(result.block(Duration.ZERO));
@@ -139,10 +133,8 @@ public class WebTestClientInitializerTest {
         when(contextMock.getBean(eq(DispatcherHandler.class)))
                 .thenReturn(dispatcherHandlerMock);
         WebTestClientInitializer webTestClientInitializer = new WebTestClientInitializer();
-        HandlerResult handlerResultMock = mock(HandlerResult.class);
         HandlerMethod handlerMethodMock = mock(HandlerMethod.class);
-        Mockito.when(handlerResultMock.getHandler()).thenReturn(handlerMethodMock);
-        webTestClientInitializer.supports(handlerResultMock);
+        webTestClientInitializer.supports(handlerMethodMock);
         when(contextMock.getBean(eq(WebTestClientInitializer.class)))
                 .thenReturn(webTestClientInitializer);
         when(contextMock.getBean(eq(ObjectMapper.class)))
