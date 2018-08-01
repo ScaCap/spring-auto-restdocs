@@ -1,3 +1,3 @@
-# Java Web MVC Example
+# Shared POJOs Example
 
-This project shows the use of Spring Auto REST Docs with Web MVC in a Java 8 project.
+This module shows how to share POJOs and other Spring Auto REST Docs related resources.

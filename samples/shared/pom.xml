@@ -59,11 +59,6 @@
     </dependencies>
 
     <build>
-        <!--<resources>-->
-        <!--<resource>-->
-        <!--<directory>${project.build.directory}/generated-javadoc-json</directory>-->
-        <!--</resource>-->
-        <!--</resources>-->
         <plugins>
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
