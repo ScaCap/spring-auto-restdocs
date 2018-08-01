@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java Web MVC Example Project
+ * Spring Auto REST Docs Core
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -19,14 +19,25 @@
  */
 package capital.scalable.restdocs.webtestclient;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -39,11 +50,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.DispatcherHandler;
 import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.server.ServerWebExchange;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import capital.scalable.restdocs.constraints.ConstraintReader;
-import capital.scalable.restdocs.javadoc.JavadocReader;
 import reactor.core.publisher.Mono;
 
 /** Tests for {@link WebTestClientInitializer}. */

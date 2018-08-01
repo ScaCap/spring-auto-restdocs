@@ -19,8 +19,9 @@
  */
 package capital.scalable.restdocs.example.items
 
+import capital.scalable.restdocs.example.constraints.English
+import capital.scalable.restdocs.example.constraints.German
 import capital.scalable.restdocs.example.constraints.OneOf
-import capital.scalable.restdocs.example.constraints.OneOfList
 import org.hibernate.validator.constraints.Length
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -41,5 +42,5 @@ internal data class ItemUpdateRequest(
          * Country dependent type of the item.
          */
         @get:Size(max = 1000)
-        @get:OneOfList(OneOf(value = arrayOf("klein", "groß"), groups = arrayOf(German::class)), OneOf(value = arrayOf("small", "big"), groups = arrayOf(English::class)))
+        @get:OneOf.List(OneOf(value = arrayOf("klein", "groß"), groups = arrayOf(German::class)), OneOf(value = arrayOf("small", "big"), groups = arrayOf(English::class)))
         val type: String?)

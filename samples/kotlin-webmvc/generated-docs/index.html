@@ -805,7 +805,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response"><a class="anchor" href="#_example_request_response"></a><a class="link" href="#_example_request_response">2.1.5. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -996,7 +996,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_response_2"><a class="anchor" href="#_example_request_response_2"></a><a class="link" href="#_example_request_response_2">2.2.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X GET</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1061,9 +1061,6 @@ Content-Length: 598
 <div class="paragraph">
 <p>An example of accepting a custom type as request body and returning a ResponseEntity.</p>
 </div>
-<div class="paragraph">
-<p>.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
 <div class="paragraph">
@@ -1103,8 +1100,7 @@ Content-Length: 598
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
-EN: false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p>
 <p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
@@ -1134,7 +1130,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 9b0ba936-6474-4749-bfdf-b49a3c8f5da7' \
+    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1165,9 +1161,6 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="paragraph">
 <p>An example of returning an HttpEntity.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
@@ -1230,8 +1223,7 @@ X-Frame-Options: DENY</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true<br>
-EN: false</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Some information about the item.</p>
 <p class="tableblock">DE: Size must be between 2 and 10 inclusive.<br>
 EN: Size must be between 4 and 12 inclusive.<br>
@@ -1375,7 +1367,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 9b0ba936-6474-4749-bfdf-b49a3c8f5da7' \
+    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1419,9 +1411,6 @@ Content-Length: 124
 </div>
 <div class="paragraph">
 <p>An example of using path variables.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
@@ -1480,7 +1469,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 9b0ba936-6474-4749-bfdf-b49a3c8f5da7'</code></pre>
+    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be'</code></pre>
 </div>
 </div>
 </div>
@@ -1509,9 +1498,6 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="paragraph">
 <p>An example of using parameter validation.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
@@ -1691,7 +1677,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -1731,9 +1717,6 @@ Content-Length: 133
 </div>
 <div class="paragraph">
 <p>An example of using Pageable, Page and customized translation for paging text.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
@@ -1919,7 +1902,7 @@ Must be at most 10.</p></td>
 <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -1971,25 +1954,25 @@ Content-Length: 1011
       "sorted" : false,
       "unsorted" : true
     },
+    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
   "total" : 1,
-  "totalPages" : 1,
-  "totalElements" : 1,
   "last" : true,
+  "totalElements" : 1,
+  "totalPages" : 1,
+  "size" : 20,
+  "number" : 0,
+  "numberOfElements" : 1,
   "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
-  },
-  "numberOfElements" : 1,
-  "size" : 20,
-  "number" : 0
+  }
 }</code></pre>
 </div>
 </div>
@@ -2005,9 +1988,6 @@ Content-Length: 1011
 </div>
 <div class="paragraph">
 <p>An example of having String as request and response body.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
@@ -2135,9 +2115,6 @@ X-Frame-Options: DENY
 </div>
 <div class="paragraph">
 <p>An example of using ModelAttribute.</p>
-</div>
-<div class="paragraph">
-<p>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
@@ -2274,9 +2251,6 @@ Content-Length: 55
 <div class="paragraph">
 <p>An example of accepting subtypes.</p>
 </div>
-<div class="paragraph">
-<p>.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
 <div class="paragraph">
@@ -2376,9 +2350,6 @@ X-Frame-Options: DENY</code></pre>
 <div class="paragraph">
 <p>An example of deprecation.</p>
 </div>
-<div class="paragraph">
-<p>.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_11"><a class="anchor" href="#_authorization_11"></a><a class="link" href="#_authorization_11">2.11.1. Authorization</a></h4>
 <div class="paragraph">
@@ -2418,7 +2389,7 @@ X-Frame-Options: DENY</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">New item&#8217;s name.</p></td>
 </tr>
 </tbody>
@@ -2488,7 +2459,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock"><code>+id+</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p></td>
 </tr>
 </tbody>
@@ -2511,8 +2482,8 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock"><code>+id+</code></p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock"><code>+String+</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">There are more fields but only the ID field is documented.</p></td>
 </tr>
 </tbody>
@@ -2522,7 +2493,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.12.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i</code></pre>
+    <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2571,7 +2542,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-26 08:43:51 CEST
+    Last updated 2018-04-10 10:14:19 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
