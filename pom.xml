@@ -172,7 +172,8 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20.1</version>
+                    <!-- at least 2.21.0 is required for jdk 10: https://issues.apache.org/jira/browse/SUREFIRE-1439 -->
+                    <version>2.21.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.asciidoctor</groupId>

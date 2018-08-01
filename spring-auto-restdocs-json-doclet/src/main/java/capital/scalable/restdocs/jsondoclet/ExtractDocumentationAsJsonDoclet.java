@@ -19,8 +19,15 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.javadoc.doclet.DocletEnvironment;
+import jdk.javadoc.doclet.StandardDoclet;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -28,42 +35,52 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.RootDoc;
-import com.sun.tools.doclets.standard.Standard;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Javadoc to JSON doclet.
  */
-public class ExtractDocumentationAsJsonDoclet extends Standard {
+public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
 
-    public static boolean start(RootDoc root) {
-        String destinationDir = destinationDir(root.options());
+    @Override
+    public boolean run(DocletEnvironment docEnv) {
+
+        Path destinationDir = Paths.get("../generated-javadoc-json").toAbsolutePath();
         ObjectMapper mapper = createObjectMapper();
 
-        for (ClassDoc classDoc : root.classes()) {
-            ClassDocumentation cd = ClassDocumentation.fromClassDoc(classDoc);
-            writeToFile(destinationDir, mapper, classDoc, cd);
-        }
+        docEnv.getIncludedElements()
+                .stream().parallel()
+                .filter(e -> e.getKind().isClass() || e.getKind().isInterface())
+                .forEach(classOrInterface -> writeToFile(
+                        destinationDir,
+                        mapper,
+                        findPackageElement(classOrInterface),
+                        (TypeElement) classOrInterface,
+                        ClassDocumentation.fromClassDoc(docEnv, classOrInterface)
+                ));
+
         return true;
     }
 
-    private static String destinationDir(String[][] options) {
-        for (String[] os : options) {
-            String opt = os[0].toLowerCase();
-            if (opt.equals("-d")) {
-                return os[1];
+    private static PackageElement findPackageElement(Element classOrInterface) {
+        Element pkg = classOrInterface.getEnclosingElement();
+        int i = 10;
+        while (!ElementKind.PACKAGE.equals(pkg.getKind())) {
+            if (i-- > 0) {
+                pkg = pkg.getEnclosingElement();
+            }
+            else {
+                throw new DocletAbortException("Class or interface " + classOrInterface + "to deeply nested!");
             }
         }
-        return "../generated-javadoc-json";
+        return (PackageElement) pkg;
     }
 
-    private static void writeToFile(String destinationDir, ObjectMapper mapper,
-            ClassDoc classDoc, ClassDocumentation cd) {
+    private static void writeToFile(Path destinationDir, ObjectMapper mapper,
+                                    PackageElement packageElement, TypeElement classOrInterface,
+                                    ClassDocumentation cd) {
         try {
-            Path path = path(destinationDir, classDoc);
+            Path path = path(destinationDir, packageElement, classOrInterface);
             try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
                 mapper.writerFor(ClassDocumentation.class).writeValue(writer, cd);
             }
@@ -73,21 +90,25 @@ public class ExtractDocumentationAsJsonDoclet extends Standard {
         }
     }
 
-    private static Path path(String destinationDir, ClassDoc classDoc) throws IOException {
-        String packageName = classDoc.containingPackage().name();
+    private static Path path(Path destinationDir, PackageElement packageElement,
+                             TypeElement classOrInterface) throws IOException {
+        String packageName = packageElement.getQualifiedName().toString();
         String packageDir = packageName.replace(".", File.separator);
         Path packagePath = Paths.get(packageDir);
 
         final Path path;
         if (destinationDir != null) {
-            path = Paths.get(destinationDir).resolve(packageDir);
-        } else {
+            path = destinationDir.resolve(packageDir);
+        }
+        else {
             path = packagePath;
         }
 
         Files.createDirectories(path);
 
-        return path.resolve(classDoc.name() + ".json");
+        String filename = classOrInterface.getQualifiedName().toString()
+                .replace(packageElement.getQualifiedName() + ".", "");
+        return path.resolve(filename + ".json");
     }
 
     private static ObjectMapper createObjectMapper() {

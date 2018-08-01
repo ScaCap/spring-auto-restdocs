@@ -19,12 +19,23 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
+import java.util.Optional;
+
 public class DocletUtils {
     private DocletUtils() {
         // utils
     }
 
+    static String cleanupDocComment(String comment) {
+        return Optional.ofNullable(comment).map(s -> s.replaceAll("[\\r\\n]+\\s*@.*", "").trim()).orElse("");
+    }
+
+    public static String cleanupTagValue(String value) {
+        return value.replaceFirst("\\s*@[^\\s]+\\s+", "").trim();
+    }
+
     public static String cleanupTagName(String name) {
         return name.startsWith("@") ? name.substring(1) : name;
     }
+
 }
