@@ -19,34 +19,42 @@
  */
 package capital.scalable.restdocs.example.items;
 
-import static capital.scalable.restdocs.example.items.ItemResponse.EnumType.ONE;
+import static capital.scalable.restdocs.example.items.EnumType.ONE;
 import static java.util.Collections.singletonList;
-
-import java.math.BigDecimal;
-import java.net.URI;
-import java.util.Collections;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.util.Collections;
 
+import capital.scalable.restdocs.example.common.Money;
+import capital.scalable.restdocs.example.constraints.English;
+import capital.scalable.restdocs.example.constraints.German;
+import capital.scalable.restdocs.example.constraints.Id;
+import lombok.Data;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import capital.scalable.restdocs.example.constraints.Id;
-import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
-import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
-import capital.scalable.restdocs.example.items.ItemResponse.Metadata1;
-import lombok.Data;
-import lombok.Value;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -106,7 +114,8 @@ public class ItemResource {
      * @return response
      */
     @PostMapping
-    public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<Void> addItem(@RequestBody @Valid ItemUpdateRequest itemUpdate,
+            UriComponentsBuilder uriComponentsBuilder) {
         // New item with unique ID is stored and returned.
         URI location = uriComponentsBuilder
                 .path("/{id}")
