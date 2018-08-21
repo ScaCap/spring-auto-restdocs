@@ -84,7 +84,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         String pathName = getPath(annot);
 
         String parameterName = hasLength(pathName) ? pathName : javaParameterName;
-        String parameterTypeName = determineTypeName(param.getParameterType());
+        String parameterTypeName = determineTypeName(param.nestedIfOptional().getNestedParameterType());
         String description = javadocReader.resolveMethodParameterComment(
                 handlerMethod.getBeanType(), handlerMethod.getMethod().getName(),
                 javaParameterName);

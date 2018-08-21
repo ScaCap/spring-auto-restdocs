@@ -19,9 +19,10 @@
  */
 package capital.scalable.restdocs.example.items
 
+import capital.scalable.restdocs.example.common.Money
+import capital.scalable.restdocs.example.constraints.English
+import capital.scalable.restdocs.example.constraints.German
 import capital.scalable.restdocs.example.constraints.Id
-import capital.scalable.restdocs.example.items.ItemResponse.*
-import capital.scalable.restdocs.example.items.ItemResponse.EnumType.ONE
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -272,7 +273,7 @@ internal class ItemResource {
         private val CHILD = ItemResponse("child-1", "first child", null, null, null, null)
 
         private val ITEM = ItemResponse("1", "main item", Metadata1("1", "meta1"),
-                Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE),
+                Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), EnumType.ONE),
                 listOf(CHILD), arrayOf("top-level"))
     }
 }

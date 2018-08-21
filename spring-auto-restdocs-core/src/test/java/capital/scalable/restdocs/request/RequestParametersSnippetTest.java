@@ -28,6 +28,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -185,6 +186,23 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void simpleRequestWithOptional() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("searchItemOptional", Optional.class);
+        initParameters(handlerMethod);
+        mockParamComment("searchItemOptional", "param1", "An optional string");
+
+        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "String", "true", "An optional string."));
+
+        new RequestParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
@@ -303,20 +321,32 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
             SMALL, LARGE
         }
 
-        public void searchItem(@RequestParam Integer type,
+        public void searchItem(
+                @RequestParam Integer type,
                 @RequestParam(value = "text", required = false) String description) {
             // NOOP
         }
 
-        public void searchItem2(@RequestParam double param1,    // required
+        public void searchItem2(
+                @RequestParam double param1,                    // required
                 @RequestParam(required = false) boolean param2, // required anyway
                 @RequestParam(defaultValue = "1") int param3) { // not required
             // NOOP
         }
 
-        public void searchItem2String(@RequestParam double param1,    // required
-                @RequestParam(required = false) boolean param2, // required anyway
+        public void searchItem2String(
+                @RequestParam double param1,                        // required
+                @RequestParam(required = false) boolean param2,     // required anyway
                 @RequestParam(defaultValue = "de") String param3) { // not required
+            // NOOP
+        }
+
+        public void searchItemOptional(
+                /**
+                 * A nullable Kotlin type is interpreted like a Java type
+                 * wrapped in Optional and thus not required.
+                 */
+                @RequestParam Optional<String> param1) { // not required
             // NOOP
         }
 

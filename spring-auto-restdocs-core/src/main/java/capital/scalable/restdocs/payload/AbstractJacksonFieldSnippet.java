@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
@@ -100,7 +101,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     protected abstract boolean shouldFailOnUndocumentedFields();
 
     protected boolean isCollection(Class<?> type) {
-        return Collection.class.isAssignableFrom(type) ||
+        return Collection.class.isAssignableFrom(type) || Stream.class.isAssignableFrom(type) ||
                 (SCALA_TRAVERSABLE != null && SCALA_TRAVERSABLE.isAssignableFrom(type));
     }
 

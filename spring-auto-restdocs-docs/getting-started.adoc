@@ -127,10 +127,10 @@ Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
 
-. Configure MockMvc
+. Configure MockMvc or WebTestClient
 +
 [source,java]
-.Test class
+.MockMvc Test class
 ----
 @Autowired
 private WebApplicationContext context;
@@ -171,6 +171,41 @@ public void setUp() throws Exception {
                             AutoDocumentation.description(),
                             AutoDocumentation.methodAndPath(),
                             AutoDocumentation.section()))
+            .build();
+}
+----
++
+[source,java]
+.WebTestClient Test class
+----
+@Autowired
+private ApplicationContext context;
+
+protected WebTestClient webTestClient;
+
+@Rule
+public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+
+@Before
+public void setUp() throws Exception {
+    this.webTestClient = WebTestClient
+            .bindToApplicationContext(context)
+            .apply(springSecurity())
+            .configureClient()
+            .baseUrl("http://localhost:8080/")
+            .filter(documentationConfiguration(restDocumentation)
+                .snippets()
+                .withDefaults(WebTestClientInitializer.prepareSnippets(context),
+                           CliDocumentation.curlRequest(),
+                           HttpDocumentation.httpRequest(),
+                           HttpDocumentation.httpResponse(),
+                           AutoDocumentation.requestFields(),
+                           AutoDocumentation.responseFields(),
+                           AutoDocumentation.pathParameters(),
+                           AutoDocumentation.requestParameters(),
+                           AutoDocumentation.description(),
+                           AutoDocumentation.methodAndPath(),
+                           AutoDocumentation.section()))
             .build();
 }
 ----

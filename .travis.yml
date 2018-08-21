@@ -18,15 +18,13 @@ before_install:
 script:
 - mvn install -B -V
 - cd samples
+- mvn install -B -V
 - cd java-webmvc
-- mvn verify -B
 - ./gradlew check
 - cd ..
 - cd kotlin-webmvc
-- mvn verify -B
 - ./gradlew check
-- cd ..
-- cd ..
+- cd ../..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
