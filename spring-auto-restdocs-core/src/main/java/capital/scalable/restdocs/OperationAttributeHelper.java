@@ -19,8 +19,7 @@
  */
 package capital.scalable.restdocs;
 
-import static org.springframework.restdocs.generate.RestDocumentationGenerator
-        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
+import static org.springframework.restdocs.generate.RestDocumentationGenerator.ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 import static org.springframework.util.ReflectionUtils.findField;
 import static org.springframework.util.ReflectionUtils.getField;
 import static org.springframework.util.ReflectionUtils.makeAccessible;

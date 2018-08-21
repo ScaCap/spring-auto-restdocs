@@ -1,0 +1,72 @@
+[[resources-items]]
+== Items
+
+[[resources-items-get]]
+=== Get an item
+
+`GET /items/{id}`
+
+==== Authorization
+
+include::{snippets}/item-resource-test/get-item/auto-authorization.adoc[]
+
+==== Path parameters
+
+include::{snippets}/item-resource-test/get-item/auto-path-parameters.adoc[]
+
+==== Request fields
+
+include::{snippets}/item-resource-test/get-item/auto-request-fields.adoc[]
+
+We do not have to care whether to include a snippet or not,
+because the template returns "No data." instead of an empty table.
+
+==== Response fields
+
+include::{snippets}/item-resource-test/get-item/auto-response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/item-resource-test/get-item/curl-request.adoc[]
+include::{snippets}/item-resource-test/get-item/http-response.adoc[]
+
+
+[[resources-items-all]]
+=== Get all items
+
+`GET /items`
+
+As AsciiDoc is used, any additional information can be placed here and you don't have to care about formatting.
+
+This endpoint really returns all items and that is always 100.
+
+==== Authorization
+
+include::{snippets}/item-resource-test/get-all-items/auto-authorization.adoc[]
+
+==== Request fields
+
+include::{snippets}/item-resource-test/get-all-items/auto-request-fields.adoc[]
+
+==== Response fields
+
+include::{snippets}/item-resource-test/get-all-items/auto-response-fields.adoc[]
+
+==== Example request/response
+
+include::{snippets}/item-resource-test/get-all-items/curl-request.adoc[]
+
+The array shortening feature intercepted here and reduced the 100 items to 3.
+
+include::{snippets}/item-resource-test/get-all-items/http-response.adoc[]
+
+// Use of all in one section snippets
+include::{snippets}/item-resource-test/add-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/update-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/delete-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/get-child-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/search/auto-section.adoc[]
+include::{snippets}/item-resource-test/process-all-items/auto-section.adoc[]
+include::{snippets}/item-resource-test/process-single-item/auto-section.adoc[]
+include::{snippets}/item-resource-test/validate-metadata/auto-section.adoc[]
+include::{snippets}/item-resource-test/clone-item/auto-section.adoc[]

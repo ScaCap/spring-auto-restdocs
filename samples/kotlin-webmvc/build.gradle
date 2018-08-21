@@ -63,6 +63,7 @@ dependencies {
     compile "org.springframework.data:spring-data-commons"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
+    compile "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }

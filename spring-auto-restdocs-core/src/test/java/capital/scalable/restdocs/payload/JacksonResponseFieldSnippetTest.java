@@ -51,6 +51,8 @@ import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
@@ -205,6 +207,47 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("responseEntityItem2");
 
         this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void monoResponse() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("monoItem");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                        tableWithHeader("Path", "Type", "Optional", "Description")
+                                .row("field1", "String", "false", "A string.")
+                                .row("field2", "Decimal", "true",
+                                        "A decimal.\n\nA constraint."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void fluxResponse() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("fluxItems");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -430,6 +473,14 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
 
         public CommentedItem commentItem() {
+            return null;
+        }
+
+        public Mono<Item> monoItem() {
+            return null;
+        }
+
+        public Flux<Item> fluxItems() {
             return null;
         }
     }

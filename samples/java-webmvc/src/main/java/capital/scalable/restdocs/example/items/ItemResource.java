@@ -19,7 +19,7 @@
  */
 package capital.scalable.restdocs.example.items;
 
-import static capital.scalable.restdocs.example.items.ItemResponse.EnumType.ONE;
+import static capital.scalable.restdocs.example.items.EnumType.ONE;
 import static java.util.Collections.singletonList;
 
 import javax.validation.Valid;
@@ -31,10 +31,10 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Collections;
 
+import capital.scalable.restdocs.example.common.Money;
+import capital.scalable.restdocs.example.constraints.English;
+import capital.scalable.restdocs.example.constraints.German;
 import capital.scalable.restdocs.example.constraints.Id;
-import capital.scalable.restdocs.example.items.ItemResponse.Attributes;
-import capital.scalable.restdocs.example.items.ItemResponse.Metadata;
-import capital.scalable.restdocs.example.items.ItemResponse.Metadata1;
 import lombok.Data;
 import lombok.Value;
 import org.springframework.data.domain.Page;
@@ -92,9 +92,13 @@ public class ItemResource {
     }
 
     /**
-     * Lists all items.
+     * Returns list of all items.
      * <p>
-     * An example of retuning an array/collection.
+     * Use query parameters to filter the list by:
+     * <ul>
+     * <li>orderNumber</li>
+     * <li>type</li>
+     * </ul>
      *
      * @return list of all items
      */
