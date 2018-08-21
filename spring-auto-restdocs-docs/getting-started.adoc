@@ -247,12 +247,16 @@ repositories {
 === Sample applications
 
 This projects includes a
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc[Java example]
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc[Java Web MVC example],
+a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webtestclient[Java WebTestClient example]
 and a
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[Kotlin example]
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[Kotlin Web MVC example]
 application that demonstrate most features.
 
 The generated documentation can be viewed for the
-https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html[Java example]
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html[Java Web MVC example],
+the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webtestclient/generated-docs/index.html[Java WebTestClient example]
 and the
-https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html[Kotlin example].
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html[Kotlin Web MCV example].
