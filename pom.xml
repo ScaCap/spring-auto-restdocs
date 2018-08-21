@@ -5,7 +5,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-parent</artifactId>
-    <version>1.0.14-SNAPSHOT</version>
+    <version>1.0.14</version>
     <packaging>pom</packaging>
 
     <name>Spring Auto REST Docs Parent POM</name>
@@ -56,7 +56,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <spring-restdocs.version>1.2.4.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>1.2.5.RELEASE</spring-restdocs.version>
     </properties>
 
     <build>
