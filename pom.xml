@@ -58,7 +58,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <spring-restdocs.version>2.0.1.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
     </properties>
 
     <build>
