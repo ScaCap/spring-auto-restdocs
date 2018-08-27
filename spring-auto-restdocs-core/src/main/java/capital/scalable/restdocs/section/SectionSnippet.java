@@ -29,7 +29,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.StringUtils.splitByCharacterTypeCamelCase;
-import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.StringUtils.capitalize;
 
@@ -119,14 +118,14 @@ public class SectionSnippet extends TemplatedSnippet {
     }
 
     private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
-        String title = singleValueOrEmpty(javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
-                handlerMethod.getMethod().getName(), "title"));
+        String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "title");
         if (isBlank(title)) {
             title = createTitle(handlerMethod.getMethod().getName());
         }
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
-        String deprecated = singleValueOrEmpty(javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
-                handlerMethod.getMethod().getName(), "deprecated"));
+        String deprecated = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "deprecated");
         if (isDeprecated || isNotBlank(deprecated)) {
             return translate("tags-deprecated-title", title);
         } else {
@@ -149,10 +148,6 @@ public class SectionSnippet extends TemplatedSnippet {
 
     private String delimit(String value) {
         return value.replace("/", "-");
-    }
-
-    private String singleValueOrEmpty(List<String> deprecated) {
-        return deprecated.isEmpty() ? "" : trimToEmpty(deprecated.get(0));
     }
 
     static class Section {

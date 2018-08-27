@@ -1,3 +1,22 @@
+/*-
+ * #%L
+ * Spring Auto REST Docs Core
+ * %%
+ * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package capital.scalable.restdocs.hypermedia;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
@@ -8,7 +27,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -28,7 +46,7 @@ public class LinksSnippet extends StandardTableSnippet {
     @Override
     protected Collection<FieldDescriptor> createFieldDescriptors(Operation operation, HandlerMethod handlerMethod) {
         JavadocReader javadocReader = getJavadocReader(operation);
-        List<String> links = javadocReader.resolveClassTag(handlerMethod.getBeanType(), "link");
+        Collection<String> links = javadocReader.resolveClassTags(handlerMethod.getBeanType(), "link");
         return links.stream()
                 .map(this::parse)
                 .collect(toList());
@@ -64,8 +82,10 @@ public class LinksSnippet extends StandardTableSnippet {
     private Map<String, String> toMap(String link) {
         Map<String, String> result = new HashMap<>();
         for (String part : link.split(";")) {
-            String[] pair = part.split(":");
-            result.put(pair[0].trim(), pair[1].trim());
+            String[] pair = part.split("=");
+            if (pair.length == 2) {
+                result.put(pair[0].trim(), pair[1].trim());
+            }
         }
         return result;
     }

@@ -28,10 +28,8 @@ import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -69,8 +67,8 @@ public class DescriptionSnippet extends TemplatedSnippet {
 
     private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
-        String deprecatedDoc = singleValueOrEmpty(javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
-                handlerMethod.getMethod().getName(), "deprecated"));
+        String deprecatedDoc = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "deprecated");
         if (isDeprecated || isNotBlank(deprecatedDoc)) {
             return addDot(translate("tags-deprecated", capitalize(deprecatedDoc)));
         } else {
@@ -85,8 +83,8 @@ public class DescriptionSnippet extends TemplatedSnippet {
     }
 
     private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
-        String comment = singleValueOrEmpty(javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
-                handlerMethod.getMethod().getName(), "see"));
+        String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
+                handlerMethod.getMethod().getName(), "see");
         if (isNotBlank(comment)) {
             return addDot(translate("tags-see", comment));
         } else {
@@ -98,9 +96,5 @@ public class DescriptionSnippet extends TemplatedSnippet {
         Map<String, Object> model = new HashMap<>();
         model.put("description", "");
         return model;
-    }
-
-    private String singleValueOrEmpty(List<String> deprecated) {
-        return deprecated.isEmpty() ? "" : trimToEmpty(deprecated.get(0));
     }
 }

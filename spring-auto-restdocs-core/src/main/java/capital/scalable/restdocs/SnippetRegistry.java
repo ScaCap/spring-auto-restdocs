@@ -85,10 +85,6 @@ public class SnippetRegistry {
         }
     }
 
-    public static void addClassicSnippet(SectionSupport snippet) {
-        CLASSIC_SNIPPETS.put(snippet.getFileName(), snippet);
-    }
-
     private SnippetRegistry() {
         // constants
     }

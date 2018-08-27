@@ -8,7 +8,9 @@
     "location": {
       "comment": "Location of resource",
       "tags": {
-        "see": "path"
+        "see": [
+          "path"
+        ]
       }
     },
     "notDocumented": {
@@ -24,15 +26,21 @@
         "when": "when to initiate"
       },
       "tags": {
-        "deprecated": "use other method",
-        "title": "Do initiate"
+        "deprecated": [
+          "use other method"
+        ],
+        "title": [
+          "Do initiate"
+        ]
       }
     },
     "execute": {
       "comment": "Executes request on specified location",
       "parameters": {},
       "tags": {
-        "title": "Execute request"
+        "title": [
+          "Execute request"
+        ]
       }
     },
     "notDocumented": {

@@ -30,6 +30,8 @@ import lombok.Getter;
 
 /**
  * Java object for a single JSON item.
+ *
+ * @link rel=children; description=blbla; optional=false
  */
 @Getter
 @AllArgsConstructor

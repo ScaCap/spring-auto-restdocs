@@ -26,31 +26,23 @@ import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_REQUEST;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
-import static capital.scalable.restdocs.SnippetRegistry.LINKS;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
-import static org.springframework.restdocs.generate.RestDocumentationGenerator
-        .ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
+import static org.springframework.restdocs.generate.RestDocumentationGenerator.ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runners.Parameterized;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.http.HttpDocumentation;
-import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.restdocs.test.ExpectedSnippets;
@@ -178,83 +170,6 @@ public class SectionSnippetTest {
 
         new SectionBuilder()
                 .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST)
-                .build()
-                .document(operationBuilder
-                        .attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(JavadocReader.class.getName(), javadocReader)
-                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
-                                pathParameters(), requestParameters(),
-                                requestFields(), responseFields(), curlRequest(),
-                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
-                        .request("http://localhost/items/1")
-                        .build());
-    }
-
-    @Test
-    public void additionalClassicSnippets() throws Exception {
-        translationRule.setTestTranslations();
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
-        mockMethodTitle(TestResource.class, "getItemById", "");
-        SnippetRegistry.addClassicSnippet(new SectionSupport() {
-            @Override
-            public String getFileName() {
-                return "my-snippet-name";
-            }
-
-            @Override
-            public String getHeaderKey() {
-                return "my-snippet-header-key";
-            }
-
-            @Override
-            public boolean hasContent(Operation operation) {
-                return true;
-            }
-        });
-
-        this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-additionalClassicSnippets]]\n" +
-                        "=== Get Item By Id\n\n" +
-                        "include::auto-method-path.adoc[]\n\n" +
-                        "include::auto-description.adoc[]\n\n" +
-                        "==== XExample response\n\n" +
-                        "include::http-response.adoc[]\n\n" +
-                        "==== XResponse fields\n\n" +
-                        "include::auto-response-fields.adoc[]\n\n" +
-                        "==== XExample request\n\n" +
-                        "include::http-request.adoc[]\n\n" +
-                        "==== My snippet\n\n" +
-                        "include::my-snippet-name.adoc[]\n"));
-
-        new SectionBuilder()
-                .snippetNames(HTTP_RESPONSE, RESPONSE_FIELDS, HTTP_REQUEST, "my-snippet-name")
-                .build()
-                .document(operationBuilder
-                        .attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(JavadocReader.class.getName(), javadocReader)
-                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
-                                pathParameters(), requestParameters(),
-                                requestFields(), responseFields(), curlRequest(),
-                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
-                        .request("http://localhost/items/1")
-                        .build());
-    }
-
-    @Test
-    public void linkSnippet() throws Exception {
-        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
-        mockMethodTitle(TestResource.class, "getItemById", "");
-
-        this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-linkSnippet]]\n" +
-                        "=== Get Item By Id\n\n" +
-                        "include::auto-method-path.adoc[]\n\n" +
-                        "include::auto-description.adoc[]\n\n" +
-                        "==== Hypermedia links\n\n" +
-                        "include::links.adoc[]\n"));
-
-        new SectionBuilder()
-                .snippetNames(LINKS)
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)

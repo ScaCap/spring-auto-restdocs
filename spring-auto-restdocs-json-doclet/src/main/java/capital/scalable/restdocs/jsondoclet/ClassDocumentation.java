@@ -19,7 +19,10 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
+import static capital.scalable.restdocs.jsondoclet.DocletUtils.extractTags;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.sun.javadoc.ClassDoc;
@@ -28,6 +31,7 @@ import com.sun.javadoc.MethodDoc;
 
 public final class ClassDocumentation {
     private String comment = "";
+    private Map<String, List<String>> tags = new HashMap<>();
     private final Map<String, FieldDocumentation> fields = new HashMap<>();
     private final Map<String, MethodDocumentation> methods = new HashMap<>();
 
@@ -38,6 +42,8 @@ public final class ClassDocumentation {
     public static ClassDocumentation fromClassDoc(ClassDoc classDoc) {
         ClassDocumentation cd = new ClassDocumentation();
         cd.setComment(classDoc.commentText());
+        cd.tags = extractTags(classDoc.tags());
+
         for (FieldDoc fieldDoc : classDoc.fields(false)) {
             cd.addField(fieldDoc);
         }
@@ -46,6 +52,7 @@ public final class ClassDocumentation {
         }
         return cd;
     }
+
 
     private void setComment(String comment) {
         this.comment = comment;

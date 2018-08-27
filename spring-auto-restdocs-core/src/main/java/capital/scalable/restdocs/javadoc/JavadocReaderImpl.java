@@ -19,8 +19,6 @@
  */
 package capital.scalable.restdocs.javadoc;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.split;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
@@ -31,12 +29,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
@@ -83,38 +83,45 @@ public class JavadocReaderImpl implements JavadocReader {
     }
 
     @Override
-    public List<String> resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
+    public String resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName) {
         return classJavadoc(javaBaseClass).getFieldTag(javaFieldName, tagName);
     }
 
     @Override
     public String resolveMethodComment(Class<?> javaBaseClass, final String javaMethodName) {
-        return singleValueOrEmpty(
-                resolveValueFromClassHierarchy(javaBaseClass,
-                        classJavadoc -> singletonList(classJavadoc.getMethodComment(javaMethodName))));
-
+        return trimToEmpty(resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodComment(javaMethodName),
+                StringUtils::isNotBlank));
     }
 
     @Override
-    public List<String> resolveMethodTag(Class<?> javaBaseClass, final String javaMethodName,
+    public String resolveMethodTag(Class<?> javaBaseClass, final String javaMethodName,
             final String tagName) {
-        return resolveValueFromClassHierarchy(javaBaseClass,
-                classJavadoc -> classJavadoc.getMethodTag(javaMethodName, tagName));
+        return trimToEmpty(resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodTag(javaMethodName, tagName),
+                StringUtils::isNotBlank));
+    }
+
+    @Override
+    public String resolveClassTag(Class<?> javaBaseClass, String tagName) {
+        return trimToEmpty(resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getClassTag(tagName),
+                StringUtils::isNotBlank));
+    }
+
+    @Override
+    public Collection<String> resolveClassTags(Class<?> javaBaseClass, String tagName) {
+        return resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getClassTags(tagName),
+                CollectionUtils::isNotEmpty);
     }
 
     @Override
     public String resolveMethodParameterComment(Class<?> javaBaseClass, final String javaMethodName,
             final String javaParameterName) {
-        return singleValueOrEmpty(
-                resolveValueFromClassHierarchy(javaBaseClass,
-                        classJavadoc -> singletonList(
-                                classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName))));
-    }
-
-    @Override
-    public List<String> resolveClassTag(Class<?> javaBaseClass, final String tagName) {
-        return resolveValueFromClassHierarchy(javaBaseClass,
-                classJavadoc -> classJavadoc.getClassTag(tagName));
+        return trimToEmpty(resolveCommentFromClassHierarchy(javaBaseClass,
+                classJavadoc -> classJavadoc.getMethodParameterComment(javaMethodName, javaParameterName),
+                StringUtils::isNotBlank));
     }
 
     private ClassJavadoc classJavadoc(Class<?> clazz) {
@@ -211,12 +218,8 @@ public class JavadocReaderImpl implements JavadocReader {
         return absoluteDirs;
     }
 
-    private String singleValueOrEmpty(List<String> values) {
-        return values.isEmpty() ? "" : trimToEmpty(values.get(0));
-    }
-
     /**
-     * Walks up the class hierarchy and interfaces until a value is found or top most class is
+     * Walks up the class hierarchy and interfaces until a comment is found or top most class is
      * reached.
      * <p>
      * Javadoc on super classes and Javadoc on interfaces of super classes has precedence
@@ -228,32 +231,36 @@ public class JavadocReaderImpl implements JavadocReader {
      * However, the Javadoc model ignores method signatures anyway and it
      * should not cause issues for the usual use case.
      */
-    private List<String> resolveValueFromClassHierarchy(Class<?> javaBaseClass,
-            ValueExtractor valueExtractor) {
-        List<String> values = valueExtractor.extract(classJavadoc(javaBaseClass));
-        if (!values.isEmpty()) {
+    private <T> T resolveCommentFromClassHierarchy(Class<?> javaBaseClass,
+            CommentExtractor<T> commentExtractor, CommentAnalyzer<T> commentAnalyzer) {
+        T comment = commentExtractor.resolve(classJavadoc(javaBaseClass));
+        if (commentAnalyzer.hasContent(comment)) {
             // Direct Javadoc on a method always wins.
-            return values;
+            return comment;
         }
         // Super class has precedence over interfaces, but this also means that interfaces
         // of super classes have precedence over interfaces of the class itself.
         if (javaBaseClass.getSuperclass() != null) {
-            List<String> superClassValue =
-                    resolveValueFromClassHierarchy(javaBaseClass.getSuperclass(), valueExtractor);
-            if (!superClassValue.isEmpty()) {
-                return superClassValue;
+            T superClassComment =
+                    resolveCommentFromClassHierarchy(javaBaseClass.getSuperclass(), commentExtractor, commentAnalyzer);
+            if (commentAnalyzer.hasContent(superClassComment)) {
+                return superClassComment;
             }
         }
         for (Class<?> i : javaBaseClass.getInterfaces()) {
-            List<String> interfaceValue = resolveValueFromClassHierarchy(i, valueExtractor);
-            if (!interfaceValue.isEmpty()) {
-                return interfaceValue;
+            T interfaceComment = resolveCommentFromClassHierarchy(i, commentExtractor, commentAnalyzer);
+            if (commentAnalyzer.hasContent(interfaceComment)) {
+                return interfaceComment;
             }
         }
-        return emptyList();
+        return null;
     }
 
-    private interface ValueExtractor {
-        List<String> extract(ClassJavadoc classJavadoc);
+    private interface CommentExtractor<T> {
+        T resolve(ClassJavadoc classJavadoc);
+    }
+
+    private interface CommentAnalyzer<T> {
+        boolean hasContent(T comment);
     }
 }

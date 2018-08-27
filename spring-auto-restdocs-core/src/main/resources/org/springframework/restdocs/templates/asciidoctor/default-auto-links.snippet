@@ -1,0 +1,12 @@
+    {{#hasContent}}
+
+        |===
+        |{{th-rel}}|{{th-optional}}|{{th-description}}
+
+    {{#content}}
+        |{{rel}}
+        |{{optional}}
+        |{{description}}
+
+    {{/content}}
+        |==={{/hasContent}}{{#noContent}}{{no-links}}{{/noContent}}
