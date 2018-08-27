@@ -118,7 +118,7 @@ public class ItemResource {
             UriComponentsBuilder uriComponentsBuilder) {
         // New item with unique ID is stored and returned.
         URI location = uriComponentsBuilder
-                .path("/{id}")
+                .path("/items/{id}")
                 .buildAndExpand("2")
                 .toUri();
 
