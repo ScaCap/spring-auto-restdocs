@@ -58,6 +58,14 @@ Can Spring REST Docs and Spring Auto REST Docs features be combined?::
   Yes, this even works in the same test.
   One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
   This is demonstrated in the example project.
+Is Kotlin supported?::
+  Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
+  Instead of the Javadoc Doclet one has to use the Dokka extension
+  `spring-auto-restdocs-dokka-json`. The extension is only available as 2.0.x,
+  but works with both version of Spring Auto REST Docs.
+Is Java 9+ supported?::
+  Not yet, because Java 9 introduced a new Doclet API and
+  we have not created a Java 9+ Doclet yet.
 
 include::getting-started.adoc[]
 
