@@ -19,12 +19,37 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sun.javadoc.Tag;
+
 public class DocletUtils {
     private DocletUtils() {
         // utils
     }
 
-    public static String cleanupTagName(String name) {
+    private static String cleanupTagName(String name) {
         return name.startsWith("@") ? name.substring(1) : name;
+    }
+
+    public static Map<String, List<String>> extractTags(Tag[] tags) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (Tag tag : tags) {
+            mergeTag(map, tag);
+        }
+        return map;
+    }
+
+    public static void mergeTag(Map<String, List<String>> map, Tag tag) {
+        String key = cleanupTagName(tag.name());
+        List<String> values = map.get(key);
+        if (values == null) {
+            values = new ArrayList<>();
+        }
+        values.add(tag.text().trim());
+        map.put(key, values);
     }
 }

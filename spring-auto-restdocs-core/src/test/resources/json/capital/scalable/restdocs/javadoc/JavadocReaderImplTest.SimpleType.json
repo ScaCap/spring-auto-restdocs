@@ -3,7 +3,9 @@
     "simpleField": {
       "comment": "Simple field comment",
       "tags": {
-        "deprecated": "Deprecation comment"
+        "deprecated": [
+          "Deprecation comment"
+        ]
       }
     }
   },
@@ -14,8 +16,12 @@
         "simpleParameter": "Simple parameter comment"
       },
       "tags": {
-        "title": "Simple method title",
-        "deprecated": "Deprecation comment"
+        "title": [
+          "Simple method title"
+        ],
+        "deprecated": [
+          "Deprecation comment"
+        ]
       }
     }
   }

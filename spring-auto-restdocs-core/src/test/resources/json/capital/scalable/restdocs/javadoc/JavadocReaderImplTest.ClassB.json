@@ -7,7 +7,9 @@
         "parameter": "Parameter comment on class B"
       },
       "tags": {
-        "title": "Method title on class B"
+        "title": [
+          "Method title on class B"
+        ]
       }
     }
   }

@@ -7,7 +7,9 @@
         "parameter": "Parameter comment on interface A"
       },
       "tags": {
-        "title": "Method title on interface A"
+        "title": [
+          "Method title on interface A"
+        ]
       }
     },
     "javadocOnClassB": {
@@ -16,7 +18,9 @@
         "parameter": "Ignored parameter comment on interface A"
       },
       "tags": {
-        "title": "Ignored method title on interface A"
+        "title": [
+          "Ignored method title on interface A"
+        ]
       }
     },
     "javadocOnClassC": {
@@ -25,7 +29,9 @@
         "parameter": "Ignored parameter comment on interface A"
       },
       "tags": {
-        "title": "Ignored method title on interface A"
+        "title": [
+          "Ignored method title on interface A"
+        ]
       }
     }
   }

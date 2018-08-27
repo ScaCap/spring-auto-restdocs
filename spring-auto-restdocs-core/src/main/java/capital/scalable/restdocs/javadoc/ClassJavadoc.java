@@ -21,11 +21,15 @@ package capital.scalable.restdocs.javadoc;
 
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class ClassJavadoc {
     private String comment;
+    private Map<String, List<String>> tags = new HashMap<>();
     private Map<String, FieldJavadoc> fields = new HashMap<>();
     private Map<String, MethodJavadoc> methods = new HashMap<>();
 
@@ -35,53 +39,45 @@ class ClassJavadoc {
 
     public String getFieldComment(String fieldName) {
         FieldJavadoc fieldJavadoc = fields.get(fieldName);
-        if (fieldJavadoc != null) {
-            return trimToEmpty(fieldJavadoc.getComment());
-        } else {
-            return "";
-        }
+        return fieldJavadoc != null ? trimToEmpty(fieldJavadoc.getComment()) : "";
     }
 
     public String getMethodComment(String methodName) {
         MethodJavadoc methodJavadoc = methods.get(methodName);
-        if (methodJavadoc != null) {
-            return trimToEmpty(methodJavadoc.getComment());
-        } else {
-            return "";
-        }
+        return methodJavadoc != null ? trimToEmpty(methodJavadoc.getComment()) : "";
     }
 
     public String getMethodParameterComment(String methodName, String parameterName) {
         MethodJavadoc methodJavadoc = methods.get(methodName);
-        if (methodJavadoc != null) {
-            return trimToEmpty(methodJavadoc.getParameterComment(parameterName));
-        } else {
-            return "";
-        }
+        return methodJavadoc != null ? trimToEmpty(methodJavadoc.getParameterComment(parameterName)) : "";
     }
 
     public String getMethodTag(String javaMethodName, String tagName) {
         MethodJavadoc methodJavadoc = methods.get(javaMethodName);
-        if (methodJavadoc != null) {
-            return trimToEmpty(methodJavadoc.getTag(tagName));
-        } else {
-            return "";
-        }
+        return methodJavadoc != null ? singleValueOrEmpty(methodJavadoc.getTag(tagName)) : "";
     }
 
     public String getFieldTag(String javaFieldName, String tagName) {
         FieldJavadoc fieldJavadoc = fields.get(javaFieldName);
-        if (fieldJavadoc != null) {
-            return trimToEmpty(fieldJavadoc.getTag(tagName));
-        } else {
-            return "";
-        }
+        return fieldJavadoc != null ? singleValueOrEmpty(fieldJavadoc.getTag(tagName)) : "";
+    }
+
+    public String getClassTag(String tagName) {
+        return singleValueOrEmpty(tags.get(tagName));
+    }
+
+    public Collection<String> getClassTags(String tagName) {
+        return tags.get(tagName) != null ? tags.get(tagName) : Collections.emptyList();
+    }
+
+    private String singleValueOrEmpty(List<String> values) {
+        return values == null || values.isEmpty() ? "" : values.get(0).trim();
     }
 
     static class MethodJavadoc {
         private String comment;
         private Map<String, String> parameters = new HashMap<>();
-        private Map<String, String> tags = new HashMap<>();
+        private Map<String, List<String>> tags = new HashMap<>();
 
         public String getComment() {
             return comment;
@@ -91,20 +87,20 @@ class ClassJavadoc {
             return parameters.get(parameterName);
         }
 
-        public String getTag(String tagName) {
+        public List<String> getTag(String tagName) {
             return tags.get(tagName);
         }
     }
 
     static class FieldJavadoc {
         private String comment;
-        private Map<String, String> tags = new HashMap<>();
+        private Map<String, List<String>> tags = new HashMap<>();
 
         public String getComment() {
             return comment;
         }
 
-        public String getTag(String tagName) {
+        public List<String> getTag(String tagName) {
             return tags.get(tagName);
         }
     }

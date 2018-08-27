@@ -33,9 +33,14 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     private static final Logger log = getLogger(FieldDocumentationObjectVisitor.class);
 
+    private final static Set<String> SKIPPED_FIELDS = new HashSet<>(Arrays.asList("_links", "_embedded"));
     private final FieldDocumentationVisitorContext context;
     private final String path;
     private final TypeRegistry typeRegistry;
@@ -104,6 +109,7 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     private boolean shouldExpand(BeanProperty prop) {
-        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null;
+        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null
+                && !SKIPPED_FIELDS.contains(prop.getName());
     }
 }

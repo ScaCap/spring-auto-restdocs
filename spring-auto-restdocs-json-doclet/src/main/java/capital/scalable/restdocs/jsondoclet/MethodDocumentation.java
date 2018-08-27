@@ -19,9 +19,10 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
-import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagName;
+import static capital.scalable.restdocs.jsondoclet.DocletUtils.mergeTag;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.sun.javadoc.MethodDoc;
@@ -31,7 +32,7 @@ import com.sun.javadoc.Tag;
 public class MethodDocumentation {
     private String comment = "";
     private final Map<String, String> parameters = new HashMap<>();
-    private final Map<String, String> tags = new HashMap<>();
+    private final Map<String, List<String>> tags = new HashMap<>();
 
     private MethodDocumentation() {
         // enforce usage of static factory method
@@ -46,7 +47,7 @@ public class MethodDocumentation {
                 ParamTag paramTag = (ParamTag) tag;
                 md.parameters.put(paramTag.parameterName(), paramTag.parameterComment());
             } else {
-                md.tags.put(cleanupTagName(tag.name()), tag.text());
+                mergeTag(md.tags, tag);
             }
         }
 
