@@ -19,13 +19,16 @@
  */
 package capital.scalable.restdocs.javadoc;
 
+import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class ClassJavadoc {
     private String comment;
+    private Map<String, List<String>> tags = new HashMap<>();
     private Map<String, FieldJavadoc> fields = new HashMap<>();
     private Map<String, MethodJavadoc> methods = new HashMap<>();
 
@@ -60,28 +63,24 @@ class ClassJavadoc {
         }
     }
 
-    public String getMethodTag(String javaMethodName, String tagName) {
+    public List<String> getMethodTag(String javaMethodName, String tagName) {
         MethodJavadoc methodJavadoc = methods.get(javaMethodName);
-        if (methodJavadoc != null) {
-            return trimToEmpty(methodJavadoc.getTag(tagName));
-        } else {
-            return "";
-        }
+        return methodJavadoc != null ? methodJavadoc.getTag(tagName) : emptyList();
     }
 
-    public String getFieldTag(String javaFieldName, String tagName) {
+    public List<String> getFieldTag(String javaFieldName, String tagName) {
         FieldJavadoc fieldJavadoc = fields.get(javaFieldName);
-        if (fieldJavadoc != null) {
-            return trimToEmpty(fieldJavadoc.getTag(tagName));
-        } else {
-            return "";
-        }
+        return fieldJavadoc != null ? fieldJavadoc.getTag(tagName) : emptyList();
+    }
+
+    public List<String> getClassTag(String tagName) {
+        return tags.get(tagName);
     }
 
     static class MethodJavadoc {
         private String comment;
         private Map<String, String> parameters = new HashMap<>();
-        private Map<String, String> tags = new HashMap<>();
+        private Map<String, List<String>> tags = new HashMap<>();
 
         public String getComment() {
             return comment;
@@ -91,20 +90,20 @@ class ClassJavadoc {
             return parameters.get(parameterName);
         }
 
-        public String getTag(String tagName) {
+        public List<String> getTag(String tagName) {
             return tags.get(tagName);
         }
     }
 
     static class FieldJavadoc {
         private String comment;
-        private Map<String, String> tags = new HashMap<>();
+        private Map<String, List<String>> tags = new HashMap<>();
 
         public String getComment() {
             return comment;
         }
 
-        public String getTag(String tagName) {
+        public List<String> getTag(String tagName) {
             return tags.get(tagName);
         }
     }

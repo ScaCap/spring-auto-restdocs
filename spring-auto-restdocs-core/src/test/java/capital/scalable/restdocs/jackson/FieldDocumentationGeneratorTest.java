@@ -498,7 +498,7 @@ public class FieldDocumentationGeneratorTest {
     private void mockFieldTag(Class<?> javaBaseClass, String fieldName, String tagName,
             String value) {
         when(javadocReader.resolveFieldTag(javaBaseClass, fieldName, tagName))
-                .thenReturn(value);
+                .thenReturn(singletonList(value));
     }
 
     private ObjectMapper createMapper() {

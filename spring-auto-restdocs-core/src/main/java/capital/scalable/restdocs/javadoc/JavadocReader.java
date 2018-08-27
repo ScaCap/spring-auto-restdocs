@@ -19,15 +19,19 @@
  */
 package capital.scalable.restdocs.javadoc;
 
+import java.util.List;
+
 public interface JavadocReader {
     String resolveFieldComment(Class<?> javaBaseClass, String javaFieldName);
 
-    String resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName);
+    List<String> resolveFieldTag(Class<?> javaBaseClass, String javaFieldName, String tagName);
 
     String resolveMethodComment(Class<?> javaBaseClass, String javaMethodName);
 
     String resolveMethodParameterComment(Class<?> javaBaseClass, String javaMethodName,
             String javaParameterName);
 
-    String resolveMethodTag(Class<?> javaBaseClass, String javaMethodName, String tagName);
+    List<String> resolveMethodTag(Class<?> javaBaseClass, String javaMethodName, String tagName);
+
+    List<String> resolveClassTag(Class<?> javaBaseClass, String tagName);
 }

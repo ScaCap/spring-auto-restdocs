@@ -34,11 +34,11 @@ public class SnippetRegistry {
     public static final String REQUEST_PARAMETERS = "auto-request-parameters";
     public static final String REQUEST_FIELDS = "auto-request-fields";
     public static final String RESPONSE_FIELDS = "auto-response-fields";
+    public static final String LINKS = "auto-links";
     public static final String CURL_REQUEST = "curl-request";
     public static final String HTTP_REQUEST = "http-request";
     public static final String HTTP_RESPONSE = "http-response";
     public static final String HTTPIE_REQUEST = "httpie-request";
-    public static final String LINKS = "links";
 
     private static final Map<String, SectionSupport> CLASSIC_SNIPPETS;
 
@@ -48,7 +48,6 @@ public class SnippetRegistry {
         CLASSIC_SNIPPETS.put(HTTPIE_REQUEST, section(HTTPIE_REQUEST, "example-request", true));
         CLASSIC_SNIPPETS.put(HTTP_REQUEST, section(HTTP_REQUEST, "example-request", true));
         CLASSIC_SNIPPETS.put(HTTP_RESPONSE, section(HTTP_RESPONSE, "example-response", true));
-        CLASSIC_SNIPPETS.put(LINKS, section(LINKS, "hypermedia-links", true));
     }
 
     public static SectionSupport getClassicSnippet(String snippetName) {

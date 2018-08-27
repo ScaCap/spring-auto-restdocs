@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package capital.scalable.restdocs.example.testsupport;
 
 import static capital.scalable.restdocs.AutoDocumentation.authorization;
 import static capital.scalable.restdocs.AutoDocumentation.description;
+import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
@@ -29,10 +30,8 @@ import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.misc.AuthorizationSnippet.documentAuthorization;
-import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors
-        .limitJsonArrayLength;
-import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors
-        .replaceBinaryContent;
+import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
+import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -41,8 +40,7 @@ import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-        .documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -60,7 +58,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
@@ -110,7 +107,7 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section(), authorization(DEFAULT_AUTHORIZATION)))
+                                section(), links(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }
 
