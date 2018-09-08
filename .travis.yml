@@ -2,6 +2,7 @@ language: java
 sudo: false
 dist: trusty
 jdk:
+- oraclejdk8
 - oraclejdk9
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -17,6 +18,9 @@ before_install:
   -Dpackaging=jar -Dclassifier=test
 script:
 - mvn install -B -V
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
+  && cd spring-auto-restdocs-json-doclet-jdk9
+  && mvn install -B -V
 - cd samples
 - mvn install -B -V
 - cd java-webmvc
@@ -30,6 +34,12 @@ after_success:
   && test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
   && "$DEPLOY_DIR/decrypt.sh"
+  && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
+- test "$TRAVIS_BRANCH" = "master"
+  && test "$TRAVIS_PULL_REQUEST" = "false"
+  && test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
+  && "$DEPLOY_DIR/decrypt.sh"
+  && cd spring-auto-restdocs-json-doclet-jdk9
   && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
 branches:
   only:

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Json Doclet
+ * Spring Auto REST Docs Json Doclet for JDK9+
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -19,28 +19,23 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
-import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagName;
+import java.util.Optional;
 
-import java.util.HashMap;
-import java.util.Map;
+public class DocletUtils {
+    private DocletUtils() {
+        // utils
+    }
 
-import com.sun.javadoc.FieldDoc;
-import com.sun.javadoc.Tag;
+    static String cleanupDocComment(String comment) {
+        return Optional.ofNullable(comment).map(s -> s.replaceAll("[\\r\\n]+\\s*@.*", "").trim()).orElse("");
+    }
 
-public class FieldDocumentation {
+    public static String cleanupTagValue(String value) {
+        return value.replaceFirst("\\s*@[^\\s]+\\s+", "").trim();
+    }
 
-    private String comment;
-    private final Map<String, String> tags = new HashMap<>();
-
-    public static FieldDocumentation fromFieldDoc(FieldDoc fieldDoc) {
-        FieldDocumentation fd = new FieldDocumentation();
-        fd.comment = fieldDoc.commentText();
-
-        for (Tag tag : fieldDoc.tags()) {
-            fd.tags.put(cleanupTagName(tag.name()), tag.text());
-        }
-
-        return fd;
+    public static String cleanupTagName(String name) {
+        return name.startsWith("@") ? name.substring(1) : name;
     }
 
 }

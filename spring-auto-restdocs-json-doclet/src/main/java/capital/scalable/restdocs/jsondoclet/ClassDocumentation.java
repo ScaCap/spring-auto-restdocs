@@ -19,14 +19,12 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
-import jdk.javadoc.doclet.DocletEnvironment;
-
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import java.util.HashMap;
 import java.util.Map;
 
-import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupDocComment;
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.MethodDoc;
 
 public final class ClassDocumentation {
     private String comment = "";
@@ -37,21 +35,15 @@ public final class ClassDocumentation {
         // enforce usage of static factory method
     }
 
-    public static ClassDocumentation fromClassDoc(DocletEnvironment docEnv,
-                                                  Element element) {
+    public static ClassDocumentation fromClassDoc(ClassDoc classDoc) {
         ClassDocumentation cd = new ClassDocumentation();
-        cd.setComment(cleanupDocComment(docEnv.getElementUtils().getDocComment(element)));
-
-        element.getEnclosedElements().forEach(fieldOrMethod -> {
-            if (fieldOrMethod.getKind().equals(ElementKind.FIELD)) {
-                cd.addField(docEnv, fieldOrMethod);
-            }
-            else if (fieldOrMethod.getKind().equals(ElementKind.METHOD)
-                    || fieldOrMethod.getKind().equals(ElementKind.CONSTRUCTOR)) {
-                cd.addMethod(docEnv, fieldOrMethod);
-            }
-        });
-
+        cd.setComment(classDoc.commentText());
+        for (FieldDoc fieldDoc : classDoc.fields(false)) {
+            cd.addField(fieldDoc);
+        }
+        for (MethodDoc methodDoc : classDoc.methods(false)) {
+            cd.addMethod(methodDoc);
+        }
         return cd;
     }
 
@@ -59,13 +51,11 @@ public final class ClassDocumentation {
         this.comment = comment;
     }
 
-    private void addField(DocletEnvironment docEnv, Element element) {
-        this.fields.put(element.getSimpleName().toString(),
-                FieldDocumentation.fromFieldDoc(docEnv, element));
+    private void addField(FieldDoc fieldDoc) {
+        this.fields.put(fieldDoc.name(), FieldDocumentation.fromFieldDoc(fieldDoc));
     }
 
-    private void addMethod(DocletEnvironment docEnv, Element element) {
-        this.methods.put(element.getSimpleName().toString(),
-                MethodDocumentation.fromMethodDoc(docEnv, element));
+    private void addMethod(MethodDoc methodDoc) {
+        this.methods.put(methodDoc.name(), MethodDocumentation.fromMethodDoc(methodDoc));
     }
 }
