@@ -31,15 +31,15 @@ import org.springframework.core.Ordered;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.DispatcherHandler;
+import org.springframework.web.reactive.HandlerAdapter;
 import org.springframework.web.reactive.HandlerResult;
-import org.springframework.web.reactive.HandlerResultHandler;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
  * Watches the WebTestClient and applies some attributes on each operation.
  */
-public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
+public class WebTestClientInitializer implements HandlerAdapter, Ordered {
 
     /**
      * The called {@link HandlerMethod}.
@@ -47,18 +47,18 @@ public class WebTestClientInitializer implements HandlerResultHandler, Ordered {
     private HandlerMethod handlerMethod;
 
     @Override
-    public boolean supports(HandlerResult result) {
+    public boolean supports(Object handler) {
         // if a handler method is set: remember it
-        if (result.getHandler() instanceof HandlerMethod) {
-            handlerMethod = (HandlerMethod) result.getHandler();
+        if (handler instanceof HandlerMethod) {
+            handlerMethod = (HandlerMethod) handler;
         }
         // all done - nothing more to do
         return false;
     }
 
     @Override
-    public Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
-        // nothing to do - handler already registered in #supports(HandlerResult)
+    public Mono<HandlerResult> handle(ServerWebExchange exchange, Object handler) {
+        // nothing to do - handler already registered in #supports(Object)
         return Mono.empty();
     }
 

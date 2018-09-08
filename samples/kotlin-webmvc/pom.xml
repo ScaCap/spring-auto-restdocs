@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.1.RELEASE</version>
+        <version>2.0.4.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -34,14 +34,19 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-restdocs.version>2.0.1.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.2-SNAPSHOT</spring-auto-restdocs.version>
-        <kotlin.version>1.2.31</kotlin.version>
+        <kotlin.version>1.2.60</kotlin.version>
         <dokka.version>0.9.16</dokka.version>
         <jsonDirectory>${project.build.directory}/generated-javadoc-json</jsonDirectory>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>capital.scalable</groupId>
+            <artifactId>spring-auto-restdocs-shared-pojos-example</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -260,7 +265,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
                 <executions>
                     <!-- Replacing default-compile as it is treated specially by maven -->
                     <execution>
@@ -275,12 +279,16 @@
                     <execution>
                         <id>java-compile</id>
                         <phase>compile</phase>
-                        <goals> <goal>compile</goal> </goals>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
                     </execution>
                     <execution>
                         <id>java-test-compile</id>
                         <phase>test-compile</phase>
-                        <goals> <goal>testCompile</goal> </goals>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

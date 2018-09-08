@@ -8,12 +8,12 @@ The same holds true for this Dokka extension.
 
 ## Usage with Maven
 
-This Dokka extension can be used with the standard `dokka-maven-plugin`.
+This Dokka extension can be used with the `dokka-maven-plugin`.
 To avoid any incompatibilities, the Dokka version of the `dokka-maven-plugin` and of this extension should be the same.
 If this extension is included as a dependency of the plugin, the output format `auto-restdocs-json` can be used.
 
 Example usage:
-```
+```xml
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
@@ -39,4 +39,34 @@ Example usage:
                 </configuration>
             </plugin>
 ```
+[Full example](https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/pom.xml)
+
+## Usage with Gradle
+
+Starting with version 2.0.2, this Dokka extension can be used with the `dokka-gradle-plugin`.
+To avoid any incompatibilities, the Dokka version of the `dokka-gradle-plugin` and of this extension should be the same.
+If this extension is set as the `dokkaFatJar` in the dokka task, the output format `auto-restdocs-json` can be used.
+
+```groovy
+buildscript {
+    ext {
+        springAutoRestDocsVersion = "2.0.2"
+        dokkaVersion = "0.9.16"
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
+    }
+}
+apply plugin: "org.jetbrains.dokka"
+
+dokka {
+    outputFormat = "auto-restdocs-json"
+    dokkaFatJar = "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
+}
+```
+[Full example](https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/build.gradle)
 

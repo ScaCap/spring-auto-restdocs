@@ -6,9 +6,12 @@
 
 Spring Auto REST Docs has the following minimum requirements:
 
-* Java 7
+* Java 8 or Kotlin 1.2
 * Spring REST Docs ${spring-restdocs.version} (see http://docs.spring.io/spring-restdocs/docs/${spring-restdocs.version}/reference/html5/[documentation])
 * Jackson has to be used for creating and parsing JSON
+
+For Java 7 and Spring REST Docs 1.2.x support,
+please use the 1.0.x version of Spring Auto REST Docs.
 
 [[gettingstarted-usage]]
 === Usage
@@ -241,10 +244,19 @@ repositories {
 ----
 
 [[gettingstarted-sample]]
-=== Sample application
+=== Sample applications
 
-https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example[This project]
-includes a sample application that demonstrates most features.
+This projects includes a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc[Java Web MVC example],
+a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webtestclient[Java WebTestClient example]
+and a
+https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[Kotlin Web MVC example]
+application that demonstrate most features.
 
-The generated documentation of the example project can be viewed
-https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html[here].
+The generated documentation can be viewed for the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html[Java Web MVC example],
+the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webtestclient/generated-docs/index.html[Java WebTestClient example]
+and the
+https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html[Kotlin Web MCV example].

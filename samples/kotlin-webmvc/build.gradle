@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        kotlinVersion = "1.2.31"
+        kotlinVersion = "1.2.60"
         springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
-        springRestDocsVersion = "2.0.1.RELEASE"
-        springBootVersion = "2.0.1.RELEASE"
+        springRestDocsVersion = "2.0.2.RELEASE"
+        springBootVersion = "2.0.4.RELEASE"
         dokkaVersion = "0.9.16"
     }
     repositories {
@@ -63,6 +63,7 @@ dependencies {
     compile "org.springframework.data:spring-data-commons"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
+    compile "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }

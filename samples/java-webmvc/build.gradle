@@ -1,8 +1,8 @@
 buildscript {
     ext {
         springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
-        springRestDocsVersion = "2.0.1.RELEASE"
-        springBootVersion = "2.0.1.RELEASE"
+        springRestDocsVersion = "2.0.2.RELEASE"
+        springBootVersion = "2.0.4.RELEASE"
     }
     repositories {
         jcenter()
@@ -54,6 +54,7 @@ dependencies {
     compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
     compile "org.springframework.data:spring-data-commons"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
+    compile "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }

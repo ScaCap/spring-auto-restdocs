@@ -12,24 +12,19 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 before_install:
-- mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.1.RELEASE-test.jar
-  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.1.RELEASE
+- mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.2.RELEASE-test.jar
+  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
 script:
 - mvn install -B -V
 - cd samples
+- mvn install -B -V
 - cd java-webmvc
-- mvn verify -B
 - ./gradlew check
 - cd ..
 - cd kotlin-webmvc
-- mvn verify -B
 - ./gradlew check
-- cd ..
-- cd java-webtestclient
-- mvn verify -B
-- cd ..
-- cd ..
+- cd ../..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
