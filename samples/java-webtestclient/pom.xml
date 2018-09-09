@@ -115,9 +115,6 @@
                 <maven.compiler.target>1.8</maven.compiler.target>
                 <json-doclet.version.suffix></json-doclet.version.suffix>
             </properties>
-            <modules>
-                <module>kotlin-webmvc</module>
-            </modules>
         </profile>
         <profile>
             <id>java9</id>

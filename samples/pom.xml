@@ -31,5 +31,16 @@
         <module>java-webtestclient</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <modules>
+                <module>kotlin-webmvc</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
