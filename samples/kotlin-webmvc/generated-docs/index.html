@@ -453,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></li>
 <li><a href="#resources-item-resource-test-search">2.7. Search Item</a></li>
 <li><a href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></li>
-<li><a href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></li>
+    <li><a href="#resources-item-resource-test-process-single-item">2.9. Process Single Item</a></li>
 <li><a href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></li>
 <li><a href="#resources-item-resource-test-clone-item">2.11. Clone Item</a></li>
 <li><a href="#resources-items-get-spring-rest-docs">2.12. Get an item (SARD/SRD mix)</a></li>
@@ -639,8 +639,15 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 <div class="sect3">
 <h4 id="_authorization"><a class="anchor" href="#_authorization"></a><a class="link" href="#_authorization">2.1.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -665,8 +672,7 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p>
-<p class="tableblock">Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -703,16 +709,13 @@ because the template returns "No data." instead of an empty table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
-<p class="tableblock">An example of JsonSubType support.</p>
-<p class="tableblock">+
-See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
@@ -736,7 +739,7 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
@@ -784,19 +787,19 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -862,8 +865,15 @@ Content-Length: 459
 </div>
 <div class="sect3">
 <h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -894,16 +904,13 @@ Content-Length: 459
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
-<p class="tableblock">An example of JsonSubType support.</p>
-<p class="tableblock">+
-See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.type</p></td>
@@ -927,7 +934,7 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes.text</p></td>
@@ -975,19 +982,19 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -1055,16 +1062,17 @@ Content-Length: 598
 <div class="paragraph">
 <p><code>POST /items</code></p>
 </div>
-<div class="paragraph">
-<p>Adds new item.</p>
-</div>
-<div class="paragraph">
-<p>An example of accepting a custom type as request body and returning a ResponseEntity.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1130,7 +1138,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be' \
+    -H 'Authorization: Bearer f510b431-79ee-4f2e-b721-9751a4f25b57' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1156,16 +1164,17 @@ X-Frame-Options: DENY</code></pre>
 <div class="paragraph">
 <p><code>PUT /items/{id}</code></p>
 </div>
-<div class="paragraph">
-<p>Updates existing item.</p>
-</div>
-<div class="paragraph">
-<p>An example of returning an HttpEntity.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1190,8 +1199,7 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
-<p class="tableblock">Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1263,16 +1271,13 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
-<p class="tableblock">An example of JsonSubType support.</p>
-<p class="tableblock">+
-See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
@@ -1296,7 +1301,7 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
@@ -1344,19 +1349,19 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -1367,7 +1372,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be' \
+    -H 'Authorization: Bearer f510b431-79ee-4f2e-b721-9751a4f25b57' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1403,19 +1408,17 @@ Content-Length: 124
 <div class="paragraph">
 <p><code>DELETE /items/{id}</code></p>
 </div>
-<div class="paragraph">
-<p>Deletes item.Item must exist.</p>
-</div>
-<div class="paragraph">
-<p>Non existing items are ignored</p>
-</div>
-<div class="paragraph">
-<p>An example of using path variables.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1440,8 +1443,7 @@ Content-Length: 124
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
-<p class="tableblock">Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1469,7 +1471,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer a2eeb16d-b4b6-49a5-9749-b7b7e10e83be'</code></pre>
+    -H 'Authorization: Bearer f510b431-79ee-4f2e-b721-9751a4f25b57'</code></pre>
 </div>
 </div>
 </div>
@@ -1493,16 +1495,17 @@ X-Frame-Options: DENY</code></pre>
 <div class="paragraph">
 <p><code>GET /items/{id}/{child}</code></p>
 </div>
-<div class="paragraph">
-<p>Retrieves a child of specified item.</p>
-</div>
-<div class="paragraph">
-<p>An example of using parameter validation.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1527,15 +1530,13 @@ X-Frame-Options: DENY</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p>
-<p class="tableblock">Must be a valid ID.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">child</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child ID.</p>
-<p class="tableblock">DE: Must be at most 2.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">DE: Must be at most 2.<br>
 EN: Must be at least 1.</p></td>
 </tr>
 </tbody>
@@ -1575,16 +1576,13 @@ EN: Must be at least 1.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
-<p class="tableblock">An example of JsonSubType support.</p>
-<p class="tableblock">+
-See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
@@ -1608,7 +1606,7 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
@@ -1656,19 +1654,19 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -1712,16 +1710,17 @@ Content-Length: 133
 <div class="paragraph">
 <p><code>GET /items/search</code></p>
 </div>
-<div class="paragraph">
-<p>Searches for item based on lookup parameters.</p>
-</div>
-<div class="paragraph">
-<p>An example of using Pageable, Page and customized translation for paging text.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1755,15 +1754,13 @@ Content-Length: 133
 <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup on description field.</p>
-<p class="tableblock">Size must be between 0 and 255 inclusive.</p></td>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Size must be between 0 and 255 inclusive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hint</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lookup hint.</p>
-<p class="tableblock">Must be at least 10.<br>
+    <td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 10.<br>
 Must be at most 100.</p></td>
 </tr>
 </tbody>
@@ -1800,16 +1797,13 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique ID. This text comes directly from Javadoc.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Metadata.</p>
-<p class="tableblock">An example of JsonSubType support.</p>
-<p class="tableblock">+
-See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling"&gt;.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.type</p></td>
@@ -1833,7 +1827,7 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item attributes.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes.text</p></td>
@@ -1881,19 +1875,19 @@ Must be at most 10.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Child items (recursive). Same structure as this response.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[String]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tags.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Some information | description about the item.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -1962,12 +1956,12 @@ Content-Length: 1011
   },
   "total" : 1,
   "last" : true,
-  "totalElements" : 1,
   "totalPages" : 1,
+  "totalElements" : 1,
   "size" : 20,
   "number" : 0,
-  "numberOfElements" : 1,
   "first" : true,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
@@ -1983,16 +1977,17 @@ Content-Length: 1011
 <div class="paragraph">
 <p><code>POST /items/process</code></p>
 </div>
-<div class="paragraph">
-<p>Executes a command on all items.</p>
-</div>
-<div class="paragraph">
-<p>An example of having String as request and response body.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2093,33 +2088,23 @@ X-Frame-Options: DENY
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-item-resource-test-process-single-item"><a class="anchor" href="#resources-item-resource-test-process-single-item"></a><a class="link" href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></h3>
+    <h3 id="resources-item-resource-test-process-single-item"><a class="anchor" href="#resources-item-resource-test-process-single-item"></a><a class="link"
+                                                                                                                                                href="#resources-item-resource-test-process-single-item">2.9.
+        Process Single Item</a></h3>
 <div class="paragraph">
 <p><code>POST /items/{itemId}/process</code></p>
 </div>
-<div class="paragraph">
-<p>Executes a command on an item.This endpoint demos the basic support for @ModelAttribute.</p>
-</div>
-<div class="paragraph">
-<p>Notes:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the request body is documented as it would be JSON,but it is actually form-urlencoded</p>
-</li>
-<li>
-<p>setting the type manually can help to get the right documentationif the automatic document does not produce the right result.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>An example of using ModelAttribute.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2144,7 +2129,7 @@ X-Frame-Options: DENY
 <td class="tableblock halign-left valign-top"><p class="tableblock">itemId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Item ID.</p></td>
+    <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -2213,7 +2198,7 @@ X-Frame-Options: DENY
 <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?command=increase' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process' -i -X POST \
     -H 'Content-Type: application/x-www-form-urlencoded' \
     -d 'command=increase'</code></pre>
 </div>
@@ -2245,16 +2230,17 @@ Content-Length: 55
 <div class="paragraph">
 <p><code>POST /items/validateMetadata</code></p>
 </div>
-<div class="paragraph">
-<p>Validates metadata.</p>
-</div>
-<div class="paragraph">
-<p>An example of accepting subtypes.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2344,16 +2330,17 @@ X-Frame-Options: DENY</code></pre>
 <div class="paragraph">
 <p><code>POST /items/cloneItem</code></p>
 </div>
-<div class="paragraph">
-<p>Clones an item.</p>
-</div>
-<div class="paragraph">
-<p>An example of deprecation.</p>
-</div>
 <div class="sect3">
 <h4 id="_authorization_11"><a class="anchor" href="#_authorization_11"></a><a class="link" href="#_authorization_11">2.11.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2439,14 +2426,21 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_path_parameters_11"><a class="anchor" href="#_path_parameters_11"></a><a class="link" href="#_path_parameters_11">2.12.2. Path parameters</a></h4>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 3. /items/{id}</caption>
+    <caption class="title">Table 3. <code>/items/{id}</code></caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">

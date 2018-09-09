@@ -32,7 +32,6 @@
     </licenses>
 
     <properties>
-        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.2-SNAPSHOT</spring-auto-restdocs.version>

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java WebTestClient Example Project
+ * Spring Auto REST Docs Java WebFlux Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -19,19 +19,30 @@
  */
 package capital.scalable.restdocs.example.testsupport;
 
-import static capital.scalable.restdocs.AutoDocumentation.*;
+import static capital.scalable.restdocs.AutoDocumentation.authorization;
+import static capital.scalable.restdocs.AutoDocumentation.description;
+import static capital.scalable.restdocs.AutoDocumentation.methodAndPath;
+import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
+import static capital.scalable.restdocs.AutoDocumentation.requestFields;
+import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
+import static capital.scalable.restdocs.AutoDocumentation.responseFields;
+import static capital.scalable.restdocs.AutoDocumentation.section;
 import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
 import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.documentationConfiguration;
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.springSecurity;
 
 import java.util.function.Consumer;
 
+import capital.scalable.restdocs.webtestclient.WebTestClientInitializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -48,10 +59,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import capital.scalable.restdocs.webtestclient.WebTestClientInitializer;
 
 /**
  * Required set up code for WebTestClient tests.

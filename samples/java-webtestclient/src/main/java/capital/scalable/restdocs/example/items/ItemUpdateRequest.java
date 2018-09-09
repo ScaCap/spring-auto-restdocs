@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java WebTestClient Example Project
+ * Spring Auto REST Docs Java WebFlux Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -25,13 +25,11 @@ import javax.validation.constraints.Size;
 import capital.scalable.restdocs.example.constraints.English;
 import capital.scalable.restdocs.example.constraints.German;
 import capital.scalable.restdocs.example.constraints.OneOf;
-import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
  * Java object for the JSON request.
  */
-@Data
 class ItemUpdateRequest {
     /**
      * Some information about the item.
@@ -53,4 +51,20 @@ class ItemUpdateRequest {
             @OneOf(value = {"small", "big"}, groups = English.class)
     })
     private String type;
+
+    ItemUpdateRequest() {
+    }
+
+    ItemUpdateRequest(String description, String type) {
+        this.description = description;
+        this.type = type;
+    }
+
+    void setDescription(String description) {
+        this.description = description;
+    }
+
+    String getDescription() {
+        return description;
+    }
 }

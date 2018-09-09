@@ -15,7 +15,7 @@
     <artifactId>spring-auto-restdocs-java-webtestclient-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Spring Auto REST Docs Java WebTestClient Example Project</name>
+    <name>Spring Auto REST Docs Java WebFlux Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 
@@ -32,9 +32,6 @@
     </licenses>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
@@ -53,12 +50,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,14 +90,48 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
             <version>9.0.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.3</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <java.version>1.8</java.version>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <json-doclet.version.suffix></json-doclet.version.suffix>
+            </properties>
+            <modules>
+                <module>kotlin-webmvc</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java9</id>
+            <activation>
+                <jdk>10</jdk>
+            </activation>
+            <properties>
+                <java.version>9</java.version>
+                <maven.compiler.source>9</maven.compiler.source>
+                <maven.compiler.target>9</maven.compiler.target>
+                <json-doclet.version.suffix>-jdk9</json-doclet.version.suffix>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -218,7 +248,7 @@
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
                                 <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                                <version>${spring-auto-restdocs.version}</version>
+                                <version>${spring-auto-restdocs.version}${json-doclet.version.suffix}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>

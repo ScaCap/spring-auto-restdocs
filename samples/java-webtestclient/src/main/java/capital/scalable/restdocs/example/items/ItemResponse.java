@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java WebTestClient Example Project
+ * Spring Auto REST Docs Java WebFlux Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -25,12 +25,10 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 
 /**
  * Java object for a single JSON item.
  */
-@AllArgsConstructor
 class ItemResponse {
     /**
      * Unique ID. This text comes directly from Javadoc.
@@ -46,8 +44,7 @@ class ItemResponse {
      * <p>
      * An example of JsonSubType support.
      *
-     * @see
-     * <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling">
+     * @see <a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-Annotations#type-handling">
      * Jackson type documentation</a>
      */
     private Metadata meta;
@@ -74,5 +71,15 @@ class ItemResponse {
      */
     public String getDescription() {
         return desc;
+    }
+
+    ItemResponse(String id, String desc, Metadata meta, Attributes attributes, List<ItemResponse> children,
+            String[] tags) {
+        this.id = id;
+        this.desc = desc;
+        this.meta = meta;
+        this.attributes = attributes;
+        this.children = children;
+        this.tags = tags;
     }
 }

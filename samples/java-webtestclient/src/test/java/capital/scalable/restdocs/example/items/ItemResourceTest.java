@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java WebTestClient Example Project
+ * Spring Auto REST Docs Java WebFlux Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -26,14 +26,13 @@ import static org.springframework.restdocs.webtestclient.WebTestClientRestDocume
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-
 import capital.scalable.restdocs.example.items.ItemResource.Command;
 import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.WebTestClientTestBase;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 public class ItemResourceTest extends WebTestClientTestBase {
@@ -71,38 +70,40 @@ public class ItemResourceTest extends WebTestClientTestBase {
 				.consumeWith(commonDocumentation());
     }
 
-    @Test
-    public void addItem() {
+	@Ignore
+	@Test
+	public void addItem() {
 		ItemUpdateRequest data = new ItemUpdateRequest();
 		data.setDescription("Hot News");
-        webTestClient.mutate().filter(userToken()).build().post().uri("/items")
-                .contentType(MediaType.APPLICATION_JSON)
+		webTestClient.post().uri("/items")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.body(Mono.just(data), ItemUpdateRequest.class)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectHeader().valueEquals("location","http://localhost:8080/items/2")
 				.expectBody()
 				.consumeWith(commonDocumentation());
-    }
+	}
 
-    @Test
-    public void updateItem() {
+	@Ignore
+	@Test
+	public void updateItem() {
 		ItemUpdateRequest data = new ItemUpdateRequest();
 		data.setDescription("Hot News");
-        webTestClient.mutate().filter(userToken()).build().put().uri("/items/1")
-                .contentType(MediaType.APPLICATION_JSON)
+		webTestClient.put().uri("/items/1")
+				.contentType(MediaType.APPLICATION_JSON)
 				.body(Mono.just(data), ItemUpdateRequest.class)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
 				.jsonPath("$.id").isEqualTo("1")
-                .jsonPath("$.description"). isEqualTo("Hot News")
+				.jsonPath("$.description"). isEqualTo("Hot News")
 				.consumeWith(commonDocumentation());
-    }
+	}
 
     @Test
     public void deleteItem() {
-        webTestClient.mutate().filter(userToken()).build().delete().uri("/items/{id}", 1)
+		webTestClient.delete().uri("/items/{id}", 1)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()

@@ -639,8 +639,15 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 <div class="sect3">
 <h4 id="_authorization"><a class="anchor" href="#_authorization"></a><a class="link" href="#_authorization">2.1.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -877,8 +884,15 @@ Content-Length: 459
 </div>
 <div class="sect3">
 <h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1077,8 +1091,15 @@ Content-Length: 598
 </div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1145,7 +1166,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer f5f4f322-0af7-4c4b-b323-02f6fcf60514' \
+    -H 'Authorization: Bearer 41e3c00c-c4d2-4c00-a6cc-d93ea1c8efc9' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1179,8 +1200,15 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1382,7 +1410,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer f5f4f322-0af7-4c4b-b323-02f6fcf60514' \
+    -H 'Authorization: Bearer 41e3c00c-c4d2-4c00-a6cc-d93ea1c8efc9' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1433,8 +1461,15 @@ Item must exist.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: User access token required.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1488,7 +1523,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer f5f4f322-0af7-4c4b-b323-02f6fcf60514'</code></pre>
+    -H 'Authorization: Bearer 41e3c00c-c4d2-4c00-a6cc-d93ea1c8efc9'</code></pre>
 </div>
 </div>
 </div>
@@ -1523,8 +1558,15 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1744,8 +1786,15 @@ Content-Length: 133
 </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -1980,8 +2029,8 @@ Content-Length: 1011
     "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "unpaged" : false,
-    "paged" : true
+    "paged" : true,
+    "unpaged" : false
   },
   "total" : 1,
   "last" : true,
@@ -2014,8 +2063,15 @@ Content-Length: 1011
 </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2142,8 +2198,15 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2237,7 +2300,7 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process?command=increase' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process' -i -X POST \
     -H 'Content-Type: application/x-www-form-urlencoded' \
     -d 'command=increase'</code></pre>
 </div>
@@ -2277,8 +2340,15 @@ Content-Length: 55
 </div>
 <div class="sect3">
 <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2379,8 +2449,15 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_11"><a class="anchor" href="#_authorization_11"></a><a class="link" href="#_authorization_11">2.11.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
@@ -2467,14 +2544,21 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
-<div class="paragraph">
-<p>OAuth2: Resource is public.</p>
+    <div class="literalblock">
+        <div class="content">
+<pre>OAuth2:
+{
+    {
+        authorization
+    }
+}</pre>
+        </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_path_parameters_11"><a class="anchor" href="#_path_parameters_11"></a><a class="link" href="#_path_parameters_11">2.12.2. Path parameters</a></h4>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 3. /items/{id}</caption>
+    <caption class="title">Table 3. <code>/items/{id}</code></caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">

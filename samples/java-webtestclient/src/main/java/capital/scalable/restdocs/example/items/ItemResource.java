@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Java WebTestClient Example Project
+ * Spring Auto REST Docs Java WebFlux Example Project
  * %%
  * Copyright (C) 2015 - 2018 Scalable Capital GmbH
  * %%
@@ -35,8 +35,6 @@ import capital.scalable.restdocs.example.common.Money;
 import capital.scalable.restdocs.example.constraints.English;
 import capital.scalable.restdocs.example.constraints.German;
 import capital.scalable.restdocs.example.constraints.Id;
-import lombok.Data;
-import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -270,22 +268,43 @@ public class ItemResource {
         private String name;
     }
 
-    @Data
     static class Command {
         /**
          * Command to execute
          */
         @NotBlank
         private String command;
+
+        public Command() {
+        }
+
+        public Command(@NotBlank String command) {
+            this.command = command;
+        }
+
+        public String getCommand() {
+            return command;
+        }
+
+        public void setCommand(String command) {
+            this.command = command;
+        }
     }
 
-    @Value
     static class CommandResult {
         /**
          * Log output
          */
         @NotBlank
         private String output;
+
+        public CommandResult(String output) {
+            this.output = output;
+        }
+
+        public String getOutput() {
+            return output;
+        }
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

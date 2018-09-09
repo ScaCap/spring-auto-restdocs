@@ -96,6 +96,13 @@
             <version>9.0.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- just to enforce dependency to be built first -->
+        <dependency>
+            <groupId>capital.scalable</groupId>
+            <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+            <version>${project.parent.version}${json-doclet.version.suffix}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -123,7 +130,7 @@
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
                                 <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                                <version>${project.parent.version}</version>
+                                <version>${project.parent.version}${json-doclet.version.suffix}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>

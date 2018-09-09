@@ -18,17 +18,15 @@ before_install:
   -Dpackaging=jar -Dclassifier=test
 script:
 - mvn install -B -V
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
-  && cd spring-auto-restdocs-json-doclet-jdk9
-  && mvn install -B -V
 - cd samples
 - mvn install -B -V
 - cd java-webmvc
 - ./gradlew check
 - cd ..
-- cd kotlin-webmvc
-- ./gradlew check
-- cd ../..
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
+  && cd kotlin-webmvc
+  && ./gradlew check
+  && cd ../..
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"

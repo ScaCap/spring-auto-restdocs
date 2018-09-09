@@ -29,6 +29,7 @@
         <module>shared</module>
         <module>java-webmvc</module>
         <module>java-webtestclient</module>
-        <module>kotlin-webmvc</module>
     </modules>
+
+
 </project>

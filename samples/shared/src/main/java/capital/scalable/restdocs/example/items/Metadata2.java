@@ -26,6 +26,9 @@ public class Metadata2 extends Metadata {
      */
     private Integer order;
 
+    Metadata2() {
+    }
+
     public Metadata2(String type, Integer order) {
         super(type);
         this.order = order;

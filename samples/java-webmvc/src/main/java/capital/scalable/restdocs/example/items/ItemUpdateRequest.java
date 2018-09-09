@@ -25,13 +25,11 @@ import javax.validation.constraints.Size;
 import capital.scalable.restdocs.example.constraints.English;
 import capital.scalable.restdocs.example.constraints.German;
 import capital.scalable.restdocs.example.constraints.OneOf;
-import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
  * Java object for the JSON request.
  */
-@Data
 class ItemUpdateRequest {
     /**
      * Some information about the item.
@@ -53,4 +51,8 @@ class ItemUpdateRequest {
             @OneOf(value = {"small", "big"}, groups = English.class)
     })
     private String type;
+
+    String getDescription() {
+        return description;
+    }
 }
