@@ -29,7 +29,6 @@ import java.util.Map;
 import capital.scalable.restdocs.example.items.ItemResource.Command;
 import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.WebTestClientTestBase;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -70,13 +69,12 @@ public class ItemResourceTest extends WebTestClientTestBase {
 				.consumeWith(commonDocumentation());
     }
 
-	@Ignore
 	@Test
 	public void addItem() {
 		ItemUpdateRequest data = new ItemUpdateRequest();
 		data.setDescription("Hot News");
 		webTestClient.post().uri("/items")
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
 				.body(Mono.just(data), ItemUpdateRequest.class)
 				.exchange()
 				.expectStatus().isCreated()
@@ -85,7 +83,6 @@ public class ItemResourceTest extends WebTestClientTestBase {
 				.consumeWith(commonDocumentation());
 	}
 
-	@Ignore
 	@Test
 	public void updateItem() {
 		ItemUpdateRequest data = new ItemUpdateRequest();

@@ -73,7 +73,7 @@ class ItemResponse {
         return desc;
     }
 
-    ItemResponse(String id, String desc, Metadata meta, Attributes attributes, List<ItemResponse> children,
+    public ItemResponse(String id, String desc, Metadata meta, Attributes attributes, List<ItemResponse> children,
             String[] tags) {
         this.id = id;
         this.desc = desc;

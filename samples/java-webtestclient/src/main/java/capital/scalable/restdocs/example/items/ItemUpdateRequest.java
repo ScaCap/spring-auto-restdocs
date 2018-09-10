@@ -52,19 +52,19 @@ class ItemUpdateRequest {
     })
     private String type;
 
-    ItemUpdateRequest() {
+    public ItemUpdateRequest() {
     }
 
-    ItemUpdateRequest(String description, String type) {
+    public ItemUpdateRequest(String description, String type) {
         this.description = description;
         this.type = type;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 }
