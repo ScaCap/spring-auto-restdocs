@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#gettingstarted-requirements">Requirements</a></li>
 <li><a href="#gettingstarted-usage">Usage</a></li>
 <li><a href="#gettingstarted-snapshot">Snapshot build</a></li>
-    <li><a href="#gettingstarted-sample">Sample applications</a></li>
+<li><a href="#gettingstarted-sample">Sample application</a></li>
 </ul>
 </li>
 <li><a href="#snippets">Snippets</a>
@@ -565,18 +565,6 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
 This is demonstrated in the example project.</p>
 </li>
-    <li>
-        <p><em>Is Kotlin supported?</em></p>
-        <p>Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
-            Instead of the Javadoc Doclet one has to use the Dokka extension
-            <code>spring-auto-restdocs-dokka-json</code>. The extension is only available as 2.0.x,
-            but works with both version of Spring Auto REST Docs.</p>
-    </li>
-    <li>
-        <p><em>Is Java 9+ supported?</em></p>
-        <p>Not yet, because Java 9 introduced a new Doclet API and
-            we have not created a Java 9+ Doclet yet.</p>
-</li>
 </ol>
 </div>
 </div>
@@ -592,7 +580,7 @@ This is demonstrated in the example project.</p>
 <div class="ulist">
 <ul>
 <li>
-    <p>Java 8 or Kotlin 1.2</p>
+<p>Java 7</p>
 </li>
 <li>
     <p>Spring REST Docs 2.0.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/">documentation</a>)</p>
@@ -602,10 +590,6 @@ This is demonstrated in the example project.</p>
 </li>
 </ul>
 </div>
-    <div class="paragraph">
-        <p>For Java 7 and Spring REST Docs 1.2.x support,
-            please use the 1.0.x version of Spring Auto REST Docs.</p>
-    </div>
 </div>
 <div class="sect2">
 <h3 id="gettingstarted-usage"><a class="link" href="#gettingstarted-usage">Usage</a></h3>
@@ -871,23 +855,14 @@ public void setUp() throws Exception {
 </div>
 </div>
 <div class="sect2">
-    <h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample applications</a></h3>
+<h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample application</a></h3>
 <div class="paragraph">
-    <p>This projects includes a
-        <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc">Java Web MVC example</a>,
-        a
-        <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webtestclient">Java WebTestClient example</a>
-        and a
-        <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc">Kotlin Web MVC example</a>
-        application that demonstrate most features.</p>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a>
+includes a sample application that demonstrates most features.</p>
 </div>
 <div class="paragraph">
-    <p>The generated documentation can be viewed for the
-        <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html">Java Web MVC example</a>,
-        the
-        <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webtestclient/generated-docs/index.html">Java WebTestClient example</a>
-        and the
-        <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html">Kotlin Web MCV example</a>.</p>
+<p>The generated documentation of the example project can be viewed
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
 </div>
 </div>
 </div>
@@ -1926,7 +1901,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.2-SNAPSHOT<br>
-    Last updated 2018-09-09 20:06:09 CEST
+    Last updated 2018-08-21 17:26:42 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
