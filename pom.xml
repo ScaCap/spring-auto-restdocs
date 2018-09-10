@@ -198,7 +198,7 @@
         <profile>
             <id>java9</id>
             <activation>
-                <jdk>10</jdk>
+                <jdk>9</jdk>
             </activation>
             <properties>
                 <java.version>9</java.version>
