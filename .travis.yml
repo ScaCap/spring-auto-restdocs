@@ -20,6 +20,8 @@ script:
 - mvn install -B -V
 - cd samples
 - mvn install -B -V
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd java-webmvc && ./gradlew check && cd .. || (exit 0)
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
 after_success:
 - test "$TRAVIS_BRANCH" = "master"
   && test "$TRAVIS_PULL_REQUEST" = "false"
