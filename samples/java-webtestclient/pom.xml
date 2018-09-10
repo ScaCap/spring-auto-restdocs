@@ -15,7 +15,7 @@
     <artifactId>spring-auto-restdocs-java-webtestclient-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Spring Auto REST Docs Java WebFlux Example Project</name>
+    <name>Spring Auto REST Docs Java WebTestClient Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
     <url>https://github.com/scacap/spring-auto-restdocs</url>
 
@@ -36,6 +36,7 @@
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.2-SNAPSHOT</spring-auto-restdocs.version>
+        <json-doclet.version.suffix></json-doclet.version.suffix>
     </properties>
 
     <dependencies>
@@ -113,13 +114,12 @@
                 <java.version>1.8</java.version>
                 <maven.compiler.source>1.8</maven.compiler.source>
                 <maven.compiler.target>1.8</maven.compiler.target>
-                <json-doclet.version.suffix></json-doclet.version.suffix>
             </properties>
         </profile>
         <profile>
             <id>java9</id>
             <activation>
-                <jdk>10</jdk>
+                <jdk>9</jdk>
             </activation>
             <properties>
                 <java.version>9</java.version>
