@@ -99,8 +99,8 @@
         <!-- just to enforce dependency to be built first -->
         <dependency>
             <groupId>capital.scalable</groupId>
-            <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-            <version>${project.parent.version}${json-doclet.version.suffix}</version>
+            <artifactId>spring-auto-restdocs-json-doclet${json-doclet.suffix}</artifactId>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -129,8 +129,8 @@
                             <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
-                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
-                                <version>${project.parent.version}${json-doclet.version.suffix}</version>
+                                <artifactId>spring-auto-restdocs-json-doclet${json-doclet.suffix}</artifactId>
+                                <version>${project.parent.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>

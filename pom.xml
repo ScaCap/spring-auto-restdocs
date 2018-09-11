@@ -54,7 +54,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
-        <json-doclet.version.suffix></json-doclet.version.suffix>
+        <json-doclet.suffix></json-doclet.suffix>
     </properties>
 
     <build>
@@ -188,7 +188,7 @@
                 <java.version>1.8</java.version>
                 <maven.compiler.source>1.8</maven.compiler.source>
                 <maven.compiler.target>1.8</maven.compiler.target>
-                <json-doclet.version.suffix></json-doclet.version.suffix>
+                <json-doclet.suffix></json-doclet.suffix>
             </properties>
             <modules>
                 <module>spring-auto-restdocs-json-doclet</module>
@@ -204,7 +204,7 @@
                 <java.version>9</java.version>
                 <maven.compiler.source>9</maven.compiler.source>
                 <maven.compiler.target>9</maven.compiler.target>
-                <json-doclet.version.suffix>-jdk9</json-doclet.version.suffix>
+                <json-doclet.suffix>-jdk9</json-doclet.suffix>
             </properties>
             <modules>
                 <module>spring-auto-restdocs-json-doclet-jdk9</module>
