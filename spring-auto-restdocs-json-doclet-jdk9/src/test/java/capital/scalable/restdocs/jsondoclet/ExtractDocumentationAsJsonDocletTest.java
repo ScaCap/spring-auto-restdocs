@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 

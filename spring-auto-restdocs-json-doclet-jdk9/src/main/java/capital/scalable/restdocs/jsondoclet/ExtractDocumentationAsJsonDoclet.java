@@ -31,9 +31,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.javadoc.doclet.Doclet;
 import jdk.javadoc.doclet.DocletEnvironment;
 import jdk.javadoc.doclet.StandardDoclet;
 
@@ -42,10 +44,12 @@ import jdk.javadoc.doclet.StandardDoclet;
  */
 public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
 
+    private String directoryLocationPath;
+
+
     @Override
     public boolean run(DocletEnvironment docEnv) {
-
-        Path destinationDir = Paths.get("../generated-javadoc-json").toAbsolutePath();
+        Path destinationDir = getDestinationDir();
         ObjectMapper mapper = createObjectMapper();
 
         docEnv.getIncludedElements()
@@ -62,6 +66,30 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
         return true;
     }
 
+    private Path getDestinationDir() {
+        if (directoryLocationPath != null) {
+            return Paths.get(directoryLocationPath).toAbsolutePath();
+        } else {
+            return Paths.get("../generated-javadoc-json").toAbsolutePath();
+        }
+    }
+
+    @Override
+    public Set<Doclet.Option> getSupportedOptions() {
+        Set<Doclet.Option> result = new HashSet<>();
+
+        Doclet.Option directoryLocationOption = new DirectoryLocationOption() {
+            @Override
+            public boolean process(String opt, List<String> args) {
+                directoryLocationPath = args.get(0);
+                return true;
+            }
+        };
+        result.add(directoryLocationOption);
+        result.addAll(super.getSupportedOptions());
+        return result;
+    }
+
     private static PackageElement findPackageElement(Element classOrInterface) {
         Element pkg = classOrInterface.getEnclosingElement();
         int i = 10;
@@ -76,8 +104,8 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
     }
 
     private static void writeToFile(Path destinationDir, ObjectMapper mapper,
-            PackageElement packageElement, TypeElement classOrInterface,
-            ClassDocumentation cd) {
+                                    PackageElement packageElement, TypeElement classOrInterface,
+                                    ClassDocumentation cd) {
         try {
             Path path = path(destinationDir, packageElement, classOrInterface);
             try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
@@ -90,7 +118,7 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
     }
 
     private static Path path(Path destinationDir, PackageElement packageElement,
-            TypeElement classOrInterface) throws IOException {
+                             TypeElement classOrInterface) throws IOException {
         String packageName = packageElement.getQualifiedName().toString();
         String packageDir = packageName.replace(".", File.separator);
         Path packagePath = Paths.get(packageDir);
