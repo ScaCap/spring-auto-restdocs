@@ -23,8 +23,8 @@
                 <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
                 <gpg.defaultKeyring>false</gpg.defaultKeyring>
-                <gpg.publicKeyring>deploy/pubring.gpg</gpg.publicKeyring>
-                <gpg.secretKeyring>deploy/secring.gpg</gpg.secretKeyring>
+                <gpg.publicKeyring>${env.DEPLOY_DIR}/pubring.gpg</gpg.publicKeyring>
+                <gpg.secretKeyring>${env.DEPLOY_DIR}/secring.gpg</gpg.secretKeyring>
             </properties>
         </profile>
     </profiles>
