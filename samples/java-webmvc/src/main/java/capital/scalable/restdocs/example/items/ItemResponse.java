@@ -25,12 +25,10 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 
 /**
  * Java object for a single JSON item.
  */
-@AllArgsConstructor
 class ItemResponse {
     /**
      * Unique ID. This text comes directly from Javadoc.
@@ -67,6 +65,16 @@ class ItemResponse {
      * Tags.
      */
     private String[] tags;
+
+    ItemResponse(String id, String desc, Metadata meta, Attributes attributes, List<ItemResponse> children,
+            String[] tags) {
+        this.id = id;
+        this.desc = desc;
+        this.meta = meta;
+        this.attributes = attributes;
+        this.children = children;
+        this.tags = tags;
+    }
 
     /**
      * Some information | description about the item.

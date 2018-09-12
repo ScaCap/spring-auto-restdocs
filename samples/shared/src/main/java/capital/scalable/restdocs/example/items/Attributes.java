@@ -29,12 +29,10 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 import capital.scalable.restdocs.example.common.Money;
-import lombok.Value;
 
 /**
  * Various attributes about the item.
  */
-@Value
 public class Attributes {
     /**
      * Textual attribute.
@@ -69,4 +67,13 @@ public class Attributes {
      */
     @NotNull
     private EnumType enumType;
+
+    Attributes(String text, Integer number, Boolean bool, BigDecimal decimal, Money amount, EnumType enumType) {
+        this.text = text;
+        this.number = number;
+        this.bool = bool;
+        this.decimal = decimal;
+        this.amount = amount;
+        this.enumType = enumType;
+    }
 }

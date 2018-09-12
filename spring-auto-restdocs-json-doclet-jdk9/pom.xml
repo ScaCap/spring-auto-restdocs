@@ -9,10 +9,11 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+    <artifactId>spring-auto-restdocs-json-doclet-jdk9</artifactId>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Spring Auto REST Docs Json Doclet</name>
+    <name>Spring Auto REST Docs Json Doclet for JDK9+</name>
     <description>Doclet exporting JavaDoc to JSON for Spring Auto REST Docs</description>
 
     <properties>
@@ -20,14 +21,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.4.2</version>
-            <scope>system</scope>
-            <optional>true</optional>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -58,6 +51,12 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>9</release>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <extensions>true</extensions>
                 <executions>
@@ -71,7 +70,7 @@
                             <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
-                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                                <artifactId>spring-auto-restdocs-json-doclet-jdk9</artifactId>
                                 <version>${project.parent.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
