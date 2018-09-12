@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -48,4 +47,5 @@ public class ExtractDocumentationAsJsonDocletTest {
                 this.getClass().getClassLoader().getResourceAsStream(JSON_PATH), UTF_8);
         JSONAssert.assertEquals(expected, generated, false);
     }
+}
 }
