@@ -36,7 +36,6 @@
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.2-SNAPSHOT</spring-auto-restdocs.version>
-        <json-doclet.version.suffix></json-doclet.version.suffix>
     </properties>
 
     <dependencies>
@@ -246,7 +245,7 @@
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
                                 <artifactId>${json-doclet.artifactId}</artifactId>
-                                <version>${spring-auto-restdocs.version}${json-doclet.version.suffix}</version>
+                                <version>${spring-auto-restdocs.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>

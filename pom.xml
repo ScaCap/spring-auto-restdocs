@@ -49,7 +49,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
-        <json-doclet.version.suffix></json-doclet.version.suffix>
     </properties>
 
     <build>

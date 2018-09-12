@@ -123,7 +123,7 @@
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
                                 <artifactId>${json-doclet.artifactId}</artifactId>
-                                <version>${project.parent.version}${json-doclet.version.suffix}</version>
+                                <version>${project.parent.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
