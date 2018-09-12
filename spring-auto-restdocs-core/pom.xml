@@ -122,7 +122,7 @@
                             <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
-                                <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                                <artifactId>${json-doclet.artifactId}</artifactId>
                                 <version>${project.parent.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>

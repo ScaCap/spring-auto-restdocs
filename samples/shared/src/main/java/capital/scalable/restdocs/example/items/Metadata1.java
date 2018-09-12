@@ -20,14 +20,14 @@
 
 package capital.scalable.restdocs.example.items;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
 public class Metadata1 extends Metadata {
     /**
      * Tag attribute. Available only if metadata type=1
      */
     private String tag;
+
+    Metadata1() {
+    }
 
     public Metadata1(String type, String tag) {
         super(type);

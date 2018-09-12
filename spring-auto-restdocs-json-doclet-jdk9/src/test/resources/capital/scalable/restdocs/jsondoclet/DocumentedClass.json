@@ -1,0 +1,44 @@
+{
+  "comment": "This is a test class. UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép",
+  "fields": {
+    "path": {
+      "comment": "Path within location",
+      "tags": {}
+    },
+    "location": {
+      "comment": "Location of resource",
+      "tags": {
+        "see": "path"
+      }
+    },
+    "notDocumented": {
+      "comment": "",
+      "tags": {}
+    }
+  },
+  "methods": {
+    "initiate": {
+      "comment": "Initiates request",
+      "parameters": {
+        "force": "true if force",
+        "when": "when to initiate"
+      },
+      "tags": {
+        "deprecated": "use other method",
+        "title": "Do initiate"
+      }
+    },
+    "execute": {
+      "comment": "Executes request on specified location",
+      "parameters": {},
+      "tags": {
+        "title": "Execute request"
+      }
+    },
+    "notDocumented": {
+      "comment": "",
+      "parameters": {},
+      "tags": {}
+    }
+  }
+}
