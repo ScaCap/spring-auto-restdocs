@@ -36,7 +36,6 @@
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>2.0.2.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.2-SNAPSHOT</spring-auto-restdocs.version>
-        <json-doclet.suffix></json-doclet.suffix>
     </properties>
 
     <dependencies>
@@ -119,6 +118,7 @@
                 <java.version>1.8</java.version>
                 <maven.compiler.source>1.8</maven.compiler.source>
                 <maven.compiler.target>1.8</maven.compiler.target>
+                <json-doclet.artifactId>spring-auto-restdocs-json-doclet</json-doclet.artifactId>
             </properties>
         </profile>
         <profile>
@@ -130,7 +130,7 @@
                 <java.version>9</java.version>
                 <maven.compiler.source>9</maven.compiler.source>
                 <maven.compiler.target>9</maven.compiler.target>
-                <json-doclet.suffix>-jdk9</json-doclet.suffix>
+                <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
             </properties>
         </profile>
     </profiles>
@@ -249,7 +249,7 @@
                             <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                             <docletArtifact>
                                 <groupId>capital.scalable</groupId>
-                                <artifactId>spring-auto-restdocs-json-doclet${json-doclet.suffix}</artifactId>
+                                <artifactId>${json-doclet.artifactId}</artifactId>
                                 <version>${spring-auto-restdocs.version}</version>
                             </docletArtifact>
                             <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
