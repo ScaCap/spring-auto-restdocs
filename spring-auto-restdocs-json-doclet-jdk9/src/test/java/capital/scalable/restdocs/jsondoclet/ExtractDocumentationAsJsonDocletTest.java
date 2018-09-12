@@ -48,4 +48,3 @@ public class ExtractDocumentationAsJsonDocletTest {
         JSONAssert.assertEquals(expected, generated, false);
     }
 }
-}
