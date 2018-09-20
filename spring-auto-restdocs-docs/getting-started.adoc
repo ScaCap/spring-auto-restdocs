@@ -13,6 +13,8 @@ Spring Auto REST Docs has the following minimum requirements:
 For Java 7 and Spring REST Docs 1.2.x support,
 please use the 1.0.x version of Spring Auto REST Docs.
 
+For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
+
 [[gettingstarted-usage]]
 === Usage
 
@@ -62,7 +64,7 @@ please use the 1.0.x version of Spring Auto REST Docs.
                         <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                         <docletArtifact>
                             <groupId>capital.scalable</groupId>
-                            <artifactId>spring-auto-restdocs-json-doclet</artifactId>
+                            <artifactId>spring-auto-restdocs-json-doclet</artifactId> <4>
                             <version>${latestRelease}</version>
                         </docletArtifact>
                         <destDir>generated-javadoc-json</destDir> <3>
@@ -82,6 +84,7 @@ please use the 1.0.x version of Spring Auto REST Docs.
 <3> (Optional) Determines where JSON files are saved. Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
+<4> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
 
 +
 [source,javascript]
@@ -97,7 +100,7 @@ ext {
 
 dependencies {
     testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '${latestRelease}' <1>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '${latestRelease}'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '${latestRelease}' <4>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -126,6 +129,7 @@ jar {
 Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
+<4> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
 
 . Configure MockMvc or WebTestClient
 +

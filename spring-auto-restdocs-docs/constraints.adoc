@@ -32,14 +32,20 @@ Size must be between 2 and 50.
 |===
 
 [[constraints-optionality]]
-=== Constraint that determine optionality
+=== Constraints that determine optionality
 
 The following three constraints are used to determine whether a field is optional.
 Their descriptions are not included in the field descriptions.
 
-* NotNull (Bean Validation)
-* NotEmpty (Hibernate Validator)
-* NotBlank (Hibernate Validator)
+* NotNull
+* NotEmpty
+* NotBlank
+
+Along with JSR-303 annotations, optionality is also determined based on:
+
+* `required` parameter of `@RequestParam`
+* field type being `java.util.Optional`
+* Koltin field being non-nullable
 
 [[constraints-custom]]
 === Custom constraints
