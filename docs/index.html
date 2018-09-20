@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#gettingstarted-requirements">Requirements</a></li>
 <li><a href="#gettingstarted-usage">Usage</a></li>
 <li><a href="#gettingstarted-snapshot">Snapshot build</a></li>
-<li><a href="#gettingstarted-sample">Sample application</a></li>
+<li><a href="#gettingstarted-sample">Sample applications</a></li>
 </ul>
 </li>
 <li><a href="#snippets">Snippets</a>
@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#constraints">Documenting constraints</a>
 <ul class="sectlevel2">
-<li><a href="#constraints-optionality">Constraint that determine optionality</a></li>
+<li><a href="#constraints-optionality">Constraints that determine optionality</a></li>
 <li><a href="#constraints-custom">Custom constraints</a></li>
 <li><a href="#constraints-enums">Enums</a></li>
 <li><a href="#constraints-readable-values">Readable constraint values</a></li>
@@ -565,6 +565,17 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
 This is demonstrated in the example project.</p>
 </li>
+<li>
+<p><em>Is Kotlin supported?</em></p>
+<p>Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
+Instead of the Javadoc Doclet one has to use the Dokka extension
+<code>spring-auto-restdocs-dokka-json</code>. The extension is only available as 2.0.x,
+but works with both version of Spring Auto REST Docs.</p>
+</li>
+<li>
+<p><em>Is Java 9 supported?</em></p>
+<p>Yes, see <a href="#getting-started">Getting Started</a>.</p>
+</li>
 </ol>
 </div>
 </div>
@@ -580,15 +591,22 @@ This is demonstrated in the example project.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Java 7</p>
+<p>Java 8 or Kotlin 1.2</p>
 </li>
 <li>
-    <p>Spring REST Docs 2.0.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 2.0.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>For Java 7 and Spring REST Docs 1.2.x support,
+please use the 1.0.x version of Spring Auto REST Docs.</p>
+</div>
+<div class="paragraph">
+<p>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</p>
 </div>
 </div>
 <div class="sect2">
@@ -596,7 +614,7 @@ This is demonstrated in the example project.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-    <p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -642,7 +660,7 @@ This is demonstrated in the example project.</p>
                         &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
-                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt;
+                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="4"></i><b>(4)</b>
                             &lt;version&gt;2.0.1&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
@@ -674,6 +692,10 @@ This is demonstrated in the example project.</p>
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
+</tr>
 </table>
 </div>
 <div class="listingblock">
@@ -689,7 +711,7 @@ ext {
 
 dependencies {
     testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.1' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.1'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.1' <i class="conum" data-value="4"></i><b>(4)</b>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -729,6 +751,10 @@ jar {
 Defaults to <code>generated-javadoc-json</code> in build directory.
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
 </tr>
 </table>
 </div>
@@ -855,14 +881,23 @@ public void setUp() throws Exception {
 </div>
 </div>
 <div class="sect2">
-<h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample application</a></h3>
+<h3 id="gettingstarted-sample"><a class="link" href="#gettingstarted-sample">Sample applications</a></h3>
 <div class="paragraph">
-<p><a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-example">This project</a>
-includes a sample application that demonstrates most features.</p>
+<p>This projects includes a
+<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc">Java Web MVC example</a>,
+a
+<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webtestclient">Java WebTestClient example</a>
+and a
+<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc">Kotlin Web MVC example</a>
+application that demonstrate most features.</p>
 </div>
 <div class="paragraph">
-<p>The generated documentation of the example project can be viewed
-<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-example/generated-docs/index.html">here</a>.</p>
+<p>The generated documentation can be viewed for the
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html">Java Web MVC example</a>,
+the
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webtestclient/generated-docs/index.html">Java WebTestClient example</a>
+and the
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html">Kotlin Web MCV example</a>.</p>
 </div>
 </div>
 </div>
@@ -1522,11 +1557,10 @@ You can also <a href="#snippets-section-custom-snippet">include your custom snip
 <h3 id="snippets-customization"><a class="link" href="#snippets-customization">Snippet customization</a></h3>
 <div class="paragraph">
 <p>Provide your own template in <code>org/springframework/restdocs/templates/asciidoctor</code> (or <code>markdown</code>) package of your resources.
-    You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.2.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs
-        templates</a>
+You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.2.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
 and <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates">Auto REST Docs templates</a>.
 Important is to omit <code>default-</code> part from the template name so that the resolution algorithm will prefer this custom template.
-    See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
+See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
 </div>
 </div>
 </div>
@@ -1579,7 +1613,7 @@ private String username;</code></pre>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="constraints-optionality"><a class="link" href="#constraints-optionality">Constraint that determine optionality</a></h3>
+<h3 id="constraints-optionality"><a class="link" href="#constraints-optionality">Constraints that determine optionality</a></h3>
 <div class="paragraph">
 <p>The following three constraints are used to determine whether a field is optional.
 Their descriptions are not included in the field descriptions.</p>
@@ -1587,13 +1621,29 @@ Their descriptions are not included in the field descriptions.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>NotNull (Bean Validation)</p>
+<p>NotNull</p>
 </li>
 <li>
-<p>NotEmpty (Hibernate Validator)</p>
+<p>NotEmpty</p>
 </li>
 <li>
-<p>NotBlank (Hibernate Validator)</p>
+<p>NotBlank</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Along with JSR-303 annotations, optionality is also determined based on:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>required</code> parameter of <code>@RequestParam</code></p>
+</li>
+<li>
+<p>field type being <code>java.util.Optional</code></p>
+</li>
+<li>
+<p>Koltin field being non-nullable</p>
 </li>
 </ul>
 </div>
@@ -1606,7 +1656,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-    For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -1849,7 +1899,7 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
 </div>
 <div class="paragraph">
-    <p>We use version 2.0.2.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 2.0.2.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
@@ -1881,7 +1931,7 @@ git checkout tags/v2.0.2.RELEASE
 </div>
 <div class="paragraph">
 <p>Afterwards the test JAR is located at
-    <code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.2.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.2.RELEASE-test.jar</code>
 and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
@@ -1901,7 +1951,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.2-SNAPSHOT<br>
-    Last updated 2018-08-21 17:26:42 CEST
+Last updated 2018-09-20 10:03:44 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

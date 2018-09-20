@@ -63,9 +63,8 @@ Is Kotlin supported?::
   Instead of the Javadoc Doclet one has to use the Dokka extension
   `spring-auto-restdocs-dokka-json`. The extension is only available as 2.0.x,
   but works with both version of Spring Auto REST Docs.
-Is Java 9+ supported?::
-  Not yet, because Java 9 introduced a new Doclet API and
-  we have not created a Java 9+ Doclet yet.
+Is Java 9 supported?::
+  Yes, see <<getting-started,Getting Started>>.
 
 include::getting-started.adoc[]
 
