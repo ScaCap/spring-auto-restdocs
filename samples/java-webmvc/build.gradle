@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springAutoRestDocsVersion = "2.0.2-SNAPSHOT"
+        springAutoRestDocsVersion = "2.0.2"
         springRestDocsVersion = "2.0.2.RELEASE"
         springBootVersion = "2.0.4.RELEASE"
     }
