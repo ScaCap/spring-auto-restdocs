@@ -39,10 +39,18 @@ you write even less.
 == FAQ
 
 [qanda]
-Does it work with Spring MVC tests?::
-  Yes, it is easy to use in existing or new Spring MVC tests. Take a look at the example.
-Does it work with Spring WebTestClient?::
-  Yes, but only basic support yet. Take a look at the example.
+Does it work with Spring Web MVC tests?::
+  Yes, take a look at the https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc[example].
+Does it work with Spring WebFlux?::
+  Yes, take a look at the https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webflux[example].
+Is Kotlin supported?::
+  Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
+  Instead of the Javadoc Doclet one has to use the Dokka extension
+  `spring-auto-restdocs-dokka-json`. The extension is only available as 2.0.x,
+  but works with both version of Spring Auto REST Docs. Take a look at the
+  https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[example].
+Is Java 9 supported?::
+  Yes, see <<getting-started,Getting Started>>.
 Does it work with REST Assured tests?::
   Not yet. We may add support for REST Assured in the future, but your PR is also welcome.
 Is Jackson required for automatic field documentation?::
@@ -58,13 +66,6 @@ Can Spring REST Docs and Spring Auto REST Docs features be combined?::
   Yes, this even works in the same test.
   One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
   This is demonstrated in the example project.
-Is Kotlin supported?::
-  Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
-  Instead of the Javadoc Doclet one has to use the Dokka extension
-  `spring-auto-restdocs-dokka-json`. The extension is only available as 2.0.x,
-  but works with both version of Spring Auto REST Docs.
-Is Java 9 supported?::
-  Yes, see <<getting-started,Getting Started>>.
 
 include::getting-started.adoc[]
 
