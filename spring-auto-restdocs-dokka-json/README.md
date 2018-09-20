@@ -43,7 +43,7 @@ Example usage:
 
 ## Usage with Gradle
 
-Starting with version 2.0.2, this Dokka extension can be used with the `dokka-gradle-plugin`.
+Dokka extension can be used with the `dokka-gradle-plugin`.
 To avoid any incompatibilities, the Dokka version of the `dokka-gradle-plugin` and of this extension should be the same.
 If this extension is set as the `dokkaFatJar` in the dokka task, the output format `auto-restdocs-json` can be used.
 
