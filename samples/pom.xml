@@ -28,7 +28,7 @@
     <modules>
         <module>shared</module>
         <module>java-webmvc</module>
-        <module>java-webtestclient</module>
+        <module>java-webflux</module>
     </modules>
 
     <profiles>

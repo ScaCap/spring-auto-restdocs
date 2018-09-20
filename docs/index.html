@@ -535,12 +535,24 @@ you write even less.</p>
 <div class="qlist qanda">
 <ol>
 <li>
-<p><em>Does it work with Spring MVC tests?</em></p>
-<p>Yes, it is easy to use in existing or new Spring MVC tests. Take a look at the example.</p>
+<p><em>Does it work with Spring Web MVC tests?</em></p>
+<p>Yes, take a look at the <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc">example</a>.</p>
 </li>
 <li>
-<p><em>Does it work with Spring WebTestClient?</em></p>
-<p>Yes, but only basic support yet. Take a look at the example.</p>
+<p><em>Does it work with Spring WebFlux?</em></p>
+<p>Yes, take a look at the <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webflux">example</a>.</p>
+</li>
+<li>
+<p><em>Is Kotlin supported?</em></p>
+<p>Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
+Instead of the Javadoc Doclet one has to use the Dokka extension
+<code>spring-auto-restdocs-dokka-json</code>. The extension is only available as 2.0.x,
+but works with both version of Spring Auto REST Docs. Take a look at the
+<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc">example</a>.</p>
+</li>
+<li>
+<p><em>Is Java 9 supported?</em></p>
+<p>Yes, see <a href="#getting-started">Getting Started</a>.</p>
 </li>
 <li>
 <p><em>Does it work with REST Assured tests?</em></p>
@@ -564,17 +576,6 @@ can be configured (see <a href="#gettingstarted-usage">usage</a>).</p>
 <p>Yes, this even works in the same test.
 One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
 This is demonstrated in the example project.</p>
-</li>
-<li>
-<p><em>Is Kotlin supported?</em></p>
-<p>Yes, Spring Auto REST Docs 1.0.13 and 2.0.0 introduced Kotlin support.
-Instead of the Javadoc Doclet one has to use the Dokka extension
-<code>spring-auto-restdocs-dokka-json</code>. The extension is only available as 2.0.x,
-but works with both version of Spring Auto REST Docs.</p>
-</li>
-<li>
-<p><em>Is Java 9 supported?</em></p>
-<p>Yes, see <a href="#getting-started">Getting Started</a>.</p>
 </li>
 </ol>
 </div>
@@ -886,7 +887,7 @@ public void setUp() throws Exception {
 <p>This projects includes a
 <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webmvc">Java Web MVC example</a>,
 a
-<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webtestclient">Java WebTestClient example</a>
+<a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webflux">Java WebFlux example</a>
 and a
 <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc">Kotlin Web MVC example</a>
 application that demonstrate most features.</p>
@@ -895,7 +896,7 @@ application that demonstrate most features.</p>
 <p>The generated documentation can be viewed for the
 <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webmvc/generated-docs/index.html">Java Web MVC example</a>,
 the
-<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webtestclient/generated-docs/index.html">Java WebTestClient example</a>
+<a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/java-webflux/generated-docs/index.html">Java WebFlux example</a>
 and the
 <a href="https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/generated-docs/index.html">Kotlin Web MCV example</a>.</p>
 </div>
@@ -1951,7 +1952,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.2-SNAPSHOT<br>
-Last updated 2018-09-20 10:03:44 CEST
+Last updated 2018-09-20 10:38:11 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
