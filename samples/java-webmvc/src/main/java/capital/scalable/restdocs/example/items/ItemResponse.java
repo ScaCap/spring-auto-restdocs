@@ -25,11 +25,12 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.Identifiable;
 
 /**
  * Java object for a single JSON item.
  */
-class ItemResponse {
+class ItemResponse implements Identifiable<String> {
     /**
      * Unique ID. This text comes directly from Javadoc.
      */
@@ -81,5 +82,10 @@ class ItemResponse {
      */
     public String getDescription() {
         return desc;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 }

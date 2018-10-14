@@ -46,7 +46,7 @@ import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.web.method.HandlerMethod;
 
-abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
+public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implements SectionSupport {
 
     private static Class<?> SCALA_TRAVERSABLE;
 

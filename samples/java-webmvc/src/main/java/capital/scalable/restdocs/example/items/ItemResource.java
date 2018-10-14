@@ -21,6 +21,8 @@ package capital.scalable.restdocs.example.items;
 
 import static capital.scalable.restdocs.example.items.EnumType.ONE;
 import static java.util.Collections.singletonList;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -35,6 +37,7 @@ import capital.scalable.restdocs.example.common.Money;
 import capital.scalable.restdocs.example.constraints.English;
 import capital.scalable.restdocs.example.constraints.German;
 import capital.scalable.restdocs.example.constraints.Id;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -63,19 +66,18 @@ public class ItemResource {
 
     private static final BigDecimal DECIMAL = new BigDecimal("1.11");
     private static final BigDecimal AMOUNT = new BigDecimal("3.14");
-
     private static final ItemResponse CHILD =
             new ItemResponse("child-1", "first child", null, null, null, null);
-
+    private static final Attributes ATTRIBUTES =
+            new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE);
+    private static final Metadata1 META = new Metadata1("1", "meta1");
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", new Metadata1("1", "meta1"),
-                    new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE),
-                    singletonList(CHILD), new String[]{"top-level"});
+            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
 
     /**
      * Returns item by ID.
      * <p>
-     * An example of returning a custom response type.
+     * An example of returning a custom response type and custom exception with response status.
      *
      * @param id ID of the item.
      * @return response
@@ -260,6 +262,29 @@ public class ItemResource {
     @Deprecated
     @PostMapping("cloneItem")
     public void cloneItem(@RequestBody CloneData data) {
+    }
+
+    /**
+     * Returns item with hypermedia.
+     * <p>
+     * An example of returning a resource with hypermedia links and embedded resources.
+     *
+     * @param id ID of the item.
+     * @return response and links
+     */
+    @GetMapping("media/{id}")
+    public HypermediaItemResponse getItemAsResource(@PathVariable("id") @Id String id,
+            @RequestParam(name = "embedded", required = false) Boolean embedded) {
+        HypermediaItemResponse response = new HypermediaItemResponse(id, "hypermedia item");
+        response.add(linkTo(methodOn(ItemResource.class).getItemAsResource(id, embedded)).withSelfRel());
+        response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
+        response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
+        if (BooleanUtils.isTrue(embedded)) {
+            response.embed("children", new Object[]{CHILD});
+            response.embed("attributes", ATTRIBUTES);
+            response.embed("meta", META);
+        }
+        return response;
     }
 
     static class CloneData {

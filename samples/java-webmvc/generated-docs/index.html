@@ -1140,18 +1140,24 @@ Size must be between 0 and 1000 inclusive.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.6. Example request</a></h4>
+    <h4 id="_hypermedia_links"><a class="anchor" href="#_hypermedia_links"></a><a class="link" href="#_hypermedia_links">2.3.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 9d03cbea-64a5-4c71-a4e3-74652b869747' \
+    -H 'Authorization: Bearer c0e08bb3-ae9a-4aaf-be2e-0fe2a4cb1cfe' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.7. Example response</a></h4>
+    <h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1377,18 +1383,24 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_2"><a class="anchor" href="#_hypermedia_links_2"></a><a class="link" href="#_hypermedia_links_2">2.4.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 9d03cbea-64a5-4c71-a4e3-74652b869747' \
+    -H 'Authorization: Bearer c0e08bb3-ae9a-4aaf-be2e-0fe2a4cb1cfe' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.7. Example response</a></h4>
+    <h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1484,16 +1496,22 @@ Item must exist.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_3"><a class="anchor" href="#_hypermedia_links_3"></a><a class="link" href="#_hypermedia_links_3">2.5.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 9d03cbea-64a5-4c71-a4e3-74652b869747'</code></pre>
+    -H 'Authorization: Bearer c0e08bb3-ae9a-4aaf-be2e-0fe2a4cb1cfe'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.7. Example response</a></h4>
+    <h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1695,7 +1713,13 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_4"><a class="anchor" href="#_hypermedia_links_4"></a><a class="link" href="#_hypermedia_links_4">2.6.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i -X GET</code></pre>
@@ -1703,7 +1727,7 @@ Must be at most 10.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.7. Example response</a></h4>
+    <h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1922,7 +1946,13 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_5"><a class="anchor" href="#_hypermedia_links_5"></a><a class="link" href="#_hypermedia_links_5">2.7.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i -X GET</code></pre>
@@ -1930,7 +1960,7 @@ Must be at most 10.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.7. Example response</a></h4>
+    <h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1980,17 +2010,17 @@ Content-Length: 1011
     "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "paged" : true,
-    "unpaged" : false
+    "unpaged" : false,
+    "paged" : true
   },
   "total" : 1,
-  "totalPages" : 1,
   "last" : true,
+  "totalPages" : 1,
   "totalElements" : 1,
   "size" : 20,
   "number" : 0,
-  "numberOfElements" : 1,
   "first" : true,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
@@ -2085,7 +2115,13 @@ Content-Length: 1011
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_6"><a class="anchor" href="#_hypermedia_links_6"></a><a class="link" href="#_hypermedia_links_6">2.8.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/process' -i -X POST \
@@ -2095,7 +2131,7 @@ Content-Length: 1011
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.7. Example response</a></h4>
+    <h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2234,7 +2270,13 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_7"><a class="anchor" href="#_hypermedia_links_7"></a><a class="link" href="#_hypermedia_links_7">2.9.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process' -i -X POST \
@@ -2244,7 +2286,7 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_7"><a class="anchor" href="#_example_response_7"></a><a class="link" href="#_example_response_7">2.9.7. Example response</a></h4>
+    <h4 id="_example_response_7"><a class="anchor" href="#_example_response_7"></a><a class="link" href="#_example_response_7">2.9.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2339,7 +2381,13 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_8"><a class="anchor" href="#_hypermedia_links_8"></a><a class="link" href="#_hypermedia_links_8">2.10.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/validateMetadata' -i -X POST \
@@ -2349,7 +2397,7 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.7. Example response</a></h4>
+    <h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2430,7 +2478,13 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_request_9"><a class="anchor" href="#_example_request_9"></a><a class="link" href="#_example_request_9">2.11.6. Example request</a></h4>
+    <h4 id="_hypermedia_links_9"><a class="anchor" href="#_hypermedia_links_9"></a><a class="link" href="#_hypermedia_links_9">2.11.6. Hypermedia links</a></h4>
+    <div class="paragraph">
+        <p>No links.</p>
+    </div>
+</div>
+    <div class="sect3">
+        <h4 id="_example_request_9"><a class="anchor" href="#_example_request_9"></a><a class="link" href="#_example_request_9">2.11.7. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/cloneItem' -i -X POST \
@@ -2440,7 +2494,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_response_9"><a class="anchor" href="#_example_response_9"></a><a class="link" href="#_example_response_9">2.11.7. Example response</a></h4>
+    <h4 id="_example_response_9"><a class="anchor" href="#_example_response_9"></a><a class="link" href="#_example_response_9">2.11.8. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK

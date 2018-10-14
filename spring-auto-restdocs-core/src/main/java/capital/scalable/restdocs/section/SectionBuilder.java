@@ -36,6 +36,7 @@ public class SectionBuilder {
             SnippetRegistry.REQUEST_PARAMETERS,
             SnippetRegistry.REQUEST_FIELDS,
             SnippetRegistry.RESPONSE_FIELDS,
+            SnippetRegistry.LINKS,
             SnippetRegistry.CURL_REQUEST,
             SnippetRegistry.HTTP_RESPONSE
     );

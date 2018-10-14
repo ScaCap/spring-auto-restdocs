@@ -22,6 +22,10 @@ package capital.scalable.restdocs.jackson;
 import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -36,6 +40,7 @@ import org.springframework.util.Assert;
 class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     private static final Logger log = getLogger(FieldDocumentationObjectVisitor.class);
 
+    private final static Set<String> SKIPPED_FIELDS = new HashSet<>(Arrays.asList("_links", "_embedded"));
     private final FieldDocumentationVisitorContext context;
     private final String path;
     private final TypeRegistry typeRegistry;
@@ -104,6 +109,7 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     private boolean shouldExpand(BeanProperty prop) {
-        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null;
+        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null
+                && !SKIPPED_FIELDS.contains(prop.getName());
     }
 }
