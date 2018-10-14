@@ -35,6 +35,7 @@ public class SnippetRegistry {
     public static final String REQUEST_FIELDS = "auto-request-fields";
     public static final String RESPONSE_FIELDS = "auto-response-fields";
     public static final String LINKS = "auto-links";
+    public static final String EMBEDDED = "auto-embedded";
     public static final String CURL_REQUEST = "curl-request";
     public static final String HTTP_REQUEST = "http-request";
     public static final String HTTP_RESPONSE = "http-response";

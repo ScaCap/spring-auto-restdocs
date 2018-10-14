@@ -21,6 +21,7 @@ package capital.scalable.restdocs.example.testsupport;
 
 import static capital.scalable.restdocs.AutoDocumentation.authorization;
 import static capital.scalable.restdocs.AutoDocumentation.description;
+import static capital.scalable.restdocs.AutoDocumentation.embedded;
 import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
@@ -107,7 +108,7 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section(), links(), authorization(DEFAULT_AUTHORIZATION)))
+                                section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }
 

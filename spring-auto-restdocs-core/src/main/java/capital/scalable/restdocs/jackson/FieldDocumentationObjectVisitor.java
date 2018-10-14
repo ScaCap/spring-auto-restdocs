@@ -40,7 +40,14 @@ import org.springframework.util.Assert;
 class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     private static final Logger log = getLogger(FieldDocumentationObjectVisitor.class);
 
-    private final static Set<String> SKIPPED_FIELDS = new HashSet<>(Arrays.asList("_links", "_embedded"));
+    private final static Set<String> SKIPPED_FIELDS = new HashSet<>(Arrays.asList(
+            "_links", "_embedded"
+    ));
+    private final static Set<String> SKIPPED_CLASSES = new HashSet<>(Arrays.asList(
+            "org.springframework.hateoas.Link",
+            "org.springframework.hateoas.core.EmbeddedWrapper"
+    ));
+
     private final FieldDocumentationVisitorContext context;
     private final String path;
     private final TypeRegistry typeRegistry;
@@ -94,6 +101,10 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
 
     private void visitType(BeanProperty prop, String jsonName, String fieldName, JavaType fieldType,
             JsonSerializer<?> ser, boolean required) throws JsonMappingException {
+        if (shouldSkip(prop)) {
+            return;
+        }
+
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         log.debug("({}) {}", fieldPath, fieldType.getRawClass().getSimpleName());
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();
@@ -109,7 +120,14 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     private boolean shouldExpand(BeanProperty prop) {
-        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null
-                && !SKIPPED_FIELDS.contains(prop.getName());
+        return prop.getMember().getAnnotation(RestdocsNotExpanded.class) == null;
+    }
+
+    private boolean shouldSkip(BeanProperty prop) {
+        Class<?> rawClass = prop.getType().getContentType() != null
+                ? prop.getType().getContentType().getRawClass()
+                : prop.getType().getRawClass();
+        return SKIPPED_FIELDS.contains(prop.getName())
+                || SKIPPED_CLASSES.contains(rawClass.getCanonicalName());
     }
 }

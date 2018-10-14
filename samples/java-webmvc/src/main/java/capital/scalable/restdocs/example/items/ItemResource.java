@@ -269,14 +269,15 @@ public class ItemResource {
      * <p>
      * An example of returning a resource with hypermedia links and embedded resources.
      *
-     * @param id ID of the item.
+     * @param id       ID of the item.
+     * @param embedded if embedded resources should be attached
      * @return response and links
      */
     @GetMapping("media/{id}")
-    public HypermediaItemResponse getItemAsResource(@PathVariable("id") @Id String id,
+    public HypermediaItemResponse getHypermediaItem(@PathVariable("id") @Id String id,
             @RequestParam(name = "embedded", required = false) Boolean embedded) {
         HypermediaItemResponse response = new HypermediaItemResponse(id, "hypermedia item");
-        response.add(linkTo(methodOn(ItemResource.class).getItemAsResource(id, embedded)).withSelfRel());
+        response.add(linkTo(methodOn(ItemResource.class).getHypermediaItem(id, embedded)).withSelfRel());
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
         response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
         if (BooleanUtils.isTrue(embedded)) {

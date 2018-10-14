@@ -55,7 +55,7 @@ public class EmbeddedSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     public String getHeaderKey() {
-        return "hypermedia-embedded";
+        return "embedded";
     }
 
     @Override

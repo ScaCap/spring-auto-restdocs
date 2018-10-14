@@ -54,12 +54,15 @@ class HypermediaItemResponse extends HALResource {
 
         /**
          * Link to classic item.
+         *
+         * @deprecated Use hypermedia item instead.
          */
+        @Deprecated
         @NotNull
         private String classicItem;
 
         /**
-         * Link to start processing the current item. Present only if item is processable.
+         * Link to initiate processing of the current item. Present only if item is processable.
          */
         private String process;
     }
