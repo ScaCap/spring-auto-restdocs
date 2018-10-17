@@ -457,6 +457,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#snippets-request-fields">Request fields snippet</a></li>
 <li><a href="#snippets-response-fields">Response fields snippet</a></li>
 <li><a href="#snippets-section">Section snippet</a></li>
+    <li><a href="#snippets-links">Links snippet</a></li>
+    <li><a href="#snippets-embedded">Embedded snippet</a></li>
+    <li><a href="#snippets-section">Section snippet</a></li>
 <li><a href="#snippets-custom">Custom snippet</a></li>
 <li><a href="#snippets-customization">Snippet customization</a></li>
 </ul>
@@ -1350,6 +1353,449 @@ include::{{fileName}}.adoc[]
 {{/sections}}</code></pre>
 </div>
 </div>
+    <table class="tableblock frame-all grid-all spread">
+        <caption class="title">Template placeholders</caption>
+        <colgroup>
+            <col style="width: 33.3333%;">
+            <col style="width: 33.3333%;">
+            <col style="width: 33.3334%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="tableblock halign-left valign-top">Placeholder</th>
+            <th class="tableblock halign-left valign-top">Example</th>
+            <th class="tableblock halign-left valign-top">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{link}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">items-id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Derived from the documentation string. For example: <code>items/id</code>.</p></td>
+        </tr>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{title}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Get Item By Id</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="#snippets-section-customization-title">Section title</a>.</p></td>
+        </tr>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{snippets}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">target/generated-snippets</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Base snippet folder configured via <code>org.springframework.restdocs.outputDir</code> system property.</p></td>
+        </tr>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{sections}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;iterable&gt;</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Contains all sections (Snippet classes) which are configured to be included in the section snippet. Moustache templater
+                iterates over this and expands into separate header and link lines.</p></td>
+        </tr>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{header}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Authorization</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet header hard-coded inside Snippet class.</p></td>
+        </tr>
+        <tr>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">{fileName}</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
+            <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name hard-coded inside Snippet class.</p></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="sect3">
+        <h4 id="snippets-section-configuration"><a class="link" href="#snippets-section-configuration">Snippet configuration</a></h4>
+        <div class="paragraph">
+            <p>By default, these snippets in the following order are linked inside section snippet:</p>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+            <colgroup>
+                <col style="width: 33.3333%;">
+                <col style="width: 33.3333%;">
+                <col style="width: 33.3334%;">
+            </colgroup>
+            <tbody>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Snippet name</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Example</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">method-path</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST /items/{id}</code></p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-method-path">Method and path snippet</a> is used to determine the HTTP method and path
+                    (non-configurable).</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Get item by ID.</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-description">Description snippet</a> reads the Javadoc on the method (non-configurable).</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">authorization</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Resource is public.</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-authorization">Authorization snippet</a> can be used for custom authorization information, e.g.
+                    the OAuth role required for the endpoint</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">path-parameters</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-path-parameters">Path parameters snippet</a> automatically lists parameters in the path including
+                    their type, whether they are optional, and their Javadoc.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">request-parameters</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-request-parameters">Request parameters snippet</a> automatically lists query parameters including
+                    their type, whether they are optional, and their Javadoc.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">request-fields</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-request-fields">Request fields snippet</a> automatically lists all fields of the request body
+                    including their type, whether they are optional, and their Javadoc.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">response-fields</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">&lt;table&gt;</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#snippets-response-fields">Response fields snippet</a> automatically lists all fields of the response body
+                    including their type, whether they are optional, and their Javadoc.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">curl-request</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ curl 'http://localhost/items/1'</code></p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">The original <a
+                        href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/cli/CurlRequestSnippet.java">cURL request
+                    snippet</a> from Spring REST Docs is used here to provide a cURL example of the request.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">http-response</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><code>HTTP/1.1 200 OK<br>
+                    { id: "myId", &#8230;&#8203; }</code></p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">The original <a
+                        href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/http/HttpResponseSnippet.java">HTTP
+                    response snippet</a> from Spring REST Docs is used here to provide the HTTP response from the test.</p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="sect3">
+        <h4 id="snippets-section-customization"><a class="link" href="#snippets-section-customization">Customisation options</a></h4>
+        <div class="sect4">
+            <h5 id="snippets-section-customization-order"><a class="link" href="#snippets-section-customization-order">Sections and order</a></h5>
+            <div class="paragraph">
+                <p>If you want to configure custom sections and their order, instead of using <code>AutoDocumentation.section()</code> you can use
+                    <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
+            </div>
+            <div class="listingblock">
+                <div class="title">Configuring section snippet</div>
+                <div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">AutoDocumentation.sectionBuilder()
+    .snippetNames( <i class="conum" data-value="1"></i><b>(1)</b>
+        SnippetRegistry.PATH_PARAMETERS,
+        SnippetRegistry.REQUEST_PARAMETERS,
+        SnippetRegistry.REQUEST_FIELDS,
+        SnippetRegistry.RESPONSE_FIELDS)
+    .skipEmpty(true) <i class="conum" data-value="2"></i><b>(2)</b>
+    .build()</code></pre>
+                </div>
+            </div>
+            <div class="colist arabic">
+                <table>
+                    <tr>
+                        <td><i class="conum" data-value="1"></i><b>1</b></td>
+                        <td>only selected snippets will be used in the specified order</td>
+                    </tr>
+                    <tr>
+                        <td><i class="conum" data-value="2"></i><b>2</b></td>
+                        <td>whether snippets having no content should be skipped from section</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="sect4">
+            <h5 id="snippets-section-customization-title"><a class="link" href="#snippets-section-customization-title">Section title</a></h5>
+            <div class="paragraph">
+                <p>Section title uses text from <code>@title</code> Javadoc tag on the handler method.
+                    If missing, it&#8217;s derived from the method name, e.g. <code>getItemById</code> &#8594; <em>Get Item By Id</em>.</p>
+            </div>
+            <div class="paragraph">
+                <p>If you use <code>@title</code> tag and want to generate regular Javadoc as well,
+                    you need to include this tag among custom tags in plugin configuration.</p>
+            </div>
+            <div class="listingblock">
+                <div class="title">Custom maven-javadoc-plugin configuration</div>
+                <div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;plugin&gt;
+    &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;attach-javadocs&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;jar&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;tags&gt;
+                    &lt;tag&gt;
+                        &lt;name&gt;title&lt;/name&gt;
+                        &lt;placement&gt;m&lt;/placement&gt;
+                    &lt;/tag&gt;
+                &lt;/tags&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sect3">
+        <h4 id="snippets-section-custom-snippet"><a class="link" href="#snippets-section-custom-snippet">Custom snippet in section</a></h4>
+        <div class="paragraph">
+            <p>If you want your custom snippet to be part of section snippet with automatically recognised header and include link (file name),
+                you have to implement <a
+                        href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/section/SectionSupport.java">SectionSupport</a>
+                interface.
+                Then, inside MockMvc configuration, add this snippet to the list of snippets using documentation configuration&#8217;s
+                builder <code>withDefaults(&#8230;&#8203;)</code> and include snippet name among SectionBuilder&#8217;s <code>snippetNames(&#8230;&#8203;)</code>.</p>
+        </div>
+    </div>
+</div>
+    <div class="sect2">
+        <h3 id="snippets-links"><a class="link" href="#snippets-links">Links snippet</a></h3>
+        <div class="paragraph">
+            <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/hypermedia/LinksSnippet.java">Links snippet</a>
+                lists all possible links inside the response.
+                The links usually cannot be determined from the response class, because they are highly dynamic and often just stored in a Map.
+                Therefore this snippet needs a custom class describing possible links, with field names acting as link _rel_s and
+                field&#8217;s Javadoc and annotions used as usually to determine the comment, optionality, deprecation, etc.
+                List includes name, whether the link is optional, and its Javadoc description.</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">Code</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@RequestMapping("")
+public ItemResponse getItem() {
+    ItemResponse response = new ItemResponse();
+    response.add(linkTo(methodOn(ItemResource.class).getItem()).withSelfRel());
+    return response;
+}
+
+static class ItemResponse extends org.springframework.hateoas.ResourceSupport {
+  ...
+}</code></pre>
+            </div>
+        </div>
+        <div class="paragraph">
+            <p>Test method needs to be configured with documentation type:</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">MockMvc test method</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Test
+public void getItem() throws Exception {
+    mockMvc.perform(get(...))
+    ...
+        .andDo(links().documentationType(LinksDocumentation.class));
+}
+
+static class LinksDocumentation {
+    /**
+     * Link to this item.
+     */
+    @NotNull
+    private String self;
+
+    /**
+     * Link to item's metadata.
+     */
+    private String metadata;
+}</code></pre>
+            </div>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+            <caption class="title">Result</caption>
+            <colgroup>
+                <col style="width: 33.3333%;">
+                <col style="width: 33.3333%;">
+                <col style="width: 33.3334%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th class="tableblock halign-left valign-top">Path</th>
+                <th class="tableblock halign-left valign-top">Optional</th>
+                <th class="tableblock halign-left valign-top">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">self</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to this item.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">metadata</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to item&#8217;s metadata.</p></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="sect3">
+            <h4 id="_configuration_5"><a class="link" href="#_configuration_5">Configuration</a></h4>
+            <div class="paragraph">
+                <p>Configuration available during MockMvc setup:</p>
+            </div>
+            <div class="ulist">
+                <ul>
+                    <li>
+                        <p><code>failOnUndocumentedFields</code> - if build should fail on at least one undocumented field</p>
+                    </li>
+                    <li>
+                        <p><code>documentationType</code> - specified class should be considered for documentation</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="sect2">
+        <h3 id="snippets-embedded"><a class="link" href="#snippets-embedded">Embedded snippet</a></h3>
+        <div class="paragraph">
+            <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/hypermedia/EmbeddedSnippet.java">Embedded
+                snippet</a> lists all embedded resources of the response.
+                Similarly to LinksSnippet, documentation is determined from custom documentation class.
+                List includes name, type, whether the field is optional, and its Javadoc with constraints.</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">Code</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@RequestMapping("")
+public ItemResponse getItem() {
+    ItemResponse response = new ItemResponse();
+    response.embed(getAttributes());
+    response.embed(getMetadata());
+    return response;
+}
+
+static class ItemResponse extends EmbeddedSupport {
+  ...
+}</code></pre>
+            </div>
+        </div>
+        <div class="paragraph">
+            <p>Test method needs to be configured with documentation type:</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">MockMvc test method</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Test
+public void getItem() throws Exception {
+    mockMvc.perform(get(...))
+    ...
+        .andDo(embedded().documentationType(EmbeddedDocumentation.class));
+}
+
+static class EmbeddedDocumentation {
+    /**
+     * Item's attributes.
+     */
+    @NotNull
+    private Attributes attributes;
+
+    /**
+     * Item's metadata.
+     */
+    private List&lt;Metadata&gt; metadata;
+}</code></pre>
+            </div>
+        </div>
+        <table class="tableblock frame-all grid-all spread">
+            <caption class="title">Result</caption>
+            <colgroup>
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+            </colgroup>
+            <thead>
+            <tr>
+                <th class="tableblock halign-left valign-top">Path</th>
+                <th class="tableblock halign-left valign-top">Type</th>
+                <th class="tableblock halign-left valign-top">Optional</th>
+                <th class="tableblock halign-left valign-top">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s attributes.</p></td>
+            </tr>
+            <tr>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">metadata</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s metadata</p></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="sect3">
+            <h4 id="_configuration_6"><a class="link" href="#_configuration_6">Configuration</a></h4>
+            <div class="paragraph">
+                <p>Configuration available during MockMvc setup:</p>
+            </div>
+            <div class="ulist">
+                <ul>
+                    <li>
+                        <p><code>failOnUndocumentedFields</code> - if build should fail on at least one undocumented field</p>
+                    </li>
+                    <li>
+                        <p><code>documentationType</code> - specified class should be considered for documentation</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="sect2">
+        <h3 id="snippets-section"><a class="link" href="#snippets-section">Section snippet</a></h3>
+        <div class="admonitionblock note">
+            <table>
+                <tr>
+                    <td class="icon">
+                        <i class="fa icon-note" title="Note"></i>
+                    </td>
+                    <td class="content">
+                        Section snippets only work if AsciiDoc is used. Markdown is not supported, because Markdown has no includes.
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="paragraph">
+            <p>The section snippet combines most common snippets into one convenient file.
+                It helps you being even more lazy, because a single line of AsciiDoc is sufficient to document one endpoint.
+                Assuming of course that you already documented your code with Javadoc.</p>
+        </div>
+        <div class="listingblock">
+            <div class="title">Asciidoc</div>
+            <div class="content">
+                <pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">include::{snippets}/your-endpoint/auto-section.adoc[]</code></pre>
+            </div>
+        </div>
+        <div class="listingblock">
+            <div class="title">Template itself</div>
+            <div class="content">
+<pre class="highlightjs highlight"><code class="language-asciidoc hljs" data-lang="asciidoc">[[resources-{{link}}]]
+=== {{title}}
+
+include::auto-method-path.adoc[]
+
+include::auto-description.adoc[]
+{{#sections}}
+
+==== {{header}}
+
+include::{{fileName}}.adoc[]
+{{/sections}}</code></pre>
+</div>
+</div>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Template placeholders</caption>
 <colgroup>
@@ -1457,7 +1903,7 @@ include::{{fileName}}.adoc[]
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">http-response</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>HTTP/1.1 200 OK<br>
-   { id: "myId", &#8230;&#8203; }</code></p></td>
+    { id: "myId", &#8230;&#8203; }</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The original <a href="https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs/http/HttpResponseSnippet.java">HTTP response snippet</a> from Spring REST Docs is used here to provide the HTTP response from the test.</p></td>
 </tr>
 </tbody>
@@ -1469,7 +1915,7 @@ include::{{fileName}}.adoc[]
 <h5 id="snippets-section-customization-order"><a class="link" href="#snippets-section-customization-order">Sections and order</a></h5>
 <div class="paragraph">
 <p>If you want to configure custom sections and their order, instead of using <code>AutoDocumentation.section()</code> you can use
- <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
+    <code>AutoDocumentation.sectionBuilder()</code> in the following manner:</p>
 </div>
 <div class="listingblock">
 <div class="title">Configuring section snippet</div>
@@ -1952,7 +2398,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.3-SNAPSHOT<br>
-    Last updated 2018-10-14 19:36:30 CEST
+    Last updated 2018-10-15 17:36:47 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

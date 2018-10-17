@@ -1158,7 +1158,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a2e2aa13-875f-4f47-997d-1e4649967b80' \
+    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1407,7 +1407,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer a2e2aa13-875f-4f47-997d-1e4649967b80' \
+    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1525,7 +1525,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer a2e2aa13-875f-4f47-997d-1e4649967b80'</code></pre>
+    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627'</code></pre>
 </div>
 </div>
 </div>
@@ -2050,13 +2050,13 @@ Content-Length: 1011
   "totalElements" : 1,
   "size" : 20,
   "number" : 0,
-  "first" : true,
   "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
-  }
+  },
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -2570,6 +2570,12 @@ X-Frame-Options: DENY</code></pre>
     <div class="paragraph">
         <p><code>GET /items/media/{id}</code></p>
     </div>
+    <div class="paragraph">
+        <p>Returns item with hypermedia.</p>
+    </div>
+    <div class="paragraph">
+        <p>An example of returning a resource with hypermedia links and embedded resources.</p>
+    </div>
     <div class="sect3">
         <h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
         <div class="paragraph">
@@ -2598,7 +2604,8 @@ X-Frame-Options: DENY</code></pre>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Must be a valid ID.</p></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p>
+                    <p class="tableblock">Must be a valid ID.</p></td>
             </tr>
             </tbody>
         </table>
@@ -2625,7 +2632,7 @@ X-Frame-Options: DENY</code></pre>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">embedded</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">If embedded resources should be attached.</p></td>
             </tr>
             </tbody>
         </table>
@@ -2688,17 +2695,18 @@ X-Frame-Options: DENY</code></pre>
             <tr>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">self</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to this hypermedia item.</p></td>
             </tr>
             <tr>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">classicItem</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deprecated.</strong> Use hypermedia item instead.</p>
+                    <p class="tableblock">Link to classic item.</p></td>
             </tr>
             <tr>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">process</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to initiate processing of the current item. Present only if item is processable.</p></td>
             </tr>
             </tbody>
         </table>
@@ -2725,19 +2733,19 @@ X-Frame-Options: DENY</code></pre>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s children.</p></td>
             </tr>
             <tr>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s attributes.</p></td>
             </tr>
             <tr>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
                 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"></td>
+                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s meta.</p></td>
             </tr>
             </tbody>
         </table>
