@@ -456,8 +456,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></li>
 <li><a href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></li>
 <li><a href="#resources-item-resource-test-clone-item">2.11. Clone Item (deprecated)</a></li>
-    <li><a href="#resources-item-resource-test-get-item-as-resource">2.12. Get Hypermedia Item</a></li>
-    <li><a href="#resources-items-get-spring-rest-docs">2.13. Get an item (SARD/SRD mix)</a></li>
+<li><a href="#resources-item-resource-test-get-item-as-resource">2.12. Get Hypermedia Item</a></li>
+<li><a href="#resources-items-get-spring-rest-docs">2.13. Get an item (SARD/SRD mix)</a></li>
 </ul>
 </li>
 </ul>
@@ -1141,30 +1141,30 @@ Size must be between 0 and 1000 inclusive.</p></td>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links"><a class="anchor" href="#_hypermedia_links"></a><a class="link" href="#_hypermedia_links">2.3.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links"><a class="anchor" href="#_hypermedia_links"></a><a class="link" href="#_hypermedia_links">2.3.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources"><a class="anchor" href="#_embedded_resources"></a><a class="link" href="#_embedded_resources">2.3.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources"><a class="anchor" href="#_embedded_resources"></a><a class="link" href="#_embedded_resources">2.3.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request"><a class="anchor" href="#_example_request"></a><a class="link" href="#_example_request">2.3.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627' \
+    -H 'Authorization: Bearer 1a8a88ad-bc02-4cae-8fa2-9ba47f8a0241' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.9. Example response</a></h4>
+<h4 id="_example_response"><a class="anchor" href="#_example_response"></a><a class="link" href="#_example_response">2.3.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1390,30 +1390,30 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_2"><a class="anchor" href="#_hypermedia_links_2"></a><a class="link" href="#_hypermedia_links_2">2.4.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_2"><a class="anchor" href="#_hypermedia_links_2"></a><a class="link" href="#_hypermedia_links_2">2.4.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_2"><a class="anchor" href="#_embedded_resources_2"></a><a class="link" href="#_embedded_resources_2">2.4.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_2"><a class="anchor" href="#_embedded_resources_2"></a><a class="link" href="#_embedded_resources_2">2.4.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_2"><a class="anchor" href="#_example_request_2"></a><a class="link" href="#_example_request_2">2.4.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627' \
+    -H 'Authorization: Bearer 1a8a88ad-bc02-4cae-8fa2-9ba47f8a0241' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.9. Example response</a></h4>
+<h4 id="_example_response_2"><a class="anchor" href="#_example_response_2"></a><a class="link" href="#_example_response_2">2.4.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1509,28 +1509,28 @@ Item must exist.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_3"><a class="anchor" href="#_hypermedia_links_3"></a><a class="link" href="#_hypermedia_links_3">2.5.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_3"><a class="anchor" href="#_hypermedia_links_3"></a><a class="link" href="#_hypermedia_links_3">2.5.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_3"><a class="anchor" href="#_embedded_resources_3"></a><a class="link" href="#_embedded_resources_3">2.5.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_3"><a class="anchor" href="#_embedded_resources_3"></a><a class="link" href="#_embedded_resources_3">2.5.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_3"><a class="anchor" href="#_example_request_3"></a><a class="link" href="#_example_request_3">2.5.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer df81f7e8-7169-472c-9a94-dc3e920e5627'</code></pre>
+    -H 'Authorization: Bearer 1a8a88ad-bc02-4cae-8fa2-9ba47f8a0241'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.9. Example response</a></h4>
+<h4 id="_example_response_3"><a class="anchor" href="#_example_response_3"></a><a class="link" href="#_example_response_3">2.5.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1732,19 +1732,19 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_4"><a class="anchor" href="#_hypermedia_links_4"></a><a class="link" href="#_hypermedia_links_4">2.6.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_4"><a class="anchor" href="#_hypermedia_links_4"></a><a class="link" href="#_hypermedia_links_4">2.6.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_4"><a class="anchor" href="#_embedded_resources_4"></a><a class="link" href="#_embedded_resources_4">2.6.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_4"><a class="anchor" href="#_embedded_resources_4"></a><a class="link" href="#_embedded_resources_4">2.6.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_4"><a class="anchor" href="#_example_request_4"></a><a class="link" href="#_example_request_4">2.6.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/child-1' -i -X GET</code></pre>
@@ -1752,7 +1752,7 @@ Must be at most 10.</p></td>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.9. Example response</a></h4>
+<h4 id="_example_response_4"><a class="anchor" href="#_example_response_4"></a><a class="link" href="#_example_response_4">2.6.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1971,19 +1971,19 @@ Must be at most 10.</p></td>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_5"><a class="anchor" href="#_hypermedia_links_5"></a><a class="link" href="#_hypermedia_links_5">2.7.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_5"><a class="anchor" href="#_hypermedia_links_5"></a><a class="link" href="#_hypermedia_links_5">2.7.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_5"><a class="anchor" href="#_embedded_resources_5"></a><a class="link" href="#_embedded_resources_5">2.7.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_5"><a class="anchor" href="#_embedded_resources_5"></a><a class="link" href="#_embedded_resources_5">2.7.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_5"><a class="anchor" href="#_example_request_5"></a><a class="link" href="#_example_request_5">2.7.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/search?desc=main&amp;hint=1' -i -X GET</code></pre>
@@ -1991,7 +1991,7 @@ Must be at most 10.</p></td>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.9. Example response</a></h4>
+<h4 id="_example_response_5"><a class="anchor" href="#_example_response_5"></a><a class="link" href="#_example_response_5">2.7.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2041,22 +2041,22 @@ Content-Length: 1011
     "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "paged" : true,
-    "unpaged" : false
+    "unpaged" : false,
+    "paged" : true
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
+  "last" : true,
   "size" : 20,
   "number" : 0,
   "numberOfElements" : 1,
+  "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true
-  },
-  "first" : true
+  }
 }</code></pre>
 </div>
 </div>
@@ -2146,19 +2146,19 @@ Content-Length: 1011
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_6"><a class="anchor" href="#_hypermedia_links_6"></a><a class="link" href="#_hypermedia_links_6">2.8.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_6"><a class="anchor" href="#_hypermedia_links_6"></a><a class="link" href="#_hypermedia_links_6">2.8.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_6"><a class="anchor" href="#_embedded_resources_6"></a><a class="link" href="#_embedded_resources_6">2.8.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_6"><a class="anchor" href="#_embedded_resources_6"></a><a class="link" href="#_embedded_resources_6">2.8.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_6"><a class="anchor" href="#_example_request_6"></a><a class="link" href="#_example_request_6">2.8.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/process' -i -X POST \
@@ -2168,7 +2168,7 @@ Content-Length: 1011
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.9. Example response</a></h4>
+<h4 id="_example_response_6"><a class="anchor" href="#_example_response_6"></a><a class="link" href="#_example_response_6">2.8.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2307,19 +2307,19 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_7"><a class="anchor" href="#_hypermedia_links_7"></a><a class="link" href="#_hypermedia_links_7">2.9.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_7"><a class="anchor" href="#_hypermedia_links_7"></a><a class="link" href="#_hypermedia_links_7">2.9.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_7"><a class="anchor" href="#_embedded_resources_7"></a><a class="link" href="#_embedded_resources_7">2.9.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_7"><a class="anchor" href="#_embedded_resources_7"></a><a class="link" href="#_embedded_resources_7">2.9.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_7"><a class="anchor" href="#_example_request_7"></a><a class="link" href="#_example_request_7">2.9.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1/process' -i -X POST \
@@ -2329,7 +2329,7 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_7"><a class="anchor" href="#_example_response_7"></a><a class="link" href="#_example_response_7">2.9.9. Example response</a></h4>
+<h4 id="_example_response_7"><a class="anchor" href="#_example_response_7"></a><a class="link" href="#_example_response_7">2.9.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2424,19 +2424,19 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_8"><a class="anchor" href="#_hypermedia_links_8"></a><a class="link" href="#_hypermedia_links_8">2.10.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_8"><a class="anchor" href="#_hypermedia_links_8"></a><a class="link" href="#_hypermedia_links_8">2.10.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_8"><a class="anchor" href="#_embedded_resources_8"></a><a class="link" href="#_embedded_resources_8">2.10.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_8"><a class="anchor" href="#_embedded_resources_8"></a><a class="link" href="#_embedded_resources_8">2.10.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_8"><a class="anchor" href="#_example_request_8"></a><a class="link" href="#_example_request_8">2.10.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/validateMetadata' -i -X POST \
@@ -2446,7 +2446,7 @@ Content-Length: 55
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.9. Example response</a></h4>
+<h4 id="_example_response_8"><a class="anchor" href="#_example_response_8"></a><a class="link" href="#_example_response_8">2.10.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2527,19 +2527,19 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_hypermedia_links_9"><a class="anchor" href="#_hypermedia_links_9"></a><a class="link" href="#_hypermedia_links_9">2.11.6. Hypermedia links</a></h4>
-    <div class="paragraph">
-        <p>No links.</p>
-    </div>
+<h4 id="_hypermedia_links_9"><a class="anchor" href="#_hypermedia_links_9"></a><a class="link" href="#_hypermedia_links_9">2.11.6. Hypermedia links</a></h4>
+<div class="paragraph">
+<p>No links.</p>
 </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_9"><a class="anchor" href="#_embedded_resources_9"></a><a class="link" href="#_embedded_resources_9">2.11.7. Embedded resources</a></h4>
-        <div class="paragraph">
-            <p>No embedded resources.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_9"><a class="anchor" href="#_example_request_9"></a><a class="link" href="#_example_request_9">2.11.8. Example request</a></h4>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_9"><a class="anchor" href="#_embedded_resources_9"></a><a class="link" href="#_embedded_resources_9">2.11.7. Embedded resources</a></h4>
+<div class="paragraph">
+<p>No embedded resources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_request_9"><a class="anchor" href="#_example_request_9"></a><a class="link" href="#_example_request_9">2.11.8. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/cloneItem' -i -X POST \
@@ -2549,7 +2549,7 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_example_response_9"><a class="anchor" href="#_example_response_9"></a><a class="link" href="#_example_response_9">2.11.9. Example response</a></h4>
+<h4 id="_example_response_9"><a class="anchor" href="#_example_response_9"></a><a class="link" href="#_example_response_9">2.11.9. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2564,204 +2564,202 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 <div class="sect2">
-    <h3 id="resources-item-resource-test-get-item-as-resource"><a class="anchor" href="#resources-item-resource-test-get-item-as-resource"></a><a class="link"
-                                                                                                                                                  href="#resources-item-resource-test-get-item-as-resource">2.12.
-        Get Hypermedia Item</a></h3>
-    <div class="paragraph">
-        <p><code>GET /items/media/{id}</code></p>
-    </div>
-    <div class="paragraph">
-        <p>Returns item with hypermedia.</p>
-    </div>
-    <div class="paragraph">
-        <p>An example of returning a resource with hypermedia links and embedded resources.</p>
-    </div>
-    <div class="sect3">
-        <h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
-        <div class="paragraph">
-            <p>OAuth2: Resource is public.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_path_parameters_11"><a class="anchor" href="#_path_parameters_11"></a><a class="link" href="#_path_parameters_11">2.12.2. Path parameters</a></h4>
-        <table class="tableblock frame-all grid-all spread">
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="tableblock halign-left valign-top">Parameter</th>
-                <th class="tableblock halign-left valign-top">Type</th>
-                <th class="tableblock halign-left valign-top">Optional</th>
-                <th class="tableblock halign-left valign-top">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p>
-                    <p class="tableblock">Must be a valid ID.</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sect3">
-        <h4 id="_query_parameters_10"><a class="anchor" href="#_query_parameters_10"></a><a class="link" href="#_query_parameters_10">2.12.3. Query parameters</a></h4>
-        <table class="tableblock frame-all grid-all spread">
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="tableblock halign-left valign-top">Parameter</th>
-                <th class="tableblock halign-left valign-top">Type</th>
-                <th class="tableblock halign-left valign-top">Optional</th>
-                <th class="tableblock halign-left valign-top">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">embedded</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">If embedded resources should be attached.</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sect3">
-        <h4 id="_request_fields_12"><a class="anchor" href="#_request_fields_12"></a><a class="link" href="#_request_fields_12">2.12.4. Request fields</a></h4>
-        <div class="paragraph">
-            <p>No request body.</p>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_response_fields_12"><a class="anchor" href="#_response_fields_12"></a><a class="link" href="#_response_fields_12">2.12.5. Response fields</a></h4>
-        <table class="tableblock frame-all grid-all spread">
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="tableblock halign-left valign-top">Path</th>
-                <th class="tableblock halign-left valign-top">Type</th>
-                <th class="tableblock halign-left valign-top">Optional</th>
-                <th class="tableblock halign-left valign-top">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Item id.</p></td>
-            </tr>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Item description.</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sect3">
-        <h4 id="_hypermedia_links_10"><a class="anchor" href="#_hypermedia_links_10"></a><a class="link" href="#_hypermedia_links_10">2.12.6. Hypermedia links</a></h4>
-        <table class="tableblock frame-all grid-all spread">
-            <colgroup>
-                <col style="width: 33.3333%;">
-                <col style="width: 33.3333%;">
-                <col style="width: 33.3334%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="tableblock halign-left valign-top">Path</th>
-                <th class="tableblock halign-left valign-top">Optional</th>
-                <th class="tableblock halign-left valign-top">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">self</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to this hypermedia item.</p></td>
-            </tr>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">classicItem</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deprecated.</strong> Use hypermedia item instead.</p>
-                    <p class="tableblock">Link to classic item.</p></td>
-            </tr>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">process</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Link to initiate processing of the current item. Present only if item is processable.</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sect3">
-        <h4 id="_embedded_resources_10"><a class="anchor" href="#_embedded_resources_10"></a><a class="link" href="#_embedded_resources_10">2.12.7. Embedded resources</a></h4>
-        <table class="tableblock frame-all grid-all spread">
-            <colgroup>
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-                <col style="width: 25%;">
-            </colgroup>
-            <thead>
-            <tr>
-                <th class="tableblock halign-left valign-top">Path</th>
-                <th class="tableblock halign-left valign-top">Type</th>
-                <th class="tableblock halign-left valign-top">Optional</th>
-                <th class="tableblock halign-left valign-top">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s children.</p></td>
-            </tr>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s attributes.</p></td>
-            </tr>
-            <tr>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-                <td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s meta.</p></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_request_10"><a class="anchor" href="#_example_request_10"></a><a class="link" href="#_example_request_10">2.12.8. Example request</a></h4>
-        <div class="listingblock">
-            <div class="content">
-                <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/media/1?embedded=true' -i -X GET</code></pre>
-            </div>
-        </div>
-    </div>
-    <div class="sect3">
-        <h4 id="_example_response_10"><a class="anchor" href="#_example_response_10"></a><a class="link" href="#_example_response_10">2.12.9. Example response</a></h4>
-        <div class="listingblock">
-            <div class="content">
+<h3 id="resources-item-resource-test-get-item-as-resource"><a class="anchor" href="#resources-item-resource-test-get-item-as-resource"></a><a class="link" href="#resources-item-resource-test-get-item-as-resource">2.12. Get Hypermedia Item</a></h3>
+<div class="paragraph">
+<p><code>GET /items/media/{id}</code></p>
+</div>
+<div class="paragraph">
+<p>Returns item with hypermedia.</p>
+</div>
+<div class="paragraph">
+<p>An example of returning a resource with hypermedia links and embedded resources.</p>
+</div>
+<div class="sect3">
+<h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_11"><a class="anchor" href="#_path_parameters_11"></a><a class="link" href="#_path_parameters_11">2.12.2. Path parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the item.</p>
+<p class="tableblock">Must be a valid ID.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_query_parameters_10"><a class="anchor" href="#_query_parameters_10"></a><a class="link" href="#_query_parameters_10">2.12.3. Query parameters</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">embedded</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If embedded resources should be attached.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_12"><a class="anchor" href="#_request_fields_12"></a><a class="link" href="#_request_fields_12">2.12.4. Request fields</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_12"><a class="anchor" href="#_response_fields_12"></a><a class="link" href="#_response_fields_12">2.12.5. Response fields</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item id.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">desc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item description.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_hypermedia_links_10"><a class="anchor" href="#_hypermedia_links_10"></a><a class="link" href="#_hypermedia_links_10">2.12.6. Hypermedia links</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">self</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Link to this hypermedia item.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classicItem</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deprecated.</strong> Use hypermedia item instead.</p>
+<p class="tableblock">Link to classic item.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Link to initiate processing of the current item. Present only if item is processable.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_embedded_resources_10"><a class="anchor" href="#_embedded_resources_10"></a><a class="link" href="#_embedded_resources_10">2.12.7. Embedded resources</a></h4>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">children</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array[Object]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s children.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s attributes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">meta</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Item&#8217;s meta.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_request_10"><a class="anchor" href="#_example_request_10"></a><a class="link" href="#_example_request_10">2.12.8. Example request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/media/1?embedded=true' -i -X GET</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_10"><a class="anchor" href="#_example_response_10"></a><a class="link" href="#_example_response_10">2.12.9. Example response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
 X-Content-Type-Options: nosniff
@@ -2809,13 +2807,12 @@ Content-Length: 756
     }
   }
 }</code></pre>
-            </div>
-        </div>
-    </div>
 </div>
-    <div class="sect2">
-        <h3 id="resources-items-get-spring-rest-docs"><a class="anchor" href="#resources-items-get-spring-rest-docs"></a><a class="link" href="#resources-items-get-spring-rest-docs">2.13. Get an item
-            (SARD/SRD mix)</a></h3>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-items-get-spring-rest-docs"><a class="anchor" href="#resources-items-get-spring-rest-docs"></a><a class="link" href="#resources-items-get-spring-rest-docs">2.13. Get an item (SARD/SRD mix)</a></h3>
 <div class="paragraph">
 <p>This part of the documentation demonstrates the combination of Spring Auto REST Docs with Spring REST Docs:
 The path parameter and response field are manually documented with Spring REST Docs.
@@ -2826,13 +2823,13 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 <p><code>GET /items/{id}</code></p>
 </div>
 <div class="sect3">
-    <h4 id="_authorization_13"><a class="anchor" href="#_authorization_13"></a><a class="link" href="#_authorization_13">2.13.1. Authorization</a></h4>
+<h4 id="_authorization_13"><a class="anchor" href="#_authorization_13"></a><a class="link" href="#_authorization_13">2.13.1. Authorization</a></h4>
 <div class="paragraph">
 <p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
-    <h4 id="_path_parameters_12"><a class="anchor" href="#_path_parameters_12"></a><a class="link" href="#_path_parameters_12">2.13.2. Path parameters</a></h4>
+<h4 id="_path_parameters_12"><a class="anchor" href="#_path_parameters_12"></a><a class="link" href="#_path_parameters_12">2.13.2. Path parameters</a></h4>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 3. <code>/items/{id}</code></caption>
 <colgroup>
@@ -2854,7 +2851,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_response_fields_13"><a class="anchor" href="#_response_fields_13"></a><a class="link" href="#_response_fields_13">2.13.3. Response fields</a></h4>
+<h4 id="_response_fields_13"><a class="anchor" href="#_response_fields_13"></a><a class="link" href="#_response_fields_13">2.13.3. Response fields</a></h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2878,7 +2875,7 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </table>
 </div>
 <div class="sect3">
-    <h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.13.4. Example request/response</a></h4>
+<h4 id="_example_request_response_3"><a class="anchor" href="#_example_request_response_3"></a><a class="link" href="#_example_request_response_3">2.13.4. Example request/response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
