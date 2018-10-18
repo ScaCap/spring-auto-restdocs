@@ -1550,7 +1550,8 @@ builder <code>withDefaults(&#8230;&#8203;)</code> and include snippet name among
 <h3 id="snippets-links"><a class="link" href="#snippets-links">Links snippet</a></h3>
 <div class="paragraph">
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/hypermedia/LinksSnippet.java">Links snippet</a> lists all possible links inside the response.
-The links usually cannot be determined from the response class, because they are highly dynamic and often just stored in a Map.
+In most cases, links cannot be determined from the response class,
+because they are highly dynamic depending on a resource state and often just stored in a Map.
 Therefore this snippet needs a custom class describing possible links, with field names acting as link _rel_s and
 field&#8217;s Javadoc and annotions used as usually to determine the comment, optionality, deprecation, etc.
 List includes name, whether the link is optional, and its Javadoc description.</p>
@@ -1571,7 +1572,7 @@ static class ItemResponse extends org.springframework.hateoas.ResourceSupport {
 </div>
 </div>
 <div class="paragraph">
-<p>Test method needs to be configured with documentation type:</p>
+<p>The corresponding test method needs to be configured with documentation type:</p>
 </div>
 <div class="listingblock">
 <div class="title">MockMvc test method</div>
@@ -1665,7 +1666,7 @@ static class ItemResponse extends EmbeddedSupport {
 </div>
 </div>
 <div class="paragraph">
-<p>Test method needs to be configured with documentation type:</p>
+<p>The corresponding test method needs to be configured with documentation type:</p>
 </div>
 <div class="listingblock">
 <div class="title">MockMvc test method</div>
@@ -2383,7 +2384,7 @@ and has to be installed with the Maven command shown in the section above.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.3-SNAPSHOT<br>
-Last updated 2018-10-17 09:35:07 CEST
+Last updated 2018-10-18 10:40:37 CEST
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
