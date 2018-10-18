@@ -300,7 +300,8 @@ include::section-snippet.adoc[]
 === Links snippet
 
 link:{core-package}/hypermedia/LinksSnippet.java[Links snippet] lists all possible links inside the response.
-The links usually cannot be determined from the response class, because they are highly dynamic and often just stored in a Map.
+In most cases, links cannot be determined from the response class,
+because they are highly dynamic depending on a resource state and often just stored in a Map.
 Therefore this snippet needs a custom class describing possible links, with field names acting as link _rel_s and
 field's Javadoc and annotions used as usually to determine the comment, optionality, deprecation, etc.
 List includes name, whether the link is optional, and its Javadoc description.
@@ -320,7 +321,7 @@ static class ItemResponse extends org.springframework.hateoas.ResourceSupport {
 }
 ----
 
-Test method needs to be configured with documentation type:
+The corresponding test method needs to be configured with documentation type:
 
 .MockMvc test method
 [source,java]
@@ -390,7 +391,7 @@ static class ItemResponse extends EmbeddedSupport {
 }
 ----
 
-Test method needs to be configured with documentation type:
+The corresponding test method needs to be configured with documentation type:
 
 .MockMvc test method
 [source,java]
