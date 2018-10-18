@@ -151,7 +151,7 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
 
     @Override
     public JsonAnyFormatVisitor expectAnyFormat(JavaType type) throws JsonMappingException {
-        addFieldIfPresent("Var");
+        addFieldIfPresent("Object");
         return new JsonAnyFormatVisitor.Base();
     }
 

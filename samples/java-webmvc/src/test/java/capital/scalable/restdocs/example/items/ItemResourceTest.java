@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,8 @@
  */
 package capital.scalable.restdocs.example.items;
 
+import static capital.scalable.restdocs.AutoDocumentation.embedded;
+import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static org.hamcrest.Matchers.hasItems;
@@ -34,11 +36,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import capital.scalable.restdocs.example.items.HypermediaItemResponse.EmbeddedDocumentation;
+import capital.scalable.restdocs.example.items.HypermediaItemResponse.LinksDocumentation;
 import capital.scalable.restdocs.example.items.ItemResource.Command;
 import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
@@ -178,10 +183,35 @@ public class ItemResourceTest extends MockMvcBase {
     public void getItemWithRestDocs() throws Exception {
         mockMvc.perform(RestDocumentationRequestBuilders.get("/items/{id}", 1))
                 .andExpect(status().isOk())
-                .andDo(document("{class-name}/{method-name}", commonResponsePreprocessor(),
+                .andDo(commonDocumentation(
                         pathParameters(
                                 parameterWithName("id").description("ID of the item.")),
                         relaxedResponseFields(fieldWithPath("id")
                                 .description("There are more fields but only the ID field is documented."))));
+    }
+
+    @Test
+    public void getItemAsResource() throws Exception {
+        mockMvc.perform(get("/items/media/1").param("embedded", "true"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("1")))
+                .andExpect(jsonPath("$.desc", is("hypermedia item")))
+                .andExpect(jsonPath("$._links").exists())
+                .andExpect(jsonPath("$._links.self").exists())
+                .andExpect(jsonPath("$._links.self.href", is("http://localhost:8080/items/media/1?embedded=true")))
+                .andExpect(jsonPath("$._links.classicItem").exists())
+                .andExpect(jsonPath("$._links.classicItem.href", is("http://localhost:8080/items/1")))
+                .andExpect(jsonPath("$._embedded").exists())
+                .andExpect(jsonPath("$._embedded.children").isArray())
+                .andExpect(jsonPath("$._embedded.children[0].id", is("child-1")))
+                .andExpect(jsonPath("$._embedded.meta").exists())
+                .andExpect(jsonPath("$._embedded.meta.type", is("1")))
+                .andExpect(jsonPath("$._embedded.attributes").exists())
+                .andExpect(jsonPath("$._embedded.attributes.number", is(1)))
+                .andDo(commonDocumentation(
+                        links().documentationType(LinksDocumentation.class),
+                        embedded().documentationType(EmbeddedDocumentation.class)
+                ));
     }
 }

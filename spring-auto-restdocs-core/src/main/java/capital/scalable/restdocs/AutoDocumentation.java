@@ -19,6 +19,8 @@
  */
 package capital.scalable.restdocs;
 
+import capital.scalable.restdocs.hypermedia.EmbeddedSnippet;
+import capital.scalable.restdocs.hypermedia.LinksSnippet;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
 import capital.scalable.restdocs.misc.DescriptionSnippet;
 import capital.scalable.restdocs.misc.MethodAndPathSnippet;
@@ -73,5 +75,13 @@ public abstract class AutoDocumentation {
 
     public static Snippet authorization(String defaultAuthorization) {
         return new AuthorizationSnippet(defaultAuthorization);
+    }
+
+    public static LinksSnippet links() {
+        return new LinksSnippet();
+    }
+
+    public static EmbeddedSnippet embedded() {
+        return new EmbeddedSnippet();
     }
 }

@@ -296,6 +296,152 @@ Configuration available during MockMvc setup:
 
 include::section-snippet.adoc[]
 
+[[snippets-links]]
+=== Links snippet
+
+link:{core-package}/hypermedia/LinksSnippet.java[Links snippet] lists all possible links inside the response.
+In most cases, links cannot be determined from the response class,
+because they are highly dynamic depending on a resource state and often just stored in a Map.
+Therefore this snippet needs a custom class describing possible links, with field names acting as link _rel_s and
+field's Javadoc and annotions used as usually to determine the comment, optionality, deprecation, etc.
+List includes name, whether the link is optional, and its Javadoc description.
+
+.Code
+[source,java]
+----
+@RequestMapping("")
+public ItemResponse getItem() {
+    ItemResponse response = new ItemResponse();
+    response.add(linkTo(methodOn(ItemResource.class).getItem()).withSelfRel());
+    return response;
+}
+
+static class ItemResponse extends org.springframework.hateoas.ResourceSupport {
+  ...
+}
+----
+
+The corresponding test method needs to be configured with documentation type:
+
+.MockMvc test method
+[source,java]
+----
+@Test
+public void getItem() throws Exception {
+    mockMvc.perform(get(...))
+    ...
+        .andDo(links().documentationType(LinksDocumentation.class));
+}
+
+static class LinksDocumentation {
+    /**
+     * Link to this item.
+     */
+    @NotNull
+    private String self;
+
+    /**
+     * Link to item's metadata.
+     */
+    private String metadata;
+}
+----
+
+.Result
+|===
+|Path|Optional|Description
+
+| self
+| false
+| Link to this item.
+
+| metadata
+| true
+| Link to item's metadata.
+
+|===
+
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedFields` - if build should fail on at least one undocumented field
+- `documentationType` - specified class should be considered for documentation
+
+[[snippets-embedded]]
+=== Embedded snippet
+
+link:{core-package}/hypermedia/EmbeddedSnippet.java[Embedded snippet] lists all embedded resources of the response.
+Similarly to LinksSnippet, documentation is determined from custom documentation class.
+List includes name, type, whether the field is optional, and its Javadoc with constraints.
+
+.Code
+[source,java]
+----
+@RequestMapping("")
+public ItemResponse getItem() {
+    ItemResponse response = new ItemResponse();
+    response.embed(getAttributes());
+    response.embed(getMetadata());
+    return response;
+}
+
+static class ItemResponse extends EmbeddedSupport {
+  ...
+}
+----
+
+The corresponding test method needs to be configured with documentation type:
+
+.MockMvc test method
+[source,java]
+----
+@Test
+public void getItem() throws Exception {
+    mockMvc.perform(get(...))
+    ...
+        .andDo(embedded().documentationType(EmbeddedDocumentation.class));
+}
+
+static class EmbeddedDocumentation {
+    /**
+     * Item's attributes.
+     */
+    @NotNull
+    private Attributes attributes;
+
+    /**
+     * Item's metadata.
+     */
+    private List<Metadata> metadata;
+}
+----
+
+.Result
+|===
+|Path|Type|Optional|Description
+
+| attributes
+| Object
+| false
+| Item's attributes.
+
+| metadata
+| Array[Object]
+| true
+| Item's metadata
+
+|===
+
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedFields` - if build should fail on at least one undocumented field
+- `documentationType` - specified class should be considered for documentation
+
+include::section-snippet.adoc[]
+
 [[snippets-custom]]
 === Custom snippet
 

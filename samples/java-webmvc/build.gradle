@@ -53,6 +53,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
     compile "org.springframework.data:spring-data-commons"
+    compile "org.springframework.boot:spring-boot-starter-hateoas"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
     compile "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
     testCompile("org.springframework.boot:spring-boot-starter-test") {
