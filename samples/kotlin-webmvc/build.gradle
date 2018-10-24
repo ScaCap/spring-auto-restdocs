@@ -3,7 +3,7 @@ buildscript {
         kotlinVersion = "1.2.60"
         springAutoRestDocsVersion = "2.0.3-SNAPSHOT"
         springRestDocsVersion = "2.0.2.RELEASE"
-        springBootVersion = "2.0.4.RELEASE"
+        springBootVersion = "2.0.6.RELEASE"
         dokkaVersion = "0.9.16"
     }
     repositories {
