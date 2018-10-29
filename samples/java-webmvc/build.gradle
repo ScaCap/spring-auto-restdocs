@@ -2,7 +2,7 @@ buildscript {
     ext {
         springAutoRestDocsVersion = "2.0.3-SNAPSHOT"
         springRestDocsVersion = "2.0.2.RELEASE"
-        springBootVersion = "2.0.4.RELEASE"
+        springBootVersion = "2.0.6.RELEASE"
     }
     repositories {
         jcenter()
@@ -51,7 +51,7 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.security.oauth:spring-security-oauth2:2.3.0.RELEASE"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.3.4.RELEASE"
     compile "org.springframework.data:spring-data-commons"
     compile "org.springframework.boot:spring-boot-starter-hateoas"
     compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
@@ -62,7 +62,6 @@ dependencies {
     testCompile "com.jayway.jsonpath:json-path-assert"
     testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
     testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
-    compileOnly "org.projectlombok:lombok:1.16.20"
     jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
 }
 
