@@ -25,25 +25,29 @@ import com.google.inject.Inject
 import org.jetbrains.dokka.*
 
 data class ClassDocumentation(
-        val comment: String,
-        val fields: Map<String, FieldDocumentation>,
-        val methods: Map<String, MethodDocumentation>)
+    val comment: String,
+    val fields: Map<String, FieldDocumentation>,
+    val methods: Map<String, MethodDocumentation>
+)
 
 data class MethodDocumentation(
-        val comment: String,
-        val parameters: Map<String, String>,
-        val tags: Map<String, String>)
+    val comment: String,
+    val parameters: Map<String, String>,
+    val tags: Map<String, String>
+)
 
 data class FieldDocumentation(
-        val comment: String,
-        val tags: Map<String, String>)
+    val comment: String,
+    val tags: Map<String, String>
+)
 
 open class JsonOutputBuilder(
-        private val to: StringBuilder,
-        private val logger: DokkaLogger) : FormattedOutputBuilder {
+    private val to: StringBuilder,
+    private val logger: DokkaLogger
+) : FormattedOutputBuilder {
 
     private val mapper = jacksonObjectMapper()
-            .configure(SerializationFeature.INDENT_OUTPUT, true)
+        .configure(SerializationFeature.INDENT_OUTPUT, true)
 
     override fun appendNodes(nodes: Iterable<DocumentationNode>) {
         val singleNode = nodes.singleOrNull()
@@ -57,42 +61,49 @@ open class JsonOutputBuilder(
 
     private fun appendClassDocumentation(node: DocumentationNode) {
         val fields = node.references(RefKind.Member)
-                .filter { it.to.kind == NodeKind.Property || it.to.kind == NodeKind.Field }
-                .map { propertyDocumentation(it.to) }
-                .toMap()
+            .filter { it.to.kind == NodeKind.Property || it.to.kind == NodeKind.Field }
+            .map { propertyDocumentation(it.to) }
+            .toMap()
         val methods = node.references(RefKind.Member)
-                .filter { it.to.kind == NodeKind.Function }
-                .map { functionDocumentation(it.to) }
-                .toMap()
+            .filter { it.to.kind == NodeKind.Function }
+            .map { functionDocumentation(it.to) }
+            .toMap()
         val classDocumentation = ClassDocumentation(
-                comment = extractContent(node),
-                fields = fields,
-                methods = methods)
+            comment = extractContent(node),
+            fields = fields,
+            methods = methods
+        )
         to.append(mapper.writeValueAsString(classDocumentation))
     }
 
     private fun propertyDocumentation(node: DocumentationNode): Pair<String, FieldDocumentation> {
-        return Pair(node.name, FieldDocumentation(
+        return Pair(
+            node.name, FieldDocumentation(
                 comment = extractContent(node),
-                tags = tags(node)))
+                tags = tags(node)
+            )
+        )
     }
 
     private fun functionDocumentation(node: DocumentationNode): Pair<String, MethodDocumentation> {
         val parameterComments = node.content.sections
-                .filter { it.subjectName != null }
-                .map {
-                    Pair(it.subjectName!!, extractContent(it, topLevel = true))
-                }.toMap()
-        return Pair(node.name, MethodDocumentation(
+            .filter { it.subjectName != null }
+            .map {
+                Pair(it.subjectName!!, extractContent(it, topLevel = true))
+            }.toMap()
+        return Pair(
+            node.name, MethodDocumentation(
                 comment = extractContent(node),
                 parameters = parameterComments,
-                tags = tags(node)))
+                tags = tags(node)
+            )
+        )
     }
 
-    private fun JsonOutputBuilder.tags(node: DocumentationNode): Map<String, String> {
+    private fun tags(node: DocumentationNode): Map<String, String> {
         return node.content.sections
-                .map { Pair(tagName(it.tag), extractContent(it.children)) }
-                .toMap()
+            .map { Pair(tagName(it.tag), extractContent(it.children)) }
+            .toMap()
     }
 
     private fun tagName(tag: String): String {
@@ -149,7 +160,8 @@ open class JsonOutputBuilder(
 
     private fun wrap(prefix: String, suffix: String, body: String): String = "$prefix$body$suffix"
 
-    private fun joinChildren(block: ContentBlock): String = block.children.joinToString("") { extractContent(it, topLevel = false) }
+    private fun joinChildren(block: ContentBlock): String =
+        block.children.joinToString("") { extractContent(it, topLevel = false) }
 }
 
 open class JsonFormatService @Inject constructor(private val logger: DokkaLogger) : FormatService {
@@ -157,5 +169,5 @@ open class JsonFormatService @Inject constructor(private val logger: DokkaLogger
     override val extension: String = "json"
 
     override fun createOutputBuilder(to: StringBuilder, location: Location): FormattedOutputBuilder =
-            JsonOutputBuilder(to, logger)
+        JsonOutputBuilder(to, logger)
 }
