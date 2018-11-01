@@ -30,6 +30,7 @@ import org.jetbrains.dokka.KotlinJavaDocumentationBuilder
 import org.jetbrains.dokka.KotlinLanguageService
 import org.jetbrains.dokka.KotlinPackageDocumentationBuilder
 import org.jetbrains.dokka.LanguageService
+import org.jetbrains.dokka.NodeLocationAwareGenerator
 import org.jetbrains.dokka.PackageListService
 import org.jetbrains.dokka.Samples.DefaultSampleProcessingService
 import org.jetbrains.dokka.Samples.SampleProcessingService
@@ -40,7 +41,8 @@ import kotlin.reflect.KClass
 class JsonFormatDescriptor : FormatDescriptor, DefaultAnalysisComponent {
 
     override fun configureOutput(binder: Binder): Unit = with(binder) {
-        bind<Generator>() toType JsonFileGenerator::class
+        bind<Generator>() toType NodeLocationAwareGenerator::class
+        bind<NodeLocationAwareGenerator>() toType JsonFileGenerator::class
         bind<LanguageService>() toType KotlinLanguageService::class
         bind<FormatService>() toType JsonFormatService::class
         bind<PackageListService>() toType DefaultPackageListService::class
