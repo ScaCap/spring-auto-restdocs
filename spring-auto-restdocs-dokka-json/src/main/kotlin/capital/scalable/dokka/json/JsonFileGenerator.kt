@@ -20,29 +20,37 @@
 package capital.scalable.dokka.json
 
 import com.google.inject.Inject
+import com.google.inject.name.Named
 import org.jetbrains.dokka.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
 
-class JsonFileGenerator @Inject constructor(val locationService: FileLocationService) : Generator {
+class JsonFileGenerator @Inject constructor(@Named("outputDir") override val root: File) : NodeLocationAwareGenerator {
 
     @set:Inject(optional = true)
     lateinit var formatService: FormatService
 
-    override fun buildPages(nodes: Iterable<DocumentationNode>) {
-        val specificLocationService = locationService.withExtension(formatService.extension)
+    override fun location(node: DocumentationNode): Location {
+        return FileLocation(fileForNode(node, formatService.linkExtension))
+    }
 
-        for ((_, items) in nodes.groupBy { specificLocationService.location(it) }) {
+    private fun fileForNode(node: DocumentationNode, extension: String = ""): File {
+        return File(root, relativePathToNode(node)).appendExtension(extension)
+    }
+
+    override fun buildPages(nodes: Iterable<DocumentationNode>) {
+
+        for ((_, items) in nodes.groupBy { fileForNode(it, formatService.extension) }) {
             if (items.any { it.kind == NodeKind.Class }) {
                 val location = locationOverride(items.find { it.kind == NodeKind.Class }!!)
                 val file = location.file
                 file.parentFile?.mkdirsOrFail()
                 try {
                     FileOutputStream(file).use {
-                        OutputStreamWriter(it, Charsets.UTF_8).use {
-                            it.write(formatService.format(location, items))
+                        OutputStreamWriter(it, Charsets.UTF_8).use { writer ->
+                            writer.write(formatService.format(location, items))
                         }
                     }
                 } catch (e: Throwable) {
@@ -55,20 +63,20 @@ class JsonFileGenerator @Inject constructor(val locationService: FileLocationSer
 
     private fun locationOverride(node: DocumentationNode): FileLocation {
         val path = node.path
-                // Remove class name. It is appended again below.
-                .dropLast(1)
-                .filter { it.name.isNotEmpty() && it.kind != NodeKind.Module }
-                .joinToString("") {
-                    if (it.kind == NodeKind.Class) {
-                        // Parent class if the node is a nested class
-                        "${it.name}."
-                    } else {
-                        // Turn package dots into folders
-                        "${it.name.replace(".", "/")}/"
-                    }
+            // Remove class name. It is appended again below.
+            .dropLast(1)
+            .filter { it.name.isNotEmpty() && it.kind != NodeKind.Module }
+            .joinToString("") {
+                if (it.kind == NodeKind.Class) {
+                    // Parent class if the node is a nested class
+                    "${it.name}."
+                } else {
+                    // Turn package dots into folders
+                    "${it.name.replace(".", "/")}/"
                 }
+            }
         val className = node.name
-        return FileLocation(File(locationService.root.path, "$path$className.json"))
+        return FileLocation(File(root.path, "$path$className.json"))
     }
 
     override fun buildOutlines(nodes: Iterable<DocumentationNode>) {}

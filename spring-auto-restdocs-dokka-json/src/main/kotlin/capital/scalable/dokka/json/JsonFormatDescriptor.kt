@@ -19,22 +19,37 @@
  */
 package capital.scalable.dokka.json
 
-import org.jetbrains.dokka.*
+import com.google.inject.Binder
+import org.jetbrains.dokka.DefaultPackageListService
+import org.jetbrains.dokka.FormatService
+import org.jetbrains.dokka.Formats.DefaultAnalysisComponent
 import org.jetbrains.dokka.Formats.FormatDescriptor
+import org.jetbrains.dokka.Generator
 import org.jetbrains.dokka.Kotlin.KotlinDescriptorSignatureProvider
+import org.jetbrains.dokka.KotlinJavaDocumentationBuilder
+import org.jetbrains.dokka.KotlinLanguageService
+import org.jetbrains.dokka.KotlinPackageDocumentationBuilder
+import org.jetbrains.dokka.LanguageService
+import org.jetbrains.dokka.NodeLocationAwareGenerator
+import org.jetbrains.dokka.PackageListService
 import org.jetbrains.dokka.Samples.DefaultSampleProcessingService
 import org.jetbrains.dokka.Samples.SampleProcessingService
+import org.jetbrains.dokka.Utilities.bind
+import org.jetbrains.dokka.Utilities.toType
 import kotlin.reflect.KClass
 
-class JsonFormatDescriptor : FormatDescriptor {
-    override val formatServiceClass = JsonFormatService::class
+class JsonFormatDescriptor : FormatDescriptor, DefaultAnalysisComponent {
 
-    override val packageDocumentationBuilderClass = KotlinPackageDocumentationBuilder::class
+    override fun configureOutput(binder: Binder): Unit = with(binder) {
+        bind<Generator>() toType NodeLocationAwareGenerator::class
+        bind<NodeLocationAwareGenerator>() toType JsonFileGenerator::class
+        bind<LanguageService>() toType KotlinLanguageService::class
+        bind<FormatService>() toType JsonFormatService::class
+        bind<PackageListService>() toType DefaultPackageListService::class
+    }
+
     override val javaDocumentationBuilderClass = KotlinJavaDocumentationBuilder::class
-
-    override val generatorServiceClass = JsonFileGenerator::class
-    override val outlineServiceClass: KClass<out OutlineFormatService>? = null
-    override val sampleProcessingService: KClass<out SampleProcessingService> = DefaultSampleProcessingService::class
-    override val packageListServiceClass: KClass<out PackageListService>? = DefaultPackageListService::class
     override val descriptorSignatureProvider = KotlinDescriptorSignatureProvider::class
+    override val packageDocumentationBuilderClass = KotlinPackageDocumentationBuilder::class
+    override val sampleProcessingService: KClass<out SampleProcessingService> = DefaultSampleProcessingService::class
 }
