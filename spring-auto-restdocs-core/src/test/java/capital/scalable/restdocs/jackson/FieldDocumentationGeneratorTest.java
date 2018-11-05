@@ -495,7 +495,7 @@ public class FieldDocumentationGeneratorTest {
                 .generateDocumentation(type, mapper.getTypeFactory()));
         // then
         assertThat(result.size(), is(1));
-        assertThat(result.get(0), is(descriptor("string", "String", "A string", "true")));
+        assertThat(result.get(0), is(descriptor("otherString", "String", "A string", "true")));
     }
 
     private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
