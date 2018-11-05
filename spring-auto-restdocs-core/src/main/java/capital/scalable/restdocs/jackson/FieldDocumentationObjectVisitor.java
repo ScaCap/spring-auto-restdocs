@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -127,7 +128,8 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
         Class<?> rawClass = prop.getType().getContentType() != null
                 ? prop.getType().getContentType().getRawClass()
                 : prop.getType().getRawClass();
-        return SKIPPED_FIELDS.contains(prop.getName())
-                || SKIPPED_CLASSES.contains(rawClass.getCanonicalName());
+        JsonIgnore ignoreProperty = prop.getMember().getAnnotation(JsonIgnore.class);
+        return SKIPPED_FIELDS.contains(prop.getName()) || SKIPPED_CLASSES.contains(rawClass.getCanonicalName())
+                || ignoreProperty != null;
     }
 }

@@ -479,6 +479,25 @@ public class FieldDocumentationGeneratorTest {
         assertThat(result.get(1), is(descriptor("number", "Integer", "An integer", "false")));
     }
 
+    @Test
+    public void testGenerateDocumentationForIgnoreProperties() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+        mockFieldComment(IgnoreProperties.class, "otherString", "A string");
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
+                        javadocReader, constraintReader);
+        Type type = IgnoreProperties.class;
+
+        // when
+        List<ExtendedFieldDescriptor> result = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()));
+        // then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), is(descriptor("string", "String", "A string", "true")));
+    }
+
     private OngoingStubbing<List<String>> mockOptional(Class<?> javaBaseClass, String fieldName,
             String value) {
         return when(constraintReader.getOptionalMessages(javaBaseClass, fieldName))
@@ -722,5 +741,13 @@ public class FieldDocumentationGeneratorTest {
         private String string;
         @JsonProperty(required = true)
         private Integer number;
+    }
+
+    private static class IgnoreProperties {
+        @JsonIgnore
+        private String string;
+        @JsonIgnore
+        private Integer number;
+        private String otherString;
     }
 }
