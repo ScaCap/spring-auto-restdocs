@@ -1,12 +1,16 @@
 buildscript {
     ext {
-        springBootVersion = "1.5.9.RELEASE"
-        springAutoRestDocsVersion = "1.0.14-SNAPSHOT"
-        springRestDocsVersion = "1.2.4.RELEASE"
+        springBootVersion = "1.5.17.RELEASE"
+        springAutoRestDocsVersion = "1.0.14"
+        springRestDocsVersion = "1.2.5.RELEASE"
     }
     repositories {
-        jcenter()
-        mavenCentral()
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
+        maven {
+            url "http://repo1.maven.org/maven2"
+        }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
