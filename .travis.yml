@@ -13,6 +13,7 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 before_install:
+- cp .travis.settings.xml $HOME/.m2/settings.xml
 - mvn install:install-file -Dfile=lib/spring-restdocs-core-1.2.5.RELEASE-test.jar
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=1.2.5.RELEASE
   -Dpackaging=jar -Dclassifier=test
