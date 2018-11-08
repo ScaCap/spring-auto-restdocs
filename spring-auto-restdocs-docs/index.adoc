@@ -66,6 +66,13 @@ Can Spring REST Docs and Spring Auto REST Docs features be combined?::
   Yes, this even works in the same test.
   One can generate Spring REST Docs snippets and Spring Auto REST Docs snippets out of the same test.
   This is demonstrated in the example project.
+Can I regenerate the final HTML without running all tests?::
+  Yes, if you do not need the snippets generated out of the test to be updated,
+  Asciidoctor can be executed standalone. With Maven you can run
+  `mvn asciidoctor:process-asciidoc`
+  (where `process-asciidoc` is the goal specified in your Maven POM and might differ).
+  With Gradle it can be done via `./gradlew asciidoctor` if `asciidoctor` is the name of the Gradle task
+  in your setup. You might have to remove `dependsOn test` depending on your setup to run it standalone.
 
 include::getting-started.adoc[]
 
