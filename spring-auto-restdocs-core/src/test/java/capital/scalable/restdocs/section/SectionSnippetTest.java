@@ -25,9 +25,24 @@ import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.CURL_REQUEST;
+import static capital.scalable.restdocs.SnippetRegistry.HTTPIE_REQUEST;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_REQUEST;
 import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.SnippetRegistry.LINKS;
+import static capital.scalable.restdocs.SnippetRegistry.PATH_PARAMETERS;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_BODY_SNIPPET;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_HEADERS;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PARAMETERS;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PARTS;
+import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PART_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_BODY;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_HEADERS;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_PARTS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
+import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -51,7 +66,6 @@ import org.springframework.web.method.HandlerMethod;
 
 public class SectionSnippetTest {
 
-    private static final String LINE_SEPERATOR = System.lineSeparator();
     private JavadocReader javadocReader;
 
     @Rule
@@ -81,10 +95,11 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-noSnippets]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-noSnippets]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n")));
 
         new SectionBuilder()
                 .snippetNames()
@@ -100,10 +115,11 @@ public class SectionSnippetTest {
     @Test
     public void noHandlerMethod() throws Exception {
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-noHandlerMethod]]" + LINE_SEPERATOR +
-                        "=== No Handler Method" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-noHandlerMethod]]\n" +
+                                "=== No Handler Method\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n")));
 
         new SectionBuilder()
                 .snippetNames()
@@ -121,24 +137,25 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-defaultSnippets]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Authorization" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-authorization.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Path parameters" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-path-parameters.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Query parameters" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-request-parameters.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Request fields" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-request-fields.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Response fields" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-response-fields.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example request" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::curl-request.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example response" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::http-response.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-defaultSnippets]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== Authorization\n\n" +
+                                "include::auto-authorization.adoc[]\n\n" +
+                                "==== Path parameters\n\n" +
+                                "include::auto-path-parameters.adoc[]\n\n" +
+                                "==== Query parameters\n\n" +
+                                "include::auto-request-parameters.adoc[]\n\n" +
+                                "==== Request fields\n\n" +
+                                "include::auto-request-fields.adoc[]\n\n" +
+                                "==== Response fields\n\n" +
+                                "include::auto-response-fields.adoc[]\n\n" +
+                                "==== Example request\n\n" +
+                                "include::curl-request.adoc[]\n\n" +
+                                "==== Example response\n\n" +
+                                "include::http-response.adoc[]\n")));
 
         new SectionBuilder().build()
                 .document(operationBuilder
@@ -158,19 +175,80 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-customSnippets]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example response" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::http-response.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Response fields" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-response-fields.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example request" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::http-request.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-customSnippets]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== Example response\n\n" +
+                                "include::http-response.adoc[]\n\n" +
+                                "==== Response fields\n\n" +
+                                "include::auto-response-fields.adoc[]\n\n" +
+                                "==== Example request\n\n" +
+                                "include::http-request.adoc[]\n")));
 
         new SectionBuilder()
                 .snippetNames(HTTP_RESPONSE, AUTO_RESPONSE_FIELDS, HTTP_REQUEST)
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
+    }
+
+    @Test
+    public void allClassicSnippets() throws Exception {
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+
+        this.snippets.expect(SECTION)
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-allClassicSnippets]]\n"
+                                + "=== Get Item By Id\n\n"
+                                + "include::auto-method-path.adoc[]\n\n"
+                                + "include::auto-description.adoc[]\n\n"
+                                + "==== Example request\n\n"
+                                + "include::curl-request.adoc[]\n\n"
+                                + "==== Example request\n\n"
+                                + "include::http-request.adoc[]\n\n"
+                                + "==== Example response\n\n"
+                                + "include::http-response.adoc[]\n\n"
+                                + "==== Example request\n\n"
+                                + "include::httpie-request.adoc[]\n\n"
+                                + "==== Path parameters\n\n"
+                                + "include::path-parameters.adoc[]\n\n"
+                                + "==== Query parameters\n\n"
+                                + "include::request-parameters.adoc[]\n\n"
+                                + "==== Request fields\n\n"
+                                + "include::request-fields.adoc[]\n\n"
+                                + "==== Response fields\n\n"
+                                + "include::response-fields.adoc[]\n\n"
+                                + "==== Request Body\n\n"
+                                + "include::request-body.adoc[]\n\n"
+                                + "==== Response Body\n\n"
+                                + "include::response-body.adoc[]\n\n"
+                                + "==== Request headers\n\n"
+                                + "include::request-headers.adoc[]\n\n"
+                                + "==== Response headers\n\n"
+                                + "include::response-headers.adoc[]\n\n"
+                                + "==== Request Parts\n\n"
+                                + "include::request-parts.adoc[]\n\n"
+                                + "==== Response Parts\n\n"
+                                + "include::response-parts.adoc[]\n\n"
+                                + "==== Request Part Fields\n\n"
+                                + "include::request-part-fields.adoc[]\n\n"
+                                + "==== Hypermedia links\n\n"
+                                + "include::links.adoc[]\n")));
+
+        new SectionBuilder()
+                .snippetNames(CURL_REQUEST, HTTP_REQUEST, HTTP_RESPONSE, HTTPIE_REQUEST, PATH_PARAMETERS,
+                        REQUEST_PARAMETERS, REQUEST_FIELDS, RESPONSE_FIELDS, REQUEST_BODY_SNIPPET, RESPONSE_BODY,
+                        REQUEST_HEADERS, RESPONSE_HEADERS, REQUEST_PARTS, RESPONSE_PARTS, REQUEST_PART_FIELDS, LINKS)
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -189,16 +267,17 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-skipEmpty]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Authorization" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-authorization.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example request" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::curl-request.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== Example response" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::http-response.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-skipEmpty]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== Authorization\n\n" +
+                                "include::auto-authorization.adoc[]\n\n" +
+                                "==== Example request\n\n" +
+                                "include::curl-request.adoc[]\n\n" +
+                                "==== Example response\n\n" +
+                                "include::http-response.adoc[]\n")));
 
         new SectionBuilder()
                 .skipEmpty(true)
@@ -220,10 +299,11 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "Custom title");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-customTitle]]" + LINE_SEPERATOR +
-                        "=== Custom title" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-customTitle]]\n" +
+                                "=== Custom title\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n")));
 
         new SectionBuilder()
                 .snippetNames()
@@ -243,12 +323,12 @@ public class SectionSnippetTest {
         when(javadocReader.resolveMethodTag(TestResource.class, "getItemById", "deprecated"))
                 .thenReturn("it is");
 
-
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-deprecated]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id (deprecated)" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-deprecated]]\n" +
+                                "=== Get Item By Id (deprecated)\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n")));
 
         new SectionBuilder()
                 .snippetNames()
@@ -269,24 +349,25 @@ public class SectionSnippetTest {
         mockMethodTitle(TestResource.class, "getItemById", "");
 
         this.snippets.expect(SECTION)
-                .withContents(equalTo("[[resources-translation]]" + LINE_SEPERATOR +
-                        "=== Get Item By Id" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-method-path.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-description.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XAuthorization" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-authorization.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XPath parameters" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-path-parameters.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XQuery parameters" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-request-parameters.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XRequest fields" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-request-fields.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XResponse fields" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::auto-response-fields.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XExample request" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::curl-request.adoc[]" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "==== XExample response" + LINE_SEPERATOR + LINE_SEPERATOR +
-                        "include::http-response.adoc[]" + LINE_SEPERATOR));
+                .withContents(equalTo(fixLineSeparator(
+                        "[[resources-translation]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== XAuthorization\n\n" +
+                                "include::auto-authorization.adoc[]\n\n" +
+                                "==== XPath parameters\n\n" +
+                                "include::auto-path-parameters.adoc[]\n\n" +
+                                "==== XQuery parameters\n\n" +
+                                "include::auto-request-parameters.adoc[]\n\n" +
+                                "==== XRequest fields\n\n" +
+                                "include::auto-request-fields.adoc[]\n\n" +
+                                "==== XResponse fields\n\n" +
+                                "include::auto-response-fields.adoc[]\n\n" +
+                                "==== XExample request\n\n" +
+                                "include::curl-request.adoc[]\n\n" +
+                                "==== XExample response\n\n" +
+                                "include::http-response.adoc[]\n")));
 
         new SectionBuilder().build()
                 .document(operationBuilder
@@ -306,7 +387,6 @@ public class SectionSnippetTest {
     }
 
     private static class TestResource {
-
 
         public void getItemById() {
             // NOOP

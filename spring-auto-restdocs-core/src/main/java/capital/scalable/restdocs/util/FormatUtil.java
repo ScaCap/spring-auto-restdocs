@@ -58,4 +58,8 @@ public class FormatUtil {
             return result.toString();
         }
     }
+
+    public static String fixLineSeparator(String str) {
+        return str.replace("\n", System.lineSeparator());
+    }
 }

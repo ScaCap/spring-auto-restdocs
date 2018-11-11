@@ -19,7 +19,7 @@
  */
 package capital.scalable.restdocs.hypermedia;
 
-import static capital.scalable.restdocs.hypermedia.LinksSnippet.LINKS;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_LINKS;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -67,7 +67,7 @@ public class LinksSnippetTest extends AbstractSnippetTests {
         mockFieldComment(LinksDocs.class, "link1", "Link 1");
         mockFieldComment(LinksDocs.class, "link2", "Link 2");
 
-        this.snippets.expect(LINKS).withContents(
+        this.snippets.expect(AUTO_LINKS).withContents(
                 tableWithHeader("Path", "Optional", "Description")
                         .row("link1", "true", "Link 1.")
                         .row("link2", "true", "Link 2."));
@@ -82,7 +82,7 @@ public class LinksSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(LINKS).withContents(equalTo("No links."));
+        this.snippets.expect(AUTO_LINKS).withContents(equalTo("No links."));
 
         new LinksSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)

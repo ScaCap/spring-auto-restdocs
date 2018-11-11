@@ -56,7 +56,7 @@ public class SnippetRegistry {
     public static final String REQUEST_PART_FIELDS = "request-part-fields";
     public static final String LINKS = "links";
 
-    public static final Map<String, SectionSupport> CLASSIC_SNIPPETS;
+    private static final Map<String, SectionSupport> CLASSIC_SNIPPETS;
 
     static {
         CLASSIC_SNIPPETS = new HashMap<>();
@@ -66,7 +66,7 @@ public class SnippetRegistry {
         CLASSIC_SNIPPETS.put(HTTP_RESPONSE, section(HTTP_RESPONSE, "example-response", true));
         CLASSIC_SNIPPETS.put(REQUEST_PARAMETERS, section(REQUEST_PARAMETERS, "request-parameters", true));
         CLASSIC_SNIPPETS.put(PATH_PARAMETERS, section(PATH_PARAMETERS, "path-parameters", true));
-        CLASSIC_SNIPPETS.put(LINKS, section(LINKS, "links", true));
+        CLASSIC_SNIPPETS.put(LINKS, section(LINKS, "hypermedia-links", true));
         CLASSIC_SNIPPETS.put(REQUEST_FIELDS, section(REQUEST_FIELDS, "request-fields", true));
         CLASSIC_SNIPPETS.put(RESPONSE_FIELDS, section(RESPONSE_FIELDS, "response-fields", true));
         CLASSIC_SNIPPETS.put(REQUEST_BODY_SNIPPET, section(REQUEST_BODY_SNIPPET, "request-body", true));
@@ -74,7 +74,6 @@ public class SnippetRegistry {
         CLASSIC_SNIPPETS.put(REQUEST_HEADERS, section(REQUEST_HEADERS, "request-headers", true));
         CLASSIC_SNIPPETS.put(RESPONSE_HEADERS, section(RESPONSE_HEADERS, "response-headers", true));
         CLASSIC_SNIPPETS.put(REQUEST_PARTS, section(REQUEST_PARTS, "request-parts", true));
-        CLASSIC_SNIPPETS.put(RESPONSE_PARTS, section(RESPONSE_PARTS, "response-parts", true));
         CLASSIC_SNIPPETS.put(REQUEST_PART_FIELDS, section(REQUEST_PART_FIELDS, "request-part-fields", true));
     }
 
