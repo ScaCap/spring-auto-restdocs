@@ -19,6 +19,8 @@
  */
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
@@ -29,8 +31,6 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
-    public static final String REQUEST_FIELDS = "auto-request-fields";
-
     private final Type requestBodyType;
     private final boolean failOnUndocumentedFields;
 
@@ -39,7 +39,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     public JacksonRequestFieldSnippet(Type requestBodyType, boolean failOnUndocumentedFields) {
-        super(REQUEST_FIELDS, null);
+        super(AUTO_REQUEST_FIELDS, null);
         this.requestBodyType = requestBodyType;
         this.failOnUndocumentedFields = failOnUndocumentedFields;
     }
