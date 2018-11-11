@@ -22,15 +22,15 @@ package capital.scalable.dokka.json
 import junit.framework.ComparisonFailure
 
 class FileComparisonFailure(
-        message: String,
-        expected: String?,
-        actual: String?,
-        expectedFilePath: String
+    message: String,
+    expected: String?,
+    actual: String?,
+    expectedFilePath: String
 ) : ComparisonFailure(message, expected, actual) {
 
     private val myExpected: String
     private val myActual: String
-    val filePath: String
+    private val filePath: String
 
     init {
         when {

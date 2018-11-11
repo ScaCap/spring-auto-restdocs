@@ -56,10 +56,16 @@ class JsonFormatServiceTest {
     }
 
     private fun verifyNestedJsonNode(fileName: String, outputExtension: String) {
-        verifyJsonNodes(fileName, outputExtension) { model -> model.members.single().members.single().members(NodeKind.Class) }
+        verifyJsonNodes(fileName, outputExtension) { model ->
+            model.members.single().members.single().members(NodeKind.Class)
+        }
     }
 
-    private fun verifyJsonNodes(fileName: String, outputExtension: String = ".json", nodeFilter: (DocumentationModule) -> List<DocumentationNode>) {
+    private fun verifyJsonNodes(
+        fileName: String,
+        outputExtension: String = ".json",
+        nodeFilter: (DocumentationModule) -> List<DocumentationNode>
+    ) {
         verifyOutput("testdata/$fileName.kt", outputExtension) { model, output ->
             jsonFormatService.createOutputBuilder(output, tempLocation).appendNodes(nodeFilter(model))
         }
@@ -70,10 +76,16 @@ class JsonFormatServiceTest {
     }
 
     private fun verifyNestedJavaJsonNode(fileName: String, outputExtension: String) {
-        verifyJavaJsonNodes(fileName, outputExtension) { model -> model.members.single().members.single().members(NodeKind.Class) }
+        verifyJavaJsonNodes(fileName, outputExtension) { model ->
+            model.members.single().members.single().members(NodeKind.Class)
+        }
     }
 
-    private fun verifyJavaJsonNodes(fileName: String, outputExtension: String = ".json", nodeFilter: (DocumentationModule) -> List<DocumentationNode>) {
+    private fun verifyJavaJsonNodes(
+        fileName: String,
+        outputExtension: String = ".json",
+        nodeFilter: (DocumentationModule) -> List<DocumentationNode>
+    ) {
         verifyJavaOutput("testdata/$fileName.java", outputExtension) { model, output ->
             jsonFormatService.createOutputBuilder(output, tempLocation).appendNodes(nodeFilter(model))
         }

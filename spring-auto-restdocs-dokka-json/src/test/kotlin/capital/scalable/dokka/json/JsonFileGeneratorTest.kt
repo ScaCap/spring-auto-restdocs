@@ -22,13 +22,14 @@ package capital.scalable.dokka.json
 import com.intellij.openapi.util.io.FileUtil
 import org.jetbrains.dokka.DocumentationModule
 import org.jetbrains.dokka.DokkaConsoleLogger
-import org.jetbrains.dokka.SingleFolderLocationService
 import org.jetbrains.dokka.contentRootFromPath
 import org.junit.Test
 import java.io.File
 import kotlin.test.assertTrue
 
 class JsonFileGeneratorTest {
+
+    private val root: File = FileUtil.createTempDirectory("dokka-json", "file-generator-test")
 
     @Test
     fun `buildPages should generate JSON files for Kotlin classes and nested classes`() {
@@ -46,32 +47,32 @@ class JsonFileGeneratorTest {
 
     private fun verifyOutput(inputFile: String, verifier: (DocumentationModule) -> Unit) {
         verifyModel(
-                contentRootFromPath("testdata/$inputFile"),
-                verifier = verifier)
+            contentRootFromPath("testdata/$inputFile"),
+            verifier = verifier
+        )
     }
 
     private fun verifyJavaOutput(inputFile: String, verifier: (DocumentationModule) -> Unit) {
         verifyJavaModel(
-                "testdata/$inputFile",
-                verifier = verifier)
+            "testdata/$inputFile",
+            verifier = verifier
+        )
     }
 
     private fun verifier(expectedFiles: List<String>): (DocumentationModule) -> Unit {
         val fileGenerator = initFileGenerator()
-        val rootPath = File(fileGenerator.locationService.root.path)
+        val rootPath = File(root.path)
         return {
             fileGenerator.buildPages(listOf(it))
-            expectedFiles.forEach {
-                val file = rootPath.resolve("$it.json")
-                assertTrue("Expected file $it.json was not generated") { file.exists() }
+            expectedFiles.forEach { fileName ->
+                val file = rootPath.resolve("$fileName.json")
+                assertTrue("Expected file $fileName.json was not generated") { file.exists() }
             }
         }
     }
 
     private fun initFileGenerator(): JsonFileGenerator {
-        val tempDir = FileUtil.createTempDirectory("dokka-json", "file-generator-test")
-        val fileLocationService = SingleFolderLocationService(tempDir, "json")
-        val fileGenerator = JsonFileGenerator(fileLocationService)
+        val fileGenerator = JsonFileGenerator(root)
         fileGenerator.formatService = JsonFormatService(DokkaConsoleLogger)
         return fileGenerator
     }
