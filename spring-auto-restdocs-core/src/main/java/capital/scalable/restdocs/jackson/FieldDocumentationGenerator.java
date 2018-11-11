@@ -23,7 +23,10 @@ import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -37,6 +40,9 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class FieldDocumentationGenerator {
     private static final Logger log = getLogger(FieldDocumentationGenerator.class);
+    private final static Set<String> SKIPPED_TYPES = new HashSet<>(Arrays.asList(
+            "org.springframework.hateoas.Resources"
+    ));
 
     private final ObjectWriter writer;
     private final DeserializationConfig deserializationConfig;
@@ -64,6 +70,9 @@ public class FieldDocumentationGenerator {
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());
+            if (SKIPPED_TYPES.contains(type.getRawClass().getCanonicalName())) {
+                continue;
+            }
             writer.acceptJsonFormatVisitor(type, visitorWrapper);
         }
 
