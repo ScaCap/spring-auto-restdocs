@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.AutoDocumentation.section;
 import static capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson;
 import static capital.scalable.restdocs.misc.AuthorizationSnippet.documentAuthorization;
+import static capital.scalable.restdocs.postman.PostmanResultHandlers.preparePostman;
 import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
 import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.replaceBinaryContent;
 import static org.hamcrest.Matchers.equalTo;
@@ -51,8 +52,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.Filter;
 
+import capital.scalable.restdocs.postman.PostmanRule;
+import capital.scalable.restdocs.postman.PostmanSnippet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,12 +96,16 @@ public abstract class MockMvcBase {
     @Rule
     public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
+    @ClassRule
+    public static final PostmanRule postmanCollection = new PostmanRule("Items", "Contains items calls");
+
     @Before
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilters(springSecurityFilterChain)
                 .alwaysDo(prepareJackson(objectMapper))
+                .alwaysDo(preparePostman(postmanCollection.get()))
                 .alwaysDo(commonDocumentation())
                 .apply(documentationConfiguration(restDocumentation)
                         .uris()
@@ -108,6 +116,7 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
+                                new PostmanSnippet(),
                                 section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION)))
                 .build();
     }

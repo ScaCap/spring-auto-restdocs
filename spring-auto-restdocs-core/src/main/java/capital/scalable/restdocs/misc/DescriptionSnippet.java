@@ -54,18 +54,23 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
 
         JavadocReader javadocReader = getJavadocReader(operation);
-        String methodComment = resolveComment(handlerMethod, javadocReader);
-        String seeTagComment = resolveSeeTag(handlerMethod, javadocReader);
-        String deprecatedComment = resolveDeprecated(handlerMethod, javadocReader);
-        String completeComment = join("<p>", deprecatedComment, methodComment, seeTagComment);
-        String description = convertFromJavadoc(completeComment,
-                determineTemplateFormatting(operation));
+        String description = resolveDescription(operation, handlerMethod, javadocReader);
 
         model.put("description", description);
         return model;
     }
 
-    private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    public static String resolveDescription(Operation operation, HandlerMethod handlerMethod,
+            JavadocReader javadocReader) {
+        String methodComment = resolveComment(handlerMethod, javadocReader);
+        String seeTagComment = resolveSeeTag(handlerMethod, javadocReader);
+        String deprecatedComment = resolveDeprecated(handlerMethod, javadocReader);
+        String completeComment = join("<p>", deprecatedComment, methodComment, seeTagComment);
+        return convertFromJavadoc(completeComment,
+                determineTemplateFormatting(operation));
+    }
+
+    private static String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
         String deprecatedDoc = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
@@ -76,13 +81,13 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
     }
 
-    private String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    private static String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
         return addDot(capitalize(methodComment));
     }
 
-    private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    private static String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "see");
         if (isNotBlank(comment)) {
