@@ -40,7 +40,6 @@ import static capital.scalable.restdocs.SnippetRegistry.REQUEST_PART_FIELDS;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_BODY;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_HEADERS;
-import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_PARTS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -238,8 +237,6 @@ public class SectionSnippetTest {
                                 + "include::response-headers.adoc[]\n\n"
                                 + "==== Request Parts\n\n"
                                 + "include::request-parts.adoc[]\n\n"
-                                + "==== Response Parts\n\n"
-                                + "include::response-parts.adoc[]\n\n"
                                 + "==== Request Part Fields\n\n"
                                 + "include::request-part-fields.adoc[]\n\n"
                                 + "==== Hypermedia links\n\n"
@@ -248,7 +245,7 @@ public class SectionSnippetTest {
         new SectionBuilder()
                 .snippetNames(CURL_REQUEST, HTTP_REQUEST, HTTP_RESPONSE, HTTPIE_REQUEST, PATH_PARAMETERS,
                         REQUEST_PARAMETERS, REQUEST_FIELDS, RESPONSE_FIELDS, REQUEST_BODY_SNIPPET, RESPONSE_BODY,
-                        REQUEST_HEADERS, RESPONSE_HEADERS, REQUEST_PARTS, RESPONSE_PARTS, REQUEST_PART_FIELDS, LINKS)
+                        REQUEST_HEADERS, RESPONSE_HEADERS, REQUEST_PARTS, REQUEST_PART_FIELDS, LINKS)
                 .build()
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)

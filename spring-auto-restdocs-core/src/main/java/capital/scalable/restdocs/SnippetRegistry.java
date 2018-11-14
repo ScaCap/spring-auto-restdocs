@@ -52,7 +52,6 @@ public class SnippetRegistry {
     public static final String REQUEST_HEADERS = "request-headers";
     public static final String RESPONSE_HEADERS = "response-headers";
     public static final String REQUEST_PARTS = "request-parts";
-    public static final String RESPONSE_PARTS = "response-parts";
     public static final String REQUEST_PART_FIELDS = "request-part-fields";
     public static final String LINKS = "links";
 
