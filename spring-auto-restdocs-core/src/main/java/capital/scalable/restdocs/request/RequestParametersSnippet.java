@@ -21,6 +21,7 @@ package capital.scalable.restdocs.request;
 
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.FieldDescriptors;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
@@ -77,7 +78,8 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     @Override
-    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
+            FieldDescriptors fieldDescriptors) {
         boolean isPageRequest = isPageRequest(handlerMethod);
         model.put("isPageRequest", isPageRequest);
         if (isPageRequest) {

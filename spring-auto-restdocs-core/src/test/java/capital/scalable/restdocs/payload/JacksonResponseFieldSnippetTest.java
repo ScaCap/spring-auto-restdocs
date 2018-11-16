@@ -46,6 +46,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
@@ -226,10 +227,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
         this.snippets.expect(RESPONSE_FIELDS).withContents(
-                        tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("field1", "String", "false", "A string.")
-                                .row("field2", "Decimal", "true",
-                                        "A decimal.\n\nA constraint."));
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Decimal", "true",
+                                "A decimal.\n\nA constraint."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -260,14 +261,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void resourcesResponse() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("fluxItems");
-        mockFieldComment(Item.class, "field1", "A string");
-        mockFieldComment(Item.class, "field2", "A decimal");
+        HandlerMethod handlerMethod = createHandlerMethod("itemResources");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("[].field1", "String", "true", "A string.")
-                        .row("[].field2", "Decimal", "true", "A decimal."));
+        this.snippets.expect(RESPONSE_FIELDS).withContents(is("Body contains embedded resources."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -539,6 +535,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
 
         public Flux<Item> fluxItems() {
+            return null;
+        }
+
+        public Resources<Item> itemResources() {
             return null;
         }
     }

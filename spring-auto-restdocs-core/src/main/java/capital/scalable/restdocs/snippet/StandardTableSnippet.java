@@ -33,11 +33,11 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.TemplateFormatting;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.restdocs.operation.Operation;
@@ -59,30 +59,31 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             return model;
         }
 
-        Collection<FieldDescriptor> fieldDescriptors =
+        FieldDescriptors fieldDescriptors =
                 createFieldDescriptors(operation, handlerMethod);
         TemplateFormatting templateFormatting = determineTemplateFormatting(operation);
         return createModel(handlerMethod, model, fieldDescriptors, templateFormatting);
     }
 
-    protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
+    protected abstract FieldDescriptors createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod);
 
     protected abstract String[] getTranslationKeys();
 
-    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
+            FieldDescriptors fieldDescriptors) {
         // can be used to add additional fields
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
-            Collection<FieldDescriptor> fieldDescriptors, TemplateFormatting templateFormatting) {
-        model.put("content", fieldDescriptors.stream()
+            FieldDescriptors fieldDescriptors, TemplateFormatting templateFormatting) {
+        model.put("content", fieldDescriptors.values().stream()
                 .map(descriptor -> createModelForDescriptor(descriptor, templateFormatting))
                 .collect(toList()));
-        model.put("hasContent", !fieldDescriptors.isEmpty());
-        model.put("noContent", fieldDescriptors.isEmpty());
+        model.put("hasContent", !fieldDescriptors.values().isEmpty());
+        model.put("noContent", fieldDescriptors.values().isEmpty());
 
-        enrichModel(model, handlerMethod);
+        enrichModel(model, handlerMethod, fieldDescriptors);
 
         return model;
     }
@@ -95,6 +96,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         model.put("content", "");
         model.put("hasContent", false);
         model.put("noContent", true);
+
         return model;
     }
 

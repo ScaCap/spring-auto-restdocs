@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,10 +23,7 @@ import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -40,9 +37,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class FieldDocumentationGenerator {
     private static final Logger log = getLogger(FieldDocumentationGenerator.class);
-    private final static Set<String> SKIPPED_TYPES = new HashSet<>(Arrays.asList(
-            "org.springframework.hateoas.Resources"
-    ));
+    private static final String RESOURCES_TYPE = "org.springframework.hateoas.Resources";
 
     private final ObjectWriter writer;
     private final DeserializationConfig deserializationConfig;
@@ -59,10 +54,11 @@ public class FieldDocumentationGenerator {
         this.constraintReader = constraintReader;
     }
 
-    public List<FieldDescriptor> generateDocumentation(Type baseType, TypeFactory typeFactory)
+    public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
             throws JsonMappingException {
         JavaType javaBaseType = typeFactory.constructType(baseType);
         List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory);
+        FieldDescriptors result = new FieldDescriptors();
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
                 javadocReader, constraintReader, deserializationConfig,
@@ -70,12 +66,16 @@ public class FieldDocumentationGenerator {
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());
-            if (SKIPPED_TYPES.contains(type.getRawClass().getCanonicalName())) {
+            if (RESOURCES_TYPE.equals(type.getRawClass().getCanonicalName())) {
+                result.setNoContentMessageKey("body-as-embedded-resources");
                 continue;
             }
             writer.acceptJsonFormatVisitor(type, visitorWrapper);
         }
 
-        return visitorWrapper.getFields();
+        for (FieldDescriptor descriptor : visitorWrapper.getFields()) {
+            result.putIfAbsent(descriptor.getPath(), descriptor);
+        }
+        return result;
     }
 }
