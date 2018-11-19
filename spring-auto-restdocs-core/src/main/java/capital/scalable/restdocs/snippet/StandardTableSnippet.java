@@ -33,6 +33,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,11 +78,14 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
             FieldDescriptors fieldDescriptors, TemplateFormatting templateFormatting) {
-        model.put("content", fieldDescriptors.values().stream()
+        Collection<FieldDescriptor> fields = fieldDescriptors.values();
+        List<Map<String, Object>> content = fields.stream()
                 .map(descriptor -> createModelForDescriptor(descriptor, templateFormatting))
-                .collect(toList()));
-        model.put("hasContent", !fieldDescriptors.values().isEmpty());
-        model.put("noContent", fieldDescriptors.values().isEmpty());
+                .collect(toList());
+
+        model.put("content", content);
+        model.put("hasContent", !fields.isEmpty());
+        model.put("noContent", fields.isEmpty());
 
         enrichModel(model, handlerMethod, fieldDescriptors);
 
