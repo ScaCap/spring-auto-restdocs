@@ -19,13 +19,14 @@
  */
 package capital.scalable.restdocs.hypermedia;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_EMBEDDED;
+
 import java.lang.reflect.Type;
 
 import capital.scalable.restdocs.payload.AbstractJacksonFieldSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public class EmbeddedSnippet extends AbstractJacksonFieldSnippet {
-    public static final String EMBEDDED = "auto-embedded";
 
     private final Type documentationType;
     private final boolean failOnUndocumentedFields;
@@ -35,7 +36,7 @@ public class EmbeddedSnippet extends AbstractJacksonFieldSnippet {
     }
 
     public EmbeddedSnippet(Type documentationType, boolean failOnUndocumentedFields) {
-        super(EMBEDDED, null);
+        super(AUTO_EMBEDDED, null);
         this.documentationType = documentationType;
         this.failOnUndocumentedFields = failOnUndocumentedFields;
     }

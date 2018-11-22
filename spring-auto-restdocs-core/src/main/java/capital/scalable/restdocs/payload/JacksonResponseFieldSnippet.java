@@ -21,6 +21,8 @@ package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -32,7 +34,6 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
-    public static final String RESPONSE_FIELDS = "auto-response-fields";
     public static final String SPRING_DATA_PAGE_CLASS = "org.springframework.data.domain.Page";
     public static final String REACTOR_MONO_CLASS = "reactor.core.publisher.Mono";
     public static final String REACTOR_FLUX_CLASS = "reactor.core.publisher.Flux";
@@ -45,7 +46,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     public JacksonResponseFieldSnippet(Type responseBodyType, boolean failOnUndocumentedFields) {
-        super(RESPONSE_FIELDS, null);
+        super(AUTO_RESPONSE_FIELDS, null);
         this.responseBodyType = responseBodyType;
         this.failOnUndocumentedFields = failOnUndocumentedFields;
     }

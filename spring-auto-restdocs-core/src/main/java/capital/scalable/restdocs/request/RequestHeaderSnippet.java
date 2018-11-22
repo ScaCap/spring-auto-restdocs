@@ -19,12 +19,13 @@
  */
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_HEADERS;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader> {
 
-    public static final String REQUEST_HEADERS = "auto-request-headers";
     private final boolean failOnUndocumentedParams;
 
     public RequestHeaderSnippet() {
@@ -32,7 +33,7 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     }
 
     public RequestHeaderSnippet(boolean failOnUndocumentedParams) {
-        super(REQUEST_HEADERS, null);
+        super(AUTO_REQUEST_HEADERS, null);
         this.failOnUndocumentedParams = failOnUndocumentedParams;
     }
 

@@ -31,13 +31,13 @@ import capital.scalable.restdocs.SnippetRegistry;
 public class SectionBuilder {
 
     public static final Collection<String> DEFAULT_SNIPPETS = Arrays.asList(
-            SnippetRegistry.AUTHORIZATION,
-            SnippetRegistry.PATH_PARAMETERS,
-            SnippetRegistry.REQUEST_PARAMETERS,
-            SnippetRegistry.REQUEST_FIELDS,
-            SnippetRegistry.RESPONSE_FIELDS,
-            SnippetRegistry.LINKS,
-            SnippetRegistry.EMBEDDED,
+            SnippetRegistry.AUTO_AUTHORIZATION,
+            SnippetRegistry.AUTO_PATH_PARAMETERS,
+            SnippetRegistry.AUTO_REQUEST_PARAMETERS,
+            SnippetRegistry.AUTO_REQUEST_FIELDS,
+            SnippetRegistry.AUTO_RESPONSE_FIELDS,
+            SnippetRegistry.AUTO_LINKS,
+            SnippetRegistry.AUTO_EMBEDDED,
             SnippetRegistry.CURL_REQUEST,
             SnippetRegistry.HTTP_RESPONSE
     );

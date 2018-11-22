@@ -19,6 +19,8 @@
  */
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_PARAMETERS;
+
 import java.util.Map;
 
 import capital.scalable.restdocs.jackson.FieldDescriptors;
@@ -29,7 +31,6 @@ import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
-    public static final String REQUEST_PARAMETERS = "auto-request-parameters";
     public static final String SPRING_DATA_PAGEABLE_CLASS =
             "org.springframework.data.domain.Pageable";
 
@@ -40,7 +41,7 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     }
 
     public RequestParametersSnippet(boolean failOnUndocumentedParams) {
-        super(REQUEST_PARAMETERS, null);
+        super(AUTO_REQUEST_PARAMETERS, null);
         this.failOnUndocumentedParams = failOnUndocumentedParams;
     }
 

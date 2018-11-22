@@ -19,14 +19,14 @@
  */
 package capital.scalable.restdocs.hypermedia;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_LINKS;
+
 import java.lang.reflect.Type;
 
 import capital.scalable.restdocs.payload.AbstractJacksonFieldSnippet;
 import org.springframework.web.method.HandlerMethod;
 
 public class LinksSnippet extends AbstractJacksonFieldSnippet {
-    public static final String LINKS = "auto-links";
-
     private final Type documentationType;
     private final boolean failOnUndocumentedFields;
 
@@ -35,7 +35,7 @@ public class LinksSnippet extends AbstractJacksonFieldSnippet {
     }
 
     public LinksSnippet(Type documentationType, boolean failOnUndocumentedFields) {
-        super(LINKS, null);
+        super(AUTO_LINKS, null);
         this.documentationType = documentationType;
         this.failOnUndocumentedFields = failOnUndocumentedFields;
     }

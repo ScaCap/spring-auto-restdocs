@@ -19,9 +19,9 @@
  */
 package capital.scalable.restdocs.request;
 
-
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_PARAMETERS;
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
-import static capital.scalable.restdocs.request.RequestParametersSnippet.REQUEST_PARAMETERS;
+import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
@@ -46,7 +46,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippetTest extends AbstractSnippetTests {
-    private static final String LINE_SEPERATOR = System.lineSeparator();
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
 
@@ -71,7 +70,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem", "type", "An integer");
         mockParamComment("searchItem", "description", "A string");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("type", "Integer", "false", "An integer.")
                         .row("text", "String", "true", "A string."));
@@ -92,7 +91,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2", "param2", "A boolean");
         mockParamComment("searchItem2", "param3", "An integer");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
@@ -113,7 +112,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2", "param1", "A decimal");
         mockParamComment("searchItem2", "param2", "A boolean");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
@@ -135,7 +134,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2String", "param2", "A boolean");
         mockParamComment("searchItem2String", "param3", "A String");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "Decimal", "false", "A decimal.")
                         .row("param2", "Boolean", "false", "A boolean.")
@@ -154,7 +153,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem5", "locale", "A locale");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("locale", "String", "false", "A locale."));
 
@@ -174,7 +173,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(handlerMethod.getMethodParameters()[0],
                 "Must be one of [SMALL, LARGE]");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("size", "String", "false",
                                 "An enum.\n\nMust be one of [SMALL, LARGE]."));
@@ -192,7 +191,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItemOptional", "param1", "An optional string");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("param1", "String", "true", "An optional string."));
 
@@ -207,7 +206,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -216,7 +215,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(equalTo("No parameters."));
 
         new RequestParametersSnippet().document(operationBuilder
                 .build());
@@ -243,7 +242,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem3", Pageable.class);
         initParameters(handlerMethod);
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(equalTo(paginationPrefix()));
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(equalTo(paginationPrefix()));
 
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -258,7 +257,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem4", "text", "A text");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Parameter", "Type", "Optional", "Description")
                                 .row("text", "Integer", "false", "A text.")));
@@ -276,7 +275,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        this.snippets.expect(REQUEST_PARAMETERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_PARAMETERS).withContents(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
 
@@ -310,9 +309,9 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
     private String paginationPrefix() {
         if ("adoc".equals(templateFormat.getFileExtension())) {
-            return "Supports standard <<overview-pagination,paging>> query parameters." + LINE_SEPERATOR + LINE_SEPERATOR;
+            return fixLineSeparator("Supports standard <<overview-pagination,paging>> query parameters.\n\n");
         } else {
-            return "Supports standard [paging](#overview-pagination) query parameters." + LINE_SEPERATOR + LINE_SEPERATOR;
+            return fixLineSeparator("Supports standard [paging](#overview-pagination) query parameters.\n\n");
         }
     }
 

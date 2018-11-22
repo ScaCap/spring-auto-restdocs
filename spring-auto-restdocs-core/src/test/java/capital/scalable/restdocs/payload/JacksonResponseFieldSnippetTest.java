@@ -19,8 +19,9 @@
  */
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.payload.JacksonResponseFieldSnippet.RESPONSE_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
+import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -67,7 +68,6 @@ import reactor.core.publisher.Mono;
 
 public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
-    private static final String LINE_SEPERATOR = System.lineSeparator();
     private ObjectMapper mapper;
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
@@ -97,7 +97,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
@@ -117,7 +117,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Decimal", "true", "A decimal."));
@@ -136,7 +136,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Decimal", "true", "A decimal."));
@@ -153,7 +153,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     public void noResponseBody() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("noItem");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(equalTo("No response body."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -163,7 +163,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(equalTo("No response body."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
@@ -178,7 +178,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithPrefix(paginationPrefix(),
                         tableWithHeader("Path", "Type", "Optional", "Description")
                                 .row("field1", "String", "false", "A string.")
@@ -201,7 +201,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
@@ -219,7 +219,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     public void responseEntityResponseWithoutGenerics() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("responseEntityItem2");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(equalTo("No response body."));
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(equalTo("No response body."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -237,7 +237,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Decimal", "true",
@@ -257,7 +257,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Decimal", "true", "A decimal."));
@@ -306,7 +306,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("output", "String", "true", "An output."));
 
@@ -359,7 +359,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output | result");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("output", "String", "true", "An output \\| result."));
 
@@ -386,7 +386,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockDeprecatedField(DeprecatedItem.class, "index2", "use something else");
         mockDeprecatedMethod(DeprecatedItem.class, "getIndex4", "use something else");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("index", "Integer", "true",
                                 "**Deprecated.**\n\nItem's index.")
@@ -418,7 +418,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockMethodComment(CommentedItem.class, "getField3", "method 3"); // preferred
         mockMethodComment(CommentedItem.class, "getField4", "method 4");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field", "String", "true", "Field.")
                         .row("field2", "String", "true", "Field 2.")
@@ -465,11 +465,11 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     private String paginationPrefix() {
         if ("adoc".equals(templateFormat.getFileExtension())) {
-            return "Standard <<overview-pagination,paging>> response where `content` field is"
-                    + " list of following objects:" + LINE_SEPERATOR + LINE_SEPERATOR;
+            return fixLineSeparator("Standard <<overview-pagination,paging>> response where `content` field is"
+                    + " list of following objects:\n\n");
         } else {
-            return "Standard [paging](#overview-pagination) response where `content` field is"
-                    + " list of following objects:" + LINE_SEPERATOR + LINE_SEPERATOR;
+            return fixLineSeparator("Standard [paging](#overview-pagination) response where `content` field is"
+                    + " list of following objects:\n\n");
         }
     }
 
