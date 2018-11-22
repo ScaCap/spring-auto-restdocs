@@ -462,7 +462,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></li>
 <li><a href="#resources-item-resource-test-clone-item">2.11. Clone Item (deprecated)</a></li>
 <li><a href="#resources-item-resource-test-get-item-as-resource">2.12. Get Hypermedia Item</a></li>
-<li><a href="#resources-items-get-spring-rest-docs">2.13. Get an item (SARD/SRD mix)</a></li>
+</ul>
+</li>
+<li><a href="#resources-items-get-spring-rest-docs">3. SARD/SRD mix</a>
+<ul class="sectlevel2">
+<li><a href="#resources-item-resource-test-get-item-with-rest-docs">3.1. Get Item</a></li>
 </ul>
 </li>
 </ul>
@@ -645,15 +649,8 @@ switch directions, e.g. <code>?sort=firstname&amp;sort=lastname,asc</code>.</p><
 </div>
 <div class="sect3">
 <h4 id="_authorization"><a class="anchor" href="#_authorization"></a><a class="link" href="#_authorization">2.1.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -890,15 +887,8 @@ Content-Length: 459
 </div>
 <div class="sect3">
 <h4 id="_authorization_2"><a class="anchor" href="#_authorization_2"></a><a class="link" href="#_authorization_2">2.2.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1097,15 +1087,8 @@ Content-Length: 598
 </div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1184,7 +1167,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 7f1b3584-d0c7-4ccd-9937-355d976112f5' \
+    -H 'Authorization: Bearer b42d7fe9-1c74-44dd-9223-8e3469381f2b' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1218,15 +1201,8 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_4"><a class="anchor" href="#_authorization_4"></a><a class="link" href="#_authorization_4">2.4.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1440,7 +1416,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 7f1b3584-d0c7-4ccd-9937-355d976112f5' \
+    -H 'Authorization: Bearer b42d7fe9-1c74-44dd-9223-8e3469381f2b' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1491,15 +1467,8 @@ Item must exist.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_5"><a class="anchor" href="#_authorization_5"></a><a class="link" href="#_authorization_5">2.5.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: User access token required.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1565,7 +1534,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 7f1b3584-d0c7-4ccd-9937-355d976112f5'</code></pre>
+    -H 'Authorization: Bearer b42d7fe9-1c74-44dd-9223-8e3469381f2b'</code></pre>
 </div>
 </div>
 </div>
@@ -1600,15 +1569,8 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_6"><a class="anchor" href="#_authorization_6"></a><a class="link" href="#_authorization_6">2.6.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1840,15 +1802,8 @@ Content-Length: 133
 </div>
 <div class="sect3">
 <h4 id="_authorization_7"><a class="anchor" href="#_authorization_7"></a><a class="link" href="#_authorization_7">2.7.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2104,8 +2059,8 @@ Content-Length: 1011
   "last" : true,
   "size" : 20,
   "number" : 0,
-  "numberOfElements" : 1,
   "first" : true,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
@@ -2129,15 +2084,8 @@ Content-Length: 1011
 </div>
 <div class="sect3">
 <h4 id="_authorization_8"><a class="anchor" href="#_authorization_8"></a><a class="link" href="#_authorization_8">2.8.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2276,15 +2224,8 @@ This endpoint demos the basic support for @ModelAttribute.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_9"><a class="anchor" href="#_authorization_9"></a><a class="link" href="#_authorization_9">2.9.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2430,15 +2371,8 @@ Content-Length: 55
 </div>
 <div class="sect3">
 <h4 id="_authorization_10"><a class="anchor" href="#_authorization_10"></a><a class="link" href="#_authorization_10">2.10.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2551,15 +2485,8 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_11"><a class="anchor" href="#_authorization_11"></a><a class="link" href="#_authorization_11">2.11.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2658,15 +2585,8 @@ X-Frame-Options: DENY</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_authorization_12"><a class="anchor" href="#_authorization_12"></a><a class="link" href="#_authorization_12">2.12.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
-</div>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2900,32 +2820,37 @@ Content-Length: 756
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="resources-items-get-spring-rest-docs"><a class="anchor" href="#resources-items-get-spring-rest-docs"></a><a class="link" href="#resources-items-get-spring-rest-docs">2.13. Get an item (SARD/SRD mix)</a></h3>
-<div class="paragraph">
-<p>This part of the documentation demonstrates the combination of Spring Auto REST Docs with Spring REST Docs:
-The path parameter and response field are manually documented with Spring REST Docs.
-The authorization is still coming from Spring Auto REST Docs and
-the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="resources-items-get-spring-rest-docs"><a class="anchor" href="#resources-items-get-spring-rest-docs"></a><a class="link" href="#resources-items-get-spring-rest-docs">3. SARD/SRD mix</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This part of the documentation demonstrates the combination of Spring Auto REST Docs with Spring REST Docs.
+The path parameters and response fields are manually documented with Spring REST Docs.
+The authorization and other snippets are still coming from Spring Auto REST Docs.
+The cURL and HTTP snippets are coming from Spring REST Docs in any case.
+All is configured together to compose a convenient section snippet.</p>
+</div>
+<div class="sect2">
+<h3 id="resources-item-resource-test-get-item-with-rest-docs"><a class="anchor" href="#resources-item-resource-test-get-item-with-rest-docs"></a><a class="link" href="#resources-item-resource-test-get-item-with-rest-docs">3.1. Get Item</a></h3>
 <div class="paragraph">
 <p><code>GET /items/{id}</code></p>
 </div>
-<div class="sect3">
-<h4 id="_authorization_13"><a class="anchor" href="#_authorization_13"></a><a class="link" href="#_authorization_13">2.13.1. Authorization</a></h4>
-<div class="literalblock">
-<div class="content">
-<pre>OAuth2:
-{
-    {
-        authorization
-    }
-}</pre>
+<div class="paragraph">
+<p>Returns item by ID.</p>
 </div>
-</div>
+<div class="paragraph">
+<p>An example of returning a custom response type and custom exception with response status.</p>
 </div>
 <div class="sect3">
-<h4 id="_path_parameters_12"><a class="anchor" href="#_path_parameters_12"></a><a class="link" href="#_path_parameters_12">2.13.2. Path parameters</a></h4>
+<h4 id="_authorization_13"><a class="anchor" href="#_authorization_13"></a><a class="link" href="#_authorization_13">3.1.1. Authorization</a></h4>
+<div class="paragraph">
+<p>OAuth2: Resource is public.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameters_12"><a class="anchor" href="#_path_parameters_12"></a><a class="link" href="#_path_parameters_12">3.1.2. Path parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. <code>/items/{id}</code></caption>
 <colgroup>
@@ -2947,7 +2872,19 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_13"><a class="anchor" href="#_response_fields_13"></a><a class="link" href="#_response_fields_13">2.13.3. Response fields</a></h4>
+<h4 id="_query_parameters_11"><a class="anchor" href="#_query_parameters_11"></a><a class="link" href="#_query_parameters_11">3.1.3. Query parameters</a></h4>
+<div class="paragraph">
+<p>No parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_13"><a class="anchor" href="#_request_fields_13"></a><a class="link" href="#_request_fields_13">3.1.4. Request fields</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_13"><a class="anchor" href="#_response_fields_13"></a><a class="link" href="#_response_fields_13">3.1.5. Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2971,12 +2908,15 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_requestresponse_3"><a class="anchor" href="#_example_requestresponse_3"></a><a class="link" href="#_example_requestresponse_3">2.13.4. Example request/response</a></h4>
+<h4 id="_example_request_11"><a class="anchor" href="#_example_request_11"></a><a class="link" href="#_example_request_11">3.1.6. Example request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X GET</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_example_response_11"><a class="anchor" href="#_example_response_11"></a><a class="link" href="#_example_response_11">3.1.7. Example response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3023,7 +2963,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-08-21 17:47:29 CEST
+Last updated 2018-04-10 10:14:19 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
