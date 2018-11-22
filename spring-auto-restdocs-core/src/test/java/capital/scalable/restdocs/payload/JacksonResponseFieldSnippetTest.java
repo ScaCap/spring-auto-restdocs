@@ -274,7 +274,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     public void resourcesResponse() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("itemResources");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(is("Body contains embedded resources."));
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(is("Body contains embedded resources."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -289,7 +289,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("halItem");
         mockFieldComment(HalItem.class, "actualContent", "A string");
 
-        this.snippets.expect(RESPONSE_FIELDS).withContents(
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("actualContent", "String", "true", "A string."));
 
