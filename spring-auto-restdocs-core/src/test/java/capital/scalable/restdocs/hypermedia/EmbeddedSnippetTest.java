@@ -19,7 +19,7 @@
  */
 package capital.scalable.restdocs.hypermedia;
 
-import static capital.scalable.restdocs.hypermedia.EmbeddedSnippet.EMBEDDED;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_EMBEDDED;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -69,7 +69,7 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
         mockFieldComment(EmbeddedDocs.class, "embedded1", "Resource 1");
         mockFieldComment(EmbeddedDocs.class, "embedded2", "Resource 2");
 
-        this.snippets.expect(EMBEDDED).withContents(
+        this.snippets.expect(AUTO_EMBEDDED).withContents(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("embedded1", "Array[Object]", "true", "Resource 1.")
                         .row("embedded2", "Object", "true", "Resource 2."));
@@ -84,7 +84,7 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(EMBEDDED).withContents(equalTo("No embedded resources."));
+        this.snippets.expect(AUTO_EMBEDDED).withContents(equalTo("No embedded resources."));
 
         new EmbeddedSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)

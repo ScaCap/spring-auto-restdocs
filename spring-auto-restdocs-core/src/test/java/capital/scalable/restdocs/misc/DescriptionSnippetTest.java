@@ -19,7 +19,7 @@
  */
 package capital.scalable.restdocs.misc;
 
-import static capital.scalable.restdocs.misc.DescriptionSnippet.DESCRIPTION;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,7 +43,7 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "");
 
-        this.snippets.expect(DESCRIPTION).withContents(equalTo("Sample method comment."));
+        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo("Sample method comment."));
 
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -58,7 +58,7 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "use different one");
 
-        this.snippets.expect(DESCRIPTION).withContents(equalTo(
+        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(
                 "**Deprecated.** Use different one.\n\nSample method comment."));
 
         new DescriptionSnippet().document(operationBuilder
@@ -74,7 +74,7 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "see", "something");
 
-        this.snippets.expect(DESCRIPTION).withContents(equalTo(
+        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(
                 "Sample method comment.\n\nSee something."));
 
         new DescriptionSnippet().document(operationBuilder
@@ -86,7 +86,7 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(DESCRIPTION).withContents(equalTo(""));
+        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(""));
 
         new DescriptionSnippet().document(operationBuilder
                 .request("http://localhost/test")

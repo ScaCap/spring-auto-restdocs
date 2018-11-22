@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.REQUEST_PATTERN;
-import static capital.scalable.restdocs.misc.MethodAndPathSnippet.METHOD_PATH;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_METHOD_PATH;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+        this.snippets.expect(AUTO_METHOD_PATH).withContents(equalTo("`POST /test`"));
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -50,7 +50,7 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+        this.snippets.expect(AUTO_METHOD_PATH).withContents(equalTo("`POST /test`"));
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(REQUEST_PATTERN, "/test")

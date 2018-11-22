@@ -21,6 +21,7 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getAuthorization;
 import static capital.scalable.restdocs.OperationAttributeHelper.setAuthorization;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_AUTHORIZATION;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +33,10 @@ import org.springframework.restdocs.snippet.TemplatedSnippet;
 
 public class AuthorizationSnippet extends TemplatedSnippet implements SectionSupport {
 
-    public static final String AUTHORIZATION = "auto-authorization";
-
     private final String defaultAuthorization;
 
     public AuthorizationSnippet(String defaultAuthorization) {
-        super(AUTHORIZATION, null);
+        super(AUTO_AUTHORIZATION, null);
         this.defaultAuthorization = defaultAuthorization;
     }
 

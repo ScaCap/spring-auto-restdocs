@@ -22,6 +22,7 @@ package capital.scalable.restdocs.misc;
 import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
@@ -39,10 +40,8 @@ import org.springframework.web.method.HandlerMethod;
 
 public class DescriptionSnippet extends TemplatedSnippet {
 
-    public static final String DESCRIPTION = "auto-description";
-
     public DescriptionSnippet() {
-        super(DESCRIPTION, null);
+        super(AUTO_DESCRIPTION, null);
     }
 
     @Override

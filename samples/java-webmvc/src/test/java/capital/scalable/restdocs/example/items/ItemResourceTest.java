@@ -23,6 +23,14 @@ import static capital.scalable.restdocs.AutoDocumentation.embedded;
 import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
+import static capital.scalable.restdocs.AutoDocumentation.sectionBuilder;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_AUTHORIZATION;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_PARAMETERS;
+import static capital.scalable.restdocs.SnippetRegistry.CURL_REQUEST;
+import static capital.scalable.restdocs.SnippetRegistry.HTTP_RESPONSE;
+import static capital.scalable.restdocs.SnippetRegistry.PATH_PARAMETERS;
+import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -172,8 +180,8 @@ public class ItemResourceTest extends MockMvcBase {
      * All Spring Auto REST Docs snippets are created as well because of the setup in {@link MockMvcBase}.
      * This is not a requirement and one could use a pure Spring REST Docs setup here.
      * <p>
-     * The result of the manual documentation below ends up in path-parameters.adoc and response-fields.adoc and
-     * not in auto-path-parameters.adoc or auto-request-fields.adoc.
+     * The result of the manual documentation below ends up with section snippet using
+     * classic Spring REST Docs' path-parameters.adoc and response-fields.adoc.
      * So there is no conflict and one is free to decide which snippets are included in the documentation.
      * <p>
      * RestDocumentationRequestBuilders.get is required for Spring REST Docs' pathParameters to work.
@@ -187,7 +195,16 @@ public class ItemResourceTest extends MockMvcBase {
                         pathParameters(
                                 parameterWithName("id").description("ID of the item.")),
                         relaxedResponseFields(fieldWithPath("id")
-                                .description("There are more fields but only the ID field is documented."))));
+                                .description("There are more fields but only the ID field is documented.")),
+                        sectionBuilder().snippetNames(
+                                AUTO_AUTHORIZATION,
+                                PATH_PARAMETERS, // classic snippet
+                                AUTO_REQUEST_PARAMETERS,
+                                AUTO_REQUEST_FIELDS,
+                                RESPONSE_FIELDS, // classic snippet
+                                CURL_REQUEST, // classic snippet
+                                HTTP_RESPONSE // classic snippet
+                        ).build()));
     }
 
     @Test

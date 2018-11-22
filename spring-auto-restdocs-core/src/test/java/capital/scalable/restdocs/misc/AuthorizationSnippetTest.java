@@ -19,8 +19,7 @@
  */
 package capital.scalable.restdocs.misc;
 
-
-import static capital.scalable.restdocs.misc.AuthorizationSnippet.AUTHORIZATION;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_AUTHORIZATION;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.Test;
@@ -37,7 +36,7 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void authorization() throws Exception {
         String authorization = "User access token required.";
 
-        this.snippets.expect(AUTHORIZATION)
+        this.snippets.expect(AUTO_AUTHORIZATION)
                 .withContents(equalTo(authorization));
 
         new AuthorizationSnippet("Resource is public.")
@@ -51,7 +50,7 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void defaultAuthorization() throws Exception {
         String defaultAuthorization = "Resource is public.";
 
-        this.snippets.expect(AUTHORIZATION)
+        this.snippets.expect(AUTO_AUTHORIZATION)
                 .withContents(equalTo(defaultAuthorization));
 
         new AuthorizationSnippet(defaultAuthorization)
