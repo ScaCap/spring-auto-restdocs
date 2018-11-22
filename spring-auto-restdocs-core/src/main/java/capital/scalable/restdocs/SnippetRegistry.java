@@ -80,11 +80,11 @@ public class SnippetRegistry {
         return CLASSIC_SNIPPETS.get(snippetName);
     }
 
-    public static SectionSupport section(String snippetName, String header, boolean hasContent) {
+    private static SectionSupport section(String snippetName, String header, boolean hasContent) {
         return new ClassicSnippetSection(snippetName, header, hasContent);
     }
 
-    public static class ClassicSnippetSection implements SectionSupport {
+    private static class ClassicSnippetSection implements SectionSupport {
         private String fileName;
         private String headerKey;
         private boolean hasContent;
