@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.TemplateFormatting;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.restdocs.operation.Operation;
@@ -59,30 +60,34 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
             return model;
         }
 
-        Collection<FieldDescriptor> fieldDescriptors =
+        FieldDescriptors fieldDescriptors =
                 createFieldDescriptors(operation, handlerMethod);
         TemplateFormatting templateFormatting = determineTemplateFormatting(operation);
         return createModel(handlerMethod, model, fieldDescriptors, templateFormatting);
     }
 
-    protected abstract Collection<FieldDescriptor> createFieldDescriptors(Operation operation,
+    protected abstract FieldDescriptors createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod);
 
     protected abstract String[] getTranslationKeys();
 
-    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod) {
+    protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
+            FieldDescriptors fieldDescriptors) {
         // can be used to add additional fields
     }
 
     private Map<String, Object> createModel(HandlerMethod handlerMethod, Map<String, Object> model,
-            Collection<FieldDescriptor> fieldDescriptors, TemplateFormatting templateFormatting) {
-        model.put("content", fieldDescriptors.stream()
+            FieldDescriptors fieldDescriptors, TemplateFormatting templateFormatting) {
+        Collection<FieldDescriptor> fields = fieldDescriptors.values();
+        List<Map<String, Object>> content = fields.stream()
                 .map(descriptor -> createModelForDescriptor(descriptor, templateFormatting))
-                .collect(toList()));
-        model.put("hasContent", !fieldDescriptors.isEmpty());
-        model.put("noContent", fieldDescriptors.isEmpty());
+                .collect(toList());
 
-        enrichModel(model, handlerMethod);
+        model.put("content", content);
+        model.put("hasContent", !fields.isEmpty());
+        model.put("noContent", fields.isEmpty());
+
+        enrichModel(model, handlerMethod, fieldDescriptors);
 
         return model;
     }
@@ -95,6 +100,7 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
         model.put("content", "");
         model.put("hasContent", false);
         model.put("noContent", true);
+
         return model;
     }
 

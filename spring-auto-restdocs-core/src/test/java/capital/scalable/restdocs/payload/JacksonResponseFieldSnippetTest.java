@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,17 +22,21 @@ package capital.scalable.restdocs.payload;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -40,6 +44,9 @@ import java.util.stream.Stream;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,6 +54,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.core.EmbeddedWrapper;
+import org.springframework.hateoas.core.EmbeddedWrappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
@@ -72,7 +83,8 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     public void setup() {
         mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.ANY));
         javadocReader = mock(JavadocReader.class);
         constraintReader = mock(ConstraintReader.class);
     }
@@ -259,6 +271,37 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void resourcesResponse() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("itemResources");
+
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(is("Body contains embedded resources."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void responseWithLinksAndEmbedded() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("halItem");
+        mockFieldComment(HalItem.class, "actualContent", "A string");
+
+        this.snippets.expect(AUTO_RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("actualContent", "String", "true", "A string."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
     public void exactResponseType() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
@@ -435,6 +478,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         return new HandlerMethod(new TestResource(), responseEntityItem);
     }
 
+    // actual method responses do not matter, they are here just for the illustration
     private static class TestResource {
 
         public Item getItem() {
@@ -470,19 +514,30 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
 
         public DeprecatedItem removeItem() {
-            return null;
+            return new DeprecatedItem();
         }
 
         public CommentedItem commentItem() {
-            return null;
+            return new CommentedItem();
         }
 
         public Mono<Item> monoItem() {
-            return null;
+            return Mono.just(new Item("x"));
         }
 
         public Flux<Item> fluxItems() {
-            return null;
+            return Flux.just(new Item("a"), new Item("b"));
+        }
+
+        public Resources<Item> itemResources() {
+            return new Resources<>(singletonList(new Item("y")));
+        }
+
+        public HalItem halItem() {
+            HalItem response = new HalItem("z");
+            response.embed("commented", new CommentedItem());
+            response.add(linkTo(methodOn(TestResource.class).getItem()).withSelfRel());
+            return response;
         }
     }
 
@@ -563,5 +618,32 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     private static class ProcessingResponse {
         private String output;
+    }
+
+    private static class HalItem extends ResourceSupport {
+
+        private String actualContent;
+
+        HalItem(String actualContent) {
+            this.actualContent = actualContent;
+        }
+
+        @JsonIgnore
+        private List<EmbeddedWrapper> embedded = new ArrayList<>();
+
+        @JsonIgnore
+        private EmbeddedWrappers wrapper = new EmbeddedWrappers(false);
+
+        @JsonInclude(NON_EMPTY)
+        @JsonUnwrapped
+        public Resources<EmbeddedWrapper> getEmbeddedResources() {
+            return new Resources(embedded);
+        }
+
+        public void embed(String rel, Object resource) {
+            if (resource != null) {
+                embedded.add(wrapper.wrap(resource, rel));
+            }
+        }
     }
 }
