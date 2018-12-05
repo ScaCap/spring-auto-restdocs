@@ -37,6 +37,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class FieldDocumentationGenerator {
     private static final Logger log = getLogger(FieldDocumentationGenerator.class);
+    private static final String RESOURCES_TYPE = "org.springframework.hateoas.Resources";
 
     private final ObjectWriter writer;
     private final DeserializationConfig deserializationConfig;
@@ -53,10 +54,11 @@ public class FieldDocumentationGenerator {
         this.constraintReader = constraintReader;
     }
 
-    public List<FieldDescriptor> generateDocumentation(Type baseType, TypeFactory typeFactory)
+    public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
             throws JsonMappingException {
         JavaType javaBaseType = typeFactory.constructType(baseType);
         List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory);
+        FieldDescriptors result = new FieldDescriptors();
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
                 javadocReader, constraintReader, deserializationConfig,
@@ -64,9 +66,16 @@ public class FieldDocumentationGenerator {
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());
+            if (RESOURCES_TYPE.equals(type.getRawClass().getCanonicalName())) {
+                result.setNoContentMessageKey("body-as-embedded-resources");
+                continue;
+            }
             writer.acceptJsonFormatVisitor(type, visitorWrapper);
         }
 
-        return visitorWrapper.getFields();
+        for (FieldDescriptor descriptor : visitorWrapper.getFields()) {
+            result.putIfAbsent(descriptor.getPath(), descriptor);
+        }
+        return result;
     }
 }

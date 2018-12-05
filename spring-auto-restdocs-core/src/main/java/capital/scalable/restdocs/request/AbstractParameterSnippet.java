@@ -34,11 +34,10 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.util.StringUtils.hasLength;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
@@ -56,12 +55,12 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     }
 
     @Override
-    protected List<FieldDescriptor> createFieldDescriptors(Operation operation,
+    protected FieldDescriptors createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod) {
         JavadocReader javadocReader = getJavadocReader(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);
 
-        List<FieldDescriptor> fieldDescriptors = new ArrayList<>();
+        FieldDescriptors fieldDescriptors = new FieldDescriptors();
         for (MethodParameter param : handlerMethod.getMethodParameters()) {
             A annot = getAnnotation(param);
             if (annot != null) {
@@ -71,7 +70,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         }
 
         if (shouldFailOnUndocumentedParams()) {
-            assertAllDocumented(fieldDescriptors, translate(getHeaderKey()).toLowerCase());
+            assertAllDocumented(fieldDescriptors.values(), translate(getHeaderKey()).toLowerCase());
         }
 
         return fieldDescriptors;
@@ -79,7 +78,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
 
     private void addFieldDescriptor(HandlerMethod handlerMethod,
             JavadocReader javadocReader, ConstraintReader constraintReader,
-            List<FieldDescriptor> fieldDescriptors, MethodParameter param, A annot) {
+            FieldDescriptors fieldDescriptors, MethodParameter param, A annot) {
         String javaParameterName = param.getParameterName();
         String pathName = getPath(annot);
 
@@ -103,7 +102,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
             descriptor.attributes(constraints, optionals, deprecated, defaultValue);
         }
 
-        fieldDescriptors.add(descriptor);
+        fieldDescriptors.putIfAbsent(parameterName, descriptor);
     }
 
     abstract protected String getDefaultValue(A annotation);

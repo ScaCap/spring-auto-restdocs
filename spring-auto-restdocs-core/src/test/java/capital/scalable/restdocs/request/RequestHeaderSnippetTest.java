@@ -19,8 +19,7 @@
  */
 package capital.scalable.restdocs.request;
 
-
-import static capital.scalable.restdocs.request.RequestHeaderSnippet.REQUEST_HEADERS;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_HEADERS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -71,7 +70,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("updateItem", "yetAnotherId", "A string");
         mockParamComment("updateItem", "optionalId", "Optional string");
 
-        this.snippets.expect(REQUEST_HEADERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
@@ -97,7 +96,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("updateItem", "partId", "An integer");
         // yetAnotherId will have an automatic description about its default value
 
-        this.snippets.expect(REQUEST_HEADERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
@@ -116,7 +115,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     public void noHeaders() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem");
 
-        this.snippets.expect(REQUEST_HEADERS).withContents(equalTo("No headers."));
+        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(equalTo("No headers."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -125,7 +124,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(REQUEST_HEADERS).withContents(equalTo("No headers."));
+        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(equalTo("No headers."));
 
         new RequestHeaderSnippet().document(operationBuilder
                 .build());
@@ -154,7 +153,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        this.snippets.expect(REQUEST_HEADERS).withContents(
+        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
 

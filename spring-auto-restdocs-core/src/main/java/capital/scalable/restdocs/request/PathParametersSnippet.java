@@ -19,12 +19,13 @@
  */
 package capital.scalable.restdocs.request;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_PATH_PARAMETERS;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
 
-    public static final String PATH_PARAMETERS = "auto-path-parameters";
     private final boolean failOnUndocumentedParams;
 
     public PathParametersSnippet() {
@@ -32,7 +33,7 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     public PathParametersSnippet(boolean failOnUndocumentedParams) {
-        super(PATH_PARAMETERS, null);
+        super(AUTO_PATH_PARAMETERS, null);
         this.failOnUndocumentedParams = failOnUndocumentedParams;
     }
 

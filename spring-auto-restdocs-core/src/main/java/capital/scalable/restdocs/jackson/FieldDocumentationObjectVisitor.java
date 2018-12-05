@@ -94,6 +94,10 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
             if (ser == null) {
                 return;
             }
+            if (shouldSkip(prop)) {
+                return;
+            }
+
 
             visitType(prop, jsonName, fieldName, javaType, ser, required);
         }
@@ -101,10 +105,6 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
 
     private void visitType(BeanProperty prop, String jsonName, String fieldName, JavaType fieldType,
             JsonSerializer<?> ser, boolean required) throws JsonMappingException {
-        if (shouldSkip(prop)) {
-            return;
-        }
-
         String fieldPath = path + (path.isEmpty() ? "" : ".") + jsonName;
         log.debug("({}) {}", fieldPath, fieldType.getRawClass().getSimpleName());
         Class<?> javaBaseClass = prop.getMember().getDeclaringClass();

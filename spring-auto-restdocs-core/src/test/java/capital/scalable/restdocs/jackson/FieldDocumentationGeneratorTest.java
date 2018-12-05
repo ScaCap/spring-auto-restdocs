@@ -39,6 +39,7 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
         // then
         assertThat(result.size(), is(4));
         assertThat(result.get(0), is(descriptor("string", "String", "A string", "true")));
@@ -109,7 +110,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
         // then
         assertThat(result.size(), is(4));
         assertThat(result.get(0), is(descriptor("string", "Array[String]", "A string", "true")));
@@ -123,7 +124,7 @@ public class FieldDocumentationGeneratorTest {
                 mapper.getDeserializationConfig(), javadocReader, constraintReader);
 
         // when
-        result = cast(generator.generateDocumentation(type, mapper.getTypeFactory()));
+        result = cast(generator.generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(4));
@@ -151,7 +152,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(10));
@@ -194,7 +195,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(5));
@@ -222,7 +223,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(16));
@@ -261,7 +262,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(1));
@@ -286,7 +287,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(4));
@@ -324,7 +325,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(result.size(), is(4));
@@ -357,7 +358,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(fieldDescriptions.size(), is(5));
@@ -398,7 +399,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
 
         // then
         assertThat(fieldDescriptions.size(), is(14));
@@ -448,7 +449,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
         // then
         assertThat(result.size(), is(4));
         assertThat(result.get(0),
@@ -472,7 +473,7 @@ public class FieldDocumentationGeneratorTest {
 
         // when
         List<ExtendedFieldDescriptor> result = cast(generator
-                .generateDocumentation(type, mapper.getTypeFactory()));
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
         // then
         assertThat(result.size(), is(2));
         assertThat(result.get(0), is(descriptor("string", "String", "A string", "false")));
@@ -522,7 +523,7 @@ public class FieldDocumentationGeneratorTest {
         return new ExtendedFieldDescriptor(fieldDescriptor);
     }
 
-    private List<ExtendedFieldDescriptor> cast(List<FieldDescriptor> original) {
+    private List<ExtendedFieldDescriptor> cast(Collection<FieldDescriptor> original) {
         List<ExtendedFieldDescriptor> casted = new ArrayList<>(original.size());
         for (FieldDescriptor d : original) {
             casted.add(new ExtendedFieldDescriptor(d));
