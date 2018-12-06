@@ -22,13 +22,24 @@ package capital.scalable.restdocs.postman;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * Postman schema v2.1.0
+ */
 public class PostmanCollection {
+    static final String POSTMAN_SCHEMA = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";
+
     Info info = new Info();
-    List<Item> item = new ArrayList<>();
+
+    // Prevent calls with the same name. It can happen if we have custom documentation configuration in the
+    // test plus main one from MockMvc configuration, in which case they are both executed.
+    Set<Item> item = new TreeSet<>(Comparator.<Item>naturalOrder());
 
     PostmanCollection(String name, String description) {
         this.info.name = name;
@@ -38,13 +49,22 @@ public class PostmanCollection {
     static class Info {
         String name;
         String description;
-        String schema = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";
+        String schema = POSTMAN_SCHEMA;
     }
 
-    static class Item {
+    static class Item implements Comparable<Item> {
         String name;
-        Request request = new Request();
+        Request request;
         List<Response> response = new ArrayList<>();
+
+        Item(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            return this.name.compareTo(o.name);
+        }
     }
 
     static class Request {
@@ -58,11 +78,11 @@ public class PostmanCollection {
 
     static class Response {
         String name;
-        List<Header> header = new ArrayList<>();
-        String body;
+        Request originalRequest;
         String status;
         int code;
-        Request originalRequest;
+        List<Header> header = new ArrayList<>();
+        String body;
     }
 
     @JsonInclude(NON_EMPTY)
@@ -77,16 +97,17 @@ public class PostmanCollection {
         String type;
     }
 
+    // TODO different header field order to match Postman export
     static class Header {
         String key;
-        String name;
         String value;
+        String description;
         String type;
 
         Header(String key, String value) {
             this.key = key;
-            this.name = key;
             this.value = value;
+            this.description = key;
             this.type = "text";
         }
     }
@@ -108,10 +129,12 @@ public class PostmanCollection {
     static class Query {
         String key;
         String value;
+        String description;
 
-        Query(String key, String value) {
+        Query(String key, String value, String description) {
             this.key = key;
             this.value = value;
+            this.description = description;
         }
     }
 }

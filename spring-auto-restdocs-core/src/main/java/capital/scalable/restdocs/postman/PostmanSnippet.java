@@ -21,10 +21,10 @@ package capital.scalable.restdocs.postman;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
-import static capital.scalable.restdocs.OperationAttributeHelper.getPostmanCollection;
 import static capital.scalable.restdocs.OperationAttributeHelper.getRequestMethod;
 import static capital.scalable.restdocs.misc.DescriptionSnippet.resolveDescription;
 import static capital.scalable.restdocs.section.SectionSnippet.resolveTitle;
+import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,6 +34,7 @@ import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.postman.PostmanCollection.Header;
 import capital.scalable.restdocs.postman.PostmanCollection.Item;
 import capital.scalable.restdocs.postman.PostmanCollection.Query;
+import capital.scalable.restdocs.postman.PostmanCollection.Request;
 import capital.scalable.restdocs.postman.PostmanCollection.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.operation.Operation;
@@ -45,6 +46,12 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PostmanSnippet implements Snippet {
+
+    private PostmanCollection collection;
+
+    public PostmanSnippet(PostmanCollection collection) {
+        this.collection = collection;
+    }
 
     private static List<String> SKIPPED_REQUEST_HEADERS = Arrays.asList(new String[] {
             HttpHeaders.AUTHORIZATION,
@@ -60,40 +67,62 @@ public class PostmanSnippet implements Snippet {
         }
 
         JavadocReader javadocReader = getJavadocReader(operation);
-        OperationRequest request = operation.getRequest();
-        UriComponents uri = UriComponentsBuilder.fromUri(request.getUri()).build();
+        OperationRequest operationRequest = operation.getRequest();
+        UriComponents uri = UriComponentsBuilder.fromUri(operationRequest.getUri()).build();
         OperationResponse response = operation.getResponse();
 
-        PostmanCollection col = getPostmanCollection(operation);
-        Item item1 = new Item();
-        col.item.add(item1);
+        String name = resolveTitle(handlerMethod, javadocReader);
 
-        item1.name = resolveTitle(handlerMethod, javadocReader);
-        item1.request.method = getRequestMethod(operation);
-        item1.request.description = resolveDescription(operation, handlerMethod, javadocReader);
-        request.getHeaders().entrySet().stream()
-                .filter(entry -> !SKIPPED_REQUEST_HEADERS.contains(entry.getKey()))
-                .forEach(entry -> entry.getValue().forEach(value ->
-                        item1.request.header.add(new Header(entry.getKey(), value))));
-        item1.request.body.mode = "raw";
-        item1.request.body.raw = request.getContentAsString();
-        item1.request.url.raw = uri.toString();
-        item1.request.url.protocol = uri.getScheme();
-        item1.request.url.host.add(uri.getHost());
-        item1.request.url.port = String.valueOf(uri.getPort());
-        item1.request.url.path.addAll(uri.getPathSegments());
-        uri.getQueryParams().forEach((key, list) ->
-                list.forEach(value -> item1.request.url.query.add(new Query(key, value))));
+        Item item1 = new Item(name);
+        collection.item.add(item1);
 
+        Request request = new Request();
+        item1.request = request;
         Response resp = new Response();
         item1.response.add(resp);
+
+        request.method = getRequestMethod(operation);
+        request.description = resolveDescription(operation, handlerMethod, javadocReader);
+        request.header = requestHeaders(operationRequest, request);
+        request.url.query = queryParams(uri, request);
+
+        request.body.mode = "raw";
+        request.body.raw = operationRequest.getContentAsString();
+
+        request.url.raw = uri.toString();
+        request.url.protocol = uri.getScheme();
+        request.url.host.add(uri.getHost());
+        request.url.port = String.valueOf(uri.getPort());
+        request.url.path.addAll(uri.getPathSegments());
+
         resp.name = "Example response";
+        resp.originalRequest = request;
+        resp.header = responseHeaders(response, resp);
         resp.body = response.getContentAsString();
         resp.status = response.getStatus().getReasonPhrase();
         resp.code = response.getStatus().value();
-        response.getHeaders().entrySet().stream()
-                .forEach(entry -> entry.getValue().forEach(value ->
-                        resp.header.add(new Header(entry.getKey(), value))));
-        resp.originalRequest = item1.request;
+    }
+
+    private List<Header> responseHeaders(OperationResponse response, Response resp) {
+        return response.getHeaders().entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream()
+                        .map(value -> new Header(entry.getKey(), value)))
+                .collect(toList());
+    }
+
+    // TODO using auto-params
+    private List<Query> queryParams(UriComponents uri, Request request) {
+        return uri.getQueryParams().entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream()
+                        .map(value -> new Query(entry.getKey(), value, "")))
+                .collect(toList());
+    }
+
+    private List<Header> requestHeaders(OperationRequest operationRequest, Request request) {
+        return operationRequest.getHeaders().entrySet().stream()
+                .filter(entry -> !SKIPPED_REQUEST_HEADERS.contains(entry.getKey()))
+                .flatMap(entry -> entry.getValue().stream()
+                        .map(value -> new Header(entry.getKey(), value)))
+                .collect(toList());
     }
 }

@@ -26,6 +26,8 @@ import capital.scalable.restdocs.misc.DescriptionSnippet;
 import capital.scalable.restdocs.misc.MethodAndPathSnippet;
 import capital.scalable.restdocs.payload.JacksonRequestFieldSnippet;
 import capital.scalable.restdocs.payload.JacksonResponseFieldSnippet;
+import capital.scalable.restdocs.postman.PostmanCollection;
+import capital.scalable.restdocs.postman.PostmanSnippet;
 import capital.scalable.restdocs.request.PathParametersSnippet;
 import capital.scalable.restdocs.request.RequestHeaderSnippet;
 import capital.scalable.restdocs.request.RequestParametersSnippet;
@@ -83,5 +85,9 @@ public abstract class AutoDocumentation {
 
     public static EmbeddedSnippet embedded() {
         return new EmbeddedSnippet();
+    }
+
+    public static PostmanSnippet postman(PostmanCollection postmanCollection) {
+        return new PostmanSnippet(postmanCollection);
     }
 }

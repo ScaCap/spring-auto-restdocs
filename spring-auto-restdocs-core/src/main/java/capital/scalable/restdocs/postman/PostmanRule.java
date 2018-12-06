@@ -24,6 +24,8 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,7 +54,8 @@ public class PostmanRule extends ExternalResource {
         ObjectMapper objectMapper = setupMapper();
         String json = null;
         try {
-            File file = new File(outputDirectory, "postman.json");
+            File file = new File(outputDirectory, postmanCollection.info.name + ".json");
+            Files.createDirectories(outputDirectory.toPath());
             objectMapper.writerFor(PostmanCollection.class).writeValue(file, postmanCollection);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -75,8 +78,8 @@ public class PostmanRule extends ExternalResource {
 
     private static String getDefaultOutputDirectory() {
         if (new File("pom.xml").exists()) {
-            return "target/generated-snippets";
+            return "target/generated-collections";
         }
-        return "build/generated-snippets";
+        return "build/generated-collections";
     }
 }
