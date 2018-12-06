@@ -73,6 +73,8 @@ Can I regenerate the final HTML without running all tests?::
   (where `process-asciidoc` is the goal specified in your Maven POM and might differ).
   With Gradle it can be done via `./gradlew asciidoctor` if `asciidoctor` is the name of the Gradle task
   in your setup. You might have to remove `dependsOn test` depending on your setup to run it standalone.
+Is HATEOAS supported?::
+  Yes, there is basic support for <<snippets-links,links>> and <<snippets-embedded,embedded>> resources.
 
 include::getting-started.adoc[]
 
