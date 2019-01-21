@@ -53,7 +53,7 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
         ObjectMapper mapper = createObjectMapper();
 
         docEnv.getIncludedElements()
-                .stream().parallel()
+                .stream()
                 .filter(e -> e.getKind().isClass() || e.getKind().isInterface())
                 .forEach(classOrInterface -> writeToFile(
                         destinationDir,
