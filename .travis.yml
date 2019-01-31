@@ -33,9 +33,7 @@ after_success:
 - test "$TRAVIS_BRANCH" = "master" && test "$TRAVIS_PULL_REQUEST" = "false" && test
   "$TRAVIS_JDK_VERSION" = "oraclejdk8" && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml"
   -DskipTests=true -B -V
-- test "$TRAVIS_BRANCH" = "sign-test" && test "$TRAVIS_PULL_REQUEST" = "true" && test
-  "$TRAVIS_JDK_VERSION" = "oraclejdk9" && cd spring-auto-restdocs-json-doclet-jdk9
-  && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk9" && cd spring-auto-restdocs-json-doclet-jdk9 && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests -Dmaven.javadoc.skip=true -B -V
 branches:
   only:
   - master
