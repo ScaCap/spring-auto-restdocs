@@ -13,10 +13,10 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
 before_install:
-- openssl aes-256-cbc -K $encrypted_2c5a45ddad64_key -iv $encrypted_2c5a45ddad64_iv
-  -in deploy/secring.gpg.enc -out deploy/secring.gpg -d
-- openssl aes-256-cbc -K $encrypted_2c5a45ddad64_key -iv $encrypted_2c5a45ddad64_iv
-  -in deploy/pubring.gpg.enc -out deploy/pubring.gpg -d
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in "$DEPLOY_DIR/pubring.gpg.enc"
+  -out "$DEPLOY_DIR/pubring.gpg" -d
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in "$DEPLOY_DIR/secring.gpg.enc"
+  -out "$DEPLOY_DIR/secring.gpg" -d
 - mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.2.RELEASE-test.jar
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
@@ -31,11 +31,11 @@ script:
 after_success:
 - cd $TRAVIS_BUILD_DIR
 - test "$TRAVIS_BRANCH" = "master" && test "$TRAVIS_PULL_REQUEST" = "false" && test
-  "$TRAVIS_JDK_VERSION" = "oraclejdk8" && mvn deploy --settings
-  "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
+  "$TRAVIS_JDK_VERSION" = "oraclejdk8" && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml"
+  -DskipTests=true -B -V
 - test "$TRAVIS_BRANCH" = "master" && test "$TRAVIS_PULL_REQUEST" = "false" && test
   "$TRAVIS_JDK_VERSION" = "oraclejdk9" && cd spring-auto-restdocs-json-doclet-jdk9
-   && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
+  && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
 branches:
   only:
   - master
@@ -46,3 +46,5 @@ env:
   - secure: FnsXkKnWrQqPlf816Pc1iH59v/rEdCYnmHLw21mE0F2rbdUSMBXqHg3CtgXjwOtYdrmdbRcAOGzoUBbTF20alzj4OmMLbYLcqU/aHRDJ8ncc2OToRqk3/t+lXK59pGMq0i3GgGJw88znsiawcYYTAo+a/7ZDU/hCnRLZnqIY/8dEuOCXZTdoJ7BmCbLc/3H2//LpX22bnW9721/30ZHkIUdITvsUTj2uk8mpgdX+y/MBABn+cji5tTuw6Fu49RHvUE4BX6gAI/yLi2RUdpRg0GKxKH9L7WDbwlpWKD7/unXW1uh1qEBdmJ0Vog9aH0Yz56tf0HRt+xddjEzlHK9T49s2+1JvSh6/xTr9OnhuiIkHfX3FJ9ro79ZqsqYOLzdw6bcHdm5emH0nAeUEr2CZemrynaJUjIbhotj3Ht2DXOkoAhC8JkKYsTs8/TkIv7VIhk6ITBuTlTwLoTgqoYKIuVY8YXmXmy61ZDuVUxckC6p8Aizhy+qsIOKgZYykGtV9r/2ST/FxS8ZF6hrAWqYhZlU+oXgaxHRuB0ifw+zDQG2GAGLl7rEhDOddxG7mwXeLAP0IORCyLKfnX9vDuBVrlHRShT6r1flLYEqeZIFrhh/qMIJh+BqoiPeno500gYIyjc2mzm9B4LuZYf3m00qLa84CBS72nZwhspjSB88nYXo=
   - secure: rBuTTXoTZ57KG86Hw0R3wJ/he+I5JXo/TcPN1kcVDfhpTOwiPP3I6m7XCzny5f5idmEp5cV0m5LtgpRhlN2uv3asMcPFzvjG6L3gDJkxds2/1Ff28YNsvOg8efrwmdendjXN7ytc7bNJG0d7LBm4QTjoblP1kD2OfbhCNtTer2oObcu/j1wX5f1+pxezx0eWVOKGxCitiAhe1/f8ypBNZ4lZASc4bXPosdnTWlYvL+IbKMKCniBuYTVcyD312TDlVDD3pF+L9rdsgRXO0lpICWFM/LSo6Ih5Jqy1O5dLd/QfPkBKRP3NFS2inecW4J5J51ASV/8w1assqht4M4UFx9G4n0BTXivv7jHVZZzwC4lRYA3g+Mm+WP49f3i5HLNfjFz1659VaD1BSRGdFDEHPHxp4Fk4xnS3kBvxfsCvFkDZjmU4LFluf6964VltG87WAljdp471he3R0FUPkeLel17H9UNH6wm1SoI8S5vCHgjk/nkOixYwsIC+RSQwXpqPB5BhrCjnOKDS2QLQecrzmzsyb9UtMWcDSTKlhWkG8DmjRu/gA4sQhM0kecb2tjUiKAN7RBUnuyXzPzQinwNAsg0jWZQfNLBbhLdpaHf6/hdlUnLtlCPSHQoet651e++ME/ebmJFwyQ95RHzhldI2wr69FcnUb5qk79iBdjC1JUY=
   - secure: T43svDAUhUNsYfn5UFo8MEhE8EVkWAIpe4K23TaRpfq1xKoiESJAnzNGoyxmPDPzLg/ITj1wUznxrMVGbe7LmW+vmcyTl4zRoAQX/yuhfOmJQkQW9JKC/QuY/SADVoygVR9uwMvWkvsBlgTM3/CZWFRci+KBppYENjnigei8nVnRbNj9zl4wGJYSa5iYS7HNz+SYXhJ8JjLj7TMpvwl+0O70ar9iEDs2Q3VvKeqfBQvZO3YOTrk3b0jED9YHaxqPf0VNVeyxwP5WMsWS6G108RZ3EMQDdqLedoIq/cwhxIMxquA9pG4HqDqAWzpOdDkFBIhqFLVvgoV8pZIy5jorjM32cUNiUlzOF8m4Og3mfbJp2aiipAIqSwwZpv9yNUyXKBzv4wd+9YZU+iObpSRiCKbnXKwMQNBj3SIeDnOznRNdBdL71HAyz2ewpi3mEjVJTdLOVGseRkg7rudm2KrvA9XPcAHfEIoReO6aLxk1aLLPVPXk2RgfjPotLO3iZOMMiFFKSoAFOhms6R8obQ9jNMrrBRjSzCUKjLTq+9WeW6tPV9dzieHyIbkUv5WVrDxzs3VYu3CNj3E1tjJFCr8nF/XLtIi2R97TepRMcuI47NmyqwqhTtMfnCiAR6vcTIMzVEhrCh++Xj3gLu2f1Uv7ilsmNJx+l6T281uTQ1I7axU=
+  - secure: ayun3VndCEluR9rKllBfh/MNT/8Bw5fnPfmEJYrrrlJ4E2crWPjvtMd26xen+ZhV1IVwswmnZpcOKgqVuvokMjdQmgpVrq+DTTEweSVQAvlQUDQSJ2QNqKZnDJDHnemhe93bU3gR7cuwOqAW+duvV7wrAvRQB6kPcO3qYiXZg8qCrHKiw6xJM4baj8V1XoFzhxHoMDGQll4IZLFAu4OBaozYQIMHd3b33fibVF8vwSTqfouVBVFmqe1BaHW2Bpgc4kjQq1fqqA2Av3I7ab+S2PCbLM/JNCfUZgPbt5rJJ4e0HmnIgN4mUpIxxQLE6UerBCeufrfw3ZtWUGAZp2WFUnyk+IPuKkNGZUuADlddB/iNJgV+jANt+EWztRcleEb++0EwUexUKyyG94udxDbqxQjr4n7jHMp0rnF9pAc0vVoaCU3xE+6Hr+6q7IMPcfesZzokl8wdU7OBye7ePkOW0aXh/y41hfxZ9zeiRHpeYFhoXYZEVDq4I1rz32vc9hzsHSnppeX7CxZE8s/RLY3wOxeKF14PiEpepbWoLZMsE1RD3zYPHypSGqcu7nJSv6byyBwhEriyd82xkVHIV1T7zfe2Tk1T54P3P8hX8ECLPWNPoaWE/0wW6Q+gws4GQP74CzB3be5F7A41xX0YehxsaEmtykfdXMuvpXI06qqkDkA=
+
