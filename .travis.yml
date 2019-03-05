@@ -17,7 +17,7 @@ before_install:
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
 script:
-- mvn install -B -V -DskipTests -Dmaven.javadoc.skip=true
+- mvn install -B -V -DskipTests=true -Dmaven.javadoc.skip=true
 #- cd samples
 #- mvn install -B -V
 #- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd java-webmvc && ./gradlew check &&
