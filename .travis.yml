@@ -25,7 +25,7 @@ script:
 #- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check
 #  && cd .. || (exit 0)
 after_success:
-- cd $TRAVIS_BUILD_DIR
+#- cd $TRAVIS_BUILD_DIR
 #- test "$TRAVIS_BRANCH" = "master"
 #  && test "$TRAVIS_PULL_REQUEST" = "false"
 #  && test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
