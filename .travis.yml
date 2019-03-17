@@ -34,7 +34,7 @@ after_success:
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
   && "$DEPLOY_DIR/decrypt.sh"
-  && mvn deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
+  && mvn -X deploy --settings "$DEPLOY_DIR/travis-settings.xml" -DskipTests=true -B -V
 branches:
   only:
   - master
