@@ -23,6 +23,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>capital.scalable</groupId>
+            <artifactId>spring-auto-restdocs-annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.restdocs</groupId>
             <artifactId>spring-restdocs-core</artifactId>
             <scope>provided</scope>
