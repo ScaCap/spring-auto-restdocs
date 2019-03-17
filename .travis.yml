@@ -16,7 +16,7 @@ before_install:
 - mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.2.RELEASE-test.jar
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
-- echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+- echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 script:
 - mvn install -B -V -DskipTests -Dmaven.javadoc.skip=true
 #- cd samples
