@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Java Web MVC Example Project
  * %%
- * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders
-        .AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration
-        .WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity

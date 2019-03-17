@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Kotlin Web MVC Example Project
  * %%
- * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.http.HttpMethod.*
+import org.springframework.http.HttpMethod.DELETE
+import org.springframework.http.HttpMethod.POST
+import org.springframework.http.HttpMethod.PUT
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

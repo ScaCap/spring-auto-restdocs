@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Kotlin Web MVC Example Project
  * %%
- * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,23 @@
  */
 package capital.scalable.restdocs.example.testsupport
 
-import capital.scalable.restdocs.AutoDocumentation.*
+import capital.scalable.restdocs.AutoDocumentation.authorization
+import capital.scalable.restdocs.AutoDocumentation.description
+import capital.scalable.restdocs.AutoDocumentation.methodAndPath
+import capital.scalable.restdocs.AutoDocumentation.pathParameters
+import capital.scalable.restdocs.AutoDocumentation.requestFields
+import capital.scalable.restdocs.AutoDocumentation.requestParameters
+import capital.scalable.restdocs.AutoDocumentation.responseFields
+import capital.scalable.restdocs.AutoDocumentation.section
 import capital.scalable.restdocs.jackson.JacksonResultHandlers.prepareJackson
 import capital.scalable.restdocs.misc.AuthorizationSnippet.documentAuthorization
 import capital.scalable.restdocs.response.ResponseModifyingPreprocessors.limitJsonArrayLength
 import capital.scalable.restdocs.response.ResponseModifyingPreprocessors.replaceBinaryContent
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.greaterThan
+import org.hamcrest.Matchers.notNullValue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -40,12 +50,16 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor
-import org.springframework.restdocs.operation.preprocess.Preprocessors.*
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.RequestPostProcessor
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.util.Base64Utils

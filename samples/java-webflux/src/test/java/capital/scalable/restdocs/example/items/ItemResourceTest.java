@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Java WebFlux Example Project
  * %%
- * Copyright (C) 2015 - 2018 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,9 @@
  */
 package capital.scalable.restdocs.example.items;
 
-import static capital.scalable.restdocs.AutoDocumentation.requestFields;
-import static capital.scalable.restdocs.AutoDocumentation.responseFields;
-import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import capital.scalable.restdocs.example.items.ItemResource.Command;
-import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.WebTestClientTestBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 public class ItemResourceTest extends WebTestClientTestBase {
@@ -39,8 +29,8 @@ public class ItemResourceTest extends WebTestClientTestBase {
     @Test
     public void getItem() {
         webTestClient.get().uri("/items/1").exchange()
-				.expectStatus().isOk()
-				.expectBody()
+                .expectStatus().isOk()
+                .expectBody()
                 .jsonPath("$.id").isEqualTo("1")
                 .jsonPath("$.description").isEqualTo("main item")
                 .jsonPath("$.attributes.text").isEqualTo("first item")
@@ -54,136 +44,33 @@ public class ItemResourceTest extends WebTestClientTestBase {
                 .jsonPath("$.children[0].description").isEqualTo("first child")
                 .jsonPath("$.children[0].attributes").doesNotExist()
                 .jsonPath("$.children[0].children").doesNotExist()
-				.consumeWith(commonDocumentation());
+                .consumeWith(commonDocumentation());
     }
 
     @Test
     public void getAllItems() {
         webTestClient.get().uri("/items").exchange()
-				.expectStatus().isOk()
-				.expectBody()
+                .expectStatus().isOk()
+                .expectBody()
                 .jsonPath("$").isArray()
                 .jsonPath("$.length()").isEqualTo(2)
                 .jsonPath("$[0].id").isEqualTo("1")
                 .jsonPath("$[1].id").isEqualTo("child-1")
-				.consumeWith(commonDocumentation());
+                .consumeWith(commonDocumentation());
     }
 
-	@Test
-	public void addItem() {
-		ItemUpdateRequest data = new ItemUpdateRequest();
-		data.setDescription("Hot News");
-		webTestClient.post().uri("/items")
+    @Test
+    public void updateItem() {
+        ItemUpdateRequest data = new ItemUpdateRequest();
+        data.setDescription("Hot News");
+        webTestClient.put().uri("/items/1")
                 .contentType(MediaType.APPLICATION_JSON)
-				.body(Mono.just(data), ItemUpdateRequest.class)
-				.exchange()
-				.expectStatus().isCreated()
-				.expectHeader().valueEquals("location","http://localhost:8080/items/2")
-				.expectBody()
-				.consumeWith(commonDocumentation());
-	}
-
-	@Test
-	public void updateItem() {
-		ItemUpdateRequest data = new ItemUpdateRequest();
-		data.setDescription("Hot News");
-		webTestClient.put().uri("/items/1")
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(Mono.just(data), ItemUpdateRequest.class)
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.jsonPath("$.id").isEqualTo("1")
-				.jsonPath("$.description"). isEqualTo("Hot News")
-				.consumeWith(commonDocumentation());
-	}
-
-    @Test
-    public void deleteItem() {
-		webTestClient.delete().uri("/items/{id}", 1)
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.consumeWith(commonDocumentation());
-    }
-
-    @Test
-    public void getChildItem() {
-        webTestClient.get().uri("/items/{id}/{child}", 1, "child-1")
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-                .jsonPath("$.id").isEqualTo("child-1")
-                .jsonPath("$.description").isEqualTo("first child")
-				.consumeWith(commonDocumentation());
-    }
-
-    @Test
-    public void searchItems() {
-        webTestClient.get()
-				.uri(uriBuilder -> uriBuilder.path("/items/search")
-						.queryParam("desc", "main")
-						.queryParam("hint", "1")
-				.build())
-				.exchange()
+                .body(Mono.just(data), ItemUpdateRequest.class)
+                .exchange()
                 .expectStatus().isOk()
-				.expectBody()
-                .jsonPath("$.content").isArray()
-                .jsonPath("$.content.length()").isEqualTo(1)
-                .jsonPath("$.content[0].id").isEqualTo("1")
-                .jsonPath("$.content[0].description").isEqualTo("main item")
-                // example for overriding path and preprocessors
-				.consumeWith(document("{class-name}/search", commonResponsePreprocessor()));
+                .expectBody()
+                .jsonPath("$.id").isEqualTo("1")
+                .jsonPath("$.description").isEqualTo("Hot News")
+                .consumeWith(commonDocumentation());
     }
-
-    @Test
-    public void processAllItems() {
-		Map<String,String> data = new HashMap<>();
-		data.put("command", "cleanup");
-        webTestClient.post().uri("/items/process")
-                .contentType(MediaType.APPLICATION_JSON)
-				.body(Mono.just(data),Map.class)
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.jsonPath("$.output").isEqualTo("processed")
-                .consumeWith(commonDocumentation(
-                        requestFields().requestBodyAsType(Command.class),
-                        responseFields().responseBodyAsType(CommandResult.class)));
-    }
-
-    @Test
-    public void processSingleItem() {
-		webTestClient.post().uri("/items/{itemId}/process", "1")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.body(BodyInserters.fromFormData("command", "increase"))
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-                .jsonPath("$.output").isEqualTo("Command executed on item 1: increase")
-				.consumeWith(commonDocumentation());
-    }
-
-    @Test
-    public void validateMetadata() {
-        webTestClient.post().uri("/items/validateMetadata")
-                .contentType(MediaType.APPLICATION_JSON)
-				.body(BodyInserters.fromObject("{ \"type\": \"1\", \"tag\": \"myItem\" }"))
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.consumeWith(commonDocumentation());
-    }
-
-    @Test
-    public void cloneItem() {
-        webTestClient.post().uri("/items/cloneItem")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromObject("{ \"name\": \"xyz\" }"))
-				.exchange()
-				.expectStatus().isOk()
-				.expectBody()
-				.consumeWith(commonDocumentation());
-    }
-
 }
