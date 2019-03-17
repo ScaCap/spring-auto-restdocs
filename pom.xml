@@ -208,7 +208,7 @@
                 <module>spring-auto-restdocs-docs</module>
             </modules>
         </profile>
-<!--        <profile>
+        <profile>
             <id>sign-artifacts</id>
             <activation>
                 <property>
@@ -232,7 +232,7 @@
                 </plugins>
             </build>
         </profile>
--->    </profiles>
+    </profiles>
 
     <distributionManagement>
         <snapshotRepository>
