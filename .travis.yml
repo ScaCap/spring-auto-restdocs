@@ -17,7 +17,7 @@ before_install:
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
 - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
-- echo $GPG_OWNERTRUST | base64 --decode | gpg --import-ownertrust
+#- echo $GPG_OWNERTRUST | base64 --decode | gpg --import-ownertrust
 script:
 - mvn install -B -V
 - cd samples
