@@ -16,8 +16,6 @@ before_install:
 - mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.2.RELEASE-test.jar
   -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.2.RELEASE
   -Dpackaging=jar -Dclassifier=test
-- echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
-#- echo $GPG_OWNERTRUST | base64 --decode | gpg --import-ownertrust
 script:
 - mvn install -B -V
 - cd samples
@@ -25,6 +23,7 @@ script:
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd java-webmvc && ./gradlew check && cd .. || (exit 0)
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
 after_success:
+- echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 - cd $TRAVIS_BUILD_DIR
 #- test "$TRAVIS_BRANCH" = "master" &&
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
