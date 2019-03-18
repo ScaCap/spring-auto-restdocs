@@ -32,7 +32,7 @@ after_success:
 #- test "$TRAVIS_BRANCH" = "master" &&
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
-  && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
+  && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
 branches:
   only:
   - master
