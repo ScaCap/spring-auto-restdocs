@@ -25,11 +25,11 @@ script:
 after_success:
 - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 - cd $TRAVIS_BUILD_DIR
-#- test "$TRAVIS_BRANCH" = "master" &&
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
+- test "$TRAVIS_BRANCH" = "master"
+  && test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
   && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
-#- test "$TRAVIS_BRANCH" = "master" &&
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
+- test "$TRAVIS_BRANCH" = "master"
+  && test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
   && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
 branches:
