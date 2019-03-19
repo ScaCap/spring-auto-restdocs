@@ -21,6 +21,7 @@ package capital.scalable.restdocs.example.items;
 
 import static capital.scalable.restdocs.AutoDocumentation.embedded;
 import static capital.scalable.restdocs.AutoDocumentation.links;
+import static capital.scalable.restdocs.AutoDocumentation.postman;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
 import static capital.scalable.restdocs.AutoDocumentation.sectionBuilder;
@@ -36,14 +37,14 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -57,7 +58,6 @@ import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 public class ItemResourceTest extends MockMvcBase {
 
@@ -132,8 +132,8 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$.content", hasSize(1)))
                 .andExpect(jsonPath("$.content[0].id", is("1")))
                 .andExpect(jsonPath("$.content[0].description", is("main item")))
-                // example for overriding path and preprocessors
-                .andDo(document("{class-name}/search", commonResponsePreprocessor()));
+                // example for overriding path
+                .andDo(document("{class-name}/search"));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class ItemResourceTest extends MockMvcBase {
                 .content("{ \"command\": \"cleanup\" }"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{ \"output\": \"processed\" }"))
-                .andDo(commonDocumentation().document(
+                .andDo(document("{class-name}/{method-name}",
                         requestFields().requestBodyAsType(Command.class),
                         responseFields().responseBodyAsType(CommandResult.class)));
     }
@@ -189,9 +189,9 @@ public class ItemResourceTest extends MockMvcBase {
      */
     @Test
     public void getItemWithRestDocs() throws Exception {
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/items/{id}", 1))
+        mockMvc.perform(get("/items/{id}", 1))
                 .andExpect(status().isOk())
-                .andDo(commonDocumentation(
+                .andDo(document("{class-name}/{method-name}",
                         pathParameters(
                                 parameterWithName("id").description("ID of the item.")),
                         relaxedResponseFields(fieldWithPath("id")
@@ -204,13 +204,13 @@ public class ItemResourceTest extends MockMvcBase {
                                 RESPONSE_FIELDS, // classic snippet
                                 CURL_REQUEST, // classic snippet
                                 HTTP_RESPONSE // classic snippet
-                        ).build()));
+                        ).build()
+                ));
     }
 
     @Test
     public void getItemAsResource() throws Exception {
         mockMvc.perform(get("/items/media/1").param("embedded", "true"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("1")))
                 .andExpect(jsonPath("$.desc", is("hypermedia item")))
@@ -226,7 +226,7 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$._embedded.meta.type", is("1")))
                 .andExpect(jsonPath("$._embedded.attributes").exists())
                 .andExpect(jsonPath("$._embedded.attributes.number", is(1)))
-                .andDo(commonDocumentation(
+                .andDo(document("{class-name}/{method-name}",
                         links().documentationType(LinksDocumentation.class),
                         embedded().documentationType(EmbeddedDocumentation.class)
                 ));

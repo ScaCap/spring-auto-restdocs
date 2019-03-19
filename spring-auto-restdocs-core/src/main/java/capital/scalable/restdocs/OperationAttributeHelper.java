@@ -32,6 +32,7 @@ import java.util.Map;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
+import capital.scalable.restdocs.postman.PostmanCollection;
 import capital.scalable.restdocs.util.TemplateFormatting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -49,15 +50,17 @@ public class OperationAttributeHelper {
             "org.springframework.restdocs.configuration";
     public static final String REQUEST_PATTERN = "REQUEST_PATTERN";
 
+    public static Object setConfiguration(MockHttpServletRequest request, String name, Object value) {
+        return ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION)).put(name, value);
+    }
+
     public static HandlerMethod getHandlerMethod(Operation operation) {
         Map<String, Object> attributes = operation.getAttributes();
         return (HandlerMethod) attributes.get(HandlerMethod.class.getName());
     }
 
-    public static void setHandlerMethod(MockHttpServletRequest request,
-            HandlerMethod handlerMethod) {
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(HandlerMethod.class.getName(), handlerMethod);
+    public static void setHandlerMethod(MockHttpServletRequest request, HandlerMethod handlerMethod) {
+        setConfiguration(request, HandlerMethod.class.getName(), handlerMethod);
     }
 
     public static String getRequestPattern(Operation operation) {
@@ -67,8 +70,7 @@ public class OperationAttributeHelper {
 
     public static void initRequestPattern(MockHttpServletRequest request) {
         String requestPattern = (String) request.getAttribute(BEST_MATCHING_PATTERN_ATTRIBUTE);
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(REQUEST_PATTERN, requestPattern);
+        setConfiguration(request, REQUEST_PATTERN, requestPattern);
     }
 
     public static String getRequestMethod(Operation operation) {
@@ -80,18 +82,15 @@ public class OperationAttributeHelper {
     }
 
     public static void setObjectMapper(MockHttpServletRequest request, ObjectMapper objectMapper) {
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(ObjectMapper.class.getName(), objectMapper);
+        setConfiguration(request, ObjectMapper.class.getName(), objectMapper);
     }
 
     public static JavadocReader getJavadocReader(Operation operation) {
         return (JavadocReader) operation.getAttributes().get(JavadocReader.class.getName());
     }
 
-    public static void setJavadocReader(MockHttpServletRequest request,
-            JavadocReader javadocReader) {
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(JavadocReader.class.getName(), javadocReader);
+    public static void setJavadocReader(MockHttpServletRequest request, JavadocReader javadocReader) {
+        setConfiguration(request, JavadocReader.class.getName(), javadocReader);
     }
 
     public static RestDocumentationContext getDocumentationContext(Operation operation) {
@@ -103,20 +102,25 @@ public class OperationAttributeHelper {
         return (String) operation.getAttributes().get(AuthorizationSnippet.class.getName());
     }
 
-    public static void setAuthorization(MockHttpServletRequest request,
-            String authorization) {
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(AuthorizationSnippet.class.getName(), authorization);
+    public static void setAuthorization(MockHttpServletRequest request, String authorization) {
+        setConfiguration(request, AuthorizationSnippet.class.getName(), authorization);
     }
 
     public static ConstraintReader getConstraintReader(Operation operation) {
         return (ConstraintReader) operation.getAttributes().get(ConstraintReader.class.getName());
     }
 
-    public static void setConstraintReader(MockHttpServletRequest request,
-            ConstraintReader constraintReader) {
-        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
-                .put(ConstraintReader.class.getName(), constraintReader);
+    public static void setConstraintReader(MockHttpServletRequest request, ConstraintReader constraintReader) {
+        setConfiguration(request, ConstraintReader.class.getName(), constraintReader);
+    }
+
+    public static PostmanCollection getPostmanCollection(Operation operation) {
+        Map<String, Object> attributes = operation.getAttributes();
+        return (PostmanCollection) attributes.get(PostmanCollection.class.getName());
+    }
+
+    public static void setPostmanCollection(MockHttpServletRequest request, PostmanCollection postmanCollection) {
+        setConfiguration(request, PostmanCollection.class.getName(), postmanCollection);
     }
 
     public static TemplateFormat getTemplateFormat(Operation operation) {

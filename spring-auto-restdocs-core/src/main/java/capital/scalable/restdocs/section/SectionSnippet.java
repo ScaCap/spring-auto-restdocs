@@ -117,7 +117,7 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    public static String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "title");
         if (isBlank(title)) {
@@ -133,7 +133,7 @@ public class SectionSnippet extends TemplatedSnippet {
         }
     }
 
-    private String createTitle(String name) {
+    private static String createTitle(String name) {
         return join(splitByCharacterTypeCamelCase(capitalize(name)), ' ');
     }
 

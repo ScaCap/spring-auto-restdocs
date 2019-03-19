@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import static capital.scalable.restdocs.AutoDocumentation.embedded;
 import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.methodAndPath;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
+import static capital.scalable.restdocs.AutoDocumentation.postman;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
 import static capital.scalable.restdocs.AutoDocumentation.responseFields;
@@ -42,7 +43,6 @@ import static org.springframework.restdocs.http.HttpDocumentation.httpRequest;
 import static org.springframework.restdocs.http.HttpDocumentation.httpResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -51,8 +51,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.Filter;
 
+import capital.scalable.restdocs.postman.PostmanRule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +62,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
-import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -92,33 +92,40 @@ public abstract class MockMvcBase {
     @Rule
     public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
+    @ClassRule
+    public static final PostmanRule postmanCollection = new PostmanRule("Items", "Contains items calls");
+
     @Before
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilters(springSecurityFilterChain)
                 .alwaysDo(prepareJackson(objectMapper))
-                .alwaysDo(commonDocumentation())
+                .alwaysDo(document("{class-name}/{method-name}"))
                 .apply(documentationConfiguration(restDocumentation)
                         .uris()
                         .withScheme("http")
                         .withHost("localhost")
                         .withPort(8080)
-                        .and().snippets()
-                        .withDefaults(curlRequest(), httpRequest(), httpResponse(),
+                        .and()
+                        .snippets()
+                        .withDefaults(
+                                curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION)))
+                                section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION),
+                                postman(postmanCollection.get())
+                        ).and()
+                        .operationPreprocessors()
+                        .withRequestDefaults(
+                                prettyPrint()
+                        ).withResponseDefaults(
+                                replaceBinaryContent(),
+                                limitJsonArrayLength(objectMapper),
+                                prettyPrint()
+                        )
+                )
                 .build();
-    }
-
-    protected RestDocumentationResultHandler commonDocumentation(Snippet... snippets) {
-        return document("{class-name}/{method-name}", commonResponsePreprocessor(), snippets);
-    }
-
-    protected OperationResponsePreprocessor commonResponsePreprocessor() {
-        return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper),
-                prettyPrint());
     }
 
     protected RequestPostProcessor userToken() {
