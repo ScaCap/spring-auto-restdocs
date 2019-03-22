@@ -46,6 +46,11 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>capital.scalable</groupId>
+            <artifactId>spring-auto-restdocs-annotations</artifactId>
+            <version>${spring-auto-restdocs.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

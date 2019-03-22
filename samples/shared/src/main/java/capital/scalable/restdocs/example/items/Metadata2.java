@@ -20,11 +20,19 @@
 
 package capital.scalable.restdocs.example.items;
 
+import capital.scalable.restdocs.jackson.RestdocsNotExpanded;
+
 public class Metadata2 extends Metadata {
     /**
      * Order attribute. Available only if metadata type=2
      */
     private Integer order;
+
+    /**
+     * Sub metadata (recursive). Not expanded as client should not see it.
+     */
+    @RestdocsNotExpanded
+    private Metadata2 sub;
 
     Metadata2() {
     }

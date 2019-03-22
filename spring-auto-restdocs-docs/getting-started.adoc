@@ -29,7 +29,7 @@ For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet depend
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-core</artifactId>
     <version>${latestRelease}</version>
-    <scope>test</scope> <1>
+    <scope>test</scope>
 </dependency>
 
 <build>
@@ -42,10 +42,10 @@ For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet depend
                 </includes>
                 <systemPropertyVariables>
                     <org.springframework.restdocs.outputDir>
-                        \${project.build.directory}/generated-snippets <2>
+                        \${project.build.directory}/generated-snippets <1>
                     </org.springframework.restdocs.outputDir>
                     <org.springframework.restdocs.javadocJsonDir>
-                        \${project.build.directory}/generated-javadoc-json <3>
+                        \${project.build.directory}/generated-javadoc-json <2>
                     </org.springframework.restdocs.javadocJsonDir>
                 </systemPropertyVariables>
              </configuration>
@@ -64,11 +64,11 @@ For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet depend
                         <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
                         <docletArtifact>
                             <groupId>capital.scalable</groupId>
-                            <artifactId>spring-auto-restdocs-json-doclet</artifactId> <4>
+                            <artifactId>spring-auto-restdocs-json-doclet</artifactId> <3>
                             <version>${latestRelease}</version>
                         </docletArtifact>
-                        <destDir>generated-javadoc-json</destDir> <3>
-                        <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory> <3>
+                        <destDir>generated-javadoc-json</destDir> <2>
+                        <reportOutputDirectory>\${project.build.directory}</reportOutputDirectory> <2>
                         <useStandardDocletOptions>false</useStandardDocletOptions>
                         <show>package</show>
                     </configuration>
@@ -79,12 +79,11 @@ For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet depend
     </plugins>
 </build>
 ----
-<1> Has to be removed if `@RestdocsNotExpanded` is used.
-<2> (Optional) Determines directory where snippets are saved. Defaults to `generated-snippets` in build directory.
-<3> (Optional) Determines where JSON files are saved. Defaults to `generated-javadoc-json` in build directory.
+<1> (Optional) Determines directory where snippets are saved. Defaults to `generated-snippets` in build directory.
+<2> (Optional) Determines where JSON files are saved. Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
-<4> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
+<3> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
 
 +
 [source,javascript]
@@ -95,26 +94,26 @@ configurations {
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json") <3>
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <2>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '${latestRelease}' <1>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '${latestRelease}' <4>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '${latestRelease}'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '${latestRelease}' <3>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     source = sourceSets.main.allJava
     classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir <3>
+    destinationDir = javadocJsonDir <2>
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <2>
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <3>
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <1>
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <2>
 
     dependsOn jsonDoclet
 }
@@ -123,13 +122,12 @@ jar {
     dependsOn asciidoctor
 }
 ----
-<1> Has to be `compile` instead of `testCompile` if `@RestdocsNotExpanded` is used.
-<2> (Optional) Determines directory where snippets are saved. Defaults to `generated-snippets` in build directory.
-<3> (Optional) Determines where JSON files are saved.
+<1> (Optional) Determines directory where snippets are saved. Defaults to `generated-snippets` in build directory.
+<2> (Optional) Determines where JSON files are saved.
 Defaults to `generated-javadoc-json` in build directory.
 Multiple directories can be listed by separating them with `,`.
 The directories are processed in order and only the first found JSON file is used.
-<4> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
+<3> For Java 9 support, use `spring-auto-restdocs-json-doclet-jdk9` as doclet dependency.
 
 . Configure MockMvc or WebTestClient
 +
