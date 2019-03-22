@@ -51,4 +51,9 @@ See how it looks in the link:{html-preview}{example-dir}/generated-docs/index.ht
 For custom translations of section titles, table headers and other messages:
 
 1. Create a file `SnippetMessages.properties` in `capital.scalable.restdocs.i18n` package.
-2. Add translations to the file using keys from link:{master-dir}/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties[DefaultSnippetMessages].
+2. Add translations to the file using keys from link:{master-dir}/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties[DefaultSnippetMessages].[[localization]]
+
+=== Recursive structures support
+
+To prevent infinite loop in recursive structures, annotate the recursive field with `@RestdocsNotExpanded` annotation
+from `spring-auto-restdocs-annotations` maven module.
