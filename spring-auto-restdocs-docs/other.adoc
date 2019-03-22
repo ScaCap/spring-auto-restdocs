@@ -55,5 +55,5 @@ For custom translations of section titles, table headers and other messages:
 
 === Recursive structures support
 
-To prevent infinite loop in recursive structures, annotate the recursive field with `@RestdocsNotExpanded` annotation
-from `spring-auto-restdocs-annotations` maven module.
+To prevent infinite loop in recursive structures, annotate the recursive field with the `@RestdocsNotExpanded` annotation
+from the `spring-auto-restdocs-annotations` maven module.
