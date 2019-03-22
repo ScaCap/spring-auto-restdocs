@@ -23,12 +23,12 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
@@ -65,9 +65,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         }
 
         Class<?> returnType = method.getReturnType().getParameterType();
-        if (returnType == ResponseEntity.class) {
-            return firstGenericType(method.getReturnType());
-        } else if (returnType == HttpEntity.class) {
+        if (HttpEntity.class.isAssignableFrom(returnType)) {
             return firstGenericType(method.getReturnType());
         } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
@@ -76,7 +74,13 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         } else if ("void".equals(returnType.getName())) {
             return null;
         } else if (REACTOR_MONO_CLASS.equals(returnType.getCanonicalName())) {
-            return firstGenericType(method.getReturnType());
+            Type type = firstGenericType(method.getReturnType());
+            if (type instanceof ParameterizedType) {
+                // can be Mono<ResponseEntity<FooBar>>
+                return ((ParameterizedType) type).getActualTypeArguments()[0];
+            } else {
+                return type;
+            }
         } else if (REACTOR_FLUX_CLASS.equals(returnType.getCanonicalName())) {
             return (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else {
