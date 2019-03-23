@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.request;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_HEADERS;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -70,7 +70,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("updateItem", "yetAnotherId", "A string");
         mockParamComment("updateItem", "optionalId", "Optional string");
 
-        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_HEADERS)).is(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
@@ -96,7 +96,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         mockParamComment("updateItem", "partId", "An integer");
         // yetAnotherId will have an automatic description about its default value
 
-        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_HEADERS)).is(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subId", "String", "false", "A string.")
@@ -115,7 +115,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
     public void noHeaders() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("updateItem");
 
-        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(equalTo("No headers."));
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_HEADERS)).isEqualTo("No headers.");
 
         new RequestHeaderSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -124,7 +124,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(equalTo("No headers."));
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_HEADERS)).isEqualTo("No headers.");
 
         new RequestHeaderSnippet().document(operationBuilder
                 .build());
@@ -153,7 +153,7 @@ public class RequestHeaderSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        this.snippets.expect(AUTO_REQUEST_HEADERS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_HEADERS)).is(
                 tableWithHeader("Header", "Type", "Optional", "Description")
                         .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
 

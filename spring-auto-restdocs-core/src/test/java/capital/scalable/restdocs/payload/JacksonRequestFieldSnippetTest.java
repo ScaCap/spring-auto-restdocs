@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,7 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -79,7 +77,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("field1", "String", "false", "A string.")
                         .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
@@ -99,7 +97,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(ItemWithWeight.class, "weight", "An enum");
         mockConstraintMessage(ItemWithWeight.class, "weight", "Must be one of [LIGHT, HEAVY]");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("weight", "String", "true",
                                 "An enum.\n\nMust be one of [LIGHT, HEAVY]."));
@@ -116,7 +114,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
     public void noRequestBody() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(equalTo("No request body."));
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).isEqualTo("No request body.");
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -126,7 +124,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(equalTo("No request body."));
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).isEqualTo("No request body.");
 
         new JacksonRequestFieldSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
@@ -139,7 +137,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Integer", "true", "An integer."));
@@ -160,7 +158,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(SubItem1.class, "subItem1Field", "A sub item 1 field");
         mockFieldComment(SubItem2.class, "subItem2Field", "A sub item 2 field");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("type", "String", "true", "A type.")
                         .row("commonField", "String", "true", "A common field.")
@@ -180,7 +178,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem", String.class);
         mockFieldComment(ProcessingCommand.class, "command", "A command");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("command", "String", "true", "A command."));
 
@@ -200,7 +198,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
-        assertThat(hasContent, is(true));
+        assertThat(hasContent).isTrue();
     }
 
     @Test
@@ -210,7 +208,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
-        assertThat(hasContent, is(true));
+        assertThat(hasContent).isTrue();
     }
 
     @Test
@@ -220,7 +218,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         boolean hasContent = new JacksonRequestFieldSnippet().hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
-        assertThat(hasContent, is(false));
+        assertThat(hasContent).isFalse();
     }
 
     @Test
@@ -244,7 +242,7 @@ public class JacksonRequestFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(DeprecatedItem.class, "index", "item's index");
         mockDeprecated(DeprecatedItem.class, "index", "use index2");
 
-        this.snippets.expect(AUTO_REQUEST_FIELDS).withContents(
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("index", "Integer", "true",
                                 "**Deprecated.** Use index2.\n\nItem's index."));

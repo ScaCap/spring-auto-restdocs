@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-    <span id="revnumber">version 2.0.4</span>
+<span id="revnumber">version 2.0.5-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -485,6 +485,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#deprecation">Deprecation support</a></li>
 <li><a href="#see-tag">See tag support</a></li>
 <li><a href="#localization">Localization support</a></li>
+<li><a href="#_recursive_structures_support">Recursive structures support</a></li>
 </ul>
 </li>
 <li><a href="#contributing">Contributing</a>
@@ -616,7 +617,7 @@ in your setup. You might have to remove <code>dependsOn test</code> depending on
 <p>Java 8 or Kotlin 1.2</p>
 </li>
 <li>
-<p>Spring REST Docs 2.0.2.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/">documentation</a>)</p>
+<p>Spring REST Docs 2.0.3.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/">documentation</a>)</p>
 </li>
 <li>
 <p>Jackson has to be used for creating and parsing JSON</p>
@@ -636,7 +637,7 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
+<p>Setup project for <a href="http://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/#getting-started">Spring REST Docs</a></p>
 </li>
 <li>
 <p>Additional configuration for this extension:</p>
@@ -647,7 +648,7 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
     &lt;version&gt;2.0.4&lt;/version&gt;
-    &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+    &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;
 
 &lt;build&gt;
@@ -660,10 +661,10 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
                 &lt;/includes&gt;
                 &lt;systemPropertyVariables&gt;
                     &lt;org.springframework.restdocs.outputDir&gt;
-                        ${project.build.directory}/generated-snippets <i class="conum" data-value="2"></i><b>(2)</b>
+                        ${project.build.directory}/generated-snippets <i class="conum" data-value="1"></i><b>(1)</b>
                     &lt;/org.springframework.restdocs.outputDir&gt;
                     &lt;org.springframework.restdocs.javadocJsonDir&gt;
-                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="3"></i><b>(3)</b>
+                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="2"></i><b>(2)</b>
                     &lt;/org.springframework.restdocs.javadocJsonDir&gt;
                 &lt;/systemPropertyVariables&gt;
              &lt;/configuration&gt;
@@ -682,11 +683,11 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
                         &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
-                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="4"></i><b>(4)</b>
+                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                             &lt;version&gt;2.0.4&lt;/version&gt;
                         &lt;/docletArtifact&gt;
-                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
-                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="2"></i><b>(2)</b>
                         &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
                         &lt;show&gt;package&lt;/show&gt;
                     &lt;/configuration&gt;
@@ -702,20 +703,16 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Has to be removed if <code>@RestdocsNotExpanded</code> is used.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>(Optional) Determines where JSON files are saved. Defaults to <code>generated-javadoc-json</code> in build directory.
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
 </tr>
 </table>
@@ -728,26 +725,26 @@ The directories are processed in order and only the first found JSON file is use
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="3"></i><b>(3)</b>
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="2"></i><b>(2)</b>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.4' <i class="conum" data-value="1"></i><b>(1)</b>
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.4' <i class="conum" data-value="4"></i><b>(4)</b>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.4'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.4' <i class="conum" data-value="3"></i><b>(3)</b>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     source = sourceSets.main.allJava
     classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
+    destinationDir = javadocJsonDir <i class="conum" data-value="2"></i><b>(2)</b>
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <i class="conum" data-value="2"></i><b>(2)</b>
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <i class="conum" data-value="1"></i><b>(1)</b>
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <i class="conum" data-value="2"></i><b>(2)</b>
 
     dependsOn jsonDoclet
 }
@@ -761,21 +758,17 @@ jar {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Has to be <code>compile</code> instead of <code>testCompile</code> if <code>@RestdocsNotExpanded</code> is used.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>(Optional) Determines where JSON files are saved.
 Defaults to <code>generated-javadoc-json</code> in build directory.
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
 </tr>
 </table>
@@ -2008,10 +2001,10 @@ You can also <a href="#snippets-section-custom-snippet">include your custom snip
 <h3 id="snippets-customization"><a class="link" href="#snippets-customization">Snippet customization</a></h3>
 <div class="paragraph">
 <p>Provide your own template in <code>org/springframework/restdocs/templates/asciidoctor</code> (or <code>markdown</code>) package of your resources.
-You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.2.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
+You can override <a href="https://github.com/spring-projects/spring-restdocs/tree/v2.0.3.RELEASE/spring-restdocs-core/src/main/resources/org/springframework/restdocs/templates">REST Docs templates</a>
 and <a href="https://github.com/ScaCap/spring-auto-restdocs/tree/master/spring-auto-restdocs-core/src/main/resources/org/springframework/restdocs/templates">Auto REST Docs templates</a>.
 Important is to omit <code>default-</code> part from the template name so that the resolution algorithm will prefer this custom template.
-See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
+See also <a href="http://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/#documenting-your-api-customizing-snippets">original documentation</a> for additional details.</p>
 </div>
 </div>
 </div>
@@ -2107,7 +2100,7 @@ If this file can be loaded as a resource, descriptions are extracted.
 Each description is a property where the key is the full class name of the annotation suffixed with <code>.description</code>.
 The value is the description and can contain placeholders for annotation methods,
 e.g. <code>${value}</code> to get the content of <code>value()</code>.
-For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.2.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
+For more details, see original documentation of <a href="http://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/#documenting-your-api-constraints-describing">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Example for the constraint annotation <code>myproject.constraints.OneOf</code>:</p>
@@ -2315,9 +2308,16 @@ See how it looks in the <a href="https://htmlpreview.github.io/?https://github.c
 <p>Create a file <code>SnippetMessages.properties</code> in <code>capital.scalable.restdocs.i18n</code> package.</p>
 </li>
 <li>
-<p>Add translations to the file using keys from <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties">DefaultSnippetMessages</a>.</p>
+<p>Add translations to the file using keys from <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties">DefaultSnippetMessages</a>.<a id="localization"></a></p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recursive_structures_support"><a class="link" href="#_recursive_structures_support">Recursive structures support</a></h3>
+<div class="paragraph">
+<p>To prevent infinite loop in recursive structures, annotate the recursive field with the <code>@RestdocsNotExpanded</code> annotation
+from the <code>spring-auto-restdocs-annotations</code> maven module.</p>
 </div>
 </div>
 </div>
@@ -2337,9 +2337,9 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 <div class="listingblock">
 <div class="title">Bash</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.2.RELEASE-test.jar \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.3.RELEASE-test.jar \
     -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
-    -Dversion=2.0.2.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
+    -Dversion=2.0.3.RELEASE -Dpackaging=test-jar -Dclassifier=test</code></pre>
 </div>
 </div>
 </div>
@@ -2350,7 +2350,7 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
 </div>
 <div class="paragraph">
-<p>We use version 2.0.2.RELEASE of Spring REST Docs in this example.</p>
+<p>We use version 2.0.3.RELEASE of Spring REST Docs in this example.</p>
 </div>
 <div class="paragraph">
 <p>You find the currently required version in <code>pom.xml</code>:</p>
@@ -2361,7 +2361,7 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.restdocs&lt;/groupId&gt;
     &lt;artifactId&gt;spring-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;2.0.2.RELEASE&lt;/version&gt;
+    &lt;version&gt;2.0.3.RELEASE&lt;/version&gt;
     &lt;classifier&gt;test&lt;/classifier&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
@@ -2376,13 +2376,13 @@ but if you ever want to upgrade the version of Spring REST Docs in this project 
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone git@github.com:spring-projects/spring-restdocs.git
 cd spring-restdocs
 git fetch --tags
-git checkout tags/v2.0.2.RELEASE
+git checkout tags/v2.0.3.RELEASE
 ./gradlew build</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Afterwards the test JAR is located at
-<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.2.RELEASE-test.jar</code>
+<code>spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-2.0.3.RELEASE-test.jar</code>
 and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
@@ -2401,8 +2401,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-    Version 2.0.4<br>
-    Last updated 2019-02-04 10:55:53 CET
+Version 2.0.5-SNAPSHOT<br>
+Last updated 2019-03-23 14:43:59 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
