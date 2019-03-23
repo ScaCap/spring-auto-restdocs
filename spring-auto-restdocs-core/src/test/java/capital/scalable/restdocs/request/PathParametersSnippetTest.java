@@ -72,6 +72,12 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("addItem", "yetAnotherId", "Another string");
         mockParamComment("addItem", "optionalId", "Optional string");
 
+        new PathParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
         assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
@@ -79,12 +85,6 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true", "Another string.")
                         .row("optionalId", "String", "true", "Optional string."));
-
-        new PathParametersSnippet().document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
     }
 
     @Test
@@ -96,35 +96,35 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(handlerMethod.getMethodParameters()[0],
                 "Must be one of [SPHERIC, SQUARE]");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("shape", "String", "false",
-                                "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("shape", "String", "false",
+                                "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
     }
 
     @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
-
         new PathParametersSnippet().document(operationBuilder
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
@@ -150,15 +150,15 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
     }
 
     private void initParameters(HandlerMethod handlerMethod) {

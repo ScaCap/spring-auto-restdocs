@@ -43,13 +43,13 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("Sample method comment.");
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("Sample method comment.");
     }
 
     @Test
@@ -58,14 +58,14 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "use different one");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
-                .isEqualTo("**Deprecated.** Use different one.\n\nSample method comment.");
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
+                .isEqualTo("**Deprecated.** Use different one.\n\nSample method comment.");
     }
 
     @Test
@@ -74,23 +74,23 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "see", "something");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
-                .isEqualTo("Sample method comment.\n\nSee something.");
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
+                .isEqualTo("Sample method comment.\n\nSee something.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("");
-
         new DescriptionSnippet().document(operationBuilder
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("");
     }
 
     private void mockMethodComment(Class<TestResource> javaBaseClass, String methodName,

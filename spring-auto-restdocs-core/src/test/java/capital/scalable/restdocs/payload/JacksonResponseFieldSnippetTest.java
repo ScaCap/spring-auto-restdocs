@@ -95,18 +95,18 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "A string.")
-                        .row("field2", "Decimal", "true",
-                                "A decimal.\n\nA constraint."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Decimal", "true",
+                                "A decimal.\n\nA constraint."));
     }
 
     @Test
@@ -115,17 +115,17 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("[].field1", "String", "true", "A string.")
-                        .row("[].field2", "Decimal", "true", "A decimal."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
     }
 
     @Test
@@ -134,38 +134,38 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("[].field1", "String", "true", "A string.")
-                        .row("[].field2", "Decimal", "true", "A decimal."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
     }
 
     @Test
     public void noResponseBody() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("noItem");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
     }
 
     @Test
@@ -176,19 +176,19 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithPrefix(paginationPrefix(),
-                        tableWithHeader("Path", "Type", "Optional", "Description")
-                                .row("field1", "String", "false", "A string.")
-                                .row("field2", "Decimal", "true",
-                                        "A decimal.\n\nA constraint.")));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithPrefix(paginationPrefix(),
+                        tableWithHeader("Path", "Type", "Optional", "Description")
+                                .row("field1", "String", "false", "A string.")
+                                .row("field2", "Decimal", "true",
+                                        "A decimal.\n\nA constraint.")));
     }
 
     @Test
@@ -199,32 +199,32 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "A string.")
-                        .row("field2", "Decimal", "true",
-                                "A decimal.\n\nA constraint."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Decimal", "true",
+                                "A decimal.\n\nA constraint."));
     }
 
     @Test
     public void responseEntityResponseWithoutGenerics() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("responseEntityItem2");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("No response body.");
     }
 
     @Test
@@ -235,18 +235,18 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field1", "String", "false", "A string.")
-                        .row("field2", "Decimal", "true",
-                                "A decimal.\n\nA constraint."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Decimal", "true",
+                                "A decimal.\n\nA constraint."));
     }
 
     @Test
@@ -255,31 +255,32 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("[].field1", "String", "true", "A string.")
-                        .row("[].field2", "Decimal", "true", "A decimal."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
     }
 
     @Test
     public void resourcesResponse() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("itemResources");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).isEqualTo("Body contains embedded resources.");
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS))
+                .isEqualTo("Body contains embedded resources.");
     }
 
     @Test
@@ -287,26 +288,22 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("halItem");
         mockFieldComment(HalItem.class, "actualContent", "A string");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("actualContent", "String", "true", "A string."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("actualContent", "String", "true", "A string."));
     }
 
     @Test
     public void exactResponseType() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output");
-
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("output", "String", "true", "An output."));
 
         new JacksonResponseFieldSnippet().responseBodyAsType(ProcessingResponse.class)
                 .document(operationBuilder
@@ -315,6 +312,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ConstraintReader.class.getName(), constraintReader)
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("output", "String", "true", "An output."));
     }
 
     @Test
@@ -357,10 +358,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("processItem");
         mockFieldComment(ProcessingResponse.class, "output", "An output | result");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("output", "String", "true", "An output \\| result."));
-
         new JacksonResponseFieldSnippet().responseBodyAsType(ProcessingResponse.class)
                 .document(operationBuilder
                         .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -368,6 +365,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ConstraintReader.class.getName(), constraintReader)
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("output", "String", "true", "An output \\| result."));
     }
 
     @Test
@@ -384,6 +385,13 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockDeprecatedField(DeprecatedItem.class, "index2", "use something else");
         mockDeprecatedMethod(DeprecatedItem.class, "getIndex4", "use something else");
 
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
         assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("index", "Integer", "true",
@@ -398,13 +406,6 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                                 "**Deprecated.**\n\nItem's index5.")
                         .row("index6", "Integer", "true",
                                 "**Deprecated.**\n\nItem's index6."));
-
-        new JacksonResponseFieldSnippet().document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
     }
 
     @Test
@@ -416,19 +417,19 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         mockMethodComment(CommentedItem.class, "getField3", "method 3"); // preferred
         mockMethodComment(CommentedItem.class, "getField4", "method 4");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("field", "String", "true", "Field.")
-                        .row("field2", "String", "true", "Field 2.")
-                        .row("field3", "String", "true", "Method 3.")
-                        .row("field4", "String", "true", "Method 4."));
-
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field", "String", "true", "Field.")
+                        .row("field2", "String", "true", "Field 2.")
+                        .row("field3", "String", "true", "Method 3.")
+                        .row("field4", "String", "true", "Method 4."));
     }
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {

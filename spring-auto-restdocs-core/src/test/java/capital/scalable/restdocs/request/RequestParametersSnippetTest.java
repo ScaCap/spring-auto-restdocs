@@ -70,16 +70,16 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem", "type", "An integer");
         mockParamComment("searchItem", "description", "A string");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("type", "Integer", "false", "An integer.")
-                        .row("text", "String", "true", "A string."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("type", "Integer", "false", "An integer.")
+                        .row("text", "String", "true", "A string."));
     }
 
     @Test
@@ -91,17 +91,17 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2", "param2", "A boolean");
         mockParamComment("searchItem2", "param3", "An integer");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("param1", "Decimal", "false", "A decimal.")
-                        .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "Integer", "true", "An integer.\n\nDefault value: '1'."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "Integer", "true", "An integer.\n\nDefault value: '1'."));
     }
 
     @Test
@@ -112,17 +112,17 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2", "param1", "A decimal");
         mockParamComment("searchItem2", "param2", "A boolean");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("param1", "Decimal", "false", "A decimal.")
-                        .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "Integer", "true", "Default value: '1'."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "Integer", "true", "Default value: '1'."));
     }
 
     @Test
@@ -134,17 +134,17 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("searchItem2String", "param2", "A boolean");
         mockParamComment("searchItem2String", "param3", "A String");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("param1", "Decimal", "false", "A decimal.")
-                        .row("param2", "Boolean", "false", "A boolean.")
-                        .row("param3", "String", "true", "A String.\n\nDefault value: 'de'."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "Decimal", "false", "A decimal.")
+                        .row("param2", "Boolean", "false", "A boolean.")
+                        .row("param3", "String", "true", "A String.\n\nDefault value: 'de'."));
     }
 
     @Test
@@ -153,15 +153,15 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem5", "locale", "A locale");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("locale", "String", "false", "A locale."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("locale", "String", "false", "A locale."));
     }
 
     @Test
@@ -173,16 +173,16 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(handlerMethod.getMethodParameters()[0],
                 "Must be one of [SMALL, LARGE]");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("size", "String", "false",
-                                "An enum.\n\nMust be one of [SMALL, LARGE]."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("size", "String", "false",
+                                "An enum.\n\nMust be one of [SMALL, LARGE]."));
     }
 
     @Test
@@ -191,34 +191,34 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItemOptional", "param1", "An optional string");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("param1", "String", "true", "An optional string."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("param1", "String", "true", "An optional string."));
     }
 
     @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("items");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo("No parameters.");
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo("No parameters.");
-
         new RequestParametersSnippet().document(operationBuilder
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
@@ -242,13 +242,13 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("searchItem3", Pageable.class);
         initParameters(handlerMethod);
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo(paginationPrefix());
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo(paginationPrefix());
     }
 
     @Test
@@ -257,16 +257,16 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("searchItem4", "text", "A text");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithPrefix(paginationPrefix(),
-                        tableWithHeader("Parameter", "Type", "Optional", "Description")
-                                .row("text", "Integer", "false", "A text.")));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithPrefix(paginationPrefix(),
+                        tableWithHeader("Parameter", "Type", "Optional", "Description")
+                                .row("text", "Integer", "false", "A text.")));
     }
 
     @Test
@@ -275,15 +275,15 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
-
         new RequestParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
     }
 
     private void initParameters(HandlerMethod handlerMethod) {

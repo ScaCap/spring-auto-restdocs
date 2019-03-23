@@ -36,25 +36,25 @@ public class AuthorizationSnippetTest extends AbstractSnippetTests {
     public void authorization() throws Exception {
         String authorization = "User access token required.";
 
-        assertThat(this.generatedSnippets.snippet(AUTO_AUTHORIZATION)).isEqualTo(authorization);
-
         new AuthorizationSnippet("Resource is public.")
                 .document(operationBuilder
                         .attribute(AuthorizationSnippet.class.getName(), authorization)
                         .request("http://localhost/test")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_AUTHORIZATION)).isEqualTo(authorization);
     }
 
     @Test
     public void defaultAuthorization() throws Exception {
         String defaultAuthorization = "Resource is public.";
 
-        assertThat(this.generatedSnippets.snippet(AUTO_AUTHORIZATION))
-                .isEqualTo(defaultAuthorization);
-
         new AuthorizationSnippet(defaultAuthorization)
                 .document(operationBuilder
                         .request("http://localhost/test")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_AUTHORIZATION))
+                .isEqualTo(defaultAuthorization);
     }
 }

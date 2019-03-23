@@ -66,27 +66,27 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
         mockFieldComment(EmbeddedDocs.class, "embedded1", "Resource 1");
         mockFieldComment(EmbeddedDocs.class, "embedded2", "Resource 2");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED)).is(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("embedded1", "Array[Object]", "true", "Resource 1.")
-                        .row("embedded2", "Object", "true", "Resource 2."));
-
         new EmbeddedSnippet().documentationType(EmbeddedDocs.class).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("embedded1", "Array[Object]", "true", "Resource 1.")
+                        .row("embedded2", "Object", "true", "Resource 2."));
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED))
-                .isEqualTo("No embedded resources.");
-
         new EmbeddedSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED))
+                .isEqualTo("No embedded resources.");
     }
 
     @Test

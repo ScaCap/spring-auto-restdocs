@@ -64,26 +64,26 @@ public class LinksSnippetTest extends AbstractSnippetTests {
         mockFieldComment(LinksDocs.class, "link1", "Link 1");
         mockFieldComment(LinksDocs.class, "link2", "Link 2");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).is(
-                tableWithHeader("Path", "Optional", "Description")
-                        .row("link1", "true", "Link 1.")
-                        .row("link2", "true", "Link 2."));
-
         new LinksSnippet().documentationType(LinksDocs.class).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).is(
+                tableWithHeader("Path", "Optional", "Description")
+                        .row("link1", "true", "Link 1.")
+                        .row("link2", "true", "Link 2."));
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).isEqualTo("No links.");
-
         new LinksSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).isEqualTo("No links.");
     }
 
     @Test

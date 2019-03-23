@@ -38,25 +38,25 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
-
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")
                 .method("POST")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
-
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")
                 .method("POST")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
     }
 
     private static class TestResource {

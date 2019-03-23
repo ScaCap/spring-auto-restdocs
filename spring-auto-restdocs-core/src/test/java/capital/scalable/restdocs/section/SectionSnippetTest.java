@@ -93,13 +93,6 @@ public class SectionSnippetTest {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
 
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-noSnippets]]\n" +
-                                "=== Get Item By Id\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n"));
-
         new SectionBuilder()
                 .snippetNames()
                 .build()
@@ -109,17 +102,17 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-noSnippets]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n"));
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-noHandlerMethod]]\n" +
-                                "=== No Handler Method\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n"));
-
         new SectionBuilder()
                 .snippetNames()
                 .build()
@@ -128,12 +121,30 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-noHandlerMethod]]\n" +
+                                "=== No Handler Method\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n"));
     }
 
     @Test
     public void defaultSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
+
+        new SectionBuilder().build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                authorization("Public"), pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(SECTION))
                 .isEqualTo(fixLineSeparator(
@@ -155,36 +166,12 @@ public class SectionSnippetTest {
                                 "include::curl-request.adoc[]\n\n" +
                                 "==== Example response\n\n" +
                                 "include::http-response.adoc[]\n"));
-
-        new SectionBuilder().build()
-                .document(operationBuilder
-                        .attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(JavadocReader.class.getName(), javadocReader)
-                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
-                                authorization("Public"), pathParameters(), requestParameters(),
-                                requestFields(), responseFields(), curlRequest(),
-                                HttpDocumentation.httpResponse()))
-                        .request("http://localhost/items/1")
-                        .build());
     }
 
     @Test
     public void customSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
-
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-customSnippets]]\n" +
-                                "=== Get Item By Id\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n\n" +
-                                "==== Example response\n\n" +
-                                "include::http-response.adoc[]\n\n" +
-                                "==== Response fields\n\n" +
-                                "include::auto-response-fields.adoc[]\n\n" +
-                                "==== Example request\n\n" +
-                                "include::http-request.adoc[]\n"));
 
         new SectionBuilder()
                 .snippetNames(HTTP_RESPONSE, AUTO_RESPONSE_FIELDS, HTTP_REQUEST)
@@ -198,12 +185,40 @@ public class SectionSnippetTest {
                                 HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-customSnippets]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== Example response\n\n" +
+                                "include::http-response.adoc[]\n\n" +
+                                "==== Response fields\n\n" +
+                                "include::auto-response-fields.adoc[]\n\n" +
+                                "==== Example request\n\n" +
+                                "include::http-request.adoc[]\n"));
     }
 
     @Test
     public void allClassicSnippets() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
+
+        new SectionBuilder()
+                .snippetNames(CURL_REQUEST, HTTP_REQUEST, HTTP_RESPONSE, HTTPIE_REQUEST, PATH_PARAMETERS,
+                        REQUEST_PARAMETERS, REQUEST_FIELDS, RESPONSE_FIELDS, REQUEST_BODY_SNIPPET, RESPONSE_BODY,
+                        REQUEST_HEADERS, RESPONSE_HEADERS, REQUEST_PARTS, REQUEST_PART_FIELDS, LINKS)
+                .build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(SECTION))
                 .isEqualTo(fixLineSeparator(
@@ -241,40 +256,12 @@ public class SectionSnippetTest {
                                 + "include::request-part-fields.adoc[]\n\n"
                                 + "==== Hypermedia links\n\n"
                                 + "include::links.adoc[]\n"));
-
-        new SectionBuilder()
-                .snippetNames(CURL_REQUEST, HTTP_REQUEST, HTTP_RESPONSE, HTTPIE_REQUEST, PATH_PARAMETERS,
-                        REQUEST_PARAMETERS, REQUEST_FIELDS, RESPONSE_FIELDS, REQUEST_BODY_SNIPPET, RESPONSE_BODY,
-                        REQUEST_HEADERS, RESPONSE_HEADERS, REQUEST_PARTS, REQUEST_PART_FIELDS, LINKS)
-                .build()
-                .document(operationBuilder
-                        .attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(JavadocReader.class.getName(), javadocReader)
-                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
-                                pathParameters(), requestParameters(),
-                                requestFields(), responseFields(), curlRequest(),
-                                HttpDocumentation.httpRequest(), HttpDocumentation.httpResponse()))
-                        .request("http://localhost/items/1")
-                        .build());
     }
 
     @Test
     public void skipEmpty() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
-
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-skipEmpty]]\n" +
-                                "=== Get Item By Id\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n\n" +
-                                "==== Authorization\n\n" +
-                                "include::auto-authorization.adoc[]\n\n" +
-                                "==== Example request\n\n" +
-                                "include::curl-request.adoc[]\n\n" +
-                                "==== Example response\n\n" +
-                                "include::http-response.adoc[]\n"));
 
         new SectionBuilder()
                 .skipEmpty(true)
@@ -288,19 +275,25 @@ public class SectionSnippetTest {
                                 HttpDocumentation.httpResponse()))
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-skipEmpty]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== Authorization\n\n" +
+                                "include::auto-authorization.adoc[]\n\n" +
+                                "==== Example request\n\n" +
+                                "include::curl-request.adoc[]\n\n" +
+                                "==== Example response\n\n" +
+                                "include::http-response.adoc[]\n"));
     }
 
     @Test
     public void customTitle() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "Custom title");
-
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-customTitle]]\n" +
-                                "=== Custom title\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n"));
 
         new SectionBuilder()
                 .snippetNames()
@@ -311,6 +304,13 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-customTitle]]\n" +
+                                "=== Custom title\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n"));
     }
 
     @Test
@@ -320,13 +320,6 @@ public class SectionSnippetTest {
         when(javadocReader.resolveMethodTag(TestResource.class, "getItemById", "deprecated"))
                 .thenReturn("it is");
 
-        assertThat(this.generatedSnippets.snippet(SECTION))
-                .isEqualTo(fixLineSeparator(
-                        "[[resources-deprecated]]\n" +
-                                "=== Get Item By Id (deprecated)\n\n" +
-                                "include::auto-method-path.adoc[]\n\n" +
-                                "include::auto-description.adoc[]\n"));
-
         new SectionBuilder()
                 .snippetNames()
                 .build()
@@ -336,6 +329,13 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, new ArrayList<>())
                         .request("http://localhost/items/1")
                         .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-deprecated]]\n" +
+                                "=== Get Item By Id (deprecated)\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n"));
     }
 
     @Test
@@ -344,6 +344,17 @@ public class SectionSnippetTest {
 
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
         mockMethodTitle(TestResource.class, "getItemById", "");
+
+        new SectionBuilder().build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                authorization("Public"), pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(SECTION))
                 .isEqualTo(fixLineSeparator(
@@ -365,17 +376,6 @@ public class SectionSnippetTest {
                                 "include::curl-request.adoc[]\n\n" +
                                 "==== XExample response\n\n" +
                                 "include::http-response.adoc[]\n"));
-
-        new SectionBuilder().build()
-                .document(operationBuilder
-                        .attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(JavadocReader.class.getName(), javadocReader)
-                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
-                                authorization("Public"), pathParameters(), requestParameters(),
-                                requestFields(), responseFields(), curlRequest(),
-                                HttpDocumentation.httpResponse()))
-                        .request("http://localhost/items/1")
-                        .build());
     }
 
     private void mockMethodTitle(Class<?> javaBaseClass, String methodName, String title) {
