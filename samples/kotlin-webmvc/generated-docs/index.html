@@ -738,6 +738,12 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -816,14 +822,14 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
 Content-Length: 459
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
 {
   "id" : "1",
@@ -929,6 +935,12 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -1010,13 +1022,13 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Content-Length: 598
 
 [ {
@@ -1134,8 +1146,8 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
+    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e' \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 69665eb8-8518-461b-8df9-b220b6694eae' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1145,13 +1157,13 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: /items/2
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
-X-Frame-Options: DENY</code></pre>
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Location: /items/2
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 </div>
 </div>
 </div>
@@ -1298,6 +1310,12 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -1371,8 +1389,8 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
+    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e' \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 69665eb8-8518-461b-8df9-b220b6694eae' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1382,13 +1400,13 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Content-Length: 124
 
 {
@@ -1474,7 +1492,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 69665eb8-8518-461b-8df9-b220b6694eae'</code></pre>
+    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e'</code></pre>
 </div>
 </div>
 </div>
@@ -1483,12 +1501,12 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
-X-Frame-Options: DENY</code></pre>
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 </div>
 </div>
 </div>
@@ -1610,6 +1628,12 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -1691,13 +1715,13 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Content-Length: 133
 
 {
@@ -1835,6 +1859,12 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -1916,14 +1946,14 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+Content-Length: 1072
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1011
+X-Content-Type-Options: nosniff
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
 {
   "content" : [ {
@@ -1957,27 +1987,30 @@ Content-Length: 1011
     "sort" : {
       "orders" : [ ],
       "sorted" : false,
-      "unsorted" : true
+      "unsorted" : true,
+      "empty" : true
     },
-    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "paged" : true,
-    "unpaged" : false
+    "offset" : 0,
+    "unpaged" : false,
+    "paged" : true
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
-  "size" : 20,
-  "number" : 0,
+  "last" : true,
   "first" : true,
-  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
-    "unsorted" : true
-  }
+    "unsorted" : true,
+    "empty" : true
+  },
+  "numberOfElements" : 1,
+  "size" : 20,
+  "number" : 0,
+  "empty" : false
 }</code></pre>
 </div>
 </div>
@@ -2081,14 +2114,14 @@ Content-Length: 1011
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 28
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Content-Length: 28
+Content-Type: text/plain;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
 {
   "output" : "processed"
@@ -2229,14 +2262,14 @@ X-Frame-Options: DENY
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
+Content-Length: 55
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 55
+X-Content-Type-Options: nosniff
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
 {
   "output" : "Command executed on item 1: increase"
@@ -2310,6 +2343,12 @@ Content-Length: 55
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2334,12 +2373,12 @@ Content-Length: 55
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
-X-Frame-Options: DENY</code></pre>
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 </div>
 </div>
 </div>
@@ -2421,12 +2460,12 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
-X-Frame-Options: DENY</code></pre>
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 </div>
 </div>
 </div>
@@ -2504,14 +2543,14 @@ the cURL and HTTP response are coming from Spring REST Docs in any case.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
+X-XSS-Protection: 1; mode=block
 Expires: 0
 X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
 Content-Length: 459
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
 {
   "id" : "1",
@@ -2547,7 +2586,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-10 10:14:19 CEST
+Last updated 2018-10-28 08:58:47 CET
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
