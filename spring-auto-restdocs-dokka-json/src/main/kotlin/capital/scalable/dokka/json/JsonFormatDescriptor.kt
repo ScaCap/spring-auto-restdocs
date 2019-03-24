@@ -23,22 +23,22 @@ import com.google.inject.Binder
 import org.jetbrains.dokka.DefaultPackageListService
 import org.jetbrains.dokka.FormatService
 import org.jetbrains.dokka.Formats.DefaultAnalysisComponent
+import org.jetbrains.dokka.Formats.DefaultAnalysisComponentServices
+import org.jetbrains.dokka.Formats.KotlinAsKotlin
 import org.jetbrains.dokka.Formats.FormatDescriptor
 import org.jetbrains.dokka.Generator
-import org.jetbrains.dokka.Kotlin.KotlinDescriptorSignatureProvider
-import org.jetbrains.dokka.KotlinJavaDocumentationBuilder
 import org.jetbrains.dokka.KotlinLanguageService
 import org.jetbrains.dokka.KotlinPackageDocumentationBuilder
 import org.jetbrains.dokka.LanguageService
 import org.jetbrains.dokka.NodeLocationAwareGenerator
 import org.jetbrains.dokka.PackageListService
-import org.jetbrains.dokka.Samples.DefaultSampleProcessingService
-import org.jetbrains.dokka.Samples.SampleProcessingService
 import org.jetbrains.dokka.Utilities.bind
 import org.jetbrains.dokka.Utilities.toType
-import kotlin.reflect.KClass
 
-class JsonFormatDescriptor : FormatDescriptor, DefaultAnalysisComponent {
+class JsonFormatDescriptor
+    : FormatDescriptor,
+        DefaultAnalysisComponent,
+        DefaultAnalysisComponentServices by KotlinAsKotlin {
 
     override fun configureOutput(binder: Binder): Unit = with(binder) {
         bind<Generator>() toType NodeLocationAwareGenerator::class
@@ -47,9 +47,4 @@ class JsonFormatDescriptor : FormatDescriptor, DefaultAnalysisComponent {
         bind<FormatService>() toType JsonFormatService::class
         bind<PackageListService>() toType DefaultPackageListService::class
     }
-
-    override val javaDocumentationBuilderClass = KotlinJavaDocumentationBuilder::class
-    override val descriptorSignatureProvider = KotlinDescriptorSignatureProvider::class
-    override val packageDocumentationBuilderClass = KotlinPackageDocumentationBuilder::class
-    override val sampleProcessingService: KClass<out SampleProcessingService> = DefaultSampleProcessingService::class
 }

@@ -118,7 +118,10 @@ open class JsonOutputBuilder(
     }
 
     private fun extractContent(content: List<ContentNode>): String {
-        return content.mapIndexed { index, it -> extractContent(it, topLevel = index == 0) }.joinToString("")
+        return content
+                .mapIndexed { index, it -> extractContent(it, topLevel = index == 0) }
+                .joinToString("")
+                .trim()
     }
 
     private fun extractContent(content: ContentNode, topLevel: Boolean): String {
@@ -161,7 +164,9 @@ open class JsonOutputBuilder(
     private fun wrap(prefix: String, suffix: String, body: String): String = "$prefix$body$suffix"
 
     private fun joinChildren(block: ContentBlock): String =
-        block.children.joinToString("") { extractContent(it, topLevel = false) }
+        block.children
+                .joinToString("") { extractContent(it, topLevel = false) }
+                .trim()
 }
 
 open class JsonFormatService @Inject constructor(private val logger: DokkaLogger) : FormatService {
