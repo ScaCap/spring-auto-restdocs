@@ -1,0 +1,33 @@
+[[integrations]]
+== Integrations
+
+[[integrations-wiremock]]
+=== WireMock
+
+WireMock stubs can be generated with Spring REST Docs,
+see https://cloud.spring.io/spring-cloud-static/spring-cloud-contract/2.1.0.RELEASE/multi/multi__spring_cloud_contract_wiremock.html#_generating_stubs_using_rest_docs[Generating Stubs using REST Docs].
+This also works with Spring Auto REST Docs.
+However, the corresponding snippet does not register automatically
+and thus has to be registered manually.
+
+The following code shows how the `new WireMockSnippet()` can be registered.
+
+[source,java]
+.WireMock snippet registration example
+----
+public void setUp() {
+     this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .alwaysDo(prepareJackson(objectMapper))
+                .alwaysDo(document("{class-name}/{method-name}",
+                                   preprocessRequest(), commonResponsePreprocessor()))
+                .apply(documentationConfiguration(restDocumentation)
+                               .uris()
+                               .and().snippets()
+                               .withDefaults(curlRequest(), httpRequest(), httpResponse(),
+                                             requestFields(), responseFields(), pathParameters(),
+                                             requestParameters(), description(), methodAndPath(),
+                                             section(), new WireMockSnippet()))
+                .build();
+}
+----
