@@ -28,7 +28,6 @@ import org.jetbrains.dokka.Formats.KotlinAsKotlin
 import org.jetbrains.dokka.Formats.FormatDescriptor
 import org.jetbrains.dokka.Generator
 import org.jetbrains.dokka.KotlinLanguageService
-import org.jetbrains.dokka.KotlinPackageDocumentationBuilder
 import org.jetbrains.dokka.LanguageService
 import org.jetbrains.dokka.NodeLocationAwareGenerator
 import org.jetbrains.dokka.PackageListService
