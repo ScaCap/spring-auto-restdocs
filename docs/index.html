@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 2.0.5-SNAPSHOT</span>
+    <span id="revnumber">version 2.0.4</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -485,12 +485,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#deprecation">Deprecation support</a></li>
 <li><a href="#see-tag">See tag support</a></li>
 <li><a href="#localization">Localization support</a></li>
-<li><a href="#_recursive_structures_support">Recursive structures support</a></li>
-</ul>
-</li>
-<li><a href="#integrations">Integrations</a>
-<ul class="sectlevel2">
-<li><a href="#integrations-wiremock">WireMock</a></li>
 </ul>
 </li>
 <li><a href="#contributing">Contributing</a>
@@ -653,7 +647,7 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
     &lt;version&gt;2.0.4&lt;/version&gt;
-    &lt;scope&gt;test&lt;/scope&gt;
+    &lt;scope&gt;test&lt;/scope&gt; <i class="conum" data-value="1"></i><b>(1)</b>
 &lt;/dependency&gt;
 
 &lt;build&gt;
@@ -666,10 +660,10 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
                 &lt;/includes&gt;
                 &lt;systemPropertyVariables&gt;
                     &lt;org.springframework.restdocs.outputDir&gt;
-                        ${project.build.directory}/generated-snippets <i class="conum" data-value="1"></i><b>(1)</b>
+                        ${project.build.directory}/generated-snippets <i class="conum" data-value="2"></i><b>(2)</b>
                     &lt;/org.springframework.restdocs.outputDir&gt;
                     &lt;org.springframework.restdocs.javadocJsonDir&gt;
-                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="2"></i><b>(2)</b>
+                        ${project.build.directory}/generated-javadoc-json <i class="conum" data-value="3"></i><b>(3)</b>
                     &lt;/org.springframework.restdocs.javadocJsonDir&gt;
                 &lt;/systemPropertyVariables&gt;
              &lt;/configuration&gt;
@@ -688,11 +682,11 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
                         &lt;doclet&gt;capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet&lt;/doclet&gt;
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
-                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+                            &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="4"></i><b>(4)</b>
                             &lt;version&gt;2.0.4&lt;/version&gt;
                         &lt;/docletArtifact&gt;
-                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="2"></i><b>(2)</b>
-                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+                        &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+                        &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="3"></i><b>(3)</b>
                         &lt;useStandardDocletOptions&gt;false&lt;/useStandardDocletOptions&gt;
                         &lt;show&gt;package&lt;/show&gt;
                     &lt;/configuration&gt;
@@ -708,16 +702,20 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+<td>Has to be removed if <code>@RestdocsNotExpanded</code> is used.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>(Optional) Determines where JSON files are saved. Defaults to <code>generated-javadoc-json</code> in build directory.
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
 </tr>
 </table>
@@ -730,26 +728,26 @@ The directories are processed in order and only the first found JSON file is use
 }
 
 ext {
-    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="2"></i><b>(2)</b>
+    javadocJsonDir = file("$buildDir/generated-javadoc-json") <i class="conum" data-value="3"></i><b>(3)</b>
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.4'
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.4' <i class="conum" data-value="3"></i><b>(3)</b>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.4' <i class="conum" data-value="1"></i><b>(1)</b>
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.4' <i class="conum" data-value="4"></i><b>(4)</b>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     source = sourceSets.main.allJava
     classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir <i class="conum" data-value="2"></i><b>(2)</b>
+    destinationDir = javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = 'capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet'
     options.memberLevel = JavadocMemberLevel.PACKAGE
 }
 
 test {
-    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <i class="conum" data-value="1"></i><b>(1)</b>
-    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <i class="conum" data-value="2"></i><b>(2)</b>
+    systemProperty 'org.springframework.restdocs.outputDir', snippetsDir <i class="conum" data-value="2"></i><b>(2)</b>
+    systemProperty 'org.springframework.restdocs.javadocJsonDir', javadocJsonDir <i class="conum" data-value="3"></i><b>(3)</b>
 
     dependsOn jsonDoclet
 }
@@ -763,17 +761,21 @@ jar {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+<td>Has to be <code>compile</code> instead of <code>testCompile</code> if <code>@RestdocsNotExpanded</code> is used.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>(Optional) Determines directory where snippets are saved. Defaults to <code>generated-snippets</code> in build directory.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>(Optional) Determines where JSON files are saved.
 Defaults to <code>generated-javadoc-json</code> in build directory.
 Multiple directories can be listed by separating them with <code>,</code>.
 The directories are processed in order and only the first found JSON file is used.</td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>For Java 9 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</td>
 </tr>
 </table>
@@ -2313,54 +2315,9 @@ See how it looks in the <a href="https://htmlpreview.github.io/?https://github.c
 <p>Create a file <code>SnippetMessages.properties</code> in <code>capital.scalable.restdocs.i18n</code> package.</p>
 </li>
 <li>
-<p>Add translations to the file using keys from <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties">DefaultSnippetMessages</a>.<a id="localization"></a></p>
+<p>Add translations to the file using keys from <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/test/resources/capital/scalable/restdocs/i18n/DefaultSnippetMessages.properties">DefaultSnippetMessages</a>.</p>
 </li>
 </ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_recursive_structures_support"><a class="link" href="#_recursive_structures_support">Recursive structures support</a></h3>
-<div class="paragraph">
-<p>To prevent infinite loop in recursive structures, annotate the recursive field with the <code>@RestdocsNotExpanded</code> annotation
-from the <code>spring-auto-restdocs-annotations</code> maven module.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="integrations"><a class="link" href="#integrations">Integrations</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="integrations-wiremock"><a class="link" href="#integrations-wiremock">WireMock</a></h3>
-<div class="paragraph">
-<p>WireMock stubs can be generated with Spring REST Docs,
-see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-contract/2.1.0.RELEASE/multi/multi__spring_cloud_contract_wiremock.html#_generating_stubs_using_rest_docs">Generating Stubs using REST Docs</a>.
-This also works with Spring Auto REST Docs.
-However, the corresponding snippet does not register automatically
-and thus has to be registered manually.</p>
-</div>
-<div class="paragraph">
-<p>The following code shows how the <code>new WireMockSnippet()</code> can be registered.</p>
-</div>
-<div class="listingblock">
-<div class="title">WireMock snippet registration example</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public void setUp() {
-     this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .alwaysDo(prepareJackson(objectMapper))
-                .alwaysDo(document("{class-name}/{method-name}",
-                                   preprocessRequest(), commonResponsePreprocessor()))
-                .apply(documentationConfiguration(restDocumentation)
-                               .uris()
-                               .and().snippets()
-                               .withDefaults(curlRequest(), httpRequest(), httpResponse(),
-                                             requestFields(), responseFields(), pathParameters(),
-                                             requestParameters(), description(), methodAndPath(),
-                                             section(), new WireMockSnippet()))
-                .build();
-}</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -2444,8 +2401,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.5-SNAPSHOT<br>
-Last updated 2019-03-24 14:31:49 CET
+    Version 2.0.4<br>
+    Last updated 2019-02-04 10:55:53 CET
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
