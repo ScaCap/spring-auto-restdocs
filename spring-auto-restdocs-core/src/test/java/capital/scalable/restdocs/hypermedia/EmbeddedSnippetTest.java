@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,7 @@
 package capital.scalable.restdocs.hypermedia;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_EMBEDDED;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,26 +66,27 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
         mockFieldComment(EmbeddedDocs.class, "embedded1", "Resource 1");
         mockFieldComment(EmbeddedDocs.class, "embedded2", "Resource 2");
 
-        this.snippets.expect(AUTO_EMBEDDED).withContents(
-                tableWithHeader("Path", "Type", "Optional", "Description")
-                        .row("embedded1", "Array[Object]", "true", "Resource 1.")
-                        .row("embedded2", "Object", "true", "Resource 2."));
-
         new EmbeddedSnippet().documentationType(EmbeddedDocs.class).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("embedded1", "Array[Object]", "true", "Resource 1.")
+                        .row("embedded2", "Object", "true", "Resource 2."));
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_EMBEDDED).withContents(equalTo("No embedded resources."));
-
         new EmbeddedSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_EMBEDDED))
+                .isEqualTo("No embedded resources.");
     }
 
     @Test
@@ -98,7 +96,7 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
         boolean hasContent = new EmbeddedSnippet().hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
-        assertThat(hasContent, is(false));
+        assertThat(hasContent).isFalse();
     }
 
     @Test
@@ -115,11 +113,6 @@ public class EmbeddedSnippetTest extends AbstractSnippetTests {
                         .attribute(JavadocReader.class.getName(), javadocReader)
                         .attribute(ConstraintReader.class.getName(), constraintReader)
                         .build());
-    }
-
-    private void mockOptionalMessage(Class<?> type, String fieldName, String comment) {
-        when(constraintReader.getOptionalMessages(type, fieldName))
-                .thenReturn(singletonList(comment));
     }
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,7 @@
 package capital.scalable.restdocs.hypermedia;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_LINKS;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,26 +64,26 @@ public class LinksSnippetTest extends AbstractSnippetTests {
         mockFieldComment(LinksDocs.class, "link1", "Link 1");
         mockFieldComment(LinksDocs.class, "link2", "Link 2");
 
-        this.snippets.expect(AUTO_LINKS).withContents(
-                tableWithHeader("Path", "Optional", "Description")
-                        .row("link1", "true", "Link 1.")
-                        .row("link2", "true", "Link 2."));
-
         new LinksSnippet().documentationType(LinksDocs.class).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).is(
+                tableWithHeader("Path", "Optional", "Description")
+                        .row("link1", "true", "Link 1.")
+                        .row("link2", "true", "Link 2."));
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_LINKS).withContents(equalTo("No links."));
-
         new LinksSnippet().document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_LINKS)).isEqualTo("No links.");
     }
 
     @Test
@@ -96,7 +93,7 @@ public class LinksSnippetTest extends AbstractSnippetTests {
         boolean hasContent = new LinksSnippet().hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
-        assertThat(hasContent, is(false));
+        assertThat(hasContent).isFalse();
     }
 
     @Test
@@ -112,11 +109,6 @@ public class LinksSnippetTest extends AbstractSnippetTests {
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
-    }
-
-    private void mockOptionalMessage(Class<?> type, String fieldName, String comment) {
-        when(constraintReader.getOptionalMessages(type, fieldName))
-                .thenReturn(singletonList(comment));
     }
 
     private void mockFieldComment(Class<?> type, String fieldName, String comment) {

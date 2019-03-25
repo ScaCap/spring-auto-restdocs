@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.OperationAttributeHelper.REQUEST_PATTERN;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_METHOD_PATH;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
@@ -38,25 +38,25 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        this.snippets.expect(AUTO_METHOD_PATH).withContents(equalTo("`POST /test`"));
-
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")
                 .method("POST")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_METHOD_PATH).withContents(equalTo("`POST /test`"));
-
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(REQUEST_PATTERN, "/test")
                 .request("http://localhost/test")
                 .method("POST")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
     }
 
     private static class TestResource {

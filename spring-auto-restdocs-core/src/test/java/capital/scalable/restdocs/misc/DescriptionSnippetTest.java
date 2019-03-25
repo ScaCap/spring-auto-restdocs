@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.misc;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,13 +43,13 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "");
 
-        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo("Sample method comment."));
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("Sample method comment.");
     }
 
     @Test
@@ -58,14 +58,14 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "deprecated", "use different one");
 
-        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(
-                "**Deprecated.** Use different one.\n\nSample method comment."));
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
+                .isEqualTo("**Deprecated.** Use different one.\n\nSample method comment.");
     }
 
     @Test
@@ -74,23 +74,23 @@ public class DescriptionSnippetTest extends AbstractSnippetTests {
         mockMethodComment(TestResource.class, "testDescription", "sample method comment");
         mockMethodTag(TestResource.class, "testDescription", "see", "something");
 
-        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(
-                "Sample method comment.\n\nSee something."));
-
         new DescriptionSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION))
+                .isEqualTo("Sample method comment.\n\nSee something.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_DESCRIPTION).withContents(equalTo(""));
-
         new DescriptionSnippet().document(operationBuilder
                 .request("http://localhost/test")
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_DESCRIPTION)).isEqualTo("");
     }
 
     private void mockMethodComment(Class<TestResource> javaBaseClass, String methodName,
