@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package capital.scalable.restdocs.request;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_PATH_PARAMETERS;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -72,19 +72,19 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         mockParamComment("addItem", "yetAnotherId", "Another string");
         mockParamComment("addItem", "optionalId", "Optional string");
 
-        this.snippets.expect(AUTO_PATH_PARAMETERS).withContents(
+        new PathParametersSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
                         .row("id", "Integer", "false", "An integer.")
                         .row("subid", "String", "false", "A string.")
                         .row("partId", "Integer", "false", "An integer.")
                         .row("yetAnotherId", "String", "true", "Another string.")
                         .row("optionalId", "String", "true", "Optional string."));
-
-        new PathParametersSnippet().document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
     }
 
     @Test
@@ -96,35 +96,35 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(handlerMethod.getMethodParameters()[0],
                 "Must be one of [SPHERIC, SQUARE]");
 
-        this.snippets.expect(AUTO_PATH_PARAMETERS).withContents(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("shape", "String", "false",
-                                "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("shape", "String", "false",
+                                "An enum.\n\nMust be one of [SPHERIC, SQUARE]."));
     }
 
     @Test
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem");
 
-        this.snippets.expect(AUTO_PATH_PARAMETERS).withContents(equalTo("No parameters."));
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(AUTO_PATH_PARAMETERS).withContents(equalTo("No parameters."));
-
         new PathParametersSnippet().document(operationBuilder
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).isEqualTo("No parameters.");
     }
 
     @Test
@@ -150,15 +150,15 @@ public class PathParametersSnippetTest extends AbstractSnippetTests {
         initParameters(handlerMethod);
         mockParamComment("removeItem", "index", "item's index");
 
-        this.snippets.expect(AUTO_PATH_PARAMETERS).withContents(
-                tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
-
         new PathParametersSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
                 .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_PATH_PARAMETERS)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("index", "Integer", "false", "**Deprecated.**\n\nItem's index."));
     }
 
     private void initParameters(HandlerMethod handlerMethod) {
