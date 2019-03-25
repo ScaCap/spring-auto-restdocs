@@ -22,10 +22,8 @@ script:
 - mvn install -B -V
 - cd samples
 - mvn install -B -V
-- cd java-webmvc
-- ./gradlew check
-- cd ../kotlin-webmvc
-- ./gradlew check
+- cd java-webmvc && ./gradlew check && cd ..
+- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
 after_success:
 - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 - cd $TRAVIS_BUILD_DIR
