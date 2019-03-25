@@ -205,6 +205,7 @@
             </properties>
             <modules>
                 <module>spring-auto-restdocs-json-doclet-jdk9</module>
+                <module>spring-auto-restdocs-dokka-json</module>
                 <module>spring-auto-restdocs-annotations</module>
                 <module>spring-auto-restdocs-core</module>
                 <module>spring-auto-restdocs-docs</module>
@@ -223,6 +224,7 @@
             </properties>
             <modules>
                 <module>spring-auto-restdocs-json-doclet-jdk9</module>
+                <module>spring-auto-restdocs-dokka-json</module>
                 <module>spring-auto-restdocs-annotations</module>
                 <module>spring-auto-restdocs-core</module>
                 <module>spring-auto-restdocs-docs</module>
@@ -241,6 +243,7 @@
             </properties>
             <modules>
                 <module>spring-auto-restdocs-json-doclet-jdk9</module>
+                <module>spring-auto-restdocs-dokka-json</module>
                 <module>spring-auto-restdocs-annotations</module>
                 <module>spring-auto-restdocs-core</module>
                 <module>spring-auto-restdocs-docs</module>
