@@ -84,4 +84,6 @@ include::constraints.adoc[]
 
 include::other.adoc[]
 
+include::integrations.adoc[]
+
 include::contributing.adoc[]
