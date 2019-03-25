@@ -31,7 +31,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,11 +44,13 @@ import jdk.javadoc.doclet.StandardDoclet;
 
 /**
  * Javadoc to JSON doclet.
+ *
+ * Implementation note: this doclet extends the default doclet, mainly to be able to ignore the default parameters.
+ * See the {@link ExtractDocumentationAsJsonDoclet#getSupportedOptions()} method.
  */
 public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
 
     private String directoryLocationPath;
-
 
     @Override
     public boolean run(DocletEnvironment docEnv) {
@@ -67,27 +72,41 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
     }
 
     private Path getDestinationDir() {
-        if (directoryLocationPath != null) {
-            return Paths.get(directoryLocationPath).toAbsolutePath();
-        } else {
-            return Paths.get("../generated-javadoc-json").toAbsolutePath();
-        }
+        String path = Objects.requireNonNullElse(directoryLocationPath, "../generated-javadoc-json");
+        return Paths.get(path).toAbsolutePath();
     }
 
+    /**
+     * Running a doclet with unknown options results in an error. Therefore, we include all default options in the
+     * list of possible options, even though we have no way of accessing those. If we want one of the default options,
+     * we need to extract them and override them.
+     *
+     * @return The options we want and those we want to ignore.
+     */
     @Override
     public Set<Doclet.Option> getSupportedOptions() {
-        Set<Doclet.Option> result = new HashSet<>();
 
-        Doclet.Option directoryLocationOption = new DirectoryLocationOption() {
+        Set<Doclet.Option> allOptions = new HashSet<>(super.getSupportedOptions());
+
+        // Get the option for -d, which is the one we want
+        Doclet.Option locationOption = allOptions.stream()
+                .filter(o -> o.getNames().contains("-d"))
+                .findFirst().orElseGet(FallbackDirectoryOption::new);
+
+        // Construct a wrapper around it, to be able to get access the argument.
+        Doclet.Option wrapped = new WrappingOption(locationOption) {
             @Override
-            public boolean process(String opt, List<String> args) {
-                directoryLocationPath = args.get(0);
+            public boolean process(String option, List<String> arguments) {
+                directoryLocationPath = arguments.get(0);
                 return true;
             }
         };
-        result.add(directoryLocationOption);
-        result.addAll(super.getSupportedOptions());
-        return result;
+
+        // Remove the old option and add the wrapper in it's place.
+        allOptions.remove(locationOption);
+        allOptions.add(wrapped);
+
+        return allOptions;
     }
 
     private static PackageElement findPackageElement(Element classOrInterface) {

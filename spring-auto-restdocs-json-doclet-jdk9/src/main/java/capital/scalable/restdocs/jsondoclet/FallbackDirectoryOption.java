@@ -19,30 +19,21 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
-import jdk.javadoc.doclet.Doclet;
-
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class DirectoryLocationOption implements Doclet.Option, Comparable<DirectoryLocationOption> {
+import jdk.javadoc.doclet.Doclet;
 
-    private final String[] names;
-    private final String argumentName;
-    private final int argumentCount;
-    private final String description;
-    private final String parameters;
+/**
+ * A fallback option if for some reason Java removes the default "-d" option.
+ */
+class FallbackDirectoryOption implements Doclet.Option, Comparable<FallbackDirectoryOption> {
 
-    public DirectoryLocationOption() {
-        this.argumentName = "-d";
-        this.argumentCount = 1;
-        this.names = new String[]{argumentName};
-        this.description = "Directory location";
-        this.parameters = "-d";
-    }
+    private final String[] names = new String[] { "-d" };
 
     @Override
     public String getDescription() {
-        return description;
+        return "The output directory";
     }
 
     @Override
@@ -57,7 +48,13 @@ public abstract class DirectoryLocationOption implements Doclet.Option, Comparab
 
     @Override
     public String getParameters() {
-        return parameters;
+        return "directory";
+    }
+
+    @Override
+    public boolean process(String option, List<String> arguments) {
+        // Do nothing. You should use this together with the wrapper to get the actual option.
+        return false;
     }
 
     @Override
@@ -67,13 +64,11 @@ public abstract class DirectoryLocationOption implements Doclet.Option, Comparab
 
     @Override
     public int getArgumentCount() {
-        return argumentCount;
+        return 1;
     }
 
     @Override
-    public int compareTo(DirectoryLocationOption that) {
+    public int compareTo(FallbackDirectoryOption that) {
         return this.getNames().get(0).compareTo(that.getNames().get(0));
     }
-
-
 }
