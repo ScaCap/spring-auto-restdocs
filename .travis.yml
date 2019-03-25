@@ -22,15 +22,17 @@ script:
 - mvn install -B -V
 - cd samples
 - mvn install -B -V
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd java-webmvc && ./gradlew check && cd .. || (exit 0)
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
+- cd java-webmvc
+- ./gradlew check
+- cd ../kotlin-webmvc
+- ./gradlew check
 after_success:
 - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 - cd $TRAVIS_BUILD_DIR
-- test "$TRAVIS_BRANCH" = "master"
+- test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
   && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
-- test "$TRAVIS_BRANCH" = "master"
+- test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
   && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
