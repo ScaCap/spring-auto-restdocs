@@ -49,7 +49,7 @@ Is Kotlin supported?::
   `spring-auto-restdocs-dokka-json`. The extension is only available as 2.0.x,
   but works with both version of Spring Auto REST Docs. Take a look at the
   https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[example].
-Is Java 9 supported?::
+Is Java 9/10/11 supported?::
   Yes, see <<getting-started,Getting Started>>.
 Does it work with REST Assured tests?::
   Not yet. We may add support for REST Assured in the future, but your PR is also welcome.
