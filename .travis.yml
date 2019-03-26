@@ -4,6 +4,8 @@ dist: trusty
 jdk:
 - oraclejdk8
 - oraclejdk9
+- openjdk10
+- openjdk11
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -20,15 +22,15 @@ script:
 - mvn install -B -V
 - cd samples
 - mvn install -B -V
-- test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd java-webmvc && ./gradlew check && cd .. || (exit 0)
+- cd java-webmvc && ./gradlew check && cd ..
 - test "$TRAVIS_JDK_VERSION" = "oraclejdk8" && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
 after_success:
 - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 - cd $TRAVIS_BUILD_DIR
-- test "$TRAVIS_BRANCH" = "master"
+- test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk8"
   && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
-- test "$TRAVIS_BRANCH" = "master"
+- test "$TRAVIS_PULL_REQUEST" = "false"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
   && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V

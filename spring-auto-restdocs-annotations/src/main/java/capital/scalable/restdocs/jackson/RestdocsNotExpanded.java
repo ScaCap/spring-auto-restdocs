@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Core
+ * Spring Auto REST Docs Annotations
  * %%
  * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%

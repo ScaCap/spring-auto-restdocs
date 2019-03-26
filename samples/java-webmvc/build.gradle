@@ -24,9 +24,6 @@ version = "0.0.1-SNAPSHOT"
 
 description = """Spring Auto REST Docs Java Web MVC Example Project"""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
@@ -62,7 +59,16 @@ dependencies {
     testCompile "com.jayway.jsonpath:json-path-assert"
     testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
     testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
-    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
+    // Java 11 fix for https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
+    testCompile "javax.xml.bind:jaxb-api:2.2.11"
+    testCompile "com.sun.xml.bind:jaxb-core:2.2.11"
+    testCompile "com.sun.xml.bind:jaxb-impl:2.2.11"
+    testCompile "javax.activation:activation:1.1.1"
+    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
+        jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
+    } else {
+        jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet-jdk9:$springAutoRestDocsVersion"
+    }
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
