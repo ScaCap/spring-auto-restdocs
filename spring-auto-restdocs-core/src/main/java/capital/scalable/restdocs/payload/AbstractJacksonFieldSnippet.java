@@ -28,6 +28,7 @@ import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocume
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -40,6 +41,8 @@ import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
@@ -88,6 +91,20 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
     protected Type firstGenericType(MethodParameter param) {
         Type type = param.getGenericParameterType();
         if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type actualArgument = parameterizedType.getActualTypeArguments()[0];
+            if(actualArgument instanceof Class) {
+                return actualArgument;
+            } else if(actualArgument instanceof TypeVariable) {
+                TypeVariable typeVariable = (TypeVariable)actualArgument;
+                String variableName = typeVariable.getName();
+                Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(param.getContainingClass());
+                for(TypeVariable tv : typeMap.keySet()) {
+                    if(StringUtils.equals(tv.getName(), variableName)) {
+                        return typeMap.get(tv);
+                    }
+                }
+            }             
             return ((ParameterizedType) type).getActualTypeArguments()[0];
         } else {
             return Object.class;
