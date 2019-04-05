@@ -432,6 +432,27 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .row("field4", "String", "true", "Method 4."));
     }
 
+    @Test
+    public void genericSuperMethod() throws Exception{
+        HandlerMethod handlerMethod = createHandlerMethod("getItemsGeneric");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
+
+    }
+
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -477,8 +498,28 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         return new HandlerMethod(new TestResource(), responseEntityItem);
     }
 
+    public interface IGenericTestResource<T> {
+
+        List<T> getItemsGeneric();
+    }
+
+    public static abstract class GenericTestResource<E> implements IGenericTestResource<E>{
+
+        abstract E createGeneric();
+
+        @Override
+        public List<E> getItemsGeneric() {
+            return Collections.singletonList(createGeneric());
+        }
+    }
+
     // actual method responses do not matter, they are here just for the illustration
-    private static class TestResource {
+    private static class TestResource extends GenericTestResource<Item>{
+
+        @Override
+        Item createGeneric() {
+            return new Item("test");
+        }
 
         public Item getItem() {
             return new Item("test");
