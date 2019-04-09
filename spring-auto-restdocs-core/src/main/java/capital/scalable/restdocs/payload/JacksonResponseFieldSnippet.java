@@ -76,7 +76,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             };
         } else if ("void".equals(returnType.getName())) {
             return null;
-        } else {
+        } else if (method.getReturnType().getGenericParameterType() != null) {
+            return firstGenericType(method.getReturnType());
+        }
+        else {
             return returnType;
         }
     }
