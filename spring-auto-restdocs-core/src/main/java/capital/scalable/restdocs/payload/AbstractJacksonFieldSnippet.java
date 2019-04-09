@@ -91,25 +91,36 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
 
     protected Type firstGenericType(MethodParameter param) {
         Type type = param.getGenericParameterType();
-        if (type != null && type instanceof ParameterizedType) {
+        if(type instanceof TypeVariable) {
+            TypeVariable tv = (TypeVariable)type;
+            return findTypeFromTypeVariable(tv, param.getContainingClass());
+        }
+        else if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type actualArgument = parameterizedType.getActualTypeArguments()[0];
-            if(actualArgument instanceof Class) {
+            if (actualArgument instanceof Class) {
                 return actualArgument;
-            } else if(actualArgument instanceof TypeVariable) {
-                TypeVariable typeVariable = (TypeVariable)actualArgument;
-                String variableName = typeVariable.getName();
-                Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(param.getContainingClass());
-                for(TypeVariable tv : typeMap.keySet()) {
-                    if(StringUtils.equals(tv.getName(), variableName)) {
-                        return typeMap.get(tv);
-                    }
-                }
+            } else if (actualArgument instanceof TypeVariable) {
+                TypeVariable typeVariable = (TypeVariable) actualArgument;
+                return findTypeFromTypeVariable(typeVariable, param.getContainingClass());
             }
             return ((ParameterizedType) type).getActualTypeArguments()[0];
         } else {
             return Object.class;
         }
+    }
+
+    protected Type findTypeFromTypeVariable(TypeVariable typeVariable, Class<?> clazz) {
+        Type defaultReturnValue = Object.class;
+
+        String variableName = typeVariable.getName();
+        Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(clazz);
+        for(TypeVariable tv : typeMap.keySet()) {
+            if(StringUtils.equals(tv.getName(), variableName)) {
+                return typeMap.get(tv);
+            }
+        }
+        return defaultReturnValue;
     }
 
     protected abstract Type getType(HandlerMethod method);

@@ -326,8 +326,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+
+
     @Test
-    public void genericSuperMethod() throws Exception {
+    public void genericSuperMethodCollection() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("getItemsGeneric");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
@@ -336,6 +338,25 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 tableWithHeader("Path", "Type", "Optional", "Description")
                         .row("[].field1", "String", "true", "A string.")
                         .row("[].field2", "Decimal", "true", "A decimal."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void genericSuperMethodSingleItem() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getItemGeneric");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "true", "A string.")
+                        .row("field2", "Decimal", "true", "A decimal."));
 
         new JacksonResponseFieldSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -402,6 +423,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         @Override
         public List<E> getItemsGeneric() {
             return Collections.singletonList(createGeneric());
+        }
+
+        public E getItemGeneric() {
+            return createGeneric();
         }
     }
 
