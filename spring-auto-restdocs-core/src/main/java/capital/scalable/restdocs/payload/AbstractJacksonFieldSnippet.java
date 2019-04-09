@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -90,25 +90,35 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
     protected Type firstGenericType(MethodParameter param) {
         Type type = param.getGenericParameterType();
-        if (type instanceof ParameterizedType) {
+        if(type instanceof TypeVariable) {
+            TypeVariable tv = (TypeVariable)type;
+            return findTypeFromTypeVariable(tv, param.getContainingClass());
+        } else if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type actualArgument = parameterizedType.getActualTypeArguments()[0];
             if(actualArgument instanceof Class) {
                 return actualArgument;
             } else if(actualArgument instanceof TypeVariable) {
                 TypeVariable typeVariable = (TypeVariable)actualArgument;
-                String variableName = typeVariable.getName();
-                Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(param.getContainingClass());
-                for(TypeVariable tv : typeMap.keySet()) {
-                    if(StringUtils.equals(tv.getName(), variableName)) {
-                        return typeMap.get(tv);
-                    }
-                }
+                return findTypeFromTypeVariable(typeVariable, param.getContainingClass());
             }             
             return ((ParameterizedType) type).getActualTypeArguments()[0];
         } else {
             return Object.class;
         }
+    }
+
+    protected Type findTypeFromTypeVariable(TypeVariable typeVariable, Class<?> clazz) {
+        Type defaultReturnValue = Object.class;
+
+        String variableName = typeVariable.getName();
+        Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(clazz);
+        for(TypeVariable tv : typeMap.keySet()) {
+            if(StringUtils.equals(tv.getName(), variableName)) {
+                return typeMap.get(tv);
+            }
+        }
+        return defaultReturnValue;
     }
 
     protected abstract Type getType(HandlerMethod method);
