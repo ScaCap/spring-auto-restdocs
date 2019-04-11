@@ -91,7 +91,7 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
 
     protected Type firstGenericType(MethodParameter param) {
         Type type = param.getGenericParameterType();
-        if(type instanceof TypeVariable) {
+        if (type instanceof TypeVariable) {
             TypeVariable tv = (TypeVariable)type;
             return findTypeFromTypeVariable(tv, param.getContainingClass());
         }
@@ -111,16 +111,14 @@ abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet implemen
     }
 
     protected Type findTypeFromTypeVariable(TypeVariable typeVariable, Class<?> clazz) {
-        Type defaultReturnValue = Object.class;
-
         String variableName = typeVariable.getName();
         Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(clazz);
-        for(TypeVariable tv : typeMap.keySet()) {
-            if(StringUtils.equals(tv.getName(), variableName)) {
+        for (TypeVariable tv : typeMap.keySet()) {
+            if (StringUtils.equals(tv.getName(), variableName)) {
                 return typeMap.get(tv);
             }
         }
-        return defaultReturnValue;
+        return Object.class;
     }
 
     protected abstract Type getType(HandlerMethod method);
