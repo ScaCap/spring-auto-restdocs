@@ -178,7 +178,7 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     private TypeRegistry withVisitedType(JavaType javaType) {
         // add all subtypes when going deeper
         // they will be eventually analysed at current level
-        List<JavaType> allTypes = resolveAllTypes(javaType, typeFactory);
+        List<JavaType> allTypes = resolveAllTypes(javaType, typeFactory, typeRegistry.getTypeMapping());
         return typeRegistry.withVisitedTypes(allTypes);
     }
 

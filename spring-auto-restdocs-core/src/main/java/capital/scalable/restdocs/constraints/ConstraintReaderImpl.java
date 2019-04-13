@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.constraints.MethodParameterValidatorCons
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -80,6 +81,19 @@ public class ConstraintReaderImpl implements ConstraintReader {
     @Override
     public List<String> getOptionalMessages(Class<?> javaBaseClass, String javaFieldName) {
         return skippableConstraintResolver.getOptionalMessages(javaFieldName, javaBaseClass);
+    }
+
+    @Override
+    public String getTypeSpecifier(Class<?> javaBaseClass) {
+        String message = constraintDescriptionResolver.resolveDescription(
+                new Constraint(javaBaseClass.getCanonicalName(), emptyMap()));
+
+        // fallback
+        if (message.equals(javaBaseClass.getCanonicalName())) {
+            return "";
+        }
+
+        return message;
     }
 
     @Override

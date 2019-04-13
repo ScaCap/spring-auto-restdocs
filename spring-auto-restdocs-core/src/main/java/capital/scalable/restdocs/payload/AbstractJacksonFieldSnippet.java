@@ -23,6 +23,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintRe
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTypeMapping;
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
@@ -35,6 +36,7 @@ import java.util.stream.Stream;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
+import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
@@ -66,6 +68,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
         JavadocReader javadocReader = getJavadocReader(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);
+        TypeMapping typeMapping = getTypeMapping(operation);
 
         Type type = getType(handlerMethod);
         if (type == null) {
@@ -74,7 +77,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
         try {
             FieldDescriptors fieldDescriptors = resolveFieldDescriptors(type, objectMapper,
-                    javadocReader, constraintReader);
+                    javadocReader, constraintReader, typeMapping);
 
             if (shouldFailOnUndocumentedFields()) {
                 assertAllDocumented(fieldDescriptors.values(), translate(getHeaderKey()).toLowerCase());
@@ -104,10 +107,11 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
     }
 
     private FieldDescriptors resolveFieldDescriptors(Type type, ObjectMapper objectMapper,
-            JavadocReader javadocReader, ConstraintReader constraintReader) throws JsonMappingException {
+            JavadocReader javadocReader, ConstraintReader constraintReader,
+            TypeMapping typeMapping) throws JsonMappingException {
         FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
                 objectMapper.writer(), objectMapper.getDeserializationConfig(), javadocReader,
-                constraintReader);
+                constraintReader, typeMapping);
         return generator.generateDocumentation(type, objectMapper.getTypeFactory());
     }
 

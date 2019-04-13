@@ -89,7 +89,7 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
         Assert.notNull(baseType,
                 "Missing type for property '" + jsonName + "', field '" + fieldName + "'");
 
-        for (JavaType javaType : resolveAllTypes(baseType, typeFactory)) {
+        for (JavaType javaType : resolveAllTypes(baseType, typeFactory, typeRegistry.getTypeMapping())) {
             JsonSerializer<?> ser = getProvider().findValueSerializer(javaType, prop);
             if (ser == null) {
                 return;

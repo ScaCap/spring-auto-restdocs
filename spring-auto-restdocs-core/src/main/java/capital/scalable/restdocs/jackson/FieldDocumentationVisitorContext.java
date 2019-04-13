@@ -22,6 +22,7 @@ package capital.scalable.restdocs.jackson;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
+import static capital.scalable.restdocs.constraints.ConstraintReader.TYPE_ATTRIBUTE;
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
@@ -70,54 +71,104 @@ class FieldDocumentationVisitorContext {
         String jsonFieldPath = info.getJsonFieldPath();
         String javaFieldTypeName = info.getJavaFieldType().getRawClass().getSimpleName();
 
-        if (isPresent(jsonFieldPath, javaFieldTypeName)) {
-            return; // do not add duplicates
-        }
-
         Class<?> javaBaseClass = info.getJavaBaseClass();
         String javaFieldName = info.getJavaFieldName();
         String comment = resolveComment(javaBaseClass, javaFieldName);
         comment = join("<br>", comment, resolveSeeTag(javaBaseClass, javaFieldName));
 
-        FieldDescriptor fieldDescriptor = fieldWithPath(jsonFieldPath)
-                .type(jsonType)
-                .description(comment);
+        List<String> constraints = constraintAttribute(javaBaseClass, javaFieldName);
+        List<String> optionals = optionalAttribute(javaBaseClass, javaFieldName, info.isRequired());
+        String deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
 
-        Attribute constraints = constraintAttribute(javaBaseClass, javaFieldName);
-        Attribute optionals = optionalAttribute(javaBaseClass, javaFieldName, info.isRequired());
-        Attribute deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
-        fieldDescriptor.attributes(constraints, optionals, deprecated);
+        // in case of repeated field in subclass or subtype, let's just add info to already existing field descriptor
+        FieldDescriptor descriptor = getOrCreate(jsonFieldPath, jsonType, javaFieldTypeName);
 
-        fields.add(fieldDescriptor);
+        if (javaBaseClass.equals(descriptor.getAttributes().get(TYPE_ATTRIBUTE))) {
+            return; // exactly the same field, skip
+        }
+
+        String updatedComment = joinWithTypeSpecifier(javaBaseClass,
+                (String) descriptor.getDescription(), comment);
+        List<String> updatedConstraints = joinWithTypeSpecifier(javaBaseClass,
+                (List<String>) descriptor.getAttributes().get(CONSTRAINTS_ATTRIBUTE), constraints);
+        List<String> updatedOptionals = joinWithTypeSpecifier(javaBaseClass,
+                (List<String>) descriptor.getAttributes().get(OPTIONAL_ATTRIBUTE), optionals);
+        String updatedDeprecated = joinWithTypeSpecifier(javaBaseClass,
+                (String) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE), deprecated);
+
+        descriptor
+                .description(updatedComment)
+                .attributes(
+                        new Attribute(TYPE_ATTRIBUTE, javaBaseClass),
+                        new Attribute(CONSTRAINTS_ATTRIBUTE, updatedConstraints),
+                        new Attribute(OPTIONAL_ATTRIBUTE, updatedOptionals),
+                        new Attribute(DEPRECATED_ATTRIBUTE, updatedDeprecated));
+
+        if (!fields.contains(descriptor.getPath())) {
+            fields.add(descriptor);
+        }
+
         log.debug("({}) {} added", jsonFieldPath, javaFieldTypeName);
     }
 
-    private boolean isPresent(String jsonFieldPath, String javaFieldTypeName) {
+    private String joinWithTypeSpecifier(Class<?> javaBaseClass, String oldComment, String newComment) {
+        if (isBlank(newComment)) {
+            return trimToEmpty(oldComment);
+        }
+        String typeSpecifier = typeSpecifier(javaBaseClass);
+        if (isNotBlank(typeSpecifier)) {
+            typeSpecifier = " " + typeSpecifier;
+        }
+        return join("<br>", trimToEmpty(oldComment), newComment + typeSpecifier);
+    }
+
+    private List<String> joinWithTypeSpecifier(Class<?> javaBaseClass, List<String> oldTexts, List<String> newTexts) {
+        List<String> result = new ArrayList<>();
+        if (oldTexts != null) {
+            result.addAll(oldTexts);
+        }
+        String typeSpecifier = typeSpecifier(javaBaseClass);
+        if (isNotBlank(typeSpecifier)) {
+            typeSpecifier = " " + typeSpecifier;
+        }
+
+        for (String newText : newTexts) {
+            result.add(newText + typeSpecifier);
+        }
+        return result;
+    }
+
+    private String typeSpecifier(Class<?> javaBaseClass) {
+        return trimToEmpty(constraintReader.getTypeSpecifier(javaBaseClass));
+    }
+
+    private FieldDescriptor getOrCreate(String jsonFieldPath, String jsonType, String javaFieldTypeName) {
         log.trace(" = WAS ADDED? {}", jsonFieldPath);
         for (FieldDescriptor descriptor : fields) {
-            if (descriptor.getPath().equals(jsonFieldPath)) {
+            if (jsonFieldPath.equals(descriptor.getPath())) {
                 log.trace("   = YES {}", descriptor.getPath());
                 log.debug("({}) {} NOT added", jsonFieldPath, javaFieldTypeName);
-                return true;
+                if (!descriptor.getType().equals(jsonType)) {
+                    log.warn("Multiple fields with the same path {} but different types!", jsonFieldPath);
+                }
+                return descriptor;
             }
             log.trace("   = NO {}", descriptor.getPath());
         }
-        return false;
+        return fieldWithPath(jsonFieldPath)
+                .type(jsonType);
     }
 
-    private Attribute constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
-        return new Attribute(CONSTRAINTS_ATTRIBUTE,
-                resolveConstraintDescriptions(javaBaseClass, javaFieldName));
+    private List<String> constraintAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return resolveConstraintDescriptions(javaBaseClass, javaFieldName);
     }
 
-    private Attribute optionalAttribute(Class<?> javaBaseClass, String javaFieldName, boolean requiredField) {
-        return new Attribute(OPTIONAL_ATTRIBUTE,
-                resolveOptionalMessages(javaBaseClass, javaFieldName, requiredField));
+    private List<String> optionalAttribute(Class<?> javaBaseClass, String javaFieldName, boolean requiredField) {
+        return resolveOptionalMessages(javaBaseClass, javaFieldName, requiredField);
     }
 
-    private Attribute deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
-        return new Attribute(DEPRECATED_ATTRIBUTE,
-                resolveDeprecatedMessage(javaBaseClass, javaFieldName));
+    private String deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
+        return resolveDeprecatedMessage(javaBaseClass, javaFieldName);
     }
 
     private List<String> resolveOptionalMessages(Class<?> javaBaseClass, String javaFieldName, boolean requiredField) {
@@ -173,7 +224,7 @@ class FieldDocumentationVisitorContext {
         if (isDeprecated || isNotBlank(comment)) {
             return trimToEmpty(comment);
         } else {
-            return null;
+            return "";
         }
     }
 
@@ -216,5 +267,10 @@ class FieldDocumentationVisitorContext {
                     fromGetter(javaFieldOrMethodName), tagName);
         }
         return comment;
+    }
+
+    static class StringX {
+        private String value;
+        private List<String> specifiers;
     }
 }

@@ -43,26 +43,29 @@ public class FieldDocumentationGenerator {
     private final DeserializationConfig deserializationConfig;
     private final JavadocReader javadocReader;
     private final ConstraintReader constraintReader;
+    private final TypeMapping typeMapping;
 
     public FieldDocumentationGenerator(ObjectWriter writer,
             DeserializationConfig deserializationConfig,
             JavadocReader javadocReader,
-            ConstraintReader constraintReader) {
+            ConstraintReader constraintReader,
+            TypeMapping typeMapping) {
         this.writer = writer;
         this.deserializationConfig = deserializationConfig;
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
+        this.typeMapping = typeMapping;
     }
 
     public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
             throws JsonMappingException {
         JavaType javaBaseType = typeFactory.constructType(baseType);
-        List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory);
+        List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory, typeMapping);
         FieldDescriptors result = new FieldDescriptors();
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
                 javadocReader, constraintReader, deserializationConfig,
-                new TypeRegistry(types), typeFactory);
+                new TypeRegistry(typeMapping, types), typeFactory);
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());
