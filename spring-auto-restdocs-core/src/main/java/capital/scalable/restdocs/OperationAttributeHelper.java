@@ -121,7 +121,8 @@ public class OperationAttributeHelper {
     }
 
     public static TypeMapping getTypeMapping(Operation operation) {
-        return (TypeMapping) operation.getAttributes().get(TypeMapping.class.getName());
+        TypeMapping typeMapping = (TypeMapping) operation.getAttributes().get(TypeMapping.class.getName());
+        return typeMapping != null ? typeMapping : new TypeMapping();
     }
 
     public static void setTypeMapping(MockHttpServletRequest request, TypeMapping typeMapping) {

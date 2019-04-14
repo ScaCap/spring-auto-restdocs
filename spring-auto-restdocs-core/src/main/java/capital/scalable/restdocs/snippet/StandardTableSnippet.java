@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.DeprecatedAttr;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.TemplateFormatting;
 import org.apache.commons.lang3.StringUtils;
@@ -149,9 +150,9 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String resolveDeprecated(FieldDescriptor descriptor) {
-        String deprecated = toString(descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE));
-        if (isNotBlank(deprecated)) {
-            return addDot(translate("tags-deprecated", capitalize(deprecated)));
+        DeprecatedAttr deprecated = (DeprecatedAttr) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE);
+        if (deprecated != null && deprecated.isDeprecated) {
+            return addDot(translate("tags-deprecated", capitalize(StringUtils.join(deprecated.values, ". "))));
         } else {
             return "";
         }

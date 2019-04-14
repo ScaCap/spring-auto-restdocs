@@ -30,6 +30,8 @@ import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
 import static capital.scalable.restdocs.util.TypeUtil.isPrimitive;
 import static capital.scalable.restdocs.util.TypeUtil.resolveAnnotation;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
@@ -78,7 +80,7 @@ class FieldDocumentationVisitorContext {
 
         List<String> constraints = constraintAttribute(javaBaseClass, javaFieldName);
         List<String> optionals = optionalAttribute(javaBaseClass, javaFieldName, info.isRequired());
-        String deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
+        DeprecatedAttr deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
 
         // in case of repeated field in subclass or subtype, let's just add info to already existing field descriptor
         FieldDescriptor descriptor = getOrCreate(jsonFieldPath, jsonType, javaFieldTypeName);
@@ -93,8 +95,8 @@ class FieldDocumentationVisitorContext {
                 (List<String>) descriptor.getAttributes().get(CONSTRAINTS_ATTRIBUTE), constraints);
         List<String> updatedOptionals = joinWithTypeSpecifier(javaBaseClass,
                 (List<String>) descriptor.getAttributes().get(OPTIONAL_ATTRIBUTE), optionals);
-        String updatedDeprecated = joinWithTypeSpecifier(javaBaseClass,
-                (String) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE), deprecated);
+        DeprecatedAttr updatedDeprecated = joinWithTypeSpecifier(javaBaseClass,
+                (DeprecatedAttr) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE), deprecated);
 
         descriptor
                 .description(updatedComment)
@@ -120,6 +122,23 @@ class FieldDocumentationVisitorContext {
             typeSpecifier = " " + typeSpecifier;
         }
         return join("<br>", trimToEmpty(oldComment), newComment + typeSpecifier);
+    }
+
+    private DeprecatedAttr joinWithTypeSpecifier(Class<?> javaBaseClass, DeprecatedAttr oldAttr,
+            DeprecatedAttr newAttr) {
+        if (!newAttr.isDeprecated) {
+            return oldAttr;
+        }
+        String typeSpecifier = typeSpecifier(javaBaseClass);
+        if (isNotBlank(typeSpecifier)) {
+            typeSpecifier = " " + typeSpecifier;
+        }
+        List<String> nl = new ArrayList<>();
+        if (oldAttr != null) {
+            nl.addAll(oldAttr.values);
+        }
+        nl.addAll(newAttr.values);
+        return new DeprecatedAttr(true, nl);
     }
 
     private List<String> joinWithTypeSpecifier(Class<?> javaBaseClass, List<String> oldTexts, List<String> newTexts) {
@@ -167,7 +186,7 @@ class FieldDocumentationVisitorContext {
         return resolveOptionalMessages(javaBaseClass, javaFieldName, requiredField);
     }
 
-    private String deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
+    private DeprecatedAttr deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
         return resolveDeprecatedMessage(javaBaseClass, javaFieldName);
     }
 
@@ -217,14 +236,14 @@ class FieldDocumentationVisitorContext {
         return descriptions;
     }
 
-    private String resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
+    private DeprecatedAttr resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
         boolean isDeprecated =
                 resolveAnnotation(javaBaseClass, javaFieldName, Deprecated.class) != null;
         String comment = resolveTag(javaBaseClass, javaFieldName, "deprecated");
         if (isDeprecated || isNotBlank(comment)) {
-            return trimToEmpty(comment);
+            return new DeprecatedAttr(true, singletonList(trimToEmpty(comment)));
         } else {
-            return "";
+            return new DeprecatedAttr(false, emptyList());
         }
     }
 
@@ -267,10 +286,5 @@ class FieldDocumentationVisitorContext {
                     fromGetter(javaFieldOrMethodName), tagName);
         }
         return comment;
-    }
-
-    static class StringX {
-        private String value;
-        private List<String> specifiers;
     }
 }
