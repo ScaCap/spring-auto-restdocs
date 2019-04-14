@@ -20,17 +20,14 @@
 
 package capital.scalable.restdocs.example.items;
 
-public class Metadata1 extends Metadata {
+public class Metadata3 extends Metadata {
     /**
      * Tag attribute.
      */
     private String tag;
 
-    Metadata1() {
-    }
-
-    public Metadata1(String type, String tag) {
-        super(type);
-        this.tag = tag;
-    }
+    /**
+     * Info attribute.
+     */
+    private String info;
 }
