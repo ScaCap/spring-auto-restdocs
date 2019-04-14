@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -162,6 +163,7 @@ public class WebTestClientInitializerTest {
         assertNotNull(attributes.get(ObjectMapper.class.getName()));
         assertNotNull(attributes.get(JavadocReader.class.getName()));
         assertNotNull(attributes.get(ConstraintReader.class.getName()));
+        assertNotNull(attributes.get(TypeMapping.class.getName()));
     }
 
     /**
