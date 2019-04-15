@@ -21,6 +21,7 @@ package capital.scalable.restdocs.payload;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -76,7 +77,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             };
         } else if ("void".equals(returnType.getName())) {
             return null;
-        } else {
+        } else if (method.getReturnType().getGenericParameterType() instanceof TypeVariable) {
+            return firstGenericType(method.getReturnType());
+        }
+        else {
             return returnType;
         }
     }

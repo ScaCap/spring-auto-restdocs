@@ -326,6 +326,46 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 .build());
     }
 
+
+
+    @Test
+    public void genericSuperMethodCollection() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getItemsGeneric");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("[].field1", "String", "true", "A string.")
+                        .row("[].field2", "Decimal", "true", "A decimal."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
+    @Test
+    public void genericSuperMethodSingleItem() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("getItemGeneric");
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "A decimal");
+
+        this.snippets.expect(RESPONSE_FIELDS).withContents(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("field1", "String", "true", "A string.")
+                        .row("field2", "Decimal", "true", "A decimal."));
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+    }
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -371,7 +411,33 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         return new HandlerMethod(new TestResource(), responseEntityItem);
     }
 
-    private static class TestResource {
+    public interface IGenericTestResource<T> {
+
+        List<T> getItemsGeneric();
+    }
+
+    public static abstract class GenericTestResource<E> implements IGenericTestResource<E>{
+
+        abstract E createGeneric();
+
+        @Override
+        public List<E> getItemsGeneric() {
+            return Collections.singletonList(createGeneric());
+        }
+
+        public E getItemGeneric() {
+            return createGeneric();
+        }
+    }
+
+
+
+    private static class TestResource extends GenericTestResource<Item>{
+
+        @Override
+        Item createGeneric() {
+            return new Item("test");
+        }
 
         public Item getItem() {
             return new Item("test");
