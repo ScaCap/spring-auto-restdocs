@@ -80,7 +80,7 @@ class FieldDocumentationVisitorContext {
 
         List<String> constraints = constraintAttribute(javaBaseClass, javaFieldName);
         List<String> optionals = optionalAttribute(javaBaseClass, javaFieldName, info.isRequired());
-        DeprecatedAttr deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
+        DeprecatedAttribute deprecated = deprecatedAttribute(javaBaseClass, javaFieldName);
 
         // in case of repeated field in subclass or subtype, let's just add info to already existing field descriptor
         FieldDescriptor descriptor = getOrCreate(jsonFieldPath, jsonType, javaFieldTypeName);
@@ -95,8 +95,8 @@ class FieldDocumentationVisitorContext {
                 (List<String>) descriptor.getAttributes().get(CONSTRAINTS_ATTRIBUTE), constraints);
         List<String> updatedOptionals = joinWithTypeSpecifier(javaBaseClass,
                 (List<String>) descriptor.getAttributes().get(OPTIONAL_ATTRIBUTE), optionals);
-        DeprecatedAttr updatedDeprecated = joinWithTypeSpecifier(javaBaseClass,
-                (DeprecatedAttr) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE), deprecated);
+        DeprecatedAttribute updatedDeprecated = joinWithTypeSpecifier(javaBaseClass,
+                (DeprecatedAttribute) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE), deprecated);
 
         descriptor
                 .description(updatedComment)
@@ -124,9 +124,9 @@ class FieldDocumentationVisitorContext {
         return join("<br>", trimToEmpty(oldComment), newComment + typeSpecifier);
     }
 
-    private DeprecatedAttr joinWithTypeSpecifier(Class<?> javaBaseClass, DeprecatedAttr oldAttr,
-            DeprecatedAttr newAttr) {
-        if (!newAttr.isDeprecated) {
+    private DeprecatedAttribute joinWithTypeSpecifier(Class<?> javaBaseClass, DeprecatedAttribute oldAttr,
+            DeprecatedAttribute newAttr) {
+        if (!newAttr.isDeprecated()) {
             return oldAttr;
         }
         String typeSpecifier = typeSpecifier(javaBaseClass);
@@ -135,10 +135,10 @@ class FieldDocumentationVisitorContext {
         }
         List<String> nl = new ArrayList<>();
         if (oldAttr != null) {
-            nl.addAll(oldAttr.values);
+            nl.addAll(oldAttr.getValues());
         }
-        nl.addAll(newAttr.values);
-        return new DeprecatedAttr(true, nl);
+        nl.addAll(newAttr.getValues());
+        return new DeprecatedAttribute(true, nl);
     }
 
     private List<String> joinWithTypeSpecifier(Class<?> javaBaseClass, List<String> oldTexts, List<String> newTexts) {
@@ -186,7 +186,7 @@ class FieldDocumentationVisitorContext {
         return resolveOptionalMessages(javaBaseClass, javaFieldName, requiredField);
     }
 
-    private DeprecatedAttr deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
+    private DeprecatedAttribute deprecatedAttribute(Class<?> javaBaseClass, String javaFieldName) {
         return resolveDeprecatedMessage(javaBaseClass, javaFieldName);
     }
 
@@ -236,14 +236,14 @@ class FieldDocumentationVisitorContext {
         return descriptions;
     }
 
-    private DeprecatedAttr resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
+    private DeprecatedAttribute resolveDeprecatedMessage(Class<?> javaBaseClass, String javaFieldName) {
         boolean isDeprecated =
                 resolveAnnotation(javaBaseClass, javaFieldName, Deprecated.class) != null;
         String comment = resolveTag(javaBaseClass, javaFieldName, "deprecated");
         if (isDeprecated || isNotBlank(comment)) {
-            return new DeprecatedAttr(true, singletonList(trimToEmpty(comment)));
+            return new DeprecatedAttribute(true, singletonList(trimToEmpty(comment)));
         } else {
-            return new DeprecatedAttr(false, emptyList());
+            return new DeprecatedAttribute(false, emptyList());
         }
     }
 

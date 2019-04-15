@@ -38,7 +38,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
-import capital.scalable.restdocs.jackson.DeprecatedAttr;
+import capital.scalable.restdocs.jackson.DeprecatedAttribute;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
@@ -125,7 +125,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected Attribute deprecatedAttribute(MethodParameter param, A annot,
             JavadocReader javadocReader) {
         return new Attribute(DEPRECATED_ATTRIBUTE,
-                new DeprecatedAttr(param.getParameterAnnotation(Deprecated.class) != null, emptyList()));
+                new DeprecatedAttribute(param.getParameterAnnotation(Deprecated.class) != null, emptyList()));
     }
 
     protected Attribute defaultValueAttribute(A annot) {

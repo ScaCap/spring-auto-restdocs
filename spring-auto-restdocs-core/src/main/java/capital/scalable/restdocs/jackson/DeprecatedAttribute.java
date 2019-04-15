@@ -21,12 +21,20 @@ package capital.scalable.restdocs.jackson;
 
 import java.util.List;
 
-public class DeprecatedAttr {
-    public boolean isDeprecated;
-    public List<String> values;
+public class DeprecatedAttribute {
+    private boolean isDeprecated;
+    private List<String> values;
 
-    public DeprecatedAttr(boolean isDeprecated, List<String> values) {
+    public DeprecatedAttribute(boolean isDeprecated, List<String> values) {
         this.isDeprecated = isDeprecated;
         this.values = values;
+    }
+
+    public boolean isDeprecated() {
+        return isDeprecated;
+    }
+
+    public List<String> getValues() {
+        return values;
     }
 }
