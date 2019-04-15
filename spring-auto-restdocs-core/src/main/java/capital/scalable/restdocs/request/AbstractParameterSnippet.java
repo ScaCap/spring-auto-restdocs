@@ -29,6 +29,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_AT
 import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.util.StringUtils.hasLength;
@@ -37,6 +38,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.DeprecatedAttribute;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.section.SectionSupport;
@@ -123,7 +125,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected Attribute deprecatedAttribute(MethodParameter param, A annot,
             JavadocReader javadocReader) {
         return new Attribute(DEPRECATED_ATTRIBUTE,
-                param.getParameterAnnotation(Deprecated.class) != null ? "" : null);
+                new DeprecatedAttribute(param.getParameterAnnotation(Deprecated.class) != null, emptyList()));
     }
 
     protected Attribute defaultValueAttribute(A annot) {

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Shared POJOs Example Project
+ * Spring Auto REST Docs Core
  * %%
  * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
@@ -17,20 +17,24 @@
  * limitations under the License.
  * #L%
  */
+package capital.scalable.restdocs.jackson;
 
-package capital.scalable.restdocs.example.items;
+import static java.util.Collections.emptyList;
 
-public class Metadata1 extends Metadata {
-    /**
-     * Tag attribute.
-     */
-    private String tag;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    Metadata1() {
+public class TypeMapping {
+    private Map<Class<?>, List<Class<?>>> map = new HashMap<>();
+
+    public List<Class<?>> getSubtypes(Class<?> clazz) {
+        return map.getOrDefault(clazz, emptyList());
     }
 
-    public Metadata1(String type, String tag) {
-        super(type);
-        this.tag = tag;
+    public TypeMapping mapSubtypes(Class<?> superClazz, Class<?>... subclasses) {
+        map.put(superClazz, Arrays.asList(subclasses));
+        return this;
     }
 }

@@ -32,15 +32,18 @@ import org.slf4j.Logger;
 class TypeRegistry {
     private static final Logger log = getLogger(TypeRegistry.class);
 
-    private Set<JavaType> visited;
+    private final Set<JavaType> visited;
+    private final TypeMapping mapping;
 
-    public TypeRegistry(JavaType baseType) {
+    public TypeRegistry(TypeMapping mapping, JavaType baseType) {
+        this.mapping = mapping;
         visited = new HashSet<>();
         visited.add(baseType);
 
     }
 
-    public TypeRegistry(Collection<JavaType> visited) {
+    public TypeRegistry(TypeMapping mapping, Collection<JavaType> visited) {
+        this.mapping = mapping;
         this.visited = new HashSet<>();
         this.visited.addAll(visited);
     }
@@ -48,7 +51,7 @@ class TypeRegistry {
     public TypeRegistry withVisitedTypes(List<JavaType> javaTypes) {
         Set<JavaType> result = new HashSet<>(visited);
         result.addAll(javaTypes);
-        return new TypeRegistry(result);
+        return new TypeRegistry(mapping, result);
     }
 
     public boolean wasVisited(JavaType type) {
@@ -61,5 +64,9 @@ class TypeRegistry {
             log.trace("   - NO {}", t.getRawClass().getSimpleName());
         }
         return false;
+    }
+
+    public TypeMapping getTypeMapping() {
+        return mapping;
     }
 }

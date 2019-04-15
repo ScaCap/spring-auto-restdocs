@@ -188,6 +188,18 @@ public class ConstraintReaderImplTest {
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
+    @Test
+    public void getTypeSpecifier_resolved() {
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        assertThat(reader.getTypeSpecifier(Plain.class), is("[plain type]"));
+    }
+
+    @Test
+    public void getTypeSpecifier_default() {
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        assertThat(reader.getTypeSpecifier(Constraintz.class), is(""));
+    }
+
     static class Constraintz {
         @NotBlank
         private String name;
@@ -204,11 +216,11 @@ public class ConstraintReaderImplTest {
         @DecimalMax("1000")
         private BigDecimal amount;
 
-        @OneOf({"big", "small"})
+        @OneOf({ "big", "small" })
         private String type;
 
         @DecimalMin(value = "10", groups = Update.class)
-        @DecimalMax(value = "1000", groups = {Update.class, Create.class})
+        @DecimalMax(value = "1000", groups = { Update.class, Create.class })
         private BigDecimal amountWithGroup;
 
         @Null(groups = Update.class)
@@ -259,8 +271,11 @@ public class ConstraintReaderImplTest {
                 @Min(value = 1, groups = Create.class)
                 @Max(value = 2, groups = Update.class) Integer count,
                 @NotBlank
-                @OneOf({"all", "single"}) String type,
+                @OneOf({ "all", "single" }) String type,
                 Enum1 enumeration) {
         }
+    }
+
+    static class Plain {
     }
 }

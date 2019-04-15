@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
 import capital.scalable.restdocs.util.TemplateFormatting;
@@ -117,6 +118,16 @@ public class OperationAttributeHelper {
             ConstraintReader constraintReader) {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(ConstraintReader.class.getName(), constraintReader);
+    }
+
+    public static TypeMapping getTypeMapping(Operation operation) {
+        TypeMapping typeMapping = (TypeMapping) operation.getAttributes().get(TypeMapping.class.getName());
+        return typeMapping != null ? typeMapping : new TypeMapping();
+    }
+
+    public static void setTypeMapping(MockHttpServletRequest request, TypeMapping typeMapping) {
+        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
+                .put(TypeMapping.class.getName(), typeMapping);
     }
 
     public static TemplateFormat getTemplateFormat(Operation operation) {

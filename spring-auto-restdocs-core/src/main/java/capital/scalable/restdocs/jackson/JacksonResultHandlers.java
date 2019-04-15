@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.setConstraintRe
 import static capital.scalable.restdocs.OperationAttributeHelper.setHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.setJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.setObjectMapper;
+import static capital.scalable.restdocs.OperationAttributeHelper.setTypeMapping;
 
 import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
 import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
@@ -35,15 +36,21 @@ import org.springframework.web.method.HandlerMethod;
 public abstract class JacksonResultHandlers {
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper) {
-        return new JacksonPreparingResultHandler(objectMapper);
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping) {
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping);
     }
 
     private static class JacksonPreparingResultHandler implements ResultHandler {
 
         private final ObjectMapper objectMapper;
+        private final TypeMapping typeMapping;
 
-        public JacksonPreparingResultHandler(ObjectMapper objectMapper) {
+        public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping) {
             this.objectMapper = objectMapper;
+            this.typeMapping = typeMapping;
         }
 
         @Override
@@ -57,6 +64,7 @@ public abstract class JacksonResultHandlers {
             initRequestPattern(result.getRequest());
             setJavadocReader(result.getRequest(), JavadocReaderImpl.createWithSystemProperty());
             setConstraintReader(result.getRequest(), ConstraintReaderImpl.create(objectMapper));
+            setTypeMapping(result.getRequest(), typeMapping);
         }
     }
 }

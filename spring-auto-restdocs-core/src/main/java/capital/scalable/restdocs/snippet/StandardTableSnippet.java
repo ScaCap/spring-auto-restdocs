@@ -31,6 +31,7 @@ import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 
 import java.util.Collection;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capital.scalable.restdocs.jackson.DeprecatedAttribute;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.TemplateFormatting;
 import org.apache.commons.lang3.StringUtils;
@@ -148,18 +150,18 @@ public abstract class StandardTableSnippet extends TemplatedSnippet {
     }
 
     private String resolveDeprecated(FieldDescriptor descriptor) {
-        Object deprecated = descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE);
-        if (deprecated != null) {
-            return addDot(translate("tags-deprecated", capitalize(toString(deprecated))));
+        DeprecatedAttribute deprecated = (DeprecatedAttribute) descriptor.getAttributes().get(DEPRECATED_ATTRIBUTE);
+        if (deprecated != null && deprecated.isDeprecated()) {
+            return addDot(translate("tags-deprecated", capitalize(StringUtils.join(deprecated.getValues(), ". "))));
         } else {
             return "";
         }
     }
 
     private String resolveDefaultValue(FieldDescriptor descriptor) {
-        Object defaultValue = descriptor.getAttributes().get(DEFAULT_VALUE_ATTRIBUTE);
-        if (defaultValue != null) {
-            return addDot(translate("default-value", toString(defaultValue)));
+        String defaultValue = toString(descriptor.getAttributes().get(DEFAULT_VALUE_ATTRIBUTE));
+        if (isNotBlank(defaultValue)) {
+            return addDot(translate("default-value", defaultValue));
         } else {
             return "";
         }

@@ -39,6 +39,7 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class FieldDocumentationGeneratorTest {
 
     private JavadocReader javadocReader = mock(JavadocReader.class);
     private ConstraintReader constraintReader = mock(ConstraintReader.class);
+    private TypeMapping typeMapping = new TypeMapping();
 
     @Test
     public void testGenerateDocumentationForBasicTypes() throws Exception {
@@ -80,7 +82,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader);
+                        javadocReader, constraintReader, typeMapping);
         Type type = BasicTypes.class;
 
         // when
@@ -105,7 +107,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = PrimitiveTypes.class;
 
         // when
@@ -121,7 +123,7 @@ public class FieldDocumentationGeneratorTest {
         // when change deserialization config
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
         generator = new FieldDocumentationGenerator(mapper.writer(),
-                mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
 
         // when
         result = cast(generator.generateDocumentation(type, mapper.getTypeFactory()).values());
@@ -147,7 +149,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = ComposedTypes.class;
 
         // when
@@ -190,7 +192,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = FirstLevel.class;
 
         // when
@@ -218,7 +220,7 @@ public class FieldDocumentationGeneratorTest {
         // given
         ObjectMapper mapper = createMapper();
         FieldDocumentationGenerator generator = new FieldDocumentationGenerator(mapper.writer(),
-                mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = RecursiveType.class;
 
         // when
@@ -257,7 +259,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = ExternalSerializer.class;
 
         // when
@@ -282,7 +284,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = JsonAnnotations.class;
 
         // when
@@ -320,7 +322,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = FieldCommentResolution.class;
 
         // when
@@ -353,7 +355,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = ConstraintResolution.class;
 
         // when
@@ -391,10 +393,11 @@ public class FieldDocumentationGeneratorTest {
         mockFieldComment(JsonType2.class, "clazz", "A clazz");
         mockFieldComment(JsonType2SubType1.class, "base2Sub1", "A base 2 sub 1");
         mockFieldComment(JsonType2SubType2.class, "base2Sub2", "A base 2 sub 2");
+        mockTypeSpecifier(JsonType1SubType1.class, "[S1]");
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader);
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
         Type type = JsonType1.class;
 
         // when
@@ -428,9 +431,57 @@ public class FieldDocumentationGeneratorTest {
         assertThat(fieldDescriptions.get(11),
                 is(descriptor("base4.base2Sub2", "String", "A base 2 sub 2", "true")));
         assertThat(fieldDescriptions.get(12),
-                is(descriptor("base1Sub1", "String", "A base 1 sub 1", "true")));
+                is(descriptor("base1Sub1", "String", "A base 1 sub 1 [S1]", "true [S1]")));
         assertThat(fieldDescriptions.get(13),
                 is(descriptor("base1Sub2", "String", "A base 1 sub 2", "true")));
+    }
+
+    @Test
+    public void testGenerateDocumentationForPlainSubTypes() throws Exception {
+        // given
+        ObjectMapper mapper = createMapper();
+
+        mockFieldComment(Plain.class, "field", "A field");
+        mockFieldComment(Plain.class, "overriddenField", "An overridden field");
+        mockFieldComment(PlainX.class, "overriddenField", "Custom 1");
+        mockFieldComment(PlainX.class, "x", "A field X");
+        mockFieldComment(PlainY.class, "overriddenField", "Custom 2");
+        mockFieldComment(PlainY.class, "y", "A field Y");
+        mockTypeSpecifier(Plain.class, "");
+        mockTypeSpecifier(PlainX.class, "(X)");
+        mockTypeSpecifier(PlainY.class, "(Y)");
+        mockOptional(Plain.class, "overriddenField", "true");
+        mockOptional(PlainX.class, "overriddenField", "false");
+        mockOptional(PlainY.class, "overriddenField", "false");
+        mockConstraint(Plain.class, "overriddenField", "Size[1]");
+        mockConstraint(PlainX.class, "overriddenField", "Size[x]");
+        mockConstraint(PlainY.class, "overriddenField", "Size[y]");
+
+        TypeMapping typeMapping = new TypeMapping();
+        typeMapping.mapSubtypes(Plain.class, PlainX.class, PlainY.class);
+
+        FieldDocumentationGenerator generator =
+                new FieldDocumentationGenerator(mapper.writer(),
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping);
+        Type type = Plain.class;
+
+        // when
+        List<ExtendedFieldDescriptor> fieldDescriptions = cast(generator
+                .generateDocumentation(type, mapper.getTypeFactory()).values());
+
+        // then
+        assertThat(fieldDescriptions.size(), is(4));
+        assertThat(fieldDescriptions.get(0),
+                is(descriptor("field", "String", "A field", "true")));
+        assertThat(fieldDescriptions.get(1),
+                is(descriptor("overriddenField", "String",
+                        "An overridden field<br>Custom 1 (X)<br>Custom 2 (Y)",
+                        Arrays.asList("true", "false (X)", "false (Y)"),
+                        "Size[1]", "Size[x] (X)", "Size[y] (Y)")));
+        assertThat(fieldDescriptions.get(2),
+                is(descriptor("x", "String", "A field X (X)", "true (X)")));
+        assertThat(fieldDescriptions.get(3),
+                is(descriptor("y", "String", "A field Y (Y)", "true (Y)")));
     }
 
     @Test
@@ -444,7 +495,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader);
+                        javadocReader, constraintReader, typeMapping);
         Type type = BasicTypes.class;
 
         // when
@@ -468,7 +519,7 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader);
+                        javadocReader, constraintReader, typeMapping);
         Type type = RequiredProperties.class;
 
         // when
@@ -502,6 +553,11 @@ public class FieldDocumentationGeneratorTest {
                 .thenReturn(value);
     }
 
+    private void mockTypeSpecifier(Class<?> javaBaseClass, String value) {
+        when(constraintReader.getTypeSpecifier(javaBaseClass))
+                .thenReturn(value);
+    }
+
     private ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
@@ -511,11 +567,16 @@ public class FieldDocumentationGeneratorTest {
 
     private ExtendedFieldDescriptor descriptor(String path, Object fieldType,
             String comment, String optional, String... constraints) {
+        return descriptor(path, fieldType, comment, singletonList(optional), constraints);
+    }
+
+    private ExtendedFieldDescriptor descriptor(String path, Object fieldType,
+            String comment, List<String> optionals, String... constraints) {
         FieldDescriptor fieldDescriptor = fieldWithPath(path)
                 .type(fieldType)
                 .description(comment);
         fieldDescriptor.attributes(
-                new Attribute(OPTIONAL_ATTRIBUTE, singletonList(optional)));
+                new Attribute(OPTIONAL_ATTRIBUTE, optionals));
         if (constraints != null) {
             fieldDescriptor.attributes(
                     new Attribute(CONSTRAINTS_ATTRIBUTE, asList(constraints)));
@@ -576,8 +637,8 @@ public class FieldDocumentationGeneratorTest {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL) // does not affect field resolution
-    @JsonIgnoreProperties({"value"})
-    @JsonPropertyOrder({"uri", "path"})
+    @JsonIgnoreProperties({ "value" })
+    @JsonPropertyOrder({ "uri", "path" })
     private static class JsonAnnotations {
         @JsonProperty("path")
         private String location;
@@ -716,6 +777,21 @@ public class FieldDocumentationGeneratorTest {
 
     private static class JsonType2SubType2 extends JsonType2 {
         private String base2Sub2;
+    }
+
+    private static abstract class Plain {
+        private String field;
+        private String overriddenField;
+    }
+
+    private static class PlainX extends Plain {
+        private String overriddenField;
+        private String x;
+    }
+
+    private static class PlainY extends Plain {
+        private String overriddenField;
+        private String y;
     }
 
     private static class RequiredProperties {

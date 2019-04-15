@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import capital.scalable.restdocs.jackson.TypeMapping;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -148,16 +149,17 @@ public class TypeUtil {
         return field != null ? field.getAnnotation(annotationClass) : null;
     }
 
-    public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory) {
+    public static List<JavaType> resolveAllTypes(JavaType javaType, TypeFactory typeFactory, TypeMapping typeMapping) {
         if (javaType.isCollectionLikeType() || javaType.isArrayType()) {
-            return resolveArrayTypes(javaType.getContentType(), typeFactory);
+            return resolveArrayTypes(javaType.getContentType(), typeFactory, typeMapping);
         } else {
-            return resolveNonArrayTypes(javaType, typeFactory);
+            return resolveNonArrayTypes(javaType, typeFactory, typeMapping);
         }
     }
 
-    private static List<JavaType> resolveArrayTypes(JavaType contentType, TypeFactory typeFactory) {
-        List<JavaType> contentTypes = resolveAllTypes(contentType, typeFactory);
+    private static List<JavaType> resolveArrayTypes(JavaType contentType, TypeFactory typeFactory,
+            TypeMapping typeMapping) {
+        List<JavaType> contentTypes = resolveAllTypes(contentType, typeFactory, typeMapping);
         List<JavaType> result = new ArrayList<>();
         for (JavaType contentSubType : contentTypes) {
             JavaType contentSubTypeArray = typeFactory.constructArrayType(contentSubType);
@@ -166,17 +168,26 @@ public class TypeUtil {
         return result;
     }
 
-    private static List<JavaType> resolveNonArrayTypes(JavaType javaType, TypeFactory typeFactory) {
+    private static List<JavaType> resolveNonArrayTypes(JavaType javaType, TypeFactory typeFactory,
+            TypeMapping typeMapping) {
         List<JavaType> types = new ArrayList<>();
         types.add(javaType);
 
         Class<?> rawClass = javaType.getRawClass();
+
+        // Jackson annotation mapped subtypes
         JsonSubTypes jsonSubTypes = rawClass.getAnnotation(JsonSubTypes.class);
         if (jsonSubTypes != null) {
             for (JsonSubTypes.Type subType : jsonSubTypes.value()) {
                 JavaType javaSubType = typeFactory.constructType(subType.value());
                 types.add(javaSubType);
             }
+        }
+
+        // custom mapped subtypes
+        for (Class<?> mapped : typeMapping.getSubtypes(javaType.getRawClass())) {
+            JavaType javaSubType = typeFactory.constructType(mapped);
+            types.add(javaSubType);
         }
 
         return types;

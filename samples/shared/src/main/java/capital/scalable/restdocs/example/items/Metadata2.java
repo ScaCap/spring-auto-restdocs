@@ -24,7 +24,7 @@ import capital.scalable.restdocs.jackson.RestdocsNotExpanded;
 
 public class Metadata2 extends Metadata {
     /**
-     * Order attribute. Available only if metadata type=2
+     * Order attribute.
      */
     private Integer order;
 

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package capital.scalable.restdocs.webflux;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
+import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,6 +77,18 @@ public class WebTestClientInitializer implements HandlerAdapter, Ordered {
      * method)
      */
     public static Snippet prepareSnippets(ApplicationContext context) {
+        return prepareSnippets(context, new TypeMapping());
+    }
+
+    /**
+     * Prepare Snippets for use with the WebTestClient.
+     *
+     * @param context     The Spring {@link ApplicationContext}.
+     * @param typeMapping custom type mappings
+     * @return The Snippet. (Just a dummy, but the WebTestClient gets initialized by this
+     * method)
+     */
+    public static Snippet prepareSnippets(ApplicationContext context, TypeMapping typeMapping) {
 
         // Register an instance of this class as spring bean:
         if (context.getBeansOfType(WebTestClientInitializer.class).isEmpty()) {
@@ -106,16 +119,20 @@ public class WebTestClientInitializer implements HandlerAdapter, Ordered {
             operation.getAttributes().put(ConstraintReader.class.getName(),
                     ConstraintReaderImpl.create(objectMapper));
 
+            // create TypeMapping and put it in operation attributes:
+            operation.getAttributes().put(TypeMapping.class.getName(),
+                    typeMapping);
+
             // copy attribute to be compatible wit MockMvc:
             String requestPattern = (String) operation.getAttributes()
                     .get("org.springframework.restdocs.urlTemplate");
             if (StringUtils.isNotEmpty(requestPattern)) {
                 operation.getAttributes().put("REQUEST_PATTERN", requestPattern);
-            }
-            else if (operation.getRequest() != null) {
+            } else if (operation.getRequest() != null) {
                 String path = operation.getRequest().getUri().getPath();
                 String query = operation.getRequest().getUri().getQuery();
-                operation.getAttributes().put("REQUEST_PATTERN", path + (StringUtils.isNotEmpty(query) ? "?" + query : ""));
+                operation.getAttributes().put("REQUEST_PATTERN",
+                        path + (StringUtils.isNotEmpty(query) ? "?" + query : ""));
             }
         };
     }

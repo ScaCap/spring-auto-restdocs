@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Shared POJOs Example Project
+ * Spring Auto REST Docs Core
  * %%
  * Copyright (C) 2015 - 2019 Scalable Capital GmbH
  * %%
@@ -17,20 +17,24 @@
  * limitations under the License.
  * #L%
  */
+package capital.scalable.restdocs.jackson;
 
-package capital.scalable.restdocs.example.items;
+import java.util.List;
 
-public class Metadata1 extends Metadata {
-    /**
-     * Tag attribute.
-     */
-    private String tag;
+public class DeprecatedAttribute {
+    private boolean isDeprecated;
+    private List<String> values;
 
-    Metadata1() {
+    public DeprecatedAttribute(boolean isDeprecated, List<String> values) {
+        this.isDeprecated = isDeprecated;
+        this.values = values;
     }
 
-    public Metadata1(String type, String tag) {
-        super(type);
-        this.tag = tag;
+    public boolean isDeprecated() {
+        return isDeprecated;
+    }
+
+    public List<String> getValues() {
+        return values;
     }
 }
