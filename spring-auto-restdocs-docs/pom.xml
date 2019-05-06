@@ -6,7 +6,7 @@
     <parent>
         <groupId>capital.scalable</groupId>
         <artifactId>spring-auto-restdocs-parent</artifactId>
-        <version>1.0.15</version>
+        <version>1.0.16-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
