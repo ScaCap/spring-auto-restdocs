@@ -1134,7 +1134,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 8bb9f95f-d6f3-488a-b74b-8f704ed9de09' \
+    -H 'Authorization: Bearer 00e192b2-09d0-4951-8434-31f8655514d2' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1371,7 +1371,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 8bb9f95f-d6f3-488a-b74b-8f704ed9de09' \
+    -H 'Authorization: Bearer 00e192b2-09d0-4951-8434-31f8655514d2' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1477,7 +1477,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 8bb9f95f-d6f3-488a-b74b-8f704ed9de09'</code></pre>
+    -H 'Authorization: Bearer 00e192b2-09d0-4951-8434-31f8655514d2'</code></pre>
 </div>
 </div>
 </div>
@@ -1968,13 +1968,13 @@ Content-Length: 830
   },
   "total" : 1,
   "totalElements" : 1,
-  "totalPages" : 1,
   "last" : true,
+  "totalPages" : 1,
   "size" : 20,
   "number" : 0,
   "sort" : null,
-  "first" : true,
-  "numberOfElements" : 1
+  "numberOfElements" : 1,
+  "first" : true
 }</code></pre>
 </div>
 </div>
@@ -2549,7 +2549,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-05 18:04:10 CET
+Last updated 2019-05-06 10:28:32 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
