@@ -26,7 +26,7 @@ after_success:
 - cd $TRAVIS_BUILD_DIR
 - test "$TRAVIS_BRANCH" = "1.0.x"
   && test "$TRAVIS_JDK_VERSION" = "oraclejdk7"
-  && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
+  && mvn -Dhttps.protocols=TLSv1.2 deploy --settings travis-settings.xml -DskipTests=true -B -V
 branches:
   only:
   - master
