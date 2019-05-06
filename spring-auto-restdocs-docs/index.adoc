@@ -50,7 +50,7 @@ Is Kotlin supported?::
   but works with both version of Spring Auto REST Docs. Take a look at the
   https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc[example].
 Is Java 9/10/11 supported?::
-  Yes, see <<getting-started,Getting Started>>.
+  Yes, see <<gettingstarted,Getting Started>>.
 Does it work with REST Assured tests?::
   Not yet. We may add support for REST Assured in the future, but your PR is also welcome.
 Is Jackson required for automatic field documentation?::
