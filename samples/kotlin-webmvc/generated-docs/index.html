@@ -728,20 +728,20 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -925,20 +925,20 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].meta.sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[].attributes</p></td>
@@ -1146,7 +1146,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
-    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e' \
+    -H 'Authorization: Bearer 73c2231c-2c16-4523-8160-ef14f96cc797' \
     -H 'Content-Type: application/json' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
@@ -1300,20 +1300,20 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1389,7 +1389,7 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
-    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e' \
+    -H 'Authorization: Bearer 73c2231c-2c16-4523-8160-ef14f96cc797' \
     -H 'Content-Type: application/json' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
@@ -1492,7 +1492,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 8a772ec6-56cd-4ca0-9331-bbf2672e769e'</code></pre>
+    -H 'Authorization: Bearer 73c2231c-2c16-4523-8160-ef14f96cc797'</code></pre>
 </div>
 </div>
 </div>
@@ -1618,20 +1618,20 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1849,20 +1849,20 @@ See &lt;a href="https://github.com/FasterXML/jackson-annotations/wiki/Jackson-An
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">meta.sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">attributes</p></td>
@@ -1990,26 +1990,26 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
       "unsorted" : true,
       "empty" : true
     },
+    "offset" : 0,
     "pageSize" : 20,
     "pageNumber" : 0,
-    "offset" : 0,
     "unpaged" : false,
     "paged" : true
   },
   "total" : 1,
+  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
-  "last" : true,
+  "size" : 20,
+  "number" : 0,
   "first" : true,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true,
     "empty" : true
   },
-  "numberOfElements" : 1,
-  "size" : 20,
-  "number" : 0,
   "empty" : false
 }</code></pre>
 </div>
@@ -2334,20 +2334,20 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tag</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. Available only if metadata type=1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tag attribute. (Available if metadata type=1).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">order</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. Available only if metadata type=2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order attribute. (Available if metadata type=2).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true (Available if metadata type=2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sub metadata (recursive). Not expanded as client should not see it. (Available if metadata type=2).</p></td>
 </tr>
 </tbody>
 </table>
@@ -2586,7 +2586,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-10-28 08:58:47 CET
+Last updated 2018-04-10 10:14:19 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
