@@ -17,5 +17,5 @@ target/
 *~
 
 # Gradle
-.gradle/
-build/
+*/build
+spring-auto-restdocs-example/.gradle

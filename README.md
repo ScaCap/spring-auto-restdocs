@@ -22,7 +22,21 @@ from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also avail
 
 ## Documentation
 
-[Current 1.0.15 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.15/docs/index.html) reference guide.
+[Current 1.0.14 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.14/docs/index.html) reference guide.
+
+Latest master [1.0.15](https://scacap.github.io/spring-auto-restdocs) reference guide.
+
+Older releases: 
+[1.0.13](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.13/docs/index.html),
+[1.0.12](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.12/docs/index.html),
+[1.0.11](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.11/docs/index.html),
+[1.0.10](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.10/docs/index.html),
+[1.0.9](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.9/docs/index.html),
+[1.0.8](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.8/docs/index.html),
+[1.0.7](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.7/docs/index.html),
+[1.0.6](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.6/docs/index.html),
+[1.0.5](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.5/docs/index.html),
+[1.0.4](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.4/docs/index.html).
 
 ## Main features
 
