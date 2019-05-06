@@ -22,15 +22,15 @@ from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also avail
 
 ## Documentation
 
-[Current 2.0.4 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.4/docs/index.html) reference guide (based on Spring REST Docs 2.x).
+[Current 2.0.5 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.5/docs/index.html) reference guide (based on Spring REST Docs 2.x).
 
-[Current 1.0.14 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.14/docs/index.html) reference guide (based on Spring REST Docs 1.x).
+[Current 1.0.15 release](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.15/docs/index.html) reference guide (based on Spring REST Docs 1.x).
 
-Latest master [2.0.5](https://scacap.github.io/spring-auto-restdocs) reference guide.
+Latest master [2.0.6-SNAPSHOT](https://scacap.github.io/spring-auto-restdocs) reference guide.
 
 Older releases:
-[2.0.3](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.3/docs/index.html),
-[1.0.13](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.13/docs/index.html)
+[2.0.4](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.4/docs/index.html),
+[1.0.14](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.14/docs/index.html)
 
 ## Main features
 
