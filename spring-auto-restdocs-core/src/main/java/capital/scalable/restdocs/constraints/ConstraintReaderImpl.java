@@ -21,7 +21,7 @@ package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver.CONSTRAINT_CLASS;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
+import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;

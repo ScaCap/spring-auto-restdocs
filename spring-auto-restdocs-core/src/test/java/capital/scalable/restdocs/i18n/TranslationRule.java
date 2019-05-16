@@ -25,10 +25,10 @@ public class TranslationRule extends ExternalResource {
 
     @Override
     protected void after() {
-        SnippetTranslationResolver.setUserMessages(null);
+        ResourceBundleSnippetTranslationResolver.setUserMessages(null);
     }
 
     public void setTestTranslations() {
-        SnippetTranslationResolver.setUserMessages("TestSnippetMessages");
+        ResourceBundleSnippetTranslationResolver.setUserMessages("TestSnippetMessages");
     }
 }

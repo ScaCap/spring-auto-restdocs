@@ -19,7 +19,7 @@
  */
 package capital.scalable.restdocs.constraints;
 
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
+import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;

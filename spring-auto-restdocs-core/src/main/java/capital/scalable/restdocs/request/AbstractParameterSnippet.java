@@ -26,7 +26,7 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
+import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
 import static java.util.Collections.emptyList;

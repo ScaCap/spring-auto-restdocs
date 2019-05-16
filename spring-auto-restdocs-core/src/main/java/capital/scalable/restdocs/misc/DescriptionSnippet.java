@@ -23,7 +23,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.determineTempla
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
+import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;

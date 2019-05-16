@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
+import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
