@@ -1,6 +1,6 @@
 language: java
 sudo: false
-dist: xenial
+dist: trusty
 jdk:
 - openjdk7
 - openjdk8
