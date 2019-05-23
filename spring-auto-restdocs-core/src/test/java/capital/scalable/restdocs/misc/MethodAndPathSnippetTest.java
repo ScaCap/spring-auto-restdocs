@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public class MethodAndPathSnippetTest extends AbstractSnippetTests {
@@ -45,7 +46,12 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
                 .method("POST")
                 .build());
 
-        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+        if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
+        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
+        }
+        else {
+        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+        }
     }
 
     @Test
@@ -56,7 +62,12 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
                 .method("POST")
                 .build());
 
-        assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+        if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
+        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
+        }
+        else {
+        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+        }
     }
 
     private static class TestResource {
