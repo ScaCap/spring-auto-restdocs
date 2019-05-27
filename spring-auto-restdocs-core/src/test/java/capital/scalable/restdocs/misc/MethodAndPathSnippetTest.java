@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.Test;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
+import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
 
 public class MethodAndPathSnippetTest extends AbstractSnippetTests {
@@ -38,7 +39,12 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "testMethod");
 
-        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+		if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
+			this.snippets.expect(METHOD_PATH).withContents(equalTo("`+POST /test+`"));
+		}
+		else {
+			this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+		}
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
@@ -50,7 +56,12 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+		if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
+			this.snippets.expect(METHOD_PATH).withContents(equalTo("`+POST /test+`"));
+		}
+		else {
+			this.snippets.expect(METHOD_PATH).withContents(equalTo("`POST /test`"));
+		}
 
         new MethodAndPathSnippet().document(operationBuilder
                 .attribute(REQUEST_PATTERN, "/test")
