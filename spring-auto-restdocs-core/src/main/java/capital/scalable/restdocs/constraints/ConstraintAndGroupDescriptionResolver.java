@@ -19,7 +19,6 @@
  */
 package capital.scalable.restdocs.constraints;
 
-import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -31,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.MissingResourceException;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
@@ -42,9 +42,11 @@ public class ConstraintAndGroupDescriptionResolver implements
     static final String VALUE = "value";
 
     private final ConstraintDescriptionResolver delegate;
+    private final SnippetTranslationResolver translationResolver;
 
-    public ConstraintAndGroupDescriptionResolver(ConstraintDescriptionResolver delegate) {
+    public ConstraintAndGroupDescriptionResolver(ConstraintDescriptionResolver delegate, SnippetTranslationResolver translationResolver) {
         this.delegate = delegate;
+        this.translationResolver = translationResolver;
     }
 
     @Override
@@ -92,7 +94,7 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     private String fallbackGroupDescription(Class group, String constraintDescription) {
-        return translate("constraints-groups", constraintDescription, group.getSimpleName());
+        return translationResolver.translate("constraints-groups", constraintDescription, group.getSimpleName());
     }
 
     private String resolvePlainDescription(Constraint constraint) {

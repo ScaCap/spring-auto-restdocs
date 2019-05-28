@@ -27,6 +27,8 @@ import static capital.scalable.restdocs.OperationAttributeHelper.setObjectMapper
 import static capital.scalable.restdocs.OperationAttributeHelper.setTypeMapping;
 
 import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
+import capital.scalable.restdocs.i18n.SnippetTranslationManager;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,21 +38,31 @@ import org.springframework.web.method.HandlerMethod;
 public abstract class JacksonResultHandlers {
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper) {
-        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping());
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), SnippetTranslationManager.getDefaultResolver());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), translationResolver);
     }
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping) {
-        return new JacksonPreparingResultHandler(objectMapper, typeMapping);
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, SnippetTranslationManager.getDefaultResolver());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, translationResolver);
     }
 
     private static class JacksonPreparingResultHandler implements ResultHandler {
 
         private final ObjectMapper objectMapper;
         private final TypeMapping typeMapping;
+        private final SnippetTranslationResolver translationResolver;
 
-        public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping) {
+        public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver) {
             this.objectMapper = objectMapper;
             this.typeMapping = typeMapping;
+            this.translationResolver = translationResolver;
         }
 
         @Override
@@ -63,7 +75,7 @@ public abstract class JacksonResultHandlers {
             setObjectMapper(result.getRequest(), objectMapper);
             initRequestPattern(result.getRequest());
             setJavadocReader(result.getRequest(), JavadocReaderImpl.createWithSystemProperty());
-            setConstraintReader(result.getRequest(), ConstraintReaderImpl.create(objectMapper));
+            setConstraintReader(result.getRequest(), ConstraintReaderImpl.create(objectMapper, translationResolver));
             setTypeMapping(result.getRequest(), typeMapping);
         }
     }

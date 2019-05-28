@@ -21,7 +21,6 @@ package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver.CONSTRAINT_CLASS;
-import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -57,25 +57,28 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     private final ObjectMapper objectMapper;
 
-    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper) {
+    private final SnippetTranslationResolver translationResolver;
+
+    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        this.translationResolver = translationResolver;
         constraintDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
-                new ResourceBundleConstraintDescriptionResolver());
+                new ResourceBundleConstraintDescriptionResolver(), translationResolver);
         skippableConstraintResolver = new SkippableConstraintResolver(
                 actualResolver, constraintDescriptionResolver);
         constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
         this.objectMapper = objectMapper;
     }
 
-    public static ConstraintReaderImpl create(ObjectMapper objectMapper) {
-        return CONSTRAINT_CLASS != null ? createWithValidation(objectMapper) : createWithoutValidation(objectMapper);
+    public static ConstraintReaderImpl create(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        return CONSTRAINT_CLASS != null ? createWithValidation(objectMapper, translationResolver) : createWithoutValidation(objectMapper, translationResolver);
     }
 
-    static ConstraintReaderImpl createWithoutValidation(ObjectMapper objectMapper) {
-        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver(), objectMapper);
+    static ConstraintReaderImpl createWithoutValidation(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver(), objectMapper, translationResolver);
     }
 
-    static ConstraintReaderImpl createWithValidation(ObjectMapper objectMapper) {
-        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver(), objectMapper);
+    static ConstraintReaderImpl createWithValidation(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver(), objectMapper, translationResolver);
     }
 
     @Override
@@ -159,7 +162,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         // fallback
         if (isBlank(message) || message.equals(enumName)) {
-            message = translate("constraints-enum", value);
+            message = translationResolver.translate("constraints-enum", value);
         }
         return singletonList(message);
     }

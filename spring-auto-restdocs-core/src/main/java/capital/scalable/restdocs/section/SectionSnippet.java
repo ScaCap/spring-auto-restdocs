@@ -19,11 +19,7 @@
  */
 package capital.scalable.restdocs.section;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.getDefaultSnippets;
-import static capital.scalable.restdocs.OperationAttributeHelper.getDocumentationContext;
-import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
-import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
+import static capital.scalable.restdocs.OperationAttributeHelper.*;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -39,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.SnippetRegistry;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.slf4j.Logger;
 import org.springframework.restdocs.operation.Operation;
@@ -77,24 +74,25 @@ public class SectionSnippet extends TemplatedSnippet {
         }
 
         JavadocReader javadocReader = getJavadocReader(operation);
-        String title = resolveTitle(handlerMethod, javadocReader);
+        SnippetTranslationResolver translationResolver = getTranslationResolver(operation);
+        String title = resolveTitle(handlerMethod, javadocReader, translationResolver);
 
         model.put("title", title);
-        model.put("sections", createSections(operation));
+        model.put("sections", createSections(operation, translationResolver));
 
-        createSections(operation);
+        createSections(operation, translationResolver);
 
         return model;
     }
 
-    private List<Section> createSections(Operation operation) {
+    private List<Section> createSections(Operation operation, SnippetTranslationResolver translationResolver) {
         List<Section> sections = new ArrayList<>();
         for (String sectionName : sectionNames) {
             SectionSupport section = getSectionSnippet(operation, sectionName);
             if (section != null) {
                 if (!skipEmpty || section.hasContent(operation)) {
                     sections.add(
-                            new Section(section.getFileName(), translate(section.getHeaderKey())));
+                            new Section(section.getFileName(), translationResolver.translate(section.getHeaderKey())));
                 }
             } else {
                 log.warn("Section snippet '" + sectionName + "' is configured to be " +
@@ -117,7 +115,7 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
         String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "title");
         if (isBlank(title)) {
@@ -127,7 +125,7 @@ public class SectionSnippet extends TemplatedSnippet {
         String deprecated = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
         if (isDeprecated || isNotBlank(deprecated)) {
-            return translate("tags-deprecated-title", title);
+            return translationResolver.translate("tags-deprecated-title", title);
         } else {
             return title;
         }

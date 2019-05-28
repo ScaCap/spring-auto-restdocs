@@ -19,11 +19,8 @@
  */
 package capital.scalable.restdocs.misc;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
-import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.*;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
-import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
 import static capital.scalable.restdocs.util.FormatUtil.join;
@@ -33,6 +30,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.snippet.TemplatedSnippet;
@@ -53,9 +51,10 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
 
         JavadocReader javadocReader = getJavadocReader(operation);
+        SnippetTranslationResolver translationResolver = getTranslationResolver(operation);
         String methodComment = resolveComment(handlerMethod, javadocReader);
-        String seeTagComment = resolveSeeTag(handlerMethod, javadocReader);
-        String deprecatedComment = resolveDeprecated(handlerMethod, javadocReader);
+        String seeTagComment = resolveSeeTag(handlerMethod, javadocReader, translationResolver);
+        String deprecatedComment = resolveDeprecated(handlerMethod, javadocReader, translationResolver);
         String completeComment = join("<p>", deprecatedComment, methodComment, seeTagComment);
         String description = convertFromJavadoc(completeComment,
                 determineTemplateFormatting(operation));
@@ -64,12 +63,12 @@ public class DescriptionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
         String deprecatedDoc = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
         if (isDeprecated || isNotBlank(deprecatedDoc)) {
-            return addDot(translate("tags-deprecated", capitalize(deprecatedDoc)));
+            return addDot(translationResolver.translate("tags-deprecated", capitalize(deprecatedDoc)));
         } else {
             return "";
         }
@@ -81,11 +80,11 @@ public class DescriptionSnippet extends TemplatedSnippet {
         return addDot(capitalize(methodComment));
     }
 
-    private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    private String resolveSeeTag(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
         String comment = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "see");
         if (isNotBlank(comment)) {
-            return addDot(translate("tags-see", comment));
+            return addDot(translationResolver.translate("tags-see", comment));
         } else {
             return "";
         }

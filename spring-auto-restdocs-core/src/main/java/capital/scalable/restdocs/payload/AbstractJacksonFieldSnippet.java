@@ -19,12 +19,7 @@
  */
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
-import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
-import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
-import static capital.scalable.restdocs.OperationAttributeHelper.getTypeMapping;
-import static capital.scalable.restdocs.i18n.SnippetTranslationManager.translate;
+import static capital.scalable.restdocs.OperationAttributeHelper.*;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
 import java.lang.reflect.ParameterizedType;
@@ -35,6 +30,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
 import capital.scalable.restdocs.jackson.TypeMapping;
@@ -71,6 +67,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
         JavadocReader javadocReader = getJavadocReader(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);
+        SnippetTranslationResolver translationResolver = getTranslationResolver(operation);
         TypeMapping typeMapping = getTypeMapping(operation);
 
         Type type = getType(handlerMethod);
@@ -80,10 +77,10 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
         try {
             FieldDescriptors fieldDescriptors = resolveFieldDescriptors(type, objectMapper,
-                    javadocReader, constraintReader, typeMapping);
+                    javadocReader, constraintReader, typeMapping, translationResolver);
 
             if (shouldFailOnUndocumentedFields()) {
-                assertAllDocumented(fieldDescriptors.values(), translate(getHeaderKey()).toLowerCase());
+                assertAllDocumented(fieldDescriptors.values(), translationResolver.translate(getHeaderKey()).toLowerCase());
             }
             return fieldDescriptors;
         } catch (JsonMappingException e) {
@@ -133,10 +130,10 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
     private FieldDescriptors resolveFieldDescriptors(Type type, ObjectMapper objectMapper,
             JavadocReader javadocReader, ConstraintReader constraintReader,
-            TypeMapping typeMapping) throws JsonMappingException {
+            TypeMapping typeMapping, SnippetTranslationResolver translationResolver) throws JsonMappingException {
         FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
                 objectMapper.writer(), objectMapper.getDeserializationConfig(), javadocReader,
-                constraintReader, typeMapping);
+                constraintReader, typeMapping, translationResolver);
         return generator.generateDocumentation(type, objectMapper.getTypeFactory());
     }
 

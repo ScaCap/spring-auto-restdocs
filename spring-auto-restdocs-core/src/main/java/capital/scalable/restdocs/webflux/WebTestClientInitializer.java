@@ -21,6 +21,8 @@ package capital.scalable.restdocs.webflux;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
+import capital.scalable.restdocs.i18n.ResourceBundleSnippetTranslationResolver;
+import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
@@ -117,7 +119,7 @@ public class WebTestClientInitializer implements HandlerAdapter, Ordered {
 
             // create ConstraintReader and put it in operation attributes:
             operation.getAttributes().put(ConstraintReader.class.getName(),
-                    ConstraintReaderImpl.create(objectMapper));
+                    ConstraintReaderImpl.create(objectMapper, SnippetTranslationManager.getDefaultResolver()));
 
             // create TypeMapping and put it in operation attributes:
             operation.getAttributes().put(TypeMapping.class.getName(),

@@ -3,13 +3,12 @@ package capital.scalable.restdocs.i18n;
 
 public class SnippetTranslationManager {
 
-    private static SnippetTranslationResolver snippetTranslationResolver = new ResourceBundleSnippetTranslationResolver();
+    private static SnippetTranslationResolver snippetTranslationResolver;
 
-    public static void withTranslationResolver(SnippetTranslationResolver translationResolver) {
-        snippetTranslationResolver = translationResolver;
-    }
-
-    public static String translate(String key, Object... args) {
-        return snippetTranslationResolver.translate(key, args);
+    public static synchronized SnippetTranslationResolver getDefaultResolver() {
+        if (snippetTranslationResolver == null) {
+            snippetTranslationResolver = new ResourceBundleSnippetTranslationResolver();
+        }
+        return snippetTranslationResolver;
     }
 }

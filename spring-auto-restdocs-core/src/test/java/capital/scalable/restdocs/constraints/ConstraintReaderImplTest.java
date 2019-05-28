@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,6 +38,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
@@ -103,7 +104,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getOptionalMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
 
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(1));
@@ -149,7 +150,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getParameterConstraintMessages() throws NoSuchMethodException {
-        ConstraintReader reader = createWithValidation(new ObjectMapper());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
@@ -170,19 +171,19 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
         assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
     }
 
     @Test
     public void getOptionalMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
         assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
     }
 
     @Test
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
@@ -190,13 +191,13 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getTypeSpecifier_resolved() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
         assertThat(reader.getTypeSpecifier(Plain.class), is("[plain type]"));
     }
 
     @Test
     public void getTypeSpecifier_default() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
         assertThat(reader.getTypeSpecifier(Constraintz.class), is(""));
     }
 
