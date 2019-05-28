@@ -30,9 +30,14 @@ import java.util.ResourceBundle;
  */
 public class ResourceBundleSnippetTranslationResolver implements SnippetTranslationResolver {
 
-    private static ResourceBundle defaultMessages = getBundle("DefaultSnippetMessages");
+    private ResourceBundle defaultMessages;
 
-    private static ResourceBundle userMessages = getBundle("SnippetMessages");
+    private ResourceBundle userMessages;
+
+    public ResourceBundleSnippetTranslationResolver() {
+        defaultMessages = getBundle("DefaultSnippetMessages");
+        userMessages = getBundle("SnippetMessages");
+    }
 
     private static ResourceBundle getBundle(String name) {
         try {
@@ -57,7 +62,7 @@ public class ResourceBundleSnippetTranslationResolver implements SnippetTranslat
     }
 
     // visible for testing
-    static void setUserMessages(String name) {
+    void setUserMessages(String name) {
         userMessages = getBundle(name);
     }
 
