@@ -48,9 +48,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
 import static org.springframework.restdocs.generate.RestDocumentationGenerator.ATTRIBUTE_NAME_DEFAULT_SNIPPETS;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -376,6 +380,73 @@ public class SectionSnippetTest {
                                 "include::curl-request.adoc[]\n\n" +
                                 "==== XExample response\n\n" +
                                 "include::http-response.adoc[]\n"));
+    }
+
+    @Test
+    public void customTranslation() throws Exception {
+        translationRule.setTestTranslations();
+
+        HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "getItemById");
+        mockMethodTitle(TestResource.class, "getItemById", "");
+
+        new SectionBuilder().build()
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(SnippetTranslationResolver.class.getName(), new CustomSnippetTranslationResolver())
+                        .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
+                                authorization("Public"), pathParameters(), requestParameters(),
+                                requestFields(), responseFields(), curlRequest(),
+                                HttpDocumentation.httpResponse()))
+                        .request("http://localhost/items/1")
+                        .build());
+
+        assertThat(this.generatedSnippets.snippet(SECTION))
+                .isEqualTo(fixLineSeparator(
+                        "[[resources-customTranslation]]\n" +
+                                "=== Get Item By Id\n\n" +
+                                "include::auto-method-path.adoc[]\n\n" +
+                                "include::auto-description.adoc[]\n\n" +
+                                "==== CustomAuthorization\n\n" +
+                                "include::auto-authorization.adoc[]\n\n" +
+                                "==== CustomPath parameters\n\n" +
+                                "include::auto-path-parameters.adoc[]\n\n" +
+                                "==== CustomQuery parameters\n\n" +
+                                "include::auto-request-parameters.adoc[]\n\n" +
+                                "==== CustomRequest fields\n\n" +
+                                "include::auto-request-fields.adoc[]\n\n" +
+                                "==== CustomResponse fields\n\n" +
+                                "include::auto-response-fields.adoc[]\n\n" +
+                                "==== CustomExample request\n\n" +
+                                "include::curl-request.adoc[]\n\n" +
+                                "==== CustomExample response\n\n" +
+                                "include::http-response.adoc[]\n"));
+    }
+
+    private static class CustomSnippetTranslationResolver implements SnippetTranslationResolver{
+
+        private Map<String, String> customTranslations;
+
+        public CustomSnippetTranslationResolver() {
+            this.customTranslations = new HashMap<>();
+            customTranslations.put("authorization", "CustomAuthorization");
+            customTranslations.put("path-parameters", "CustomPath parameters");
+            customTranslations.put("request-parameters", "CustomQuery parameters");
+            customTranslations.put("request-fields", "CustomRequest fields");
+            customTranslations.put("response-fields", "CustomResponse fields");
+            customTranslations.put("example-request", "CustomExample request");
+            customTranslations.put("example-response", "CustomExample response");
+
+        }
+
+        @Override
+        public String translate(String key, Object... args) {
+            return format(customTranslations.get(key), args);
+        }
+
+        private static String format(String message, Object[] args) {
+            return new MessageFormat(message).format(args);
+        }
     }
 
     private void mockMethodTitle(Class<?> javaBaseClass, String methodName, String title) {
