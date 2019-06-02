@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.DispatcherHandler;
@@ -119,7 +120,7 @@ public class WebTestClientInitializer implements HandlerAdapter, Ordered {
 
             // create ConstraintReader and put it in operation attributes:
             operation.getAttributes().put(ConstraintReader.class.getName(),
-                    ConstraintReaderImpl.create(objectMapper, SnippetTranslationManager.getDefaultResolver()));
+                    ConstraintReaderImpl.create(objectMapper, SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver()));
 
             // create TypeMapping and put it in operation attributes:
             operation.getAttributes().put(TypeMapping.class.getName(),

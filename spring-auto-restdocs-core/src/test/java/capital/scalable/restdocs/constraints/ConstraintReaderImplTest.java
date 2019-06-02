@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,20 +35,24 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
+import org.springframework.restdocs.constraints.Constraint;
+import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
+import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
+import org.springframework.util.PropertyPlaceholderHelper;
+import org.springframework.util.StringUtils;
 
 public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
@@ -104,7 +108,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getOptionalMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
 
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(1));
@@ -150,7 +154,7 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getParameterConstraintMessages() throws NoSuchMethodException {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
@@ -171,19 +175,19 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
     }
 
     @Test
     public void getOptionalMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
     }
 
     @Test
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
@@ -191,14 +195,69 @@ public class ConstraintReaderImplTest {
 
     @Test
     public void getTypeSpecifier_resolved() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         assertThat(reader.getTypeSpecifier(Plain.class), is("[plain type]"));
     }
 
     @Test
     public void getTypeSpecifier_default() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver());
+        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         assertThat(reader.getTypeSpecifier(Constraintz.class), is(""));
+    }
+
+    @Test
+    public void customConstraintDescriptionResolver() {
+
+        ConstraintReader reader = createWithValidation(new ObjectMapper(),
+                SnippetTranslationManager.getDefaultResolver(),
+                new CustomConstraintDescriptionResolver());
+
+        List<String> messages = reader.getConstraintMessages(Constraintz.class, "index");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Custom must be at least 1"));
+
+    }
+
+    static class CustomConstraintDescriptionResolver implements ConstraintDescriptionResolver {
+        private ResourceBundleConstraintDescriptionResolver delegate;
+        private Map<String, String> customDescription;
+        private PropertyPlaceholderHelper propertyPlaceholderHelper;
+
+        public CustomConstraintDescriptionResolver() {
+            delegate = new ResourceBundleConstraintDescriptionResolver();
+            customDescription = new HashMap<>();
+            propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
+
+            customDescription.put("javax.validation.constraints.Min.description", "Custom must be at least ${value}");
+        }
+
+        @Override
+        public String resolveDescription(Constraint constraint) {
+            String key = constraint.getName() + ".description";
+            if (customDescription.containsKey(key)) {
+                return propertyPlaceholderHelper.replacePlaceholders(customDescription.get(key), new CustomConstraintDescriptionResolver.ConstraintPlaceholderResolver(constraint));
+            }
+            return delegate.resolveDescription(constraint);
+        }
+
+        private static final class ConstraintPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
+            private final Constraint constraint;
+
+            private ConstraintPlaceholderResolver(Constraint constraint) {
+                this.constraint = constraint;
+            }
+
+            public String resolvePlaceholder(String placeholderName) {
+                Object replacement = this.constraint.getConfiguration().get(placeholderName);
+                if (replacement == null) {
+                    return null;
+                }
+                if (replacement.getClass().isArray()) {
+                    return StringUtils.arrayToDelimitedString((Object[]) replacement, ", ");
+                }
+                return replacement.toString();
+            }
+        }
     }
 
     static class Constraintz {
