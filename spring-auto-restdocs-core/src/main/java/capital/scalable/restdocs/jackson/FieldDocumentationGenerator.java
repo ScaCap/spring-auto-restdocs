@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
@@ -44,17 +45,19 @@ public class FieldDocumentationGenerator {
     private final JavadocReader javadocReader;
     private final ConstraintReader constraintReader;
     private final TypeMapping typeMapping;
+    private final SnippetTranslationResolver translationResolver;
 
     public FieldDocumentationGenerator(ObjectWriter writer,
-            DeserializationConfig deserializationConfig,
-            JavadocReader javadocReader,
-            ConstraintReader constraintReader,
-            TypeMapping typeMapping) {
+                                       DeserializationConfig deserializationConfig,
+                                       JavadocReader javadocReader,
+                                       ConstraintReader constraintReader,
+                                       TypeMapping typeMapping, SnippetTranslationResolver translationResolver) {
         this.writer = writer;
         this.deserializationConfig = deserializationConfig;
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
         this.typeMapping = typeMapping;
+        this.translationResolver = translationResolver;
     }
 
     public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
@@ -65,7 +68,7 @@ public class FieldDocumentationGenerator {
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
                 javadocReader, constraintReader, deserializationConfig,
-                new TypeRegistry(typeMapping, types), typeFactory);
+                new TypeRegistry(typeMapping, types), typeFactory, translationResolver);
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());

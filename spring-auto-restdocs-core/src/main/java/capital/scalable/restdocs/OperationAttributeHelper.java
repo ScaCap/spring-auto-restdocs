@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationManager;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
@@ -93,6 +95,19 @@ public class OperationAttributeHelper {
             JavadocReader javadocReader) {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(JavadocReader.class.getName(), javadocReader);
+    }
+
+    public static void setTranslationResolver(MockHttpServletRequest request, SnippetTranslationResolver translationResolver){
+        ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
+                .put(SnippetTranslationResolver.class.getName(), translationResolver);
+    }
+
+    public static SnippetTranslationResolver getTranslationResolver(Operation operation){
+        Object resolver = operation.getAttributes().get(SnippetTranslationResolver.class.getName());
+        if(resolver == null) {
+            return SnippetTranslationManager.getDefaultResolver();
+        }
+        return (SnippetTranslationResolver) resolver;
     }
 
     public static RestDocumentationContext getDocumentationContext(Operation operation) {

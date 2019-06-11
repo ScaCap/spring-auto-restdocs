@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
@@ -72,10 +73,10 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     }
 
     public static FieldDocumentationVisitorWrapper create(JavadocReader javadocReader,
-            ConstraintReader constraintReader, DeserializationConfig deserializationConfig,
-            TypeRegistry typeRegistry, TypeFactory typeFactory) {
+                                                          ConstraintReader constraintReader, DeserializationConfig deserializationConfig,
+                                                          TypeRegistry typeRegistry, TypeFactory typeFactory, SnippetTranslationResolver translationResolver) {
         FieldDocumentationVisitorContext context = new FieldDocumentationVisitorContext(
-                javadocReader, constraintReader, deserializationConfig);
+                javadocReader, constraintReader, deserializationConfig, translationResolver);
         return new FieldDocumentationVisitorWrapper(context, "", null, typeRegistry, typeFactory);
     }
 

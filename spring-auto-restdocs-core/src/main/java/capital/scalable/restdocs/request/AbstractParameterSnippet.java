@@ -19,14 +19,11 @@
  */
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
-import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
-import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.*;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 import static capital.scalable.restdocs.util.TypeUtil.determineTypeName;
 import static java.util.Collections.emptyList;
@@ -38,6 +35,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.DeprecatedAttribute;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -60,6 +58,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected FieldDescriptors createFieldDescriptors(Operation operation,
             HandlerMethod handlerMethod) {
         JavadocReader javadocReader = getJavadocReader(operation);
+        SnippetTranslationResolver translationResolver = getTranslationResolver(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);
 
         FieldDescriptors fieldDescriptors = new FieldDescriptors();
@@ -72,7 +71,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         }
 
         if (shouldFailOnUndocumentedParams()) {
-            assertAllDocumented(fieldDescriptors.values(), translate(getHeaderKey()).toLowerCase());
+            assertAllDocumented(fieldDescriptors.values(), translationResolver.translate(getHeaderKey()).toLowerCase());
         }
 
         return fieldDescriptors;

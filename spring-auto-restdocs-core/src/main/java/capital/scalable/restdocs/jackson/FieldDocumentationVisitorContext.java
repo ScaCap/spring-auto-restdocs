@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,6 @@ import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.OPTIONAL_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.TYPE_ATTRIBUTE;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FieldUtil.fromGetter;
 import static capital.scalable.restdocs.util.FieldUtil.isGetter;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
@@ -42,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -56,13 +56,16 @@ class FieldDocumentationVisitorContext {
     private final JavadocReader javadocReader;
     private final ConstraintReader constraintReader;
     private final DeserializationConfig deserializationConfig;
+    private final SnippetTranslationResolver translationResolver;
 
     public FieldDocumentationVisitorContext(JavadocReader javadocReader,
             ConstraintReader constraintReader,
-            DeserializationConfig deserializationConfig) {
+            DeserializationConfig deserializationConfig,
+                                            SnippetTranslationResolver translationResolver) {
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
         this.deserializationConfig = deserializationConfig;
+        this.translationResolver =translationResolver;
     }
 
     public List<FieldDescriptor> getFields() {
@@ -250,7 +253,7 @@ class FieldDocumentationVisitorContext {
     private String resolveSeeTag(Class<?> javaBaseClass, String javaFieldName) {
         String comment = resolveTag(javaBaseClass, javaFieldName, "see");
         if (isNotBlank(comment)) {
-            return addDot(translate("tags-see", comment));
+            return addDot(translationResolver.translate("tags-see", comment));
         } else {
             return "";
         }

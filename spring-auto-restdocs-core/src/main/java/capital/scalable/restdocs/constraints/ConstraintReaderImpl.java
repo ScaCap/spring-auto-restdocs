@@ -21,7 +21,6 @@ package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver.CONSTRAINT_CLASS;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
@@ -36,20 +35,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
+import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
-import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 
 public class ConstraintReaderImpl implements ConstraintReader {
 
     private static final Logger log = getLogger(ConstraintReaderImpl.class);
 
-    private final ConstraintAndGroupDescriptionResolver constraintDescriptionResolver;
+    private final ConstraintAndGroupDescriptionResolver constraintAndGroupDescriptionResolver;
 
     private final SkippableConstraintResolver skippableConstraintResolver;
 
@@ -57,25 +57,29 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     private final ObjectMapper objectMapper;
 
-    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper) {
-        constraintDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
-                new ResourceBundleConstraintDescriptionResolver());
+    private final SnippetTranslationResolver translationResolver;
+
+    private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper, SnippetTranslationResolver translationResolver,
+                                 ConstraintDescriptionResolver constraintDescriptionResolver) {
+        this.translationResolver = translationResolver;
+        constraintAndGroupDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
+                constraintDescriptionResolver, translationResolver);
         skippableConstraintResolver = new SkippableConstraintResolver(
-                actualResolver, constraintDescriptionResolver);
+                actualResolver, constraintAndGroupDescriptionResolver);
         constraintResolver = new HumanReadableConstraintResolver(skippableConstraintResolver);
         this.objectMapper = objectMapper;
     }
 
-    public static ConstraintReaderImpl create(ObjectMapper objectMapper) {
-        return CONSTRAINT_CLASS != null ? createWithValidation(objectMapper) : createWithoutValidation(objectMapper);
+    public static ConstraintReaderImpl create(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return CONSTRAINT_CLASS != null ? createWithValidation(objectMapper, translationResolver, constraintDescriptionResolver) : createWithoutValidation(objectMapper, translationResolver, constraintDescriptionResolver);
     }
 
-    static ConstraintReaderImpl createWithoutValidation(ObjectMapper objectMapper) {
-        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver(), objectMapper);
+    static ConstraintReaderImpl createWithoutValidation(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new ConstraintReaderImpl(new NoOpMethodParameterConstraintResolver(), objectMapper, translationResolver, constraintDescriptionResolver);
     }
 
-    static ConstraintReaderImpl createWithValidation(ObjectMapper objectMapper) {
-        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver(), objectMapper);
+    static ConstraintReaderImpl createWithValidation(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new ConstraintReaderImpl(new MethodParameterValidatorConstraintResolver(), objectMapper, translationResolver, constraintDescriptionResolver);
     }
 
     @Override
@@ -85,7 +89,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
     @Override
     public String getTypeSpecifier(Class<?> javaBaseClass) {
-        String message = constraintDescriptionResolver.resolveDescription(
+        String message = constraintAndGroupDescriptionResolver.resolveDescription(
                 new Constraint(javaBaseClass.getCanonicalName(), emptyMap()));
 
         // fallback
@@ -99,7 +103,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
     @Override
     public List<String> getConstraintMessages(Class<?> javaBaseClass, String javaFieldName) {
         ConstraintDescriptions constraints = new ConstraintDescriptions(javaBaseClass,
-                constraintResolver, constraintDescriptionResolver);
+                constraintResolver, constraintAndGroupDescriptionResolver);
         List<String> constraintMessages = new ArrayList<>();
         constraintMessages.addAll(constraints.descriptionsForProperty(javaFieldName));
         constraintMessages.addAll(getEnumConstraintMessage(javaBaseClass, javaFieldName));
@@ -112,7 +116,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
         List<String> constraintMessages = new ArrayList<>();
         for (Constraint constraint : constraints) {
             constraintMessages.add(
-                    constraintDescriptionResolver.resolveDescription(constraint));
+                    constraintAndGroupDescriptionResolver.resolveDescription(constraint));
         }
         constraintMessages.addAll(getEnumConstraintMessage(param));
         Collections.sort(constraintMessages);
@@ -154,12 +158,12 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         String value = collectionToString(serializedEnumValues);
         String enumName = enumClass.getCanonicalName();
-        String message = constraintDescriptionResolver.resolveDescription(
+        String message = constraintAndGroupDescriptionResolver.resolveDescription(
                 new Constraint(enumName, singletonMap(VALUE, (Object) value)));
 
         // fallback
         if (isBlank(message) || message.equals(enumName)) {
-            message = translate("constraints-enum", value);
+            message = translationResolver.translate("constraints-enum", value);
         }
         return singletonList(message);
     }

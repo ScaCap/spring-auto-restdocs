@@ -23,6 +23,7 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_PARAMETERS;
 
 import java.util.Map;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,7 +81,7 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
 
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
-            FieldDescriptors fieldDescriptors) {
+            FieldDescriptors fieldDescriptors, SnippetTranslationResolver translationResolver) {
         boolean isPageRequest = isPageRequest(handlerMethod);
         model.put("isPageRequest", isPageRequest);
         if (isPageRequest) {

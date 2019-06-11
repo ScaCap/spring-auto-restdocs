@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
-import static capital.scalable.restdocs.i18n.SnippetTranslationResolver.translate;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -28,6 +27,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.method.HandlerMethod;
@@ -93,10 +93,10 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
-            FieldDescriptors fieldDescriptors) {
+                               FieldDescriptors fieldDescriptors, SnippetTranslationResolver translationResolver) {
         model.put("isPageResponse", isPageResponse(handlerMethod));
         if (fieldDescriptors.getNoContentMessageKey() != null) {
-            model.put("no-response-body", translate(fieldDescriptors.getNoContentMessageKey()));
+            model.put("no-response-body", translationResolver.translate(fieldDescriptors.getNoContentMessageKey()));
         }
     }
 

@@ -27,8 +27,12 @@ import static capital.scalable.restdocs.OperationAttributeHelper.setObjectMapper
 import static capital.scalable.restdocs.OperationAttributeHelper.setTypeMapping;
 
 import capital.scalable.restdocs.constraints.ConstraintReaderImpl;
+import capital.scalable.restdocs.i18n.SnippetTranslationManager;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
+import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.web.method.HandlerMethod;
@@ -36,21 +40,49 @@ import org.springframework.web.method.HandlerMethod;
 public abstract class JacksonResultHandlers {
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper) {
-        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping());
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), translationResolver, new ResourceBundleConstraintDescriptionResolver());
     }
 
     public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping) {
-        return new JacksonPreparingResultHandler(objectMapper, typeMapping);
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), SnippetTranslationManager.getDefaultResolver(), constraintDescriptionResolver);
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, translationResolver, new ResourceBundleConstraintDescriptionResolver());
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper,  SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), translationResolver, constraintDescriptionResolver);
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, SnippetTranslationManager.getDefaultResolver(), constraintDescriptionResolver);
+    }
+
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+        return new JacksonPreparingResultHandler(objectMapper, typeMapping, translationResolver, constraintDescriptionResolver);
     }
 
     private static class JacksonPreparingResultHandler implements ResultHandler {
 
         private final ObjectMapper objectMapper;
         private final TypeMapping typeMapping;
+        private final SnippetTranslationResolver translationResolver;
+        private final ConstraintDescriptionResolver constraintDescriptionResolver;
 
-        public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping) {
+        public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
             this.objectMapper = objectMapper;
             this.typeMapping = typeMapping;
+            this.translationResolver = translationResolver;
+            this.constraintDescriptionResolver = constraintDescriptionResolver;
         }
 
         @Override
@@ -63,7 +95,7 @@ public abstract class JacksonResultHandlers {
             setObjectMapper(result.getRequest(), objectMapper);
             initRequestPattern(result.getRequest());
             setJavadocReader(result.getRequest(), JavadocReaderImpl.createWithSystemProperty());
-            setConstraintReader(result.getRequest(), ConstraintReaderImpl.create(objectMapper));
+            setConstraintReader(result.getRequest(), ConstraintReaderImpl.create(objectMapper, translationResolver, constraintDescriptionResolver));
             setTypeMapping(result.getRequest(), typeMapping);
         }
     }
