@@ -35,7 +35,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import com.fasterxml.jackson.annotation.JsonValue;
