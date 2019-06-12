@@ -19,7 +19,10 @@
  */
 package capital.scalable.restdocs.request;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.*;
+import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTranslationResolver;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;

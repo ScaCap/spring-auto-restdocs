@@ -19,7 +19,10 @@
  */
 package capital.scalable.restdocs.misc;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.*;
+import static capital.scalable.restdocs.OperationAttributeHelper.determineTemplateFormatting;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTranslationResolver;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_DESCRIPTION;
 import static capital.scalable.restdocs.javadoc.JavadocUtil.convertFromJavadoc;
 import static capital.scalable.restdocs.util.FormatUtil.addDot;
