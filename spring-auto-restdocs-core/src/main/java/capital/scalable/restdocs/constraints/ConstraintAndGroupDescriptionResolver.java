@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -88,7 +88,7 @@ public class ConstraintAndGroupDescriptionResolver implements
         // Pretending that the group class is a constraint to use the same logic for getting
         // a description.
         Constraint groupConstraint = new Constraint(group.getCanonicalName(),
-                singletonMap(VALUE, (Object) constraintDescription));
+                singletonMap(VALUE, constraintDescription));
         String result = resolvePlainDescription(groupConstraint);
         return isBlank(result) ? fallbackGroupDescription(group, constraintDescription) : result;
     }
@@ -101,8 +101,8 @@ public class ConstraintAndGroupDescriptionResolver implements
         try {
             return delegate.resolveDescription(constraint);
         } catch (MissingResourceException e) {
-            log.warn("No description found for constraint {}: {}", constraint.getName(),
-                    e.getMessage());
+            log.debug("No description found for constraint {}: {}. " +
+                            "Fallback to group description.", constraint.getName(), e.getMessage());
             return "";
         }
     }
