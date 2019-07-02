@@ -76,7 +76,9 @@ dependencies {
         testCompile "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
     } else {
         testCompile "capital.scalable:spring-auto-restdocs-json-doclet-jdk9:$springAutoRestDocsVersion"
-    }}
+    }
+    dokkaRuntime "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
+}
 
 test {
     systemProperty "org.springframework.restdocs.outputDir", snippetsDir
@@ -110,5 +112,4 @@ dokka {
     outputFormat = "auto-restdocs-json"
     outputDirectory = javadocJsonDir
     includeNonPublic = true
-    dokkaFatJar = "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
 }
