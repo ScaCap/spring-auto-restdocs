@@ -1105,7 +1105,7 @@ Content-Length: 598
 <div class="sect2">
 <h3 id="resources-item-resource-test-add-item"><a class="anchor" href="#resources-item-resource-test-add-item"></a><a class="link" href="#resources-item-resource-test-add-item">2.3. Add Item</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items+</code></p>
+<p><code>+POST /items+</code></p>
 </div>
 <div class="paragraph">
 <p>Adds new item.</p>
@@ -1194,8 +1194,8 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
+    -H 'Authorization: Bearer 3692d91f-2ca5-4eb6-b811-3f468e26a234' \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 50aabaa0-b7fc-41e9-83fa-e6884fc4f7df' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1219,7 +1219,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-update-item"><a class="anchor" href="#resources-item-resource-test-update-item"></a><a class="link" href="#resources-item-resource-test-update-item">2.4. Update Item</a></h3>
 <div class="paragraph">
-  <p><code>+PUT /items/{id}+</code></p>
+<p><code>+PUT /items/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Updates existing item.</p>
@@ -1457,8 +1457,8 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
+    -H 'Authorization: Bearer 3692d91f-2ca5-4eb6-b811-3f468e26a234' \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 50aabaa0-b7fc-41e9-83fa-e6884fc4f7df' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1492,7 +1492,7 @@ Content-Length: 124
 <div class="sect2">
 <h3 id="resources-item-resource-test-delete-item"><a class="anchor" href="#resources-item-resource-test-delete-item"></a><a class="link" href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></h3>
 <div class="paragraph">
-  <p><code>+DELETE /items/{id}+</code></p>
+<p><code>+DELETE /items/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Deletes item.<br>
@@ -1576,7 +1576,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 50aabaa0-b7fc-41e9-83fa-e6884fc4f7df'</code></pre>
+    -H 'Authorization: Bearer 3692d91f-2ca5-4eb6-b811-3f468e26a234'</code></pre>
 </div>
 </div>
 </div>
@@ -1598,7 +1598,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-get-child-item"><a class="anchor" href="#resources-item-resource-test-get-child-item"></a><a class="link" href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/{id}/{child}+</code></p>
+<p><code>+GET /items/{id}/{child}+</code></p>
 </div>
 <div class="paragraph">
 <p>Retrieves a child of specified item.</p>
@@ -1845,7 +1845,7 @@ Content-Length: 133
 <div class="sect2">
 <h3 id="resources-item-resource-test-search"><a class="anchor" href="#resources-item-resource-test-search"></a><a class="link" href="#resources-item-resource-test-search">2.7. Search Item</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/search+</code></p>
+<p><code>+GET /items/search+</code></p>
 </div>
 <div class="paragraph">
 <p>Searches for item based on lookup parameters.</p>
@@ -2125,19 +2125,19 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
     "unpaged" : false
   },
   "total" : 1,
+  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
-  "last" : true,
   "size" : 20,
   "number" : 0,
   "numberOfElements" : 1,
-  "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true,
     "empty" : true
   },
+  "first" : true,
   "empty" : false
 }</code></pre>
 </div>
@@ -2147,7 +2147,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-process-all-items"><a class="anchor" href="#resources-item-resource-test-process-all-items"></a><a class="link" href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/process+</code></p>
+<p><code>+POST /items/process+</code></p>
 </div>
 <div class="paragraph">
 <p>Executes a command on all items.</p>
@@ -2273,7 +2273,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-process-single-item"><a class="anchor" href="#resources-item-resource-test-process-single-item"></a><a class="link" href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/{itemId}/process+</code></p>
+<p><code>+POST /items/{itemId}/process+</code></p>
 </div>
 <div class="paragraph">
 <p>Executes a command on an item.<br>
@@ -2434,7 +2434,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-validate-metadata"><a class="anchor" href="#resources-item-resource-test-validate-metadata"></a><a class="link" href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/validateMetadata+</code></p>
+<p><code>+POST /items/validateMetadata+</code></p>
 </div>
 <div class="paragraph">
 <p>Validates metadata.</p>
@@ -2559,7 +2559,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-clone-item"><a class="anchor" href="#resources-item-resource-test-clone-item"></a><a class="link" href="#resources-item-resource-test-clone-item">2.11. Clone Item (deprecated)</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/cloneItem+</code></p>
+<p><code>+POST /items/cloneItem+</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Deprecated.</strong> Create a new item instead.</p>
@@ -2662,7 +2662,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-get-item-as-resource"><a class="anchor" href="#resources-item-resource-test-get-item-as-resource"></a><a class="link" href="#resources-item-resource-test-get-item-as-resource">2.12. Get Hypermedia Item</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/media/{id}+</code></p>
+<p><code>+GET /items/media/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Returns item with hypermedia.</p>
@@ -2922,7 +2922,7 @@ All is configured together to compose a convenient section snippet.</p>
 <div class="sect2">
 <h3 id="resources-item-resource-test-get-item-with-rest-docs"><a class="anchor" href="#resources-item-resource-test-get-item-with-rest-docs"></a><a class="link" href="#resources-item-resource-test-get-item-with-rest-docs">3.1. Get Item</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/{id}+</code></p>
+<p><code>+GET /items/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Returns item by ID.</p>
@@ -3050,7 +3050,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 </div>
 <div id="footer">
 <div id="footer-text">
-  Last updated 2019-05-22 09:13:17 CEST
+Last updated 2019-05-22 09:13:17 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

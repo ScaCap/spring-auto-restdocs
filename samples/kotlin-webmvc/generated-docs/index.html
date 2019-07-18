@@ -1070,7 +1070,7 @@ Content-Length: 598
 <div class="sect2">
 <h3 id="resources-item-resource-test-add-item"><a class="anchor" href="#resources-item-resource-test-add-item"></a><a class="link" href="#resources-item-resource-test-add-item">2.3. Add Item</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items+</code></p>
+<p><code>+POST /items+</code></p>
 </div>
 <div class="paragraph">
 <p>Adds new item.</p>
@@ -1146,7 +1146,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
-    -H 'Authorization: Bearer 33fa9496-4707-4234-ace8-14c12c202c2d' \
+    -H 'Authorization: Bearer 5b640444-d336-43a5-b62c-a127ac434b6d' \
     -H 'Content-Type: application/json' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
@@ -1171,7 +1171,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-update-item"><a class="anchor" href="#resources-item-resource-test-update-item"></a><a class="link" href="#resources-item-resource-test-update-item">2.4. Update Item</a></h3>
 <div class="paragraph">
-  <p><code>+PUT /items/{id}+</code></p>
+<p><code>+PUT /items/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Updates existing item.</p>
@@ -1389,7 +1389,7 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
-    -H 'Authorization: Bearer 33fa9496-4707-4234-ace8-14c12c202c2d' \
+    -H 'Authorization: Bearer 5b640444-d336-43a5-b62c-a127ac434b6d' \
     -H 'Content-Type: application/json' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
@@ -1424,7 +1424,7 @@ Content-Length: 124
 <div class="sect2">
 <h3 id="resources-item-resource-test-delete-item"><a class="anchor" href="#resources-item-resource-test-delete-item"></a><a class="link" href="#resources-item-resource-test-delete-item">2.5. Delete Item</a></h3>
 <div class="paragraph">
-  <p><code>+DELETE /items/{id}+</code></p>
+<p><code>+DELETE /items/{id}+</code></p>
 </div>
 <div class="paragraph">
 <p>Deletes item.Item must exist.</p>
@@ -1492,7 +1492,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 33fa9496-4707-4234-ace8-14c12c202c2d'</code></pre>
+    -H 'Authorization: Bearer 5b640444-d336-43a5-b62c-a127ac434b6d'</code></pre>
 </div>
 </div>
 </div>
@@ -1514,7 +1514,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-get-child-item"><a class="anchor" href="#resources-item-resource-test-get-child-item"></a><a class="link" href="#resources-item-resource-test-get-child-item">2.6. Get Child</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/{id}/{child}+</code></p>
+<p><code>+GET /items/{id}/{child}+</code></p>
 </div>
 <div class="paragraph">
 <p>Retrieves a child of specified item.</p>
@@ -1739,7 +1739,7 @@ Content-Length: 133
 <div class="sect2">
 <h3 id="resources-item-resource-test-search"><a class="anchor" href="#resources-item-resource-test-search"></a><a class="link" href="#resources-item-resource-test-search">2.7. Search Item</a></h3>
 <div class="paragraph">
-  <p><code>+GET /items/search+</code></p>
+<p><code>+GET /items/search+</code></p>
 </div>
 <div class="paragraph">
 <p>Searches for item based on lookup parameters.</p>
@@ -1997,9 +1997,9 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
     "paged" : true
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
+  "last" : true,
   "size" : 20,
   "number" : 0,
   "numberOfElements" : 1,
@@ -2019,7 +2019,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-process-all-items"><a class="anchor" href="#resources-item-resource-test-process-all-items"></a><a class="link" href="#resources-item-resource-test-process-all-items">2.8. Process All Items</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/process+</code></p>
+<p><code>+POST /items/process+</code></p>
 </div>
 <div class="paragraph">
 <p>Executes a command on all items.</p>
@@ -2133,7 +2133,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-process-single-item"><a class="anchor" href="#resources-item-resource-test-process-single-item"></a><a class="link" href="#resources-item-resource-test-process-single-item">2.9. Process One Item</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/{itemId}/process+</code></p>
+<p><code>+POST /items/{itemId}/process+</code></p>
 </div>
 <div class="paragraph">
 <p>Executes a command on an item.This endpoint demos the basic support for @ModelAttribute.</p>
@@ -2281,7 +2281,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 <div class="sect2">
 <h3 id="resources-item-resource-test-validate-metadata"><a class="anchor" href="#resources-item-resource-test-validate-metadata"></a><a class="link" href="#resources-item-resource-test-validate-metadata">2.10. Validate Metadata</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/validateMetadata+</code></p>
+<p><code>+POST /items/validateMetadata+</code></p>
 </div>
 <div class="paragraph">
 <p>Validates metadata.</p>
@@ -2386,7 +2386,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate</code></pre>
 <div class="sect2">
 <h3 id="resources-item-resource-test-clone-item"><a class="anchor" href="#resources-item-resource-test-clone-item"></a><a class="link" href="#resources-item-resource-test-clone-item">2.11. Clone Item</a></h3>
 <div class="paragraph">
-  <p><code>+POST /items/cloneItem+</code></p>
+<p><code>+POST /items/cloneItem+</code></p>
 </div>
 <div class="paragraph">
 <p>Clones an item.</p>
@@ -2586,7 +2586,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 </div>
 <div id="footer">
 <div id="footer-text">
-  Last updated 2019-05-22 09:13:17 CEST
+Last updated 2019-05-22 09:13:17 CEST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
