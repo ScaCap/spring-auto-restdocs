@@ -1,6 +1,5 @@
 = Java Web MVC Example API Documentation
 :doctype: book
-:compat-mode:
 :page-layout!:
 :toc: right
 :toclevels: 2

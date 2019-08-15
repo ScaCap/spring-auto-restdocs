@@ -1,6 +1,5 @@
 = Java WebTestClient Example API Documentation
 :doctype: book
-:compat-mode:
 :page-layout!:
 :toc: right
 :toclevels: 2
