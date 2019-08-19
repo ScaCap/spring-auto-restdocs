@@ -2,7 +2,7 @@ buildscript {
     ext {
         springAutoRestDocsVersion = "2.0.7-SNAPSHOT"
         springRestDocsVersion = "2.0.3.RELEASE"
-        springBootVersion = "2.1.5.RELEASE"
+        springBootVersion = "2.1.6.RELEASE"
     }
     repositories {
         jcenter()
@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
+        classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2"
     }
 }
 
