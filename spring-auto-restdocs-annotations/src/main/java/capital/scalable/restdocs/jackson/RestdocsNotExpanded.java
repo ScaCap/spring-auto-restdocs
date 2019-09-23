@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * Does not expand this field (e.g. because it's already defined in custom section or to prevent
  * infinite recursion in certain structures).
  */
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 public @interface RestdocsNotExpanded {
     String message() default "";
