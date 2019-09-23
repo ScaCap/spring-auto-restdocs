@@ -47,8 +47,8 @@ class ItemUpdateRequest {
      */
     @Size(max = 1000)
     @OneOf.List({
-            @OneOf(value = {"klein", "groß"}, groups = German.class),
-            @OneOf(value = {"small", "big"}, groups = English.class)
+            @OneOf(value = { "klein", "groß" }, groups = German.class),
+            @OneOf(value = { "small", "big" }, groups = English.class)
     })
     private String type;
 

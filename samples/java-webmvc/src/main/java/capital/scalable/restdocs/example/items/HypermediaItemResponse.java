@@ -26,7 +26,7 @@ import capital.scalable.restdocs.jackson.RestdocsNotExpanded;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id", "desc"})
+@JsonPropertyOrder({ "id", "desc" })
 class HypermediaItemResponse extends HALResource {
     /**
      * Item id.

@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public class Metadata {
     /**
-     * Determines the type of metadata Initiates request テスト
+     * Determines the type of metadata
      */
     @NotBlank
     private String type;

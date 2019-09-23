@@ -74,12 +74,12 @@ public class ItemResource {
             new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
 
     /**
-     * Returns item by ID.  from テスト
+     * Returns item by ID.
      * <p>
      * An example of returning a custom response type and custom exception with response status.
      *
-     * @param id ID of the item.  from テスト
-     * @return response  from テスト
+     * @param id ID of the item.
+     * @return response
      */
     @GetMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") @Id String id) {
@@ -268,7 +268,7 @@ public class ItemResource {
      * <p>
      * An example of returning a resource with hypermedia links and embedded resources.
      *
-     * @param id       ID of the item.  from テスト
+     * @param id       ID of the item.
      * @param embedded if embedded resources should be attached
      * @return response and links
      */
