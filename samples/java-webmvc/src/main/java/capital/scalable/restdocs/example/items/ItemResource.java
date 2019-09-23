@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,12 +74,12 @@ public class ItemResource {
             new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
 
     /**
-     * Returns item by ID.
+     * Returns item by ID.  from テスト
      * <p>
      * An example of returning a custom response type and custom exception with response status.
      *
-     * @param id ID of the item.
-     * @return response
+     * @param id ID of the item.  from テスト
+     * @return response  from テスト
      */
     @GetMapping("{id}")
     public ItemResponse getItem(@PathVariable("id") @Id String id) {
@@ -268,7 +268,7 @@ public class ItemResource {
      * <p>
      * An example of returning a resource with hypermedia links and embedded resources.
      *
-     * @param id       ID of the item.
+     * @param id       ID of the item.  from テスト
      * @param embedded if embedded resources should be attached
      * @return response and links
      */
