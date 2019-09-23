@@ -41,10 +41,12 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             "org.springframework.data.domain.Page",
             "org.springframework.hateoas.PagedModel"
     ));
+    public static final Set<String> SPRING_HATEOAS_RESOURCE = new HashSet<>(Arrays.asList(
+            "org.springframework.hateoas.Resource",
+            "org.springframework.hateoas.EntityModel"
+    ));
     public static final String REACTOR_MONO_CLASS = "reactor.core.publisher.Mono";
     public static final String REACTOR_FLUX_CLASS = "reactor.core.publisher.Flux";
-    public static final String SPRING_HATEOAS_RESOURCE = "org.springframework.hateoas.Resource";
-    
 
     private final Type responseBodyType;
     private final boolean failOnUndocumentedFields;
@@ -78,7 +80,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
             return firstGenericType(method.getReturnType());
         } else if (SPRING_PAGE_CLASSES.contains(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
-        } else if (SPRING_HATEOAS_RESOURCE.equals(returnType.getCanonicalName())) {
+        } else if (SPRING_HATEOAS_RESOURCE.contains(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (isCollection(returnType)) {
             return (GenericArrayType) () -> firstGenericType(method.getReturnType());

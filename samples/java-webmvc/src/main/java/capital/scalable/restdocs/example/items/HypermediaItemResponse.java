@@ -45,7 +45,7 @@ class HypermediaItemResponse extends HALResource {
     }
 
     // just for documentation
-    static class LinksDocumentation {
+    static class ExtendedLinksDocumentation {
         /**
          * Link to this hypermedia item.
          */
