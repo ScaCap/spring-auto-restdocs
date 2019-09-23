@@ -25,7 +25,10 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
@@ -34,7 +37,10 @@ import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
-    public static final String SPRING_DATA_PAGE_CLASS = "org.springframework.data.domain.Page";
+    private final static Set<String> SPRING_PAGE_CLASSES = new HashSet<>(Arrays.asList(
+            "org.springframework.data.domain.Page",
+            "org.springframework.hateoas.PagedModel"
+    ));
     public static final String REACTOR_MONO_CLASS = "reactor.core.publisher.Mono";
     public static final String REACTOR_FLUX_CLASS = "reactor.core.publisher.Flux";
     public static final String SPRING_HATEOAS_RESOURCE = "org.springframework.hateoas.Resource";
@@ -70,7 +76,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
         Class<?> returnType = method.getReturnType().getParameterType();
         if (HttpEntity.class.isAssignableFrom(returnType)) {
             return firstGenericType(method.getReturnType());
-        } else if (SPRING_DATA_PAGE_CLASS.equals(returnType.getCanonicalName())) {
+        } else if (SPRING_PAGE_CLASSES.contains(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
         } else if (SPRING_HATEOAS_RESOURCE.equals(returnType.getCanonicalName())) {
             return firstGenericType(method.getReturnType());
@@ -105,7 +111,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private boolean isPageResponse(HandlerMethod handlerMethod) {
-        return SPRING_DATA_PAGE_CLASS.equals(
+        return SPRING_PAGE_CLASSES.contains(
                 handlerMethod.getReturnType().getParameterType().getCanonicalName());
     }
 
