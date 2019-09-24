@@ -18,14 +18,14 @@
   },
   "methods": {
     "initiate": {
-      "comment": "Initiates request",
+      "comment": "Initiates request (テスト)",
       "parameters": {
-        "force": "true if force",
-        "when": "when to initiate"
+        "force": "true if force (テスト)",
+        "when": "when to initiate (テスト)"
       },
       "tags": {
-        "deprecated": "use other method",
-        "title": "Do initiate"
+        "deprecated": "use other method (テスト)",
+        "title": "Do initiate (テスト)"
       }
     },
     "execute": {

@@ -22,6 +22,7 @@ package capital.scalable.restdocs.jsondoclet;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupDocComment;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagName;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagValue;
+import static org.apache.commons.lang3.StringEscapeUtils.unescapeJava;
 
 import javax.lang.model.element.Element;
 import java.util.HashMap;
@@ -52,11 +53,11 @@ public class MethodDocumentation {
                     if (tag.getKind().equals(DocTree.Kind.PARAM)) {
                         ParamTree paramTag = (ParamTree) tag;
                         md.parameters.put(paramTag.getName().toString(),
-                                paramTag.getDescription().toString());
+                                unescapeJava(paramTag.getDescription().toString()));
                     } else {
                         md.tags.put(
                                 cleanupTagName(((BlockTagTree) tag).getTagName()),
-                                cleanupTagValue(tag.toString()));
+                                unescapeJava(cleanupTagValue(tag.toString())));
                     }
                 }));
 
