@@ -49,8 +49,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.validation.constraints.NotNull;
-
 import capital.scalable.restdocs.example.items.HypermediaItemResponse.EmbeddedDocumentation;
 import capital.scalable.restdocs.example.items.HypermediaItemResponse.ExtendedLinksDocumentation;
 import capital.scalable.restdocs.example.items.ItemResource.Command;
@@ -243,13 +241,5 @@ public class ItemResourceTest extends MockMvcBase {
                 .andDo(commonDocumentation(
                         links().documentationType(LinksDocumentation.class)
                 ));
-    }
-
-    static class LinksDocumentation {
-        /**
-         * Link to this item.
-         */
-        @NotNull
-        private String self;
     }
 }
