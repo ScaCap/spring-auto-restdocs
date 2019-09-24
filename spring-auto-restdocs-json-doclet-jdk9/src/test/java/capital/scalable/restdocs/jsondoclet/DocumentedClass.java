@@ -48,12 +48,12 @@ class DocumentedClass {
     }
 
     /**
-     * Initiates request
+     * Initiates request (テスト)
      *
-     * @param when  when to initiate
-     * @param force true if force
-     * @title Do initiate
-     * @deprecated use other method
+     * @param when  when to initiate (テスト)
+     * @param force true if force (テスト)
+     * @title Do initiate (テスト)
+     * @deprecated use other method (テスト)
      */
     private void initiate(String when, boolean force, int notDocumented) {
     }
