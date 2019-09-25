@@ -44,14 +44,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import capital.scalable.restdocs.example.items.HypermediaItemResponse.EmbeddedDocumentation;
-import capital.scalable.restdocs.example.items.HypermediaItemResponse.LinksDocumentation;
+import capital.scalable.restdocs.example.items.HypermediaItemResponse.ExtendedLinksDocumentation;
 import capital.scalable.restdocs.example.items.ItemResource.Command;
 import capital.scalable.restdocs.example.items.ItemResource.CommandResult;
 import capital.scalable.restdocs.example.testsupport.MockMvcBase;
@@ -208,9 +207,8 @@ public class ItemResourceTest extends MockMvcBase {
     }
 
     @Test
-    public void getItemAsResource() throws Exception {
+    public void getHypermediaItem() throws Exception {
         mockMvc.perform(get("/items/media/1").param("embedded", "true"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("1")))
                 .andExpect(jsonPath("$.desc", is("hypermedia item")))
@@ -227,8 +225,21 @@ public class ItemResourceTest extends MockMvcBase {
                 .andExpect(jsonPath("$._embedded.attributes").exists())
                 .andExpect(jsonPath("$._embedded.attributes.number", is(1)))
                 .andDo(commonDocumentation(
-                        links().documentationType(LinksDocumentation.class),
+                        links().documentationType(ExtendedLinksDocumentation.class),
                         embedded().documentationType(EmbeddedDocumentation.class)
+                ));
+    }
+
+    @Test
+    public void getItemAsResource() throws Exception {
+        mockMvc.perform(get("/items/resources/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("1")))
+                .andExpect(jsonPath("$._links").exists())
+                .andExpect(jsonPath("$._links.self").exists())
+                .andExpect(jsonPath("$._links.self.href", is("http://localhost:8080/items/resources/1")))
+                .andDo(commonDocumentation(
+                        links().documentationType(LinksDocumentation.class)
                 ));
     }
 }

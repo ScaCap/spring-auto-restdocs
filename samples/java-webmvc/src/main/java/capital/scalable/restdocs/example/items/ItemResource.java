@@ -40,6 +40,7 @@ import capital.scalable.restdocs.example.constraints.Id;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -285,6 +286,19 @@ public class ItemResource {
             response.embed("meta", META);
         }
         return response;
+    }
+
+    /**
+     * Returns item with links using standard Spring {@link org.springframework.hateoas.Resource}.
+     *
+     * @param id ID of the item.
+     * @return response and links
+     */
+    @GetMapping("resources/{id}")
+    public Resource<ItemResponse> getItemAsResource(@PathVariable("id") @Id String id) {
+        return new Resource<>(ITEM,
+                linkTo(methodOn(ItemResource.class).getItemAsResource(id)).withSelfRel()
+        );
     }
 
     static class CloneData {

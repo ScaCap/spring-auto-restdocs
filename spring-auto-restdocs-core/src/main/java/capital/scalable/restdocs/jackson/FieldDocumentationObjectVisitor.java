@@ -45,7 +45,9 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     ));
     private final static Set<String> SKIPPED_CLASSES = new HashSet<>(Arrays.asList(
             "org.springframework.hateoas.Link",
-            "org.springframework.hateoas.core.EmbeddedWrapper"
+            "org.springframework.hateoas.Links",
+            "org.springframework.hateoas.core.EmbeddedWrapper",
+            "org.springframework.hateoas.server.core.EmbeddedWrapper"
     ));
 
     private final FieldDocumentationVisitorContext context;

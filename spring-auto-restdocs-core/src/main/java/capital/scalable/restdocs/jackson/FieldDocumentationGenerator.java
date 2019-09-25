@@ -23,7 +23,10 @@ import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
@@ -38,7 +41,10 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class FieldDocumentationGenerator {
     private static final Logger log = getLogger(FieldDocumentationGenerator.class);
-    private static final String RESOURCES_TYPE = "org.springframework.hateoas.Resources";
+    private static final Set<String> RESOURCES_TYPES = new HashSet<>(Arrays.asList(
+            "org.springframework.hateoas.Resources",
+            "org.springframework.hateoas.CollectionModel"
+    ));
 
     private final ObjectWriter writer;
     private final DeserializationConfig deserializationConfig;
@@ -72,7 +78,7 @@ public class FieldDocumentationGenerator {
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());
-            if (RESOURCES_TYPE.equals(type.getRawClass().getCanonicalName())) {
+            if (RESOURCES_TYPES.contains(type.getRawClass().getCanonicalName())) {
                 result.setNoContentMessageKey("body-as-embedded-resources");
                 continue;
             }
