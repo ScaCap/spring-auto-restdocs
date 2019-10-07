@@ -1,6 +1,6 @@
 :master-dir: https://github.com/ScaCap/spring-auto-restdocs/blob/master
-:example-dir: {master-dir}/spring-auto-restdocs-example
-:core-package: {master-dir}//spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs
+:example-dir: {master-dir}/samples/java-webmvc
+:core-package: {master-dir}/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs
 :restdocs-package: https://github.com/spring-projects/spring-restdocs/blob/master/spring-restdocs-core/src/main/java/org/springframework/restdocs
 :html-preview: https://htmlpreview.github.io/?
 
