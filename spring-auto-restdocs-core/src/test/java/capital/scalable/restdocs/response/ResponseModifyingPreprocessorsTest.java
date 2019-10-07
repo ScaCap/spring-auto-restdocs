@@ -181,6 +181,11 @@ public class ResponseModifyingPreprocessorsTest {
         }
 
         @Override
+        public int getStatusCode() {
+            return getStatus().value();
+        }
+
+        @Override
         public HttpHeaders getHeaders() {
             return httpHeaders;
         }
