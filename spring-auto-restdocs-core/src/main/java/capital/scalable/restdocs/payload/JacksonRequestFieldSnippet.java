@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.method.HandlerMethod;
 
@@ -59,7 +59,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
         }
 
         for (MethodParameter param : method.getMethodParameters()) {
-            if (isRequestBody(param) || isModelAttribute(param)) {
+            if (isRequestBody(param)) {
                 return getType(param);
             }
         }
@@ -68,10 +68,6 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     private boolean isRequestBody(MethodParameter param) {
         return param.getParameterAnnotation(RequestBody.class) != null;
-    }
-
-    private boolean isModelAttribute(MethodParameter param) {
-        return param.getParameterAnnotation(ModelAttribute.class) != null;
     }
 
     private Type getType(final MethodParameter param) {
@@ -83,7 +79,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "request-fields";
     }
 

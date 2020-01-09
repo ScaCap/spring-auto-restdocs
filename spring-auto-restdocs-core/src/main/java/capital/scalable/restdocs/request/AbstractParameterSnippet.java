@@ -74,7 +74,7 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         }
 
         if (shouldFailOnUndocumentedParams()) {
-            assertAllDocumented(fieldDescriptors.values(), translationResolver.translate(getHeaderKey()).toLowerCase());
+            assertAllDocumented(fieldDescriptors.values(), translationResolver.translate(getHeaderKey(operation)).toLowerCase());
         }
 
         return fieldDescriptors;

@@ -29,8 +29,9 @@ public interface SectionSupport {
 
     /**
      * Section header key corresponding to entry in translation file.
+     * @param operation operation
      */
-    String getHeaderKey();
+    String getHeaderKey(Operation operation);
 
     /**
      * Flag if section will render non-empty content.

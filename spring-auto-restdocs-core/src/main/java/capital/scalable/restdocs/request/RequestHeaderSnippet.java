@@ -22,6 +22,7 @@ package capital.scalable.restdocs.request;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_HEADERS;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader> {
@@ -59,7 +60,7 @@ public class RequestHeaderSnippet extends AbstractParameterSnippet<RequestHeader
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "request-headers";
     }
 

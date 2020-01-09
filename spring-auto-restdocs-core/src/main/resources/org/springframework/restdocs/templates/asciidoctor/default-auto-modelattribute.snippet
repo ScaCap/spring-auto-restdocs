@@ -1,0 +1,13 @@
+{{#isPageRequest}}{{pagination-request-adoc}}
+
+{{/isPageRequest}}{{#hasContent}}|===
+|{{th-parameter}}|{{th-type}}|{{th-optional}}|{{th-description}}
+
+{{#content}}
+|{{path}}
+|{{type}}
+|{{optional}}
+|{{description}}
+
+{{/content}}
+|==={{/hasContent}}{{#noContent}}{{no-params}}{{/noContent}}

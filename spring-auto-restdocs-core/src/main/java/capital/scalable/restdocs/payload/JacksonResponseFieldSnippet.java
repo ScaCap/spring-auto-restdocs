@@ -33,6 +33,7 @@ import java.util.Set;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import org.springframework.http.HttpEntity;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
 
 public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
@@ -118,7 +119,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "response-fields";
     }
 

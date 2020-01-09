@@ -68,7 +68,7 @@ public class AuthorizationSnippet extends TemplatedSnippet implements SectionSup
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "authorization";
     }
 

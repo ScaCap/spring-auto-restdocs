@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_LINKS;
 import java.lang.reflect.Type;
 
 import capital.scalable.restdocs.payload.AbstractJacksonFieldSnippet;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
 
 public class LinksSnippet extends AbstractJacksonFieldSnippet {
@@ -54,7 +55,7 @@ public class LinksSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "hypermedia-links";
     }
 
