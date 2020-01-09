@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -73,12 +74,11 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private boolean hasNoHandlerMethodArgumentResolver(MethodParameter param) {
-        if(this.handlerMethodArgumentResolvers != null){
-            return this.handlerMethodArgumentResolvers
+        return !BeanUtils.isSimpleProperty(param.getParameterType())
+            &&  this.handlerMethodArgumentResolvers != null
+            && this.handlerMethodArgumentResolvers
             .stream()
             .allMatch(obj -> !obj.supportsParameter(param));
-        }
-        return false;
     }
 
 
