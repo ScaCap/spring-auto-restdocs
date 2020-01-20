@@ -50,6 +50,15 @@ public class ResponseModifyingPreprocessors {
     }
 
     /**
+     * For binary content of multipart/form-data requests, replaces value with "&lt;binary&gt;".
+     *
+     * @return a preprocessor replacing binary content of multipart/form-data requests
+     */
+    public static OperationPreprocessor replaceMultipartBinaryContent() {
+        return new MultipartContentOperationPreprocessor();
+    }
+
+    /**
      * For JSON content, cuts the length of all JSON arrays in the response to 3 elements.
      *
      * @param objectMapper object mapper to use
