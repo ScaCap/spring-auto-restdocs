@@ -22,6 +22,7 @@ See example project for link:{example-dir}/src/main/asciidoc/index.adoc#overview
 Preprocessors are available for use in order to improve quality of endpoint examples.
 
 - link:{core-package}/response/BinaryReplacementContentModifier.java[binary replacement]: replaces content with `<binary>` for common mime types
+- link:{core-package}/response/MultipartContentOperationPreprocessor.java[multipart binary replacement]: replaces content with `<binary>` for multipart/form-data requests
 - link:{core-package}/response/ArrayLimitingJsonContentModifier.java[limit JSON array length]: limits all JSON arrays to 3 items
 
 For a list of standard preprocessors see link:{restdocs-package}/operation/preprocess/Preprocessors.java[Preprocessors].
