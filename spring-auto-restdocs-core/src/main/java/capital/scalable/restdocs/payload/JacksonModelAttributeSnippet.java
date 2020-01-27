@@ -78,7 +78,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
             &&  this.handlerMethodArgumentResolvers != null
             && this.handlerMethodArgumentResolvers
             .stream()
-            .allMatch(obj -> !obj.supportsParameter(param));
+            .noneMatch(obj -> obj.supportsParameter(param));
     }
 
 
