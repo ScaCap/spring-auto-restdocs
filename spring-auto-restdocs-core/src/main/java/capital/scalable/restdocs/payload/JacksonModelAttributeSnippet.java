@@ -127,4 +127,17 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
         }
         return "request-fields";
     }
+
+    @Override
+    protected String[] getTranslationKeys() {
+        return new String[]{
+            "th-parameter",
+            "th-type",
+            "th-optional",
+            "th-description",
+            "pagination-request-adoc",
+            "pagination-request-md",
+            "no-params"
+        };
+    }
 }

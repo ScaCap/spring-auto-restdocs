@@ -146,17 +146,4 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
     public boolean hasContent(Operation operation) {
         return getType(getHandlerMethod(operation)) != null;
     }
-
-    @Override
-    protected String[] getTranslationKeys() {
-        return new String[]{
-            "th-parameter",
-            "th-type",
-            "th-optional",
-            "th-description",
-            "pagination-request-adoc",
-            "pagination-request-md",
-            "no-params"
-        };
-    }
 }
