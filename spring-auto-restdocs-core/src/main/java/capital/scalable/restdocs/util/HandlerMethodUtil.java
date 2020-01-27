@@ -19,14 +19,8 @@
  */
 package capital.scalable.restdocs.util;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.springframework.util.StringUtils.arrayToDelimitedString;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
-
-import capital.scalable.restdocs.request.RequestParametersSnippet;
-
 
 public class HandlerMethodUtil {
     private HandlerMethodUtil() {
