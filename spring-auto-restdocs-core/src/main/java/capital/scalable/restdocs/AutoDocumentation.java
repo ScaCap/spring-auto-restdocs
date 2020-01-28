@@ -24,13 +24,18 @@ import capital.scalable.restdocs.hypermedia.LinksSnippet;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
 import capital.scalable.restdocs.misc.DescriptionSnippet;
 import capital.scalable.restdocs.misc.MethodAndPathSnippet;
+import capital.scalable.restdocs.payload.JacksonModelAttributeSnippet;
 import capital.scalable.restdocs.payload.JacksonRequestFieldSnippet;
 import capital.scalable.restdocs.payload.JacksonResponseFieldSnippet;
 import capital.scalable.restdocs.request.PathParametersSnippet;
 import capital.scalable.restdocs.request.RequestHeaderSnippet;
 import capital.scalable.restdocs.request.RequestParametersSnippet;
 import capital.scalable.restdocs.section.SectionBuilder;
+
+import java.util.Collection;
+
 import org.springframework.restdocs.snippet.Snippet;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 public abstract class AutoDocumentation {
 
@@ -39,6 +44,10 @@ public abstract class AutoDocumentation {
 
     public static JacksonRequestFieldSnippet requestFields() {
         return new JacksonRequestFieldSnippet();
+    }
+
+    public static JacksonModelAttributeSnippet modelAttribute(Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers) {
+        return new JacksonModelAttributeSnippet(handlerMethodArgumentResolvers, false);
     }
 
     public static JacksonResponseFieldSnippet responseFields() {

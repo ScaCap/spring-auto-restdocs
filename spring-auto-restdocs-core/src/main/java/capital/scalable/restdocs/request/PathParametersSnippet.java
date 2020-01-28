@@ -22,6 +22,7 @@ package capital.scalable.restdocs.request;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_PATH_PARAMETERS;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable> {
@@ -59,7 +60,7 @@ public class PathParametersSnippet extends AbstractParameterSnippet<PathVariable
     }
 
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "path-parameters";
     }
 

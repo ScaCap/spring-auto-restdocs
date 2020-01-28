@@ -34,6 +34,7 @@ public class SectionBuilder {
             SnippetRegistry.AUTO_AUTHORIZATION,
             SnippetRegistry.AUTO_PATH_PARAMETERS,
             SnippetRegistry.AUTO_REQUEST_PARAMETERS,
+            SnippetRegistry.AUTO_MODELATTRIBUTE,
             SnippetRegistry.AUTO_REQUEST_FIELDS,
             SnippetRegistry.AUTO_RESPONSE_FIELDS,
             SnippetRegistry.AUTO_LINKS,

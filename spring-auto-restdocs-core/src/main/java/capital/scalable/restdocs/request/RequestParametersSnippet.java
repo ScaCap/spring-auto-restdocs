@@ -25,15 +25,16 @@ import java.util.Map;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
+import capital.scalable.restdocs.util.HandlerMethodUtil;
+
 import org.springframework.core.MethodParameter;
+import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.method.HandlerMethod;
 
 public class RequestParametersSnippet extends AbstractParameterSnippet<RequestParam> {
 
-    public static final String SPRING_DATA_PAGEABLE_CLASS =
-            "org.springframework.data.domain.Pageable";
 
     private final boolean failOnUndocumentedParams;
 
@@ -82,29 +83,15 @@ public class RequestParametersSnippet extends AbstractParameterSnippet<RequestPa
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
             FieldDescriptors fieldDescriptors, SnippetTranslationResolver translationResolver) {
-        boolean isPageRequest = isPageRequest(handlerMethod);
+        boolean isPageRequest = HandlerMethodUtil.isPageRequest(handlerMethod);
         model.put("isPageRequest", isPageRequest);
         if (isPageRequest) {
             model.put("noContent", false);
         }
     }
 
-    private boolean isPageRequest(HandlerMethod method) {
-        for (MethodParameter param : method.getMethodParameters()) {
-            if (isPageable(param)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isPageable(MethodParameter param) {
-        return SPRING_DATA_PAGEABLE_CLASS.equals(
-                param.getParameterType().getCanonicalName());
-    }
-
     @Override
-    public String getHeaderKey() {
+    public String getHeaderKey(Operation operation) {
         return "request-parameters";
     }
 

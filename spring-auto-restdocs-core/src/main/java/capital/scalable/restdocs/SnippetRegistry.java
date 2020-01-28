@@ -33,6 +33,7 @@ public class SnippetRegistry {
     public static final String AUTO_PATH_PARAMETERS = "auto-path-parameters";
     public static final String AUTO_REQUEST_HEADERS = "auto-request-headers";
     public static final String AUTO_REQUEST_PARAMETERS = "auto-request-parameters";
+    public static final String AUTO_MODELATTRIBUTE = "auto-modelattribute";
     public static final String AUTO_REQUEST_FIELDS = "auto-request-fields";
     public static final String AUTO_RESPONSE_FIELDS = "auto-response-fields";
     public static final String AUTO_LINKS = "auto-links";
@@ -101,7 +102,7 @@ public class SnippetRegistry {
         }
 
         @Override
-        public String getHeaderKey() {
+        public String getHeaderKey(Operation operation) {
             return headerKey;
         }
 

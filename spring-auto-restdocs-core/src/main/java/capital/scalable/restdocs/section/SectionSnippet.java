@@ -96,7 +96,7 @@ public class SectionSnippet extends TemplatedSnippet {
             if (section != null) {
                 if (!skipEmpty || section.hasContent(operation)) {
                     sections.add(
-                            new Section(section.getFileName(), translationResolver.translate(section.getHeaderKey())));
+                            new Section(section.getFileName(), translationResolver.translate(section.getHeaderKey(operation))));
                 }
             } else {
                 log.warn("Section snippet '" + sectionName + "' is configured to be " +
