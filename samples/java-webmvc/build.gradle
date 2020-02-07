@@ -99,7 +99,7 @@ asciidoctor {
 asciidoctor.doLast {
     copy {
         from file("$buildDir/generated-docs/html5")
-        into file("$sourceSets.main.output.classesDir/public")
+        into file("$sourceSets.main.output.classesDirs/public")
         include "index.html"
     }
 }
