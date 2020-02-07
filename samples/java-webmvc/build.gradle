@@ -60,9 +60,9 @@ dependencies {
     testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
     testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
     // Java 11 fix for https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
-    testCompile "javax.xml.bind:jaxb-api:2.2.11"
-    testCompile "com.sun.xml.bind:jaxb-core:2.2.11"
-    testCompile "com.sun.xml.bind:jaxb-impl:2.2.11"
+    testCompile "javax.xml.bind:jaxb-api:2.3.0"
+    testCompile "com.sun.xml.bind:jaxb-core:2.3.0.1"
+    testCompile "com.sun.xml.bind:jaxb-impl:2.3.0.1"
     testCompile "javax.activation:activation:1.1.1"
     if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
         jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
