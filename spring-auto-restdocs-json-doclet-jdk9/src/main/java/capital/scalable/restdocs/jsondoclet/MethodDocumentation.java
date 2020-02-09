@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Json Doclet for JDK9+
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ package capital.scalable.restdocs.jsondoclet;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupDocComment;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagName;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupTagValue;
-import static org.apache.commons.lang3.StringEscapeUtils.unescapeJava;
+import static org.apache.commons.text.StringEscapeUtils.unescapeJava;
 
 import javax.lang.model.element.Element;
 import java.util.HashMap;
@@ -50,11 +50,12 @@ public class MethodDocumentation {
 
         Optional.ofNullable(docEnv.getDocTrees().getDocCommentTree(methodElement))
                 .ifPresent(docCommentTree -> docCommentTree.getBlockTags().forEach(tag -> {
+                    System.out.println(tag.getKind());
                     if (tag.getKind().equals(DocTree.Kind.PARAM)) {
                         ParamTree paramTag = (ParamTree) tag;
                         md.parameters.put(paramTag.getName().toString(),
                                 unescapeJava(paramTag.getDescription().toString()));
-                    } else {
+                    } else if (tag instanceof BlockTagTree) {
                         md.tags.put(
                                 cleanupTagName(((BlockTagTree) tag).getTagName()),
                                 unescapeJava(cleanupTagValue(tag.toString())));

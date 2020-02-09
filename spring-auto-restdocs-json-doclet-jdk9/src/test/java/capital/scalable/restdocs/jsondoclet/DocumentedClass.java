@@ -54,6 +54,7 @@ class DocumentedClass {
      * @param force true if force (テスト)
      * @title Do initiate (テスト)
      * @deprecated use other method (テスト)
+     * @ Don't fail on invalid tags
      */
     private void initiate(String when, boolean force, int notDocumented) {
     }
