@@ -50,7 +50,6 @@ public class MethodDocumentation {
 
         Optional.ofNullable(docEnv.getDocTrees().getDocCommentTree(methodElement))
                 .ifPresent(docCommentTree -> docCommentTree.getBlockTags().forEach(tag -> {
-                    System.out.println(tag.getKind());
                     if (tag.getKind().equals(DocTree.Kind.PARAM)) {
                         ParamTree paramTag = (ParamTree) tag;
                         md.parameters.put(paramTag.getName().toString(),
