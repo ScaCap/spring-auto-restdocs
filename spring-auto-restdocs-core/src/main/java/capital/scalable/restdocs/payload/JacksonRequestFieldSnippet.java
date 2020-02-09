@@ -20,6 +20,7 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
+import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
