@@ -43,6 +43,7 @@ import capital.scalable.restdocs.request.RequestParametersSnippet;
 import capital.scalable.restdocs.util.HandlerMethodUtil;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_MODELATTRIBUTE;
+import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 
 public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     private final boolean failOnUndocumentedFields;
