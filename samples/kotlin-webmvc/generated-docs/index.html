@@ -1186,7 +1186,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 8bc85d1f-9623-41b4-8d80-949511862a62' \
+    -H 'Authorization: Bearer e75106d3-5eb2-456f-9d98-f0d516990b01' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1468,7 +1468,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 8bc85d1f-9623-41b4-8d80-949511862a62' \
+    -H 'Authorization: Bearer e75106d3-5eb2-456f-9d98-f0d516990b01' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1576,7 +1576,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 8bc85d1f-9623-41b4-8d80-949511862a62'</code></pre>
+    -H 'Authorization: Bearer e75106d3-5eb2-456f-9d98-f0d516990b01'</code></pre>
 </div>
 </div>
 </div>
@@ -2094,11 +2094,10 @@ Content-Length: 1072
   },
   "total" : 1,
   "totalPages" : 1,
-  "totalElements" : 1,
   "last" : true,
+  "totalElements" : 1,
   "size" : 20,
   "numberOfElements" : 1,
-  "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
@@ -2106,6 +2105,7 @@ Content-Length: 1072
     "empty" : true
   },
   "number" : 0,
+  "first" : true,
   "empty" : false
 }</code></pre>
 </div>
@@ -2766,7 +2766,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-30 17:10:10 +0200
+Last updated 2020-02-10 13:52:46 +0100
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

@@ -1236,7 +1236,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 2f1d0612-f561-4d37-b0ad-0247629e5a41' \
+    -H 'Authorization: Bearer b77397bc-7140-4d48-b036-1408ec44df81' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1539,7 +1539,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 2f1d0612-f561-4d37-b0ad-0247629e5a41' \
+    -H 'Authorization: Bearer b77397bc-7140-4d48-b036-1408ec44df81' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1663,7 +1663,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 2f1d0612-f561-4d37-b0ad-0247629e5a41'</code></pre>
+    -H 'Authorization: Bearer b77397bc-7140-4d48-b036-1408ec44df81'</code></pre>
 </div>
 </div>
 </div>
@@ -2218,8 +2218,8 @@ Content-Length: 1072
       "empty" : true
     },
     "offset" : 0,
-    "pageSize" : 20,
     "pageNumber" : 0,
+    "pageSize" : 20,
     "unpaged" : false,
     "paged" : true
   },
@@ -2228,14 +2228,14 @@ Content-Length: 1072
   "totalElements" : 1,
   "last" : true,
   "size" : 20,
+  "numberOfElements" : 1,
+  "number" : 0,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
     "unsorted" : true,
     "empty" : true
   },
-  "number" : 0,
-  "numberOfElements" : 1,
   "first" : true,
   "empty" : false
 }</code></pre>
@@ -3527,7 +3527,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-30 17:10:10 +0200
+Last updated 2020-02-10 13:55:11 +0100
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
