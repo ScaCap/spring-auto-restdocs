@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Json Doclet for JDK9+
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.sun.source.doctree.BlockTagTree;
+import com.sun.source.doctree.DocTree;
 import jdk.javadoc.doclet.DocletEnvironment;
 
 public class FieldDocumentation {
@@ -36,19 +37,23 @@ public class FieldDocumentation {
     private String comment;
     private final Map<String, String> tags = new HashMap<>();
 
+    private void addTag(DocTree tag) {
+        if (tag instanceof BlockTagTree) {
+            tags.put(
+                    cleanupTagName(((BlockTagTree) tag).getTagName()),
+                    cleanupTagValue(tag.toString()));
+        }
+    }
+
     public static FieldDocumentation fromFieldDoc(DocletEnvironment docEnv,
             Element fieldElement) {
         FieldDocumentation fd = new FieldDocumentation();
         fd.comment = cleanupDocComment(docEnv.getElementUtils().getDocComment(fieldElement));
 
-
         Optional.ofNullable(docEnv.getDocTrees().getDocCommentTree(fieldElement))
                 .ifPresent(docCommentTree -> docCommentTree.getBlockTags()
-                        .forEach(tag -> fd.tags.put(
-                                cleanupTagName(((BlockTagTree) tag).getTagName()),
-                                cleanupTagValue(tag.toString()))));
+                        .forEach(tag -> fd.addTag(tag)));
 
         return fd;
     }
-
 }
