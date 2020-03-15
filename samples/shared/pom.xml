@@ -13,7 +13,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-shared-pojos-example</artifactId>
-    <version>2.0.8-SNAPSHOT</version>
+    <version>2.0.9-SNAPSHOT</version>
 
     <name>Spring Auto REST Docs Shared POJOs Example Project</name>
     <description>Example project for Shared POJOs inside Spring Auto REST Docs</description>
@@ -33,7 +33,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-auto-restdocs.version>2.0.8-SNAPSHOT</spring-auto-restdocs.version>
+        <spring-auto-restdocs.version>2.0.9-SNAPSHOT</spring-auto-restdocs.version>
     </properties>
 
     <dependencies>

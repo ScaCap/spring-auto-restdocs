@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Json Doclet for JDK9+
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 
 /**
  * This is a test class. UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép
+ *
+ * @ Don't fail on invalid tags
  */
 class DocumentedClass {
     /**
@@ -34,6 +36,8 @@ class DocumentedClass {
 
     /**
      * Path within location
+     *
+     * @ Don't fail on invalid tags
      */
     private BigDecimal path;
 
@@ -54,6 +58,7 @@ class DocumentedClass {
      * @param force true if force (テスト)
      * @title Do initiate (テスト)
      * @deprecated use other method (テスト)
+     * @ Don't fail on invalid tags
      */
     private void initiate(String when, boolean force, int notDocumented) {
     }

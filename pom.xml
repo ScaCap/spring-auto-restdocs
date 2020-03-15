@@ -5,7 +5,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-parent</artifactId>
-    <version>2.0.8-SNAPSHOT</version>
+    <version>2.0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Spring Auto REST Docs Parent POM</name>
@@ -291,7 +291,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.9.10.1</version>
+                <version>2.9.10.3</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -319,6 +319,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>1.8</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

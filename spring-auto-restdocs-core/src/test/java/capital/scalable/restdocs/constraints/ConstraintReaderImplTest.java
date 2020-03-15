@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -107,6 +108,10 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "enum3");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [A first, B second]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "optionalEnum");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
     }
 
     @Test
@@ -153,6 +158,9 @@ public class ConstraintReaderImplTest {
         messages = reader.getOptionalMessages(Constraintz.class, "enum2");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("false"));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "optionalEnum");
+        assertThat(messages.size(), is(0));
     }
 
     @Test
@@ -160,7 +168,7 @@ public class ConstraintReaderImplTest {
         ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class);
+                Enum1.class, Optional.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
         assertThat(messages.size(), is(2));
@@ -172,6 +180,10 @@ public class ConstraintReaderImplTest {
         assertThat(messages.get(0), is("Must be one of [all, single]"));
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 2));
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(new MethodParameter(method, 3));
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
     }
@@ -192,7 +204,7 @@ public class ConstraintReaderImplTest {
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
         ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class);
+                Enum1.class, Optional.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
@@ -303,6 +315,8 @@ public class ConstraintReaderImplTest {
         private Enum2 enum2;
 
         private Enum3 enum3;
+
+        private Optional<Enum1> optionalEnum;
     }
 
     enum Enum1 {ONE, TWO}
@@ -335,7 +349,8 @@ public class ConstraintReaderImplTest {
                 @Max(value = 2, groups = Update.class) Integer count,
                 @NotBlank
                 @OneOf({ "all", "single" }) String type,
-                Enum1 enumeration) {
+                Enum1 enumeration,
+                Optional<Enum1> optionalEnum) {
         }
     }
 

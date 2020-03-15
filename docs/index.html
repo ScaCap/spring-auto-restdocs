@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 2.0.7</span>
+<span id="revnumber">version 2.0.8</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -653,7 +653,7 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;2.0.7&lt;/version&gt;
+    &lt;version&gt;2.0.8&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;
 
@@ -690,7 +690,7 @@ please use the 1.0.x version of Spring Auto REST Docs.</p>
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="3"></i><b>(3)</b>
-                            &lt;version&gt;2.0.7&lt;/version&gt;
+                            &lt;version&gt;2.0.8&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="2"></i><b>(2)</b>
                         &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="2"></i><b>(2)</b>
@@ -735,8 +735,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.7'
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.7' <i class="conum" data-value="3"></i><b>(3)</b>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.8'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.8' <i class="conum" data-value="3"></i><b>(3)</b>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -2266,6 +2266,9 @@ See example project for <a href="https://github.com/ScaCap/spring-auto-restdocs/
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/BinaryReplacementContentModifier.java">binary replacement</a>: replaces content with <code>&lt;binary&gt;</code> for common mime types</p>
 </li>
 <li>
+<p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/MultipartContentOperationPreprocessor.java">multipart binary replacement</a>: replaces content with <code>&lt;binary&gt;</code> for multipart/form-data requests</p>
+</li>
+<li>
 <p><a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/spring-auto-restdocs-core/src/main/java/capital/scalable/restdocs/response/ArrayLimitingJsonContentModifier.java">limit JSON array length</a>: limits all JSON arrays to 3 items</p>
 </li>
 </ul>
@@ -2508,8 +2511,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.7<br>
-Last updated 2019-10-07 11:42:51 +0200
+Version 2.0.8<br>
+Last updated 2020-02-24 21:43:07 +0100
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

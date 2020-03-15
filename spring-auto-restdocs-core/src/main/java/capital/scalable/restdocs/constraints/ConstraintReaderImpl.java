@@ -22,6 +22,7 @@ package capital.scalable.restdocs.constraints;
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
 import static capital.scalable.restdocs.constraints.MethodParameterValidatorConstraintResolver.CONSTRAINT_CLASS;
 import static capital.scalable.restdocs.util.FormatUtil.collectionToString;
+import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -31,6 +32,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.util.ReflectionUtils.findField;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,11 +132,28 @@ public class ConstraintReaderImpl implements ConstraintReader {
             return emptyList();
         }
 
-        return getEnumConstraintMessage(field.getType());
+        if (field.getType().isEnum()) {
+            return getEnumConstraintMessage(field.getType());
+        } else {
+            return getEnumConstraintMessage(firstGenericType(field.getGenericType(), javaBaseClass));
+        }
     }
 
     private List<String> getEnumConstraintMessage(MethodParameter param) {
-        return getEnumConstraintMessage(param.getParameterType());
+        if (param.getParameterType().isEnum()) {
+            return getEnumConstraintMessage(param.getParameterType());
+        } else {
+            return getEnumConstraintMessage(firstGenericType(param));
+        }
+    }
+
+    private List<String> getEnumConstraintMessage(Type type) {
+        if (type instanceof Class) {
+            Class<?> clazz = (Class<?>) type;
+            return getEnumConstraintMessage(clazz);
+        } else {
+            return emptyList();
+        }
     }
 
     private List<String> getEnumConstraintMessage(Class<?> rawClass) {

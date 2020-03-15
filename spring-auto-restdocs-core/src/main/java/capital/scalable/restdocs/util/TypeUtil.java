@@ -27,13 +27,20 @@ import static org.apache.commons.lang3.StringUtils.chop;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import capital.scalable.restdocs.jackson.TypeMapping;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.GenericTypeResolver;
+import org.springframework.core.MethodParameter;
 import org.springframework.util.ReflectionUtils;
 
 public class TypeUtil {
@@ -191,5 +198,39 @@ public class TypeUtil {
         }
 
         return types;
+    }
+
+    public static Type firstGenericType(MethodParameter param) {
+        return firstGenericType(param.getGenericParameterType(), param.getContainingClass());
+    }
+
+    public static Type firstGenericType(Type type, Class<?> containingClass) {
+        if (type instanceof TypeVariable) {
+            TypeVariable tv = (TypeVariable) type;
+            return findTypeFromTypeVariable(tv, containingClass);
+        } else if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type actualArgument = parameterizedType.getActualTypeArguments()[0];
+            if (actualArgument instanceof Class) {
+                return actualArgument;
+            } else if (actualArgument instanceof TypeVariable) {
+                TypeVariable typeVariable = (TypeVariable)actualArgument;
+                return findTypeFromTypeVariable(typeVariable, containingClass);
+            }
+            return ((ParameterizedType) type).getActualTypeArguments()[0];
+        } else {
+            return Object.class;
+        }
+    }
+
+    public static Type findTypeFromTypeVariable(TypeVariable typeVariable, Class<?> clazz) {
+        String variableName = typeVariable.getName();
+        Map<TypeVariable, Type> typeMap = GenericTypeResolver.getTypeVariableMap(clazz);
+        for (TypeVariable tv : typeMap.keySet()) {
+            if (StringUtils.equals(tv.getName(), variableName)) {
+                return typeMap.get(tv);
+            }
+        }
+        return Object.class;
     }
 }
