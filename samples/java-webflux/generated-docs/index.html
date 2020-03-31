@@ -650,15 +650,15 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 459
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
-Referrer-Policy: no-referrer
-Content-Length: 459
-Content-Type: application/json;charset=UTF-8
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+X-Frame-Options: DENY
 X-XSS-Protection: 1 ; mode=block
+Referrer-Policy: no-referrer
 
 {
   "id" : "1",
@@ -862,14 +862,14 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
-Referrer-Policy: no-referrer
-Content-Type: application/json;charset=UTF-8
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+X-Frame-Options: DENY
 X-XSS-Protection: 1 ; mode=block
+Referrer-Policy: no-referrer
 Content-Length: 598
 
 [ {
@@ -1139,15 +1139,15 @@ Must be at most 10.</p></td>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 124
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
-Referrer-Policy: no-referrer
-Content-Type: application/json;charset=UTF-8
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+X-Frame-Options: DENY
 X-XSS-Protection: 1 ; mode=block
-Content-Length: 124
+Referrer-Policy: no-referrer
 
 {
   "id" : "1",
@@ -1166,7 +1166,7 @@ Content-Length: 124
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-30 21:39:20 +0200
+Last updated 2020-02-10 13:59:21 +0100
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

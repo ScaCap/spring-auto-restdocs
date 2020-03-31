@@ -2,14 +2,14 @@
  * #%L
  * Spring Auto REST Docs Java Web MVC Example Project
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.AutoDocumentation.description;
 import static capital.scalable.restdocs.AutoDocumentation.embedded;
 import static capital.scalable.restdocs.AutoDocumentation.links;
 import static capital.scalable.restdocs.AutoDocumentation.methodAndPath;
+import static capital.scalable.restdocs.AutoDocumentation.modelAttribute;
 import static capital.scalable.restdocs.AutoDocumentation.pathParameters;
 import static capital.scalable.restdocs.AutoDocumentation.requestFields;
 import static capital.scalable.restdocs.AutoDocumentation.requestParameters;
@@ -51,6 +52,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.Filter;
 
+import java.util.Collection;
+
 import capital.scalable.restdocs.example.items.Metadata;
 import capital.scalable.restdocs.example.items.Metadata3;
 import capital.scalable.restdocs.jackson.TypeMapping;
@@ -71,6 +74,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
  * Required set up code for MockMvc tests.
@@ -89,6 +93,9 @@ public abstract class MockMvcBase {
 
     @Autowired
     private Filter springSecurityFilterChain;
+
+    @Autowired
+    private Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers;
 
     protected MockMvc mockMvc;
 
@@ -112,7 +119,8 @@ public abstract class MockMvcBase {
                         .withDefaults(curlRequest(), httpRequest(), httpResponse(),
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
-                                section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION)))
+                                section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION),
+                                modelAttribute(handlerMethodArgumentResolvers)))
                 .build();
     }
 
