@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -127,14 +127,14 @@
             </properties>
         </profile>
         <profile>
-            <id>java13</id>
+            <id>java14</id>
             <activation>
-                <jdk>13</jdk>
+                <jdk>14</jdk>
             </activation>
             <properties>
-                <java.version>13</java.version>
-                <maven.compiler.source>13</maven.compiler.source>
-                <maven.compiler.target>13</maven.compiler.target>
+                <java.version>14</java.version>
+                <maven.compiler.source>14</maven.compiler.source>
+                <maven.compiler.target>14</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
             </properties>
         </profile>
