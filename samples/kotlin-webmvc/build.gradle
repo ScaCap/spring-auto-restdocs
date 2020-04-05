@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        kotlinVersion = "1.3.70"
+        kotlinVersion = "1.3.71"
         springAutoRestDocsVersion = "2.0.9-SNAPSHOT"
         springRestDocsVersion = "2.0.4.RELEASE"
-        springBootVersion = "2.2.4.RELEASE"
+        springBootVersion = "2.2.6.RELEASE"
         dokkaVersion = "0.9.18"
     }
     repositories {
@@ -53,29 +53,29 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.security.oauth:spring-security-oauth2:2.3.5.RELEASE"
-    compile "org.springframework.data:spring-data-commons"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin"
-    compile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
-    compile "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
-    testCompile("org.springframework.boot:spring-boot-starter-test") {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:2.3.5.RELEASE"
+    implementation "org.springframework.data:spring-data-commons"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
+    implementation "capital.scalable:spring-auto-restdocs-shared-pojos-example:${project.version}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module: "commons-logging")
     }
-    testCompile "com.jayway.jsonpath:json-path-assert"
-    testCompile "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
+    testImplementation "com.jayway.jsonpath:json-path-assert"
+    testImplementation "org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestDocsVersion"
     // Java 11 fix for https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
-    testCompile "javax.xml.bind:jaxb-api:2.3.0"
-    testCompile "com.sun.xml.bind:jaxb-core:2.3.0.1"
-    testCompile "com.sun.xml.bind:jaxb-impl:2.3.0.1"
-    testCompile "javax.activation:activation:1.1.1"
+    testImplementation "javax.xml.bind:jaxb-api:2.3.0"
+    testImplementation "com.sun.xml.bind:jaxb-core:2.3.0.1"
+    testImplementation "com.sun.xml.bind:jaxb-impl:2.3.0.1"
+    testImplementation "javax.activation:activation:1.1.1"
     if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-        testCompile "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
+        testImplementation "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
     } else {
-        testCompile "capital.scalable:spring-auto-restdocs-json-doclet-jdk9:$springAutoRestDocsVersion"
+        testImplementation "capital.scalable:spring-auto-restdocs-json-doclet-jdk9:$springAutoRestDocsVersion"
     }}
 
 test {
