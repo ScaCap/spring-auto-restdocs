@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,10 +93,8 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     public void property(BeanProperty prop, boolean required) throws JsonMappingException {
-        JsonProperty jsonProperty = prop.getMember().getAnnotation(JsonProperty.class);
-        if (jsonProperty != null && skipAccessor == jsonProperty.access()) {
+        if (skipProperty(prop))
             return;
-        }
 
         String jsonName = prop.getName();
         String fieldName = prop.getMember().getName();
@@ -114,9 +112,13 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
                 return;
             }
 
-
             visitType(prop, jsonName, fieldName, javaType, ser, required);
         }
+    }
+
+    private boolean skipProperty(BeanProperty prop) {
+        JsonProperty jsonProperty = prop.getMember().getAnnotation(JsonProperty.class);
+        return jsonProperty != null && skipAccessor == jsonProperty.access();
     }
 
     private void visitType(BeanProperty prop, String jsonName, String fieldName, JavaType fieldType,
