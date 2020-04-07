@@ -19,6 +19,7 @@
  */
 package capital.scalable.restdocs.jackson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -33,15 +34,17 @@ class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base {
     private final String path;
     private final TypeRegistry typeRegistry;
     private final TypeFactory typeFactory;
+    private final JsonProperty.Access skipAccessor;
 
     public FieldDocumentationArrayVisitor(SerializerProvider provider,
             FieldDocumentationVisitorContext context, String path, TypeRegistry typeRegistry,
-            TypeFactory typeFactory) {
+            TypeFactory typeFactory, JsonProperty.Access skipAccessor) {
         super(provider);
         this.context = context;
         this.path = path;
         this.typeRegistry = typeRegistry;
         this.typeFactory = typeFactory;
+        this.skipAccessor = skipAccessor;
     }
 
     @Override
@@ -49,7 +52,7 @@ class FieldDocumentationArrayVisitor extends JsonArrayFormatVisitor.Base {
             throws JsonMappingException {
         String elementPath = path + "[]";
         JsonFormatVisitorWrapper visitor = new FieldDocumentationVisitorWrapper(getProvider(),
-                context, elementPath, null, typeRegistry, typeFactory);
+                context, elementPath, null, typeRegistry, typeFactory, skipAccessor);
         handler.acceptJsonFormatVisitor(visitor, elementType);
     }
 }

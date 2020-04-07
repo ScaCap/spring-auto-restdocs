@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import java.util.Set;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -52,18 +53,24 @@ public class FieldDocumentationGenerator {
     private final ConstraintReader constraintReader;
     private final TypeMapping typeMapping;
     private final SnippetTranslationResolver translationResolver;
+    private final JsonProperty.Access skipAccessor;
 
-    public FieldDocumentationGenerator(ObjectWriter writer,
-                                       DeserializationConfig deserializationConfig,
-                                       JavadocReader javadocReader,
-                                       ConstraintReader constraintReader,
-                                       TypeMapping typeMapping, SnippetTranslationResolver translationResolver) {
+    public FieldDocumentationGenerator(
+            ObjectWriter writer,
+            DeserializationConfig deserializationConfig,
+            JavadocReader javadocReader,
+            ConstraintReader constraintReader,
+            TypeMapping typeMapping,
+            SnippetTranslationResolver translationResolver,
+            JsonProperty.Access skipAccessor
+    ) {
         this.writer = writer;
         this.deserializationConfig = deserializationConfig;
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
         this.typeMapping = typeMapping;
         this.translationResolver = translationResolver;
+        this.skipAccessor = skipAccessor;
     }
 
     public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
@@ -74,7 +81,7 @@ public class FieldDocumentationGenerator {
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(
                 javadocReader, constraintReader, deserializationConfig,
-                new TypeRegistry(typeMapping, types), typeFactory, translationResolver);
+                new TypeRegistry(typeMapping, types), typeFactory, translationResolver, skipAccessor);
 
         for (JavaType type : types) {
             log.debug("(TOP) {}", type.getRawClass().getSimpleName());

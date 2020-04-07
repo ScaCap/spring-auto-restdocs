@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -54,15 +55,23 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     private final String path;
     private final TypeRegistry typeRegistry;
     private final TypeFactory typeFactory;
+    private final JsonProperty.Access skipAccessor;
 
-    public FieldDocumentationObjectVisitor(SerializerProvider provider,
-            FieldDocumentationVisitorContext context, String path, TypeRegistry typeRegistry,
-            TypeFactory typeFactory) {
+    public FieldDocumentationObjectVisitor(
+            SerializerProvider provider,
+            FieldDocumentationVisitorContext context,
+            String path,
+            TypeRegistry typeRegistry,
+            TypeFactory typeFactory,
+            JsonProperty.Access skipAccessor
+
+    ) {
         super(provider);
         this.context = context;
         this.path = path;
         this.typeRegistry = typeRegistry;
         this.typeFactory = typeFactory;
+        this.skipAccessor = skipAccessor;
     }
 
     /**
@@ -84,6 +93,11 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
     }
 
     public void property(BeanProperty prop, boolean required) throws JsonMappingException {
+        JsonProperty jsonProperty = prop.getMember().getAnnotation(JsonProperty.class);
+        if (jsonProperty != null && skipAccessor == jsonProperty.access()) {
+            return;
+        }
+
         String jsonName = prop.getName();
         String fieldName = prop.getMember().getName();
 
@@ -116,7 +130,7 @@ class FieldDocumentationObjectVisitor extends JsonObjectFormatVisitor.Base {
                 fieldPath, shouldExpand, required);
 
         JsonFormatVisitorWrapper visitor = new FieldDocumentationVisitorWrapper(getProvider(),
-                context, fieldPath, fieldInfo, typeRegistry, typeFactory);
+                context, fieldPath, fieldInfo, typeRegistry, typeFactory, skipAccessor);
 
         ser.acceptJsonFormatVisitor(visitor, fieldType);
     }

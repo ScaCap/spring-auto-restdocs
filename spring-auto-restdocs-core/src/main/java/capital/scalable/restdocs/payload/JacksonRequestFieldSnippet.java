@@ -25,6 +25,7 @@ import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -98,5 +99,10 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
                 "th-description",
                 "no-request-body"
         };
+    }
+
+    @Override
+    protected JsonProperty.Access getSkipAcessor() {
+        return JsonProperty.Access.READ_ONLY;
     }
 }
