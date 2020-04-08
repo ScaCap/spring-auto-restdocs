@@ -79,7 +79,7 @@ public abstract class JacksonResultHandlers {
         private final ConstraintDescriptionResolver constraintDescriptionResolver;
 
         public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
-            this.objectMapper = objectMapper;
+            this.objectMapper = new SardObjectMapper(objectMapper);
             this.typeMapping = typeMapping;
             this.translationResolver = translationResolver;
             this.constraintDescriptionResolver = constraintDescriptionResolver;

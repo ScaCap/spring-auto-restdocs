@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -83,7 +83,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver(),
+                        null);
         Type type = BasicTypes.class;
 
         // when
@@ -108,7 +109,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = PrimitiveTypes.class;
 
         // when
@@ -124,7 +126,8 @@ public class FieldDocumentationGeneratorTest {
         // when change deserialization config
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
         generator = new FieldDocumentationGenerator(mapper.writer(),
-                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                SnippetTranslationManager.getDefaultResolver(), null);
 
         // when
         result = cast(generator.generateDocumentation(type, mapper.getTypeFactory()).values());
@@ -150,7 +153,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = ComposedTypes.class;
 
         // when
@@ -193,7 +197,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = FirstLevel.class;
 
         // when
@@ -221,7 +226,8 @@ public class FieldDocumentationGeneratorTest {
         // given
         ObjectMapper mapper = createMapper();
         FieldDocumentationGenerator generator = new FieldDocumentationGenerator(mapper.writer(),
-                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                SnippetTranslationManager.getDefaultResolver(), null);
         Type type = RecursiveType.class;
 
         // when
@@ -260,7 +266,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = ExternalSerializer.class;
 
         // when
@@ -285,7 +292,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = JsonAnnotations.class;
 
         // when
@@ -323,7 +331,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = FieldCommentResolution.class;
 
         // when
@@ -356,7 +365,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = ConstraintResolution.class;
 
         // when
@@ -398,7 +408,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = JsonType1.class;
 
         // when
@@ -463,7 +474,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(),
-                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        mapper.getDeserializationConfig(), javadocReader, constraintReader, typeMapping,
+                        SnippetTranslationManager.getDefaultResolver(), null);
         Type type = Plain.class;
 
         // when
@@ -496,7 +508,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver(),
+                        null);
         Type type = BasicTypes.class;
 
         // when
@@ -520,7 +533,8 @@ public class FieldDocumentationGeneratorTest {
 
         FieldDocumentationGenerator generator =
                 new FieldDocumentationGenerator(mapper.writer(), mapper.getDeserializationConfig(),
-                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver());
+                        javadocReader, constraintReader, typeMapping, SnippetTranslationManager.getDefaultResolver(),
+                        null);
         Type type = RequiredProperties.class;
 
         // when

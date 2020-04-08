@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_MODELATTRIBUTE;
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
@@ -32,8 +35,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.SardObjectMapper;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +67,7 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
 
     @Before
     public void setup() {
-        mapper = new ObjectMapper();
+        mapper = new SardObjectMapper(new ObjectMapper());
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         javadocReader = mock(JavadocReader.class);
@@ -172,7 +177,6 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                         .row("subItem2Field", "Integer", "true", "A sub item 2 field."));
     }
 
-
     @Test
     public void hasContentWithModelAttributeAnnotation() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
@@ -240,6 +244,23 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                                 "**Deprecated.** Use index2.\n\nItem's index."));
     }
 
+    @Test
+    public void accessors() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("accessors", ReadWriteAccessors.class);
+
+        new JacksonModelAttributeSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("writeOnly", "String", "true", "")
+                        .row("bothWays", "String", "true", ""));
+    }
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -292,8 +313,11 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
-
         public void removeItem(@ModelAttribute DeprecatedItem item) {
+            // NOOP
+        }
+
+        public void accessors(@ModelAttribute ReadWriteAccessors accessors) {
             // NOOP
         }
     }
@@ -339,5 +363,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
 
     private static class SubItem2 extends ParentItem {
         private Integer subItem2Field;
+    }
+
+    private static class ReadWriteAccessors {
+        @JsonProperty(access = READ_ONLY)
+        private String readOnly;
+        @JsonProperty(access = WRITE_ONLY)
+        private String writeOnly;
+        private String bothWays;
     }
 }

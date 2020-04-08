@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import java.util.List;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -55,29 +56,33 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
     private final InternalFieldInfo fieldInfo;
     private final TypeRegistry typeRegistry;
     private final TypeFactory typeFactory;
+    private final JsonProperty.Access skipAccessor;
 
     FieldDocumentationVisitorWrapper(FieldDocumentationVisitorContext context, String path,
-            InternalFieldInfo fieldInfo, TypeRegistry typeRegistry, TypeFactory typeFactory) {
-        this(null, context, path, fieldInfo, typeRegistry, typeFactory);
+            InternalFieldInfo fieldInfo, TypeRegistry typeRegistry, TypeFactory typeFactory,
+            JsonProperty.Access skipAccessor) {
+        this(null, context, path, fieldInfo, typeRegistry, typeFactory, skipAccessor);
     }
 
     FieldDocumentationVisitorWrapper(SerializerProvider provider,
             FieldDocumentationVisitorContext context, String path, InternalFieldInfo fieldInfo,
-            TypeRegistry typeRegistry, TypeFactory typeFactory) {
+            TypeRegistry typeRegistry, TypeFactory typeFactory, JsonProperty.Access skipAccessor) {
         this.provider = provider;
         this.context = context;
         this.path = path;
         this.fieldInfo = fieldInfo;
         this.typeRegistry = typeRegistry;
         this.typeFactory = typeFactory;
+        this.skipAccessor = skipAccessor;
     }
 
     public static FieldDocumentationVisitorWrapper create(JavadocReader javadocReader,
-                                                          ConstraintReader constraintReader, DeserializationConfig deserializationConfig,
-                                                          TypeRegistry typeRegistry, TypeFactory typeFactory, SnippetTranslationResolver translationResolver) {
+            ConstraintReader constraintReader, DeserializationConfig deserializationConfig,
+            TypeRegistry typeRegistry, TypeFactory typeFactory, SnippetTranslationResolver translationResolver,
+            JsonProperty.Access skipAccessor) {
         FieldDocumentationVisitorContext context = new FieldDocumentationVisitorContext(
                 javadocReader, constraintReader, deserializationConfig, translationResolver);
-        return new FieldDocumentationVisitorWrapper(context, "", null, typeRegistry, typeFactory);
+        return new FieldDocumentationVisitorWrapper(context, "", null, typeRegistry, typeFactory, skipAccessor);
     }
 
     @Override
@@ -96,7 +101,7 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
         if (shouldExpand() && (topLevelPath() || !wasVisited(type))) {
             log.trace("({}) {} expanding", path, toString(type));
             return new FieldDocumentationObjectVisitor(provider, context, path,
-                    withVisitedType(type), typeFactory);
+                    withVisitedType(type), typeFactory, skipAccessor);
         } else {
             log.trace("({}) {} NOT expanding", path, toString(type));
             return new JsonObjectFormatVisitor.Base();
@@ -113,7 +118,7 @@ class FieldDocumentationVisitorWrapper implements JsonFormatVisitorWrapper {
             // do not add this type to visited now, it will be done in expectObjectFormat for
             // content type of this array
             return new FieldDocumentationArrayVisitor(provider, context, path,
-                    typeRegistry, typeFactory);
+                    typeRegistry, typeFactory, skipAccessor);
         } else {
             log.trace("({}) {} NOT expanding array", path, "<unknown>");
             return new JsonArrayFormatVisitor.Base();

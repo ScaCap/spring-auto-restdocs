@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,13 @@
  */
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -40,10 +43,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
+import capital.scalable.restdocs.jackson.SardObjectMapper;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -79,7 +84,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     @Before
     public void setup() {
-        mapper = new ObjectMapper();
+        // SardObjectMapper doesn't really matter here as we're using serializer logic
+        // which skips WRITE_ONLY fields automatically
+        mapper = new SardObjectMapper(new ObjectMapper());
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
                 .withGetterVisibility(JsonAutoDetect.Visibility.ANY));
@@ -433,7 +440,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
-    public void genericSuperMethodCollection() throws Exception{
+    public void genericSuperMethodCollection() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("getItemsGeneric");
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "A decimal");
@@ -471,6 +478,22 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .row("field2", "Decimal", "true", "A decimal."));
     }
 
+    @Test
+    public void accessors() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("accessors");
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("readOnly", "String", "true", "")
+                        .row("bothWays", "String", "true", ""));
+    }
 
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
@@ -522,7 +545,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         List<T> getItemsGeneric();
     }
 
-    public static abstract class GenericTestResource<E> implements IGenericTestResource<E>{
+    public static abstract class GenericTestResource<E> implements IGenericTestResource<E> {
 
         abstract E createGeneric();
 
@@ -537,7 +560,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     }
 
     // actual method responses do not matter, they are here just for the illustration
-    private static class TestResource extends GenericTestResource<Item>{
+    private static class TestResource extends GenericTestResource<Item> {
 
         @Override
         Item createGeneric() {
@@ -601,6 +624,10 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
             response.embed("commented", new CommentedItem());
             response.add(linkTo(methodOn(TestResource.class).getItem()).withSelfRel());
             return response;
+        }
+
+        public ReadWriteAccessors accessors() {
+            return new ReadWriteAccessors();
         }
     }
 
@@ -708,5 +735,13 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                 embedded.add(wrapper.wrap(resource, rel));
             }
         }
+    }
+
+    private static class ReadWriteAccessors {
+        @JsonProperty(access = READ_ONLY)
+        private String readOnly;
+        @JsonProperty(access = WRITE_ONLY)
+        private String writeOnly;
+        private String bothWays;
     }
 }

@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
@@ -140,5 +141,10 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
             "pagination-request-md",
             "no-params"
         };
+    }
+
+    @Override
+    protected JsonProperty.Access getSkipAcessor() {
+        return JsonProperty.Access.READ_ONLY;
     }
 }
