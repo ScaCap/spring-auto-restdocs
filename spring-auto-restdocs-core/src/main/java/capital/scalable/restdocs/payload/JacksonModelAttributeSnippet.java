@@ -20,12 +20,19 @@
 
 package capital.scalable.restdocs.payload;
 
+import static capital.scalable.restdocs.SnippetRegistry.AUTO_MODELATTRIBUTE;
+import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import capital.scalable.restdocs.OperationAttributeHelper;
+import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
+import capital.scalable.restdocs.jackson.FieldDescriptors;
+import capital.scalable.restdocs.util.HandlerMethodUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
@@ -35,16 +42,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import capital.scalable.restdocs.OperationAttributeHelper;
-import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
-import capital.scalable.restdocs.jackson.FieldDescriptors;
-import capital.scalable.restdocs.payload.AbstractJacksonFieldSnippet;
-import capital.scalable.restdocs.request.RequestParametersSnippet;
-import capital.scalable.restdocs.util.HandlerMethodUtil;
-
-import static capital.scalable.restdocs.SnippetRegistry.AUTO_MODELATTRIBUTE;
-import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 
 public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     private final boolean failOnUndocumentedFields;

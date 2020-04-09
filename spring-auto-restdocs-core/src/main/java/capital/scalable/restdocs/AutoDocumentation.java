@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
  */
 package capital.scalable.restdocs;
 
+import java.util.Collection;
+
 import capital.scalable.restdocs.hypermedia.EmbeddedSnippet;
 import capital.scalable.restdocs.hypermedia.LinksSnippet;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
@@ -31,9 +33,6 @@ import capital.scalable.restdocs.request.PathParametersSnippet;
 import capital.scalable.restdocs.request.RequestHeaderSnippet;
 import capital.scalable.restdocs.request.RequestParametersSnippet;
 import capital.scalable.restdocs.section.SectionBuilder;
-
-import java.util.Collection;
-
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 

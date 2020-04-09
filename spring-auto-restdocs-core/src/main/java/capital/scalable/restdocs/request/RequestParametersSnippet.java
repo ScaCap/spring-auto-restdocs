@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.util.Map;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.HandlerMethodUtil;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.RequestParam;

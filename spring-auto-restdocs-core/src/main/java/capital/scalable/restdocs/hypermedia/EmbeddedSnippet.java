@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_EMBEDDED;
 import java.lang.reflect.Type;
 
 import capital.scalable.restdocs.payload.AbstractJacksonFieldSnippet;
-
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
 

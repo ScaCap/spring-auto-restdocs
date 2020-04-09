@@ -19,6 +19,11 @@
  */
 package capital.scalable.restdocs.response;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.OperationRequest;
@@ -26,11 +31,6 @@ import org.springframework.restdocs.operation.OperationRequestFactory;
 import org.springframework.restdocs.operation.OperationRequestPart;
 import org.springframework.restdocs.operation.OperationRequestPartFactory;
 import org.springframework.restdocs.operation.preprocess.OperationPreprocessorAdapter;
-
-import java.util.List;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 public class MultipartContentOperationPreprocessor extends OperationPreprocessorAdapter {
     private static final byte[] BINARY_REPLACEMENT = "<binary>".getBytes(UTF_8);
