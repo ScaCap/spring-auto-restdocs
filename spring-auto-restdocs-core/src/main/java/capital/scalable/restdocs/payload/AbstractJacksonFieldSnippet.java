@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2019 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,15 @@
  */
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.OperationAttributeHelper.*;
+import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
+import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTranslationResolver;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTypeMapping;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -40,9 +43,6 @@ import capital.scalable.restdocs.snippet.StandardTableSnippet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.GenericTypeResolver;
-import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.method.HandlerMethod;
 

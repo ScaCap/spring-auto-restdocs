@@ -20,7 +20,6 @@
 package capital.scalable.restdocs.payload;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_MODELATTRIBUTE;
-import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
