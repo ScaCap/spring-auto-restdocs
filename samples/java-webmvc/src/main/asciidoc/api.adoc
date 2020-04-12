@@ -1,0 +1,14 @@
+= API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-some]]
+== Some
+
+=== Header And Request
+
+include::{snippets}/some-controller-i-t/should-do/auto-section.adoc[]
