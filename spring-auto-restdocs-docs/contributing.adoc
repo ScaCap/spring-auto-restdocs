@@ -103,6 +103,7 @@ task testJar(type: Jar) {
 To speed the build up and avoid test issues, once can reduce the list ob subprojects in
 `settings.gradle` to just `core` and `integration`.
 
+Make sure that the current JDK is 8.
 Create the test JAR by running the following command on the top level:
 
 .Bash
