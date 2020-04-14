@@ -101,7 +101,7 @@ class PassConfigurationImpl (
     override val reportUndocumented: Boolean = false,
     override val skipEmptyPackages: Boolean = false,
     override val skipDeprecated: Boolean = false,
-    override val jdkVersion: Int = 6,
+    override val jdkVersion: Int = 8,
     override val sourceLinks: List<DokkaConfiguration.SourceLinkDefinition> = emptyList(),
     override val perPackageOptions: List<DokkaConfiguration.PackageOptions> = emptyList(),
     override val externalDocumentationLinks: List<DokkaConfiguration.ExternalDocumentationLink> = emptyList(),
