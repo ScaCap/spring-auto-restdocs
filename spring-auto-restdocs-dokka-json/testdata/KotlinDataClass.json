@@ -1,28 +1,28 @@
 {
-  "comment" : "Class documentation<p>Next paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul>",
+  "comment" : "Class documentation<p>Next paragraph\nUTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép</p><ul><li>Item 1</li><li>Item 2</li></ul>",
   "fields" : {
     "text" : {
-      "comment" : "Documentation for text property",
+      "comment" : "Documentation for <i>text</i> property (テスト)",
       "tags" : {
         "see" : "KotlinDataClass",
-        "deprecated" : "Use something else",
+        "deprecated" : "Use something else (テスト)",
         "title" : "Custom tag"
       }
     },
     "number" : {
-      "comment" : "Documentation for number property",
+      "comment" : "Documentation for <i>number</i> property",
       "tags" : { }
     }
   },
   "methods" : {
     "add" : {
-      "comment" : "Function add<p><a href=\"http://some-url.com\">some link</a></p>",
+      "comment" : "Function add (テスト)<p><a href=\"http://some-url.com\">some link</a></p>",
       "parameters" : {
-        "a" : "First param a",
-        "b" : "Second param b"
+        "a" : "First param <b>a</b>",
+        "b" : "Second param <b>b</b>"
       },
       "tags" : {
-        "parameters" : "Second param b",
+        "parameters" : "Second param <b>b</b>",
         "see" : "KotlinDataClass",
         "deprecated" : "Use something else",
         "title" : "Custom tag"

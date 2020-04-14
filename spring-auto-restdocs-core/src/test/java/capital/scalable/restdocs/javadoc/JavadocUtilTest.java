@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -109,16 +109,16 @@ public class JavadocUtilTest {
 
     @Test
     public void convertStylingAsciidoc() {
-        String actual = "<b>bold</b>normal<i>italics</i>";
-        String expected = "**bold**normal__italics__";
+        String actual = "<b>bold</b>normal<i>italics</i><code>code()</code>";
+        String expected = "**bold**normal__italics__`code()`";
         assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.ASCIIDOC),
                 is(expected));
     }
 
     @Test
     public void convertStylingMarkdown() {
-        String actual = "<b>bold</b>normal<i>italics</i>";
-        String expected = "**bold**normal*italics*";
+        String actual = "<b>bold</b>normal<i>italics</i><code>code()</code>";
+        String expected = "**bold**normal*italics*`code()`";
         assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
                 is(expected));
     }

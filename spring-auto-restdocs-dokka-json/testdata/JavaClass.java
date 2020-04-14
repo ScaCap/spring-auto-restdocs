@@ -4,7 +4,7 @@ import java.math.BigDecimal;
  * Javadoc on a Java class
  * <p>
  * Next paragraph
- *
+ * UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép
  * <ul>
  *     <li>Item 1</li>
  *     <li>Item 2</li>

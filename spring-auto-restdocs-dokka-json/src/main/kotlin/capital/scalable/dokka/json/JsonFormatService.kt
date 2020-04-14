@@ -127,9 +127,13 @@ open class JsonOutputBuilder(
     private fun extractContent(content: ContentNode, topLevel: Boolean): String {
         when (content) {
             is ContentText -> return content.text
+            is ContentEmphasis -> return wrap("<i>", "</i>", joinChildren(content))
+            is ContentStrong -> return wrap("<b>", "</b>", joinChildren(content))
+            is ContentCode -> return wrap("<code>", "</code>", joinChildren(content))
             is ContentUnorderedList -> return wrap("<ul>", "</ul>", joinChildren(content))
             is ContentListItem -> return listItem(content)
             is ContentParagraph -> return paragraph(content, topLevel)
+            is ContentSection -> return paragraph(content, topLevel)
             is ContentExternalLink -> return "<a href=\"${content.href}\">${joinChildren(content)}</a>"
             // Ignore href of references to other code parts and just show the link text, e.g. class name.
             is ContentNodeLink -> return joinChildren(content)
@@ -137,12 +141,14 @@ open class JsonOutputBuilder(
             // thus this one has to be after them.
             is ContentBlock -> return joinChildren(content)
             is ContentEmpty -> return ""
+            is ContentSymbol -> return ""
+            is NodeRenderContent -> return ""
             else -> logger.warn("Unhandled content node: $content")
         }
         return ""
     }
 
-    private fun paragraph(paragraph: ContentParagraph, topLevel: Boolean): String {
+    private fun paragraph(paragraph: ContentBlock, topLevel: Boolean): String {
         return if (topLevel) {
             // Ignore paragraphs on the top level
             joinChildren(paragraph)

@@ -85,10 +85,11 @@ internal class ItemResource {
     fun allItems() = arrayOf(ITEM, CHILD)
 
     /**
-     * Adds new item.
+     * Adds a new **item**.
      *
+     * An *example* of accepting a custom type as request body and returning a [ResponseEntity].
      *
-     * An example of accepting a custom type as request body and returning a [ResponseEntity].
+     * `someCode("foo")`
      *
      * @param itemUpdate Item information
      * @return response
