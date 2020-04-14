@@ -22,10 +22,13 @@ package capital.scalable.dokka.json
 import org.jetbrains.dokka.DocumentationModule
 import org.jetbrains.dokka.DocumentationNode
 import org.jetbrains.dokka.DokkaConsoleLogger
+import org.jetbrains.dokka.FileLocation
 import org.jetbrains.dokka.NodeKind
+import org.jetbrains.dokka.tests.verifyJavaOutput
+import org.jetbrains.dokka.tests.verifyOutput
 import org.junit.Test
 
-private val tempLocation = InMemoryLocation("")
+private val tempLocation = FileLocation(createTempFile())
 
 class JsonFormatServiceTest {
 

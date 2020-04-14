@@ -36,7 +36,7 @@
         <spring-restdocs.version>2.0.4.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.9-SNAPSHOT</spring-auto-restdocs.version>
         <kotlin.version>1.3.71</kotlin.version>
-        <dokka.version>0.9.18</dokka.version>
+        <dokka.version>0.10.1</dokka.version>
         <jsonDirectory>${project.build.directory}/generated-javadoc-json</jsonDirectory>
     </properties>
 
@@ -343,6 +343,7 @@
                             <prefix>capital.scalable.restdocs.example</prefix>
                             <!-- This feature only works inside packageOptions for the Maven plugin  -->
                             <includeNonPublic>true</includeNonPublic>
+                            <reportUndocumented>false</reportUndocumented>
                         </packageOptions>
                     </perPackageOptions>
                 </configuration>

@@ -49,6 +49,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <spring-restdocs.version>2.0.4.RELEASE</spring-restdocs.version>
+        <dokka.version>0.10.1</dokka.version>
     </properties>
 
     <build>
