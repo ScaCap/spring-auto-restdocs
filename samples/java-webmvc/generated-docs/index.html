@@ -1109,10 +1109,13 @@ Content-Length: 598
 <p><code>POST /items</code></p>
 </div>
 <div class="paragraph">
-<p>Adds new item.</p>
+<p>Adds a new <strong>item</strong>.</p>
 </div>
 <div class="paragraph">
-<p>An example of accepting a custom type as request body and returning a {@link ResponseEntity}.</p>
+<p>An <em>example</em> of accepting a custom type as request body and returning a {@link ResponseEntity}.</p>
+</div>
+<div class="paragraph">
+<p><code>someCode("foo")</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_authorization_3"><a class="anchor" href="#_authorization_3"></a><a class="link" href="#_authorization_3">2.3.1. Authorization</a></h4>
@@ -1236,7 +1239,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 0b765e43-cb96-4f00-b747-af7e62590e11' \
+    -H 'Authorization: Bearer 5f5cb4c9-67a4-44da-bf06-e7d299ed9287' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1539,7 +1542,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 0b765e43-cb96-4f00-b747-af7e62590e11' \
+    -H 'Authorization: Bearer 5f5cb4c9-67a4-44da-bf06-e7d299ed9287' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1663,7 +1666,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 0b765e43-cb96-4f00-b747-af7e62590e11'</code></pre>
+    -H 'Authorization: Bearer 5f5cb4c9-67a4-44da-bf06-e7d299ed9287'</code></pre>
 </div>
 </div>
 </div>
@@ -2228,6 +2231,8 @@ Content-Length: 1072
   "totalElements" : 1,
   "last" : true,
   "size" : 20,
+  "numberOfElements" : 1,
+  "first" : true,
   "number" : 0,
   "sort" : {
     "orders" : [ ],
@@ -2235,8 +2240,6 @@ Content-Length: 1072
     "unsorted" : true,
     "empty" : true
   },
-  "numberOfElements" : 1,
-  "first" : true,
   "empty" : false
 }</code></pre>
 </div>
@@ -3527,7 +3530,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-10 13:59:32 +0100
+Last updated 2020-04-12 14:15:02 +0200
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

@@ -1,8 +1,8 @@
 {
-  "comment" : "A nested class",
+  "comment" : "A nested class<p><code>There is a literal backtick (`) here.</code></p>",
   "fields" : {
     "someField" : {
-      "comment" : "Field on a nested class",
+      "comment" : "Field on a nested class with some code: <code>println(\"foo\")</code>",
       "tags" : { }
     }
   },
