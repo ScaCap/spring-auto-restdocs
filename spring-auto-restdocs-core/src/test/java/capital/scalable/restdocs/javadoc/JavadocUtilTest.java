@@ -108,17 +108,49 @@ public class JavadocUtilTest {
     }
 
     @Test
-    public void convertStylingAsciidoc() {
-        String actual = "<b>bold</b>normal<i>italics</i><code>code()</code>";
-        String expected = "**bold**normal__italics__`code()`";
+    public void convertBoldStylingAsciidoc() {
+        String actual = "before<b>bold</b>normal<strong>bold2</strong>after";
+        String expected = "before**bold**normal**bold2**after";
         assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.ASCIIDOC),
                 is(expected));
     }
 
     @Test
-    public void convertStylingMarkdown() {
-        String actual = "<b>bold</b>normal<i>italics</i><code>code()</code>";
-        String expected = "**bold**normal*italics*`code()`";
+    public void convertItalicsStylingAsciidoc() {
+        String actual = "before<i>italics</i>normal<em>italics2</em>after";
+        String expected = "before__italics__normal__italics2__after";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.ASCIIDOC),
+                is(expected));
+    }
+
+    @Test
+    public void convertCodeStylingAsciidoc() {
+        String actual = "before <code>code()</code> after";
+        String expected = "before `code()` after";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.ASCIIDOC),
+                is(expected));
+    }
+
+    @Test
+    public void convertBoldStylingMarkdown() {
+        String actual = "before<b>bold</b>normal<strong>bold2</strong>after";
+        String expected = "before**bold**normal**bold2**after";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
+                is(expected));
+    }
+
+    @Test
+    public void convertItalicsStylingMarkdown() {
+        String actual = "before<i>italics</i>normal<em>italics2</em>after";
+        String expected = "before*italics*normal*italics2*after";
+        assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
+                is(expected));
+    }
+
+    @Test
+    public void convertCodeStylingMarkdown() {
+        String actual = "before <code>code()</code> after";
+        String expected = "before `code()` after";
         assertThat(JavadocUtil.convertFromJavadoc(actual, TemplateFormatting.MARKDOWN),
                 is(expected));
     }

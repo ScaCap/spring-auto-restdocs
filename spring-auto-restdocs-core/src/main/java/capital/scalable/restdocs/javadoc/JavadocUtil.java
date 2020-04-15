@@ -45,8 +45,12 @@ public class JavadocUtil {
                 .replace("</li>", "")
                 .replace("<b>", templateFormatting.getBold())
                 .replace("</b>", templateFormatting.getBold())
+                .replace("<strong>", templateFormatting.getBold())
+                .replace("</strong>", templateFormatting.getBold())
                 .replace("<i>", templateFormatting.getItalics())
                 .replace("</i>", templateFormatting.getItalics())
+                .replace("<em>", templateFormatting.getItalics())
+                .replace("</em>", templateFormatting.getItalics())
                 .replace("<code>", templateFormatting.getCode())
                 .replace("</code>", templateFormatting.getCode())
                 .replaceAll("<a\\s+href\\s*=\\s*[\"\'](.*?)[\"\']\\s*>(.*?)</a>",
