@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,13 +19,14 @@
  */
 package capital.scalable.restdocs.payload;
 
-import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
 import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -49,6 +50,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -495,6 +498,42 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
                         .row("bothWays", "String", "true", ""));
     }
 
+    @Test
+    public void parentType() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("parentTypeAsResponse");
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("accountNumber", "String", "true", "")
+                        .row("balance", "Integer", "true", "")
+                        .row("transactions", "Array[Object]", "true", "")
+                        .row("transactions[].amount", "Decimal", "true", ""));
+    }
+
+    @Test
+    public void subType() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("subTypeAsResponse");
+
+        new JacksonResponseFieldSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_RESPONSE_FIELDS)).is(
+                tableWithHeader("Path", "Type", "Optional", "Description")
+                        .row("accountNumber", "String", "true", "")
+                        .row("balance", "Integer", "true", ""));
+    }
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -629,6 +668,14 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         public ReadWriteAccessors accessors() {
             return new ReadWriteAccessors();
         }
+
+        public Response parentTypeAsResponse() {
+            return new BalanceResponse();
+        }
+
+        public BalanceResponse subTypeAsResponse() {
+            return new BalanceResponse();
+        }
     }
 
     private static class Item {
@@ -743,5 +790,25 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         @JsonProperty(access = WRITE_ONLY)
         private String writeOnly;
         private String bothWays;
+    }
+
+    @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type", visible = true)
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = BalanceResponse.class, name = "BalanceResponse"),
+            @JsonSubTypes.Type(value = TransactionsResponse.class, name = "TransactionResponse") })
+    public static class Response {
+        private String accountNumber;
+    }
+
+    public static class BalanceResponse extends Response {
+        private int balance;
+    }
+
+    public static class TransactionsResponse extends Response {
+        private List<Transaction> transactions;
+    }
+
+    public static class Transaction {
+        private BigDecimal amount;
     }
 }
