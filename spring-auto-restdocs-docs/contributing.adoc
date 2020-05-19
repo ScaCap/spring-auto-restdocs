@@ -4,12 +4,12 @@
 [[contributing-building]]
 === Building from source
 
-[[contributing-installing-testjar]]
+[[contributing-installing-restdocs-testjar]]
 ==== Install Spring REST Docs test JAR
 
 The Spring REST Docs test JAR is not published via Maven, but this project relies on it.
 If you want to build this project yourself, you need to install the test JAR.
-The test JAR is located in the lib folder and can be installed as follow:
+The test JAR is located in the lib folder and can be installed as follows:
 
 .Bash
 [source,bash]
@@ -19,7 +19,22 @@ mvn install:install-file -Dfile=lib/spring-restdocs-core-${spring-restdocs.versi
     -Dversion=${spring-restdocs.version} -Dpackaging=test-jar -Dclassifier=test
 ----
 
-[[contributing-building-testjar]]
+[[contributing-installing-dokka-testjar]]
+==== Install Dokka Core test JAR
+
+Dokka publishes no test JAR, but the Spring Auto REST Docs Dokka extension uses their test utilities.
+If you want to build this project yourself, you need to install the test JAR.
+The test JAR is located in the lib folder and can be installed as follows:
+
+.Bash
+[source,bash]
+----
+mvn install:install-file -Dfile=lib/dokka-core-${dokka.version}-tests.jar \
+     -DgroupId=org.jetbrains.dokka -DartifactId=dokka-core -Dversion=${dokka.version} \
+     -Dpackaging=jar -Dclassifier=test
+----
+
+[[contributing-building-restdocs-testjar]]
 ==== Build Spring REST Docs test JAR
 
 Building the Spring REST Docs test JAR is not required to build the project,
@@ -56,6 +71,49 @@ git checkout tags/v${spring-restdocs.version}
 Afterwards the test JAR is located at
 `spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-${spring-restdocs.version}-test.jar`
 and has to be installed with the Maven command shown in the section above.
+
+[[contributing-building-dokka-testjar]]
+==== Build Dokka Core test JAR
+
+Building the Dokka core test JAR is not required to build the project,
+but if you ever want to upgrade the version of Dokka in this project this step has to be done.
+
+We use version ${dokka.version} of Dokka in this example.
+
+Clone and checkout a specific version of Dokka:
+
+.Bash
+[source,bash]
+----
+git clone git@github.com:Kotlin/dokka.git
+cd dokka
+git checkout ${dokka.version}
+----
+
+Add the following snippet at the end of `core/build.gradle`:
+
+[source,groovy]
+----
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}
+----
+
+To speed the build up and avoid test issues, once can reduce the list of sub-projects in
+`settings.gradle` to just `core` and `integration`.
+
+Make sure to use JDK 8 for the build.
+Create the test JAR by running the following command on the top-level:
+
+.Bash
+[source,bash]
+----
+./gradlew testJar
+----
+
+Afterwards the test JAR is located at
+`core/build/libs/core-${dokka.version}-SNAPSHOT-tests.jar`
 
 [[contributing-building-build]]
 ==== Build

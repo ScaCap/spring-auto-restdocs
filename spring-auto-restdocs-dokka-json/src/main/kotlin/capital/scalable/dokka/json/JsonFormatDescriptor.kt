@@ -42,6 +42,7 @@ class JsonFormatDescriptor
     override fun configureOutput(binder: Binder): Unit = with(binder) {
         bind<Generator>() toType NodeLocationAwareGenerator::class
         bind<NodeLocationAwareGenerator>() toType JsonFileGenerator::class
+        bind(JsonFileGenerator::class.java) // https://github.com/google/guice/issues/847
         bind<LanguageService>() toType KotlinLanguageService::class
         bind<FormatService>() toType JsonFormatService::class
         bind<PackageListService>() toType DefaultPackageListService::class

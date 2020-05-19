@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMetho
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getTranslationResolver;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.join;
@@ -37,6 +38,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
@@ -84,19 +86,23 @@ public class SectionSnippet extends TemplatedSnippet {
         model.put("title", title);
         model.put("sections", createSections(operation, translationResolver));
 
-        createSections(operation, translationResolver);
-
         return model;
     }
 
-    private List<Section> createSections(Operation operation, SnippetTranslationResolver translationResolver) {
+    private Collection<Section> createSections(Operation operation, SnippetTranslationResolver translationResolver) {
         List<Section> sections = new ArrayList<>();
         for (String sectionName : sectionNames) {
             SectionSupport section = getSectionSnippet(operation, sectionName);
             if (section != null) {
-                if (!skipEmpty || section.hasContent(operation)) {
-                    sections.add(
-                            new Section(section.getFileName(), translationResolver.translate(section.getHeaderKey(operation))));
+                boolean hasContent = section.hasContent(operation);
+                if (!skipEmpty || hasContent) {
+                    String header = translationResolver.translate(section.getHeaderKey(operation));
+                    Optional<Section> toAdd = sections.stream().filter(s -> s.header.equals(header)).findFirst();
+                    if (section.isMergeable() && toAdd.isPresent()) {
+                        toAdd.get().addSection(section.getFileName(), hasContent);
+                    } else {
+                        sections.add(new Section(header, section.getFileName(), hasContent));
+                    }
                 }
             } else {
                 log.warn("Section snippet '" + sectionName + "' is configured to be " +
@@ -119,7 +125,8 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
+    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader,
+            SnippetTranslationResolver translationResolver) {
         String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "title");
         if (isBlank(title)) {
@@ -153,12 +160,27 @@ public class SectionSnippet extends TemplatedSnippet {
     }
 
     static class Section {
-        String fileName;
         String header;
+        List<String> filenames;
+        boolean hasContent;
 
-        public Section(String fileName, String header) {
-            this.fileName = fileName;
+        public Section(String header, String filename, boolean hasContent) {
             this.header = header;
+            this.filenames = new ArrayList<>(singletonList(filename));
+            this.hasContent = hasContent;
+        }
+
+        void addSection(String filename, boolean hasContent) {
+            if (!hasContent) {
+                return;
+            }
+            if (!this.hasContent) {
+                this.hasContent = hasContent;
+                this.filenames = new ArrayList<>(singletonList(filename));
+            } else {
+                this.hasContent = hasContent;
+                filenames.add(filename);
+            }
         }
     }
 }

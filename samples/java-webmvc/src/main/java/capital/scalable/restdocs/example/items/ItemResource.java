@@ -108,9 +108,11 @@ public class ItemResource {
     }
 
     /**
-     * Adds new item.
+     * Adds a new <b>item</b>.
      * <p>
-     * An example of accepting a custom type as request body and returning a {@link ResponseEntity}.
+     * An <i>example</i> of accepting a custom type as request body and returning a {@link ResponseEntity}.
+     * <p>
+     * <code>someCode("foo")</code>
      *
      * @param itemUpdate Item information
      * @return response

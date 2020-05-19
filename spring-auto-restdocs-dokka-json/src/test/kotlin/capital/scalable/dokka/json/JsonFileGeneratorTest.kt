@@ -22,12 +22,19 @@ package capital.scalable.dokka.json
 import com.intellij.openapi.util.io.FileUtil
 import org.jetbrains.dokka.DocumentationModule
 import org.jetbrains.dokka.DokkaConsoleLogger
+import org.jetbrains.dokka.Platform
 import org.jetbrains.dokka.contentRootFromPath
+import org.jetbrains.dokka.tests.ModelConfig
+import org.jetbrains.dokka.tests.verifyJavaModel
+import org.jetbrains.dokka.tests.verifyModel
+import org.jetbrains.kotlin.cli.common.config.KotlinSourceRoot
 import org.junit.Test
 import java.io.File
 import kotlin.test.assertTrue
 
 class JsonFileGeneratorTest {
+
+    private val analysisPlatform = Platform.common
 
     private val root: File = FileUtil.createTempDirectory("dokka-json", "file-generator-test")
 
@@ -47,7 +54,12 @@ class JsonFileGeneratorTest {
 
     private fun verifyOutput(inputFile: String, verifier: (DocumentationModule) -> Unit) {
         verifyModel(
-            contentRootFromPath("testdata/$inputFile"),
+            ModelConfig(
+                roots = arrayOf(
+                    KotlinSourceRoot("testdata/$inputFile", false)
+                ),
+                analysisPlatform = analysisPlatform
+            ),
             verifier = verifier
         )
     }

@@ -6,31 +6,32 @@ import java.math.BigDecimal
  * Class documentation
  *
  * Next paragraph
+ * UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép
  *
  * * Item 1
  * * Item 2
  */
 data class KotlinDataClass(
         /**
-         * Documentation for text property
+         * Documentation for _text_ property (テスト)
          *
          * @see KotlinDataClass
-         * @deprecated Use something else
+         * @deprecated Use something else (テスト)
          * @title Custom tag
          */
         val text: String,
         /**
-         * Documentation for number property
+         * Documentation for *number* property
          */
         val number: BigDecimal) {
 
     /**
-     * Function add
+     * Function add (テスト)
      *
      * [some link](http://some-url.com)
      *
-     * @param a First param a
-     * @param b Second param b
+     * @param a First param **a**
+     * @param b Second param __b__
      * @see KotlinDataClass
      * @deprecated Use something else
      * @title Custom tag
@@ -39,10 +40,12 @@ data class KotlinDataClass(
 
     /**
      * A nested class
+     *
+     * ``There is a literal backtick (`) here.``
      */
     data class NestedClass(
             /**
-             * Field on a nested class
+             * Field on a nested class with some code: `println("foo")`
              */
             val someField: String)
 }
