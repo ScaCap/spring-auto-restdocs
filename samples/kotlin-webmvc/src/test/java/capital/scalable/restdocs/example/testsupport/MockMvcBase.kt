@@ -65,7 +65,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.util.Base64Utils
 import org.springframework.web.context.WebApplicationContext
-import org.springframework.web.method.support.HandlerMethodArgumentResolver
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
 import javax.servlet.Filter
 
 private const val DEFAULT_AUTHORIZATION = "Resource is public."
@@ -87,7 +87,7 @@ abstract class MockMvcBase {
     private lateinit var springSecurityFilterChain: Filter
 
     @Autowired
-    private lateinit var handlerMethodArgumentResolvers: Collection<HandlerMethodArgumentResolver>
+    private lateinit var requestMappingHandlerAdapter: RequestMappingHandlerAdapter
 
     protected lateinit var mockMvc: MockMvc
 
@@ -112,7 +112,7 @@ abstract class MockMvcBase {
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
                                 section(), authorization(DEFAULT_AUTHORIZATION),
-                                modelAttribute(handlerMethodArgumentResolvers)))
+                                modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
                 .build()
     }
 

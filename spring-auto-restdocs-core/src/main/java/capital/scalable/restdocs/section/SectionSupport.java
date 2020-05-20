@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ public interface SectionSupport {
 
     /**
      * Section header key corresponding to entry in translation file.
+     *
      * @param operation operation
      */
     String getHeaderKey(Operation operation);
@@ -40,4 +41,13 @@ public interface SectionSupport {
      * @return true if snippet will return non-empty content; false otherwise
      */
     boolean hasContent(Operation operation);
+
+    /**
+     * Flag if section is mergeable with other sections with the same header
+     *
+     * @return true if this section is mergeable; false otherwise
+     */
+    default boolean isMergeable() {
+        return false;
+    }
 }

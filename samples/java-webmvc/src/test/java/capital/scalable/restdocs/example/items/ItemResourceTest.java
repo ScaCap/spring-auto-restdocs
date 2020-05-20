@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -241,5 +241,19 @@ public class ItemResourceTest extends MockMvcBase {
                 .andDo(commonDocumentation(
                         links().documentationType(LinksDocumentation.class)
                 ));
+    }
+
+    @Test
+    public void getItemWithFilter() throws Exception {
+        mockMvc.perform(get("/items/filtered?name=abc&tag=prod"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateItemWithFilter() throws Exception {
+        mockMvc.perform(put("/items/filtered/1").with(userToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"description\":\"Hot News\"}"))
+                .andExpect(status().isOk());
     }
 }

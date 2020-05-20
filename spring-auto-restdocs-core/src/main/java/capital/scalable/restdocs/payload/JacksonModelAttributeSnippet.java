@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,13 +34,13 @@ import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.HandlerMethodUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
@@ -51,7 +51,8 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
         this(null, false);
     }
 
-    public JacksonModelAttributeSnippet(Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers, boolean failOnUndocumentedFields) {
+    public JacksonModelAttributeSnippet(Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers,
+            boolean failOnUndocumentedFields) {
         super(AUTO_MODELATTRIBUTE, null);
         this.failOnUndocumentedFields = failOnUndocumentedFields;
         this.handlerMethodArgumentResolvers = handlerMethodArgumentResolvers;
@@ -60,26 +61,25 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     @Override
     protected Type getType(HandlerMethod method) {
         for (MethodParameter param : method.getMethodParameters()) {
-            if (isModelAttribute(param) || hasNoHandlerMethodArgumentResolver(param)) {
+            if (isModelAttribute(param) || isProcessedAsModelAttribute(param)) {
                 return getType(param);
             }
         }
         return null;
     }
 
-
     private boolean isModelAttribute(MethodParameter param) {
         return param.getParameterAnnotation(ModelAttribute.class) != null;
     }
 
-    private boolean hasNoHandlerMethodArgumentResolver(MethodParameter param) {
-        return !BeanUtils.isSimpleProperty(param.getParameterType())
-            &&  this.handlerMethodArgumentResolvers != null
-            && this.handlerMethodArgumentResolvers
-            .stream()
-            .noneMatch(obj -> obj.supportsParameter(param));
+    private boolean isProcessedAsModelAttribute(MethodParameter param) {
+        return handlerMethodArgumentResolvers != null
+                && handlerMethodArgumentResolvers.stream()
+                .filter(hmar -> hmar.supportsParameter(param))
+                .findFirst()
+                .filter(first -> first instanceof ModelAttributeMethodProcessor)
+                .isPresent();
     }
-
 
     private Type getType(final MethodParameter param) {
         if (isCollection(param.getParameterType())) {
@@ -89,16 +89,11 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
         }
     }
 
-    /**
-     * is request method get supported
-     * @param method
-     * @return
-     */
     protected boolean isRequestMethodGet(HandlerMethod method) {
         RequestMapping requestMapping = method.getMethodAnnotation(RequestMapping.class);
         return requestMapping == null
-        || requestMapping.method() == null
-        || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> {
+                || requestMapping.method() == null
+                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> {
             return requestMethod == RequestMethod.GET;
         });
     }
@@ -128,15 +123,20 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
+    public boolean isMergeable() {
+        return true; // mergeable with headers above
+    }
+
+    @Override
     protected String[] getTranslationKeys() {
-        return new String[]{
-            "th-parameter",
-            "th-type",
-            "th-optional",
-            "th-description",
-            "pagination-request-adoc",
-            "pagination-request-md",
-            "no-params"
+        return new String[] {
+                "th-parameter",
+                "th-type",
+                "th-optional",
+                "th-description",
+                "pagination-request-adoc",
+                "pagination-request-md",
+                "no-params"
         };
     }
 

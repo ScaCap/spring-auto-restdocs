@@ -52,8 +52,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.Filter;
 
-import java.util.Collection;
-
 import capital.scalable.restdocs.example.items.Metadata;
 import capital.scalable.restdocs.example.items.Metadata3;
 import capital.scalable.restdocs.jackson.TypeMapping;
@@ -74,7 +72,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 /**
  * Required set up code for MockMvc tests.
@@ -95,7 +93,7 @@ public abstract class MockMvcBase {
     private Filter springSecurityFilterChain;
 
     @Autowired
-    private Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers;
+    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     protected MockMvc mockMvc;
 
@@ -120,7 +118,7 @@ public abstract class MockMvcBase {
                                 requestFields(), responseFields(), pathParameters(),
                                 requestParameters(), description(), methodAndPath(),
                                 section(), links(), embedded(), authorization(DEFAULT_AUTHORIZATION),
-                                modelAttribute(handlerMethodArgumentResolvers)))
+                                modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
                 .build();
     }
 

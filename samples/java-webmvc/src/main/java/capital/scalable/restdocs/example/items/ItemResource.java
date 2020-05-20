@@ -32,6 +32,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
 
 import capital.scalable.restdocs.example.common.Money;
 import capital.scalable.restdocs.example.constraints.English;
@@ -72,7 +73,7 @@ public class ItemResource {
             new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE);
     private static final Metadata1 META = new Metadata1("1", "meta1");
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
+            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[] { "top-level" });
 
     /**
      * Returns item by ID.
@@ -104,7 +105,7 @@ public class ItemResource {
      */
     @GetMapping
     public ItemResponse[] allItems() {
-        return new ItemResponse[]{ITEM, CHILD};
+        return new ItemResponse[] { ITEM, CHILD };
     }
 
     /**
@@ -283,7 +284,7 @@ public class ItemResource {
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
         response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
         if (embedded != null && embedded) {
-            response.addEmbedded("children", new Object[]{CHILD});
+            response.addEmbedded("children", new Object[] { CHILD });
             response.addEmbedded("attributes", ATTRIBUTES);
             response.addEmbedded("meta", META);
         }
@@ -301,6 +302,34 @@ public class ItemResource {
         return new EntityModel<>(ITEM,
                 linkTo(methodOn(ItemResource.class).getItemAsResource(id)).withSelfRel()
         );
+    }
+
+    /**
+     * Returns item with filtering.
+     * <p>
+     * Shows how model attribute can be used with query parameters.
+     *
+     * @param name   filter by name
+     * @param filter additional filters
+     * @return matching items
+     */
+    @GetMapping("filtered")
+    public List<ItemResponse> getItemWithFilter(@RequestParam String name, Filter filter) {
+        return singletonList(ITEM);
+    }
+
+    /**
+     * Updates existing item only if filter applies.
+     * <p>
+     * Shows how model attribute can be used with request body.
+     *
+     * @param id         Item ID.
+     * @param itemUpdate Item information.
+     * @param filter     Additional filters.
+     */
+    @PutMapping("filtered/{id}")
+    public void updateItemWithFilter(@PathVariable("id") @Id String id,
+            @RequestBody @Valid ItemUpdateRequest itemUpdate, Filter filter) {
     }
 
     static class CloneData {
@@ -352,5 +381,12 @@ public class ItemResource {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     static class NotFoundException extends RuntimeException {
+    }
+
+    static class Filter {
+        /**
+         * Only items with this tag should be returned.
+         */
+        private String tag;
     }
 }
