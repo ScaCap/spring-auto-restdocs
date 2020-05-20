@@ -795,7 +795,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type", visible = true)
     @JsonSubTypes({
             @JsonSubTypes.Type(value = BalanceResponse.class, name = "BalanceResponse"),
-            @JsonSubTypes.Type(value = TransactionsResponse.class, name = "TransactionResponse") })
+            @JsonSubTypes.Type(value = TransactionsResponse.class, name = "TransactionResponse")})
     public static class Response {
         private String accountNumber;
     }

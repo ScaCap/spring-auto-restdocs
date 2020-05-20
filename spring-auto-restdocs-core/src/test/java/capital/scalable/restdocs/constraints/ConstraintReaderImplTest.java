@@ -291,11 +291,11 @@ public class ConstraintReaderImplTest {
         @DecimalMax("1000")
         private BigDecimal amount;
 
-        @OneOf({ "big", "small" })
+        @OneOf({"big", "small"})
         private String type;
 
         @DecimalMin(value = "10", groups = Update.class)
-        @DecimalMax(value = "1000", groups = { Update.class, Create.class })
+        @DecimalMax(value = "1000", groups = {Update.class, Create.class})
         private BigDecimal amountWithGroup;
 
         @Null(groups = Update.class)
@@ -348,7 +348,7 @@ public class ConstraintReaderImplTest {
                 @Min(value = 1, groups = Create.class)
                 @Max(value = 2, groups = Update.class) Integer count,
                 @NotBlank
-                @OneOf({ "all", "single" }) String type,
+                @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
                 Optional<Enum1> optionalEnum) {
         }

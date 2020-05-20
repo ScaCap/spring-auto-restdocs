@@ -129,7 +129,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected String[] getTranslationKeys() {
-        return new String[] {
+        return new String[]{
                 "th-parameter",
                 "th-type",
                 "th-optional",

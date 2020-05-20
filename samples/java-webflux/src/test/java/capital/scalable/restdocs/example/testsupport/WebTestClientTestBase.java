@@ -96,7 +96,7 @@ public abstract class WebTestClientTestBase {
     }
 
     protected <T extends ExchangeResult> Consumer<T> commonDocumentation(
-                    Snippet... snippets) {
+            Snippet... snippets) {
         return document("{class-name}/{method-name}", preprocessRequest(),
                 commonResponsePreprocessor(), snippets);
     }
@@ -121,23 +121,23 @@ public abstract class WebTestClientTestBase {
 
     private String getAccessToken(String username, String password) {
         String authorization = "Basic "
-                        + new String(Base64Utils.encode("app:very_secret".getBytes()));
+                + new String(Base64Utils.encode("app:very_secret".getBytes()));
         String contentType = MediaType.APPLICATION_JSON + ";charset=UTF-8";
 
         String body = new String(webTestClient.post()
-                        .uri(uriBuilder -> new DefaultUriBuilderFactory()
-                                        .uriString("/oauth/token").queryParam("username", username)
-                                        .queryParam("password", password)
-                                        .queryParam("grant_type", "password")
-                                        .queryParam("scope", "read write").queryParam("client_id", "app")
-                                        .queryParam("client_secret", "very_secret").build())
-                        .header("Authorization", authorization)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED).exchange()
-                        .expectStatus().isOk().expectHeader().contentType(contentType)
-                        .expectBody().jsonPath("$.access_token").isNotEmpty()
-                        .jsonPath("$.token_type").isEqualTo("bearer").jsonPath("$.refresh_token")
-                        .isNotEmpty().jsonPath("$.expires_in").isNumber().jsonPath("$.scope")
-                        .isEqualTo("read write").returnResult().getResponseBody());
+                .uri(uriBuilder -> new DefaultUriBuilderFactory()
+                        .uriString("/oauth/token").queryParam("username", username)
+                        .queryParam("password", password)
+                        .queryParam("grant_type", "password")
+                        .queryParam("scope", "read write").queryParam("client_id", "app")
+                        .queryParam("client_secret", "very_secret").build())
+                .header("Authorization", authorization)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED).exchange()
+                .expectStatus().isOk().expectHeader().contentType(contentType)
+                .expectBody().jsonPath("$.access_token").isNotEmpty()
+                .jsonPath("$.token_type").isEqualTo("bearer").jsonPath("$.refresh_token")
+                .isNotEmpty().jsonPath("$.expires_in").isNumber().jsonPath("$.scope")
+                .isEqualTo("read write").returnResult().getResponseBody());
 
         return body.substring(17, 53);
     }

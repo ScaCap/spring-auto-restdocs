@@ -30,7 +30,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 internal class WebSecurityConfiguration(
-        private val userDetailsService: CustomUserDetailsService
+    private val userDetailsService: CustomUserDetailsService
 ) : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)

@@ -7,7 +7,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
@@ -652,8 +652,8 @@ public class FieldDocumentationGeneratorTest {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL) // does not affect field resolution
-    @JsonIgnoreProperties({ "value" })
-    @JsonPropertyOrder({ "uri", "path" })
+    @JsonIgnoreProperties({"value"})
+    @JsonPropertyOrder({"uri", "path"})
     private static class JsonAnnotations {
         @JsonProperty("path")
         private String location;

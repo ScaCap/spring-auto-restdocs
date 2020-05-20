@@ -32,7 +32,7 @@ public class TranslationRule extends ExternalResource {
         getResolver().setUserMessages("TestSnippetMessages");
     }
 
-    private ResourceBundleSnippetTranslationResolver getResolver(){
-        return ((ResourceBundleSnippetTranslationResolver)SnippetTranslationManager.getDefaultResolver());
+    private ResourceBundleSnippetTranslationResolver getResolver() {
+        return ((ResourceBundleSnippetTranslationResolver) SnippetTranslationManager.getDefaultResolver());
     }
 }

@@ -16,7 +16,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  * #L%
-*/
+ */
 package capital.scalable.restdocs.example.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +51,7 @@ class WebSecurityConfiguration {
                     authentication.setAuthenticated(true);
                 }
                 return Mono.just(authentication);
-            }
-            catch (UsernameNotFoundException e) {
+            } catch (UsernameNotFoundException e) {
                 return Mono.error(e);
             }
         };

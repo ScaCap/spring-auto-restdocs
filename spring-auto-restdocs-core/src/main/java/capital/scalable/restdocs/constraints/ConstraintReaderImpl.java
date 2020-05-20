@@ -62,7 +62,7 @@ public class ConstraintReaderImpl implements ConstraintReader {
     private final SnippetTranslationResolver translationResolver;
 
     private ConstraintReaderImpl(MethodParameterConstraintResolver actualResolver, ObjectMapper objectMapper, SnippetTranslationResolver translationResolver,
-                                 ConstraintDescriptionResolver constraintDescriptionResolver) {
+            ConstraintDescriptionResolver constraintDescriptionResolver) {
         this.translationResolver = translationResolver;
         constraintAndGroupDescriptionResolver = new ConstraintAndGroupDescriptionResolver(
                 constraintDescriptionResolver, translationResolver);

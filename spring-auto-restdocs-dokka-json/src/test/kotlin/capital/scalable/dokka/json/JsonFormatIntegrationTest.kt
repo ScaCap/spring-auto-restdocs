@@ -54,8 +54,8 @@ class JsonFormatIntegrationTest {
 }
 
 data class SourceLinkDefinitionImpl(override val path: String,
-                                    override val url: String,
-                                    override val lineSuffix: String?) : DokkaConfiguration.SourceLinkDefinition {
+    override val url: String,
+    override val lineSuffix: String?) : DokkaConfiguration.SourceLinkDefinition {
     companion object {
         fun parseSourceLinkDefinition(srcLink: String): DokkaConfiguration.SourceLinkDefinition {
             val (path, urlAndLine) = srcLink.split('=')
@@ -76,10 +76,10 @@ class SourceRootImpl(path: String) : DokkaConfiguration.SourceRoot {
 }
 
 data class PackageOptionsImpl(override val prefix: String,
-                              override val includeNonPublic: Boolean = false,
-                              override val reportUndocumented: Boolean = true,
-                              override val skipDeprecated: Boolean = false,
-                              override val suppress: Boolean = false) : DokkaConfiguration.PackageOptions
+    override val includeNonPublic: Boolean = false,
+    override val reportUndocumented: Boolean = true,
+    override val skipDeprecated: Boolean = false,
+    override val suppress: Boolean = false) : DokkaConfiguration.PackageOptions
 
 class DokkaConfigurationImpl(
     override val outputDir: String = "",
@@ -90,7 +90,7 @@ class DokkaConfigurationImpl(
     override val passesConfigurations: List<DokkaConfiguration.PassConfiguration> = listOf(PassConfigurationImpl())
 ) : DokkaConfiguration
 
-class PassConfigurationImpl (
+class PassConfigurationImpl(
     override val classpath: List<String> = emptyList(),
     override val moduleName: String = "",
     override val sourceRoots: List<DokkaConfiguration.SourceRoot> = emptyList(),
@@ -114,4 +114,4 @@ class PassConfigurationImpl (
     override val analysisPlatform: Platform = Platform.DEFAULT,
     override val targets: List<String> = emptyList(),
     override val sinceKotlin: String? = null
-): DokkaConfiguration.PassConfiguration
+) : DokkaConfiguration.PassConfiguration

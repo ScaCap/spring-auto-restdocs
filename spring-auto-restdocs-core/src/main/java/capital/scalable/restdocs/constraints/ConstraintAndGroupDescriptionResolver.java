@@ -102,7 +102,7 @@ public class ConstraintAndGroupDescriptionResolver implements
             return delegate.resolveDescription(constraint);
         } catch (MissingResourceException e) {
             log.debug("No description found for constraint {}: {}. " +
-                            "Fallback to group description.", constraint.getName(), e.getMessage());
+                    "Fallback to group description.", constraint.getName(), e.getMessage());
             return "";
         }
     }

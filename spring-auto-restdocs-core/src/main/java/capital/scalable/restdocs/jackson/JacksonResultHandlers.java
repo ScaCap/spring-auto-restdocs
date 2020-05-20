@@ -59,7 +59,7 @@ public abstract class JacksonResultHandlers {
         return new JacksonPreparingResultHandler(objectMapper, typeMapping, translationResolver, new ResourceBundleConstraintDescriptionResolver());
     }
 
-    public static ResultHandler prepareJackson(ObjectMapper objectMapper,  SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
         return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), translationResolver, constraintDescriptionResolver);
     }
 

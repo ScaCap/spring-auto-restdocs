@@ -52,7 +52,9 @@ import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-/** Tests for {@link WebTestClientInitializer}. */
+/**
+ * Tests for {@link WebTestClientInitializer}.
+ */
 public class WebTestClientInitializerTest {
 
     /**
@@ -124,6 +126,7 @@ public class WebTestClientInitializerTest {
     /**
      * Test for method
      * {@link WebTestClientInitializer#prepareSnippets(ApplicationContext)}.
+     *
      * @throws IOException See {@link Snippet#document(Operation)}.
      */
     @Test
@@ -170,6 +173,7 @@ public class WebTestClientInitializerTest {
      * Test for method
      * {@link WebTestClientInitializer#prepareSnippets(ApplicationContext)} in case of
      * multiple invokes.
+     *
      * @throws IOException See {@link Snippet#document(Operation)}.
      */
     @Test

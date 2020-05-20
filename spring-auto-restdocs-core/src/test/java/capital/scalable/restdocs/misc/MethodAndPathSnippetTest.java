@@ -47,10 +47,9 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
                 .build());
 
         if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
-        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
-        }
-        else {
-        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+            assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
+        } else {
+            assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
         }
     }
 
@@ -63,10 +62,9 @@ public class MethodAndPathSnippetTest extends AbstractSnippetTests {
                 .build());
 
         if (TemplateFormats.asciidoctor().equals(this.templateFormat)) {
-        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
-        }
-        else {
-        	assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
+            assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`+POST /test+`");
+        } else {
+            assertThat(this.generatedSnippets.snippet(AUTO_METHOD_PATH)).isEqualTo("`POST /test`");
         }
     }
 

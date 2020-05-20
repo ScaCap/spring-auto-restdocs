@@ -34,10 +34,10 @@ internal class CustomUserDetailsService : UserDetailsService {
         // with username "test" and password "test".
         return if ("test" == username) {
             User.withDefaultPasswordEncoder()
-                    .username(username)
-                    .password("test")
-                    .authorities("USER")
-                    .build()
+                .username(username)
+                .password("test")
+                .authorities("USER")
+                .build()
         } else {
             throw UsernameNotFoundException(String.format("User %s does not exist!", username))
         }

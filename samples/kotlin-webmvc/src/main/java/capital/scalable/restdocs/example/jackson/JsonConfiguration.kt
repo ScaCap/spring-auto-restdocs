@@ -35,7 +35,7 @@ internal class JsonConfiguration {
     fun objectMapper(): ObjectMapper {
         val mapper = ObjectMapper()
         mapper.setVisibility(mapper.serializationConfig.defaultVisibilityChecker
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY))
+            .withFieldVisibility(JsonAutoDetect.Visibility.ANY))
 
         val module = SimpleModule()
         module.addSerializer(Money::class.java, MoneySerializer())

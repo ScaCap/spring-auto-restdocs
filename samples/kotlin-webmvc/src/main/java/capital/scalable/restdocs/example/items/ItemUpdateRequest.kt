@@ -30,17 +30,17 @@ import javax.validation.constraints.Size
  * Kotlin object for the JSON request.
  */
 internal data class ItemUpdateRequest(
-        /**
-         * Some information about the item.
-         */
-        @get:NotBlank(groups = [(English::class)])
-        @get:Length(max = 20)
-        @get:Size.List(Size(min = 2, max = 10, groups = arrayOf(German::class)), Size(min = 4, max = 12, groups = arrayOf(English::class)))
-        val description: String,
+    /**
+     * Some information about the item.
+     */
+    @get:NotBlank(groups = [(English::class)])
+    @get:Length(max = 20)
+    @get:Size.List(Size(min = 2, max = 10, groups = arrayOf(German::class)), Size(min = 4, max = 12, groups = arrayOf(English::class)))
+    val description: String,
 
-        /**
-         * Country dependent type of the item.
-         */
-        @get:Size(max = 1000)
-        @get:OneOf.List(OneOf(value = arrayOf("klein", "groß"), groups = arrayOf(German::class)), OneOf(value = arrayOf("small", "big"), groups = arrayOf(English::class)))
-        val type: String?)
+    /**
+     * Country dependent type of the item.
+     */
+    @get:Size(max = 1000)
+    @get:OneOf.List(OneOf(value = arrayOf("klein", "groß"), groups = arrayOf(German::class)), OneOf(value = arrayOf("small", "big"), groups = arrayOf(English::class)))
+    val type: String?)

@@ -61,11 +61,11 @@ class FieldDocumentationVisitorContext {
     public FieldDocumentationVisitorContext(JavadocReader javadocReader,
             ConstraintReader constraintReader,
             DeserializationConfig deserializationConfig,
-                                            SnippetTranslationResolver translationResolver) {
+            SnippetTranslationResolver translationResolver) {
         this.javadocReader = javadocReader;
         this.constraintReader = constraintReader;
         this.deserializationConfig = deserializationConfig;
-        this.translationResolver =translationResolver;
+        this.translationResolver = translationResolver;
     }
 
     public List<FieldDescriptor> getFields() {

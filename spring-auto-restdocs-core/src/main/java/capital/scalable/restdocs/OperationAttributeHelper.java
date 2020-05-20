@@ -97,14 +97,14 @@ public class OperationAttributeHelper {
                 .put(JavadocReader.class.getName(), javadocReader);
     }
 
-    public static void setTranslationResolver(MockHttpServletRequest request, SnippetTranslationResolver translationResolver){
+    public static void setTranslationResolver(MockHttpServletRequest request, SnippetTranslationResolver translationResolver) {
         ((Map) request.getAttribute(ATTRIBUTE_NAME_CONFIGURATION))
                 .put(SnippetTranslationResolver.class.getName(), translationResolver);
     }
 
-    public static SnippetTranslationResolver getTranslationResolver(Operation operation){
+    public static SnippetTranslationResolver getTranslationResolver(Operation operation) {
         Object resolver = operation.getAttributes().get(SnippetTranslationResolver.class.getName());
-        if(resolver == null) {
+        if (resolver == null) {
             return SnippetTranslationManager.getDefaultResolver();
         }
         return (SnippetTranslationResolver) resolver;

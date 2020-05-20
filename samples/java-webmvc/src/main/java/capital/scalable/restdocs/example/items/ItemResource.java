@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -73,7 +73,7 @@ public class ItemResource {
             new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE);
     private static final Metadata1 META = new Metadata1("1", "meta1");
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[] { "top-level" });
+            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
 
     /**
      * Returns item by ID.
@@ -105,7 +105,7 @@ public class ItemResource {
      */
     @GetMapping
     public ItemResponse[] allItems() {
-        return new ItemResponse[] { ITEM, CHILD };
+        return new ItemResponse[]{ITEM, CHILD};
     }
 
     /**
@@ -284,7 +284,7 @@ public class ItemResource {
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
         response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
         if (embedded != null && embedded) {
-            response.addEmbedded("children", new Object[] { CHILD });
+            response.addEmbedded("children", new Object[]{CHILD});
             response.addEmbedded("attributes", ATTRIBUTES);
             response.addEmbedded("meta", META);
         }

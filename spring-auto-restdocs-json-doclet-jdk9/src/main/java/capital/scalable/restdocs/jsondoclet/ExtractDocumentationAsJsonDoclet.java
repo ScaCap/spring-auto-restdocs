@@ -44,7 +44,7 @@ import jdk.javadoc.doclet.StandardDoclet;
 
 /**
  * Javadoc to JSON doclet.
- *
+ * <p>
  * Implementation note: this doclet extends the default doclet, mainly to be able to ignore the default parameters.
  * See the {@link ExtractDocumentationAsJsonDoclet#getSupportedOptions()} method.
  */
@@ -123,8 +123,8 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
     }
 
     private static void writeToFile(Path destinationDir, ObjectMapper mapper,
-                                    PackageElement packageElement, TypeElement classOrInterface,
-                                    ClassDocumentation cd) {
+            PackageElement packageElement, TypeElement classOrInterface,
+            ClassDocumentation cd) {
         try {
             Path path = path(destinationDir, packageElement, classOrInterface);
             try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
@@ -137,7 +137,7 @@ public class ExtractDocumentationAsJsonDoclet extends StandardDoclet {
     }
 
     private static Path path(Path destinationDir, PackageElement packageElement,
-                             TypeElement classOrInterface) throws IOException {
+            TypeElement classOrInterface) throws IOException {
         String packageName = packageElement.getQualifiedName().toString();
         String packageDir = packageName.replace(".", File.separator);
         Path packagePath = Paths.get(packageDir);

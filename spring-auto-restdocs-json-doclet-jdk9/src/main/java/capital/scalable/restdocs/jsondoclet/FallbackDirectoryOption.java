@@ -29,7 +29,7 @@ import jdk.javadoc.doclet.Doclet;
  */
 class FallbackDirectoryOption implements Doclet.Option, Comparable<FallbackDirectoryOption> {
 
-    private final String[] names = new String[] { "-d" };
+    private final String[] names = new String[]{"-d"};
 
     @Override
     public String getDescription() {

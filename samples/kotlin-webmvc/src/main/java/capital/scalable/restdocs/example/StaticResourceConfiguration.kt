@@ -33,13 +33,13 @@ internal class StaticResourceConfiguration : WebMvcConfigurer {
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry.addResourceHandler("/docs/**")
-                .addResourceLocations("classpath:/public/")
-                .resourceChain(true)
-                .addResolver(PathResourceResolver())
+            .addResourceLocations("classpath:/public/")
+            .resourceChain(true)
+            .addResolver(PathResourceResolver())
     }
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
         registry.addViewController("/docs")
-                .setViewName("forward:/docs/index.html")
+            .setViewName("forward:/docs/index.html")
     }
 }

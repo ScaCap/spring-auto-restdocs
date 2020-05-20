@@ -79,9 +79,9 @@ open class JsonOutputBuilder(
     private fun propertyDocumentation(node: DocumentationNode): Pair<String, FieldDocumentation> {
         return Pair(
             node.name, FieldDocumentation(
-                comment = extractContent(node),
-                tags = tags(node)
-            )
+            comment = extractContent(node),
+            tags = tags(node)
+        )
         )
     }
 
@@ -93,10 +93,10 @@ open class JsonOutputBuilder(
             }.toMap()
         return Pair(
             node.name, MethodDocumentation(
-                comment = extractContent(node),
-                parameters = parameterComments,
-                tags = tags(node)
-            )
+            comment = extractContent(node),
+            parameters = parameterComments,
+            tags = tags(node)
+        )
         )
     }
 
@@ -119,9 +119,9 @@ open class JsonOutputBuilder(
 
     private fun extractContent(content: List<ContentNode>): String {
         return content
-                .mapIndexed { index, it -> extractContent(it, topLevel = index == 0) }
-                .joinToString("")
-                .trim()
+            .mapIndexed { index, it -> extractContent(it, topLevel = index == 0) }
+            .joinToString("")
+            .trim()
     }
 
     private fun extractContent(content: ContentNode, topLevel: Boolean): String {
@@ -171,8 +171,8 @@ open class JsonOutputBuilder(
 
     private fun joinChildren(block: ContentBlock): String =
         block.children
-                .joinToString("") { extractContent(it, topLevel = false) }
-                .trim()
+            .joinToString("") { extractContent(it, topLevel = false) }
+            .trim()
 }
 
 open class JsonFormatService @Inject constructor(private val logger: DokkaLogger) : FormatService {

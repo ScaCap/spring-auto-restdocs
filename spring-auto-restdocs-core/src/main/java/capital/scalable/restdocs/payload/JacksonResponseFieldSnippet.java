@@ -108,7 +108,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected void enrichModel(Map<String, Object> model, HandlerMethod handlerMethod,
-                               FieldDescriptors fieldDescriptors, SnippetTranslationResolver translationResolver) {
+            FieldDescriptors fieldDescriptors, SnippetTranslationResolver translationResolver) {
         model.put("isPageResponse", isPageResponse(handlerMethod));
         if (fieldDescriptors.getNoContentMessageKey() != null) {
             model.put("no-response-body", translationResolver.translate(fieldDescriptors.getNoContentMessageKey()));
@@ -132,7 +132,7 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected String[] getTranslationKeys() {
-        return new String[] {
+        return new String[]{
                 "th-path",
                 "th-type",
                 "th-optional",

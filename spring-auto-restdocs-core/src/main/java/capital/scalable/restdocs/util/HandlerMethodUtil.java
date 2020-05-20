@@ -26,6 +26,7 @@ public class HandlerMethodUtil {
     private HandlerMethodUtil() {
         // util
     }
+
     public static boolean isPageRequest(HandlerMethod method) {
         for (MethodParameter param : method.getMethodParameters()) {
             if (isPageable(param)) {
@@ -37,6 +38,7 @@ public class HandlerMethodUtil {
 
     public static final String SPRING_DATA_PAGEABLE_CLASS =
             "org.springframework.data.domain.Pageable";
+
     private static boolean isPageable(MethodParameter param) {
         return SPRING_DATA_PAGEABLE_CLASS.equals(
                 param.getParameterType().getCanonicalName());
