@@ -119,8 +119,10 @@ internal class ItemResource {
      * @return response
      */
     @PutMapping("{id}")
-    fun updateItem(@PathVariable("id") @Id id: String,
-        @RequestBody @Valid itemUpdate: ItemUpdateRequest): HttpEntity<ItemResponse> {
+    fun updateItem(
+        @PathVariable("id") @Id id: String,
+        @RequestBody @Valid itemUpdate: ItemUpdateRequest
+    ): HttpEntity<ItemResponse> {
         return HttpEntity(
             ItemResponse(id, itemUpdate.description, null, null, null, null))
     }
@@ -158,11 +160,13 @@ internal class ItemResource {
      * documentation](https://scacap.github.io/spring-auto-restdocs/.constraints)
      */
     @GetMapping("{id}/{child}")
-    fun getChild(@PathVariable @Id id: String,
+    fun getChild(
+        @PathVariable @Id id: String,
         @PathVariable("child")
         @Min(value = 1, groups = [(English::class)])
         @Max(value = 2, groups = [(German::class)])
-        childId: String): ItemResponse {
+        childId: String
+    ): ItemResponse {
         return if ("1" == id && "child-1" == childId) {
             CHILD
         } else {
@@ -185,7 +189,8 @@ internal class ItemResource {
     fun searchItem(
         @RequestParam("desc") @NotBlank @Size(max = 255) descMatch: String,
         @RequestParam(required = false) @Min(10) @Max(100) hint: Int?,
-        page: Pageable): Page<ItemResponse> {
+        page: Pageable
+    ): Page<ItemResponse> {
         return if (ITEM.description.contains(descMatch)) {
             PageImpl(listOf(ITEM), page, 1)
         } else {
@@ -224,8 +229,10 @@ internal class ItemResource {
      * @title Process One Item
      */
     @PostMapping("{itemId}/process")
-    fun processSingleItem(@PathVariable itemId: String,
-        @ModelAttribute command: Command): CommandResult {
+    fun processSingleItem(
+        @PathVariable itemId: String,
+        @ModelAttribute command: Command
+    ): CommandResult {
         return CommandResult("Command executed on item $itemId: ${command.command}")
     }
 

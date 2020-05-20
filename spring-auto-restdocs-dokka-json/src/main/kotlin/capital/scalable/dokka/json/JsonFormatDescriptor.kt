@@ -36,8 +36,8 @@ import org.jetbrains.dokka.Utilities.toType
 
 class JsonFormatDescriptor
     : FormatDescriptor,
-    DefaultAnalysisComponent,
-    DefaultAnalysisComponentServices by KotlinAsKotlin {
+        DefaultAnalysisComponent,
+        DefaultAnalysisComponentServices by KotlinAsKotlin {
 
     override fun configureOutput(binder: Binder): Unit = with(binder) {
         bind<Generator>() toType NodeLocationAwareGenerator::class
