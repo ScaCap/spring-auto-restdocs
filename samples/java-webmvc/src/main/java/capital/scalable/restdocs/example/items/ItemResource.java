@@ -73,7 +73,7 @@ public class ItemResource {
             new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE);
     private static final Metadata1 META = new Metadata1("1", "meta1");
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
+            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[] { "top-level" });
 
     /**
      * Returns item by ID.
@@ -105,7 +105,7 @@ public class ItemResource {
      */
     @GetMapping
     public ItemResponse[] allItems() {
-        return new ItemResponse[]{ITEM, CHILD};
+        return new ItemResponse[] { ITEM, CHILD };
     }
 
     /**
@@ -284,7 +284,7 @@ public class ItemResource {
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
         response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
         if (embedded != null && embedded) {
-            response.addEmbedded("children", new Object[]{CHILD});
+            response.addEmbedded("children", new Object[] { CHILD });
             response.addEmbedded("attributes", ATTRIBUTES);
             response.addEmbedded("meta", META);
         }

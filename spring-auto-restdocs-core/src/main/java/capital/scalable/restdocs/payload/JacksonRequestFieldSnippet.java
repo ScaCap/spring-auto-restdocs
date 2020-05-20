@@ -92,7 +92,7 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
 
     @Override
     protected String[] getTranslationKeys() {
-        return new String[]{
+        return new String[] {
                 "th-path",
                 "th-type",
                 "th-optional",
