@@ -1,5 +1,12 @@
+:core-dir: https://github.com/ScaCap/spring-auto-restdocs/blob/master
+
 [[contributing]]
 == Contributing
+
+[[contributing-pr]]
+=== Pull Requests
+
+For code formatting please use link:{core-dir}/intellij-codestyle.xml[intellij-codestyle.xml].
 
 [[contributing-building]]
 === Building from source

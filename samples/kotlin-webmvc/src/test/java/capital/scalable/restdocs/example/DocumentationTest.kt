@@ -30,7 +30,7 @@ class DocumentationTest : MockMvcBase() {
     @Test
     fun docsForwarding() {
         mockMvc.perform(get("/docs"))
-                .andExpect(status().isOk)
-                .andExpect(forwardedUrl("/docs/index.html"))
+            .andExpect(status().isOk)
+            .andExpect(forwardedUrl("/docs/index.html"))
     }
 }

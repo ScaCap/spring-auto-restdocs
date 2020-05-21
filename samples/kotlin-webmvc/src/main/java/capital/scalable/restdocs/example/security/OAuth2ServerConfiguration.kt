@@ -57,10 +57,10 @@ internal class OAuth2ServerConfiguration {
         @Throws(Exception::class)
         override fun configure(http: HttpSecurity) {
             http
-                    .authorizeRequests()
-                    .antMatchers(POST, "/items").authenticated()
-                    .antMatchers(PUT, "/items/*").authenticated()
-                    .antMatchers(DELETE, "/items/*").authenticated()
+                .authorizeRequests()
+                .antMatchers(POST, "/items").authenticated()
+                .antMatchers(PUT, "/items/*").authenticated()
+                .antMatchers(DELETE, "/items/*").authenticated()
         }
     }
 
@@ -80,21 +80,21 @@ internal class OAuth2ServerConfiguration {
         @Throws(Exception::class)
         override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
             endpoints
-                    .tokenStore(this.tokenStore)
-                    .authenticationManager(this.authenticationManager)
-                    .userDetailsService(userDetailsService)
+                .tokenStore(this.tokenStore)
+                .authenticationManager(this.authenticationManager)
+                .userDetailsService(userDetailsService)
         }
 
         @Throws(Exception::class)
         override fun configure(clients: ClientDetailsServiceConfigurer) {
             clients
-                    .inMemory()
-                    .withClient("app")
-                    .authorizedGrantTypes("password", "refresh_token")
-                    .authorities("USER")
-                    .scopes("read", "write")
-                    .resourceIds(RESOURCE_ID)
-                    .secret("$2a$10\$UjMybe50F28W0P20YkjV3unT6wXvpwOCvkf0H3uJ2PUk4z66OHQEe")
+                .inMemory()
+                .withClient("app")
+                .authorizedGrantTypes("password", "refresh_token")
+                .authorities("USER")
+                .scopes("read", "write")
+                .resourceIds(RESOURCE_ID)
+                .secret("$2a$10\$UjMybe50F28W0P20YkjV3unT6wXvpwOCvkf0H3uJ2PUk4z66OHQEe")
         }
 
         @Throws(Exception::class)

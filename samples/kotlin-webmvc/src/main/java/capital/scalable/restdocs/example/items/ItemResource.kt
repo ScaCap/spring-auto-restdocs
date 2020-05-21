@@ -98,14 +98,14 @@ internal class ItemResource {
     fun addItem(@RequestBody @Valid itemUpdate: ItemUpdateRequest): ResponseEntity<Void> {
         // New item with unique ID is stored and returned.
         val location = ServletUriComponentsBuilder
-                .fromUriString("/items")
-                .path("/{id}")
-                .buildAndExpand("2")
-                .toUri()
+            .fromUriString("/items")
+            .path("/{id}")
+            .buildAndExpand("2")
+            .toUri()
 
         return ResponseEntity
-                .created(location)
-                .body<Void>(null)
+            .created(location)
+            .body<Void>(null)
     }
 
     /**
@@ -119,10 +119,12 @@ internal class ItemResource {
      * @return response
      */
     @PutMapping("{id}")
-    fun updateItem(@PathVariable("id") @Id id: String,
-                   @RequestBody @Valid itemUpdate: ItemUpdateRequest): HttpEntity<ItemResponse> {
+    fun updateItem(
+        @PathVariable("id") @Id id: String,
+        @RequestBody @Valid itemUpdate: ItemUpdateRequest
+    ): HttpEntity<ItemResponse> {
         return HttpEntity(
-                ItemResponse(id, itemUpdate.description, null, null, null, null))
+            ItemResponse(id, itemUpdate.description, null, null, null, null))
     }
 
     /**
@@ -158,11 +160,13 @@ internal class ItemResource {
      * documentation](https://scacap.github.io/spring-auto-restdocs/.constraints)
      */
     @GetMapping("{id}/{child}")
-    fun getChild(@PathVariable @Id id: String,
-                 @PathVariable("child")
-                 @Min(value = 1, groups = [(English::class)])
-                 @Max(value = 2, groups = [(German::class)])
-                 childId: String): ItemResponse {
+    fun getChild(
+        @PathVariable @Id id: String,
+        @PathVariable("child")
+        @Min(value = 1, groups = [(English::class)])
+        @Max(value = 2, groups = [(German::class)])
+        childId: String
+    ): ItemResponse {
         return if ("1" == id && "child-1" == childId) {
             CHILD
         } else {
@@ -183,9 +187,10 @@ internal class ItemResource {
      */
     @GetMapping("search")
     fun searchItem(
-            @RequestParam("desc") @NotBlank @Size(max = 255) descMatch: String,
-            @RequestParam(required = false) @Min(10) @Max(100) hint: Int?,
-            page: Pageable): Page<ItemResponse> {
+        @RequestParam("desc") @NotBlank @Size(max = 255) descMatch: String,
+        @RequestParam(required = false) @Min(10) @Max(100) hint: Int?,
+        page: Pageable
+    ): Page<ItemResponse> {
         return if (ITEM.description.contains(descMatch)) {
             PageImpl(listOf(ITEM), page, 1)
         } else {
@@ -224,8 +229,10 @@ internal class ItemResource {
      * @title Process One Item
      */
     @PostMapping("{itemId}/process")
-    fun processSingleItem(@PathVariable itemId: String,
-                          @ModelAttribute command: Command): CommandResult {
+    fun processSingleItem(
+        @PathVariable itemId: String,
+        @ModelAttribute command: Command
+    ): CommandResult {
         return CommandResult("Command executed on item $itemId: ${command.command}")
     }
 
@@ -252,11 +259,11 @@ internal class ItemResource {
     }
 
     internal data class CloneData(
-            /**
-             * New item's name
-             */
-            @Deprecated("")
-            val name: String)
+        /**
+         * New item's name
+         */
+        @Deprecated("")
+        val name: String)
 
     internal class Command {
         /**
@@ -267,11 +274,11 @@ internal class ItemResource {
     }
 
     internal class CommandResult(
-            /**
-             * Log output
-             */
-            @get:NotBlank
-            val output: String)
+        /**
+         * Log output
+         */
+        @get:NotBlank
+        val output: String)
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     internal class NotFoundException : RuntimeException()
@@ -284,7 +291,7 @@ internal class ItemResource {
         private val CHILD = ItemResponse("child-1", "first child", null, null, null, null)
 
         private val ITEM = ItemResponse("1", "main item", Metadata1("1", "meta1"),
-                Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), EnumType.ONE),
-                listOf(CHILD), arrayOf("top-level"))
+            Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), EnumType.ONE),
+            listOf(CHILD), arrayOf("top-level"))
     }
 }

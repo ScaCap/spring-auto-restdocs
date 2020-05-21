@@ -50,114 +50,114 @@ class ItemResourceTest : MockMvcBase() {
     @Test
     fun getItem() {
         mockMvc.perform(get("/items/1"))
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id", `is`("1")))
-                .andExpect(jsonPath("$.description", `is`("main item")))
-                .andExpect(jsonPath("$.attributes.text", `is`("first item")))
-                .andExpect(jsonPath("$.attributes.number", `is`(1)))
-                .andExpect(jsonPath("$.attributes.bool", `is`(true)))
-                .andExpect(jsonPath("$.attributes.decimal", `is`(1.11)))
-                .andExpect(jsonPath("$.attributes.amount", `is`("3.14 EUR")))
-                .andExpect(jsonPath("$.children").isArray)
-                .andExpect(jsonPath("$.children", hasSize<Any>(1)))
-                .andExpect(jsonPath("$.children[0].id", `is`("child-1")))
-                .andExpect(jsonPath("$.children[0].description", `is`("first child")))
-                .andExpect(jsonPath("$.children[0].attributes", nullValue()))
-                .andExpect(jsonPath("$.children[0].children", nullValue()))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id", `is`("1")))
+            .andExpect(jsonPath("$.description", `is`("main item")))
+            .andExpect(jsonPath("$.attributes.text", `is`("first item")))
+            .andExpect(jsonPath("$.attributes.number", `is`(1)))
+            .andExpect(jsonPath("$.attributes.bool", `is`(true)))
+            .andExpect(jsonPath("$.attributes.decimal", `is`(1.11)))
+            .andExpect(jsonPath("$.attributes.amount", `is`("3.14 EUR")))
+            .andExpect(jsonPath("$.children").isArray)
+            .andExpect(jsonPath("$.children", hasSize<Any>(1)))
+            .andExpect(jsonPath("$.children[0].id", `is`("child-1")))
+            .andExpect(jsonPath("$.children[0].description", `is`("first child")))
+            .andExpect(jsonPath("$.children[0].attributes", nullValue()))
+            .andExpect(jsonPath("$.children[0].children", nullValue()))
     }
 
     @Test
     fun getAllItems() {
         mockMvc.perform(get("/items"))
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$").isArray)
-                .andExpect(jsonPath("$", hasSize<Any>(2)))
-                .andExpect(jsonPath("$[*].id", hasItems("1", "child-1")))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$").isArray)
+            .andExpect(jsonPath("$", hasSize<Any>(2)))
+            .andExpect(jsonPath("$[*].id", hasItems("1", "child-1")))
     }
 
     @Test
     fun addItem() {
         mockMvc.perform(post("/items").with(userToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"description\":\"Hot News\"}"))
-                .andExpect(status().isCreated)
-                .andExpect(header().string("location", `is`("/items/2")))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"description\":\"Hot News\"}"))
+            .andExpect(status().isCreated)
+            .andExpect(header().string("location", `is`("/items/2")))
     }
 
     @Test
     fun updateItem() {
         mockMvc.perform(put("/items/1").with(userToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"description\":\"Hot News\"}"))
-                .andExpect(jsonPath("$.id", `is`("1")))
-                .andExpect(jsonPath("$.description", `is`("Hot News")))
-                .andExpect(status().isOk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"description\":\"Hot News\"}"))
+            .andExpect(jsonPath("$.id", `is`("1")))
+            .andExpect(jsonPath("$.description", `is`("Hot News")))
+            .andExpect(status().isOk)
     }
 
     @Test
     fun deleteItem() {
         mockMvc.perform(delete("/items/1").with(userToken()))
-                .andExpect(status().isOk)
+            .andExpect(status().isOk)
     }
 
     @Test
     fun getChildItem() {
         mockMvc.perform(get("/items/1/child-1"))
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id", `is`("child-1")))
-                .andExpect(jsonPath("$.description", `is`("first child")))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id", `is`("child-1")))
+            .andExpect(jsonPath("$.description", `is`("first child")))
     }
 
     @Test
     fun searchItems() {
         mockMvc.perform(get("/items/search")
-                .param("desc", "main")
-                .param("hint", "1"))
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.content").isArray)
-                .andExpect(jsonPath("$.content", hasSize<Any>(1)))
-                .andExpect(jsonPath("$.content[0].id", `is`("1")))
-                .andExpect(jsonPath("$.content[0].description", `is`("main item")))
-                // example for overriding path and preprocessors
-                .andDo(document("{class-name}/search", commonResponsePreprocessor()))
+            .param("desc", "main")
+            .param("hint", "1"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.content").isArray)
+            .andExpect(jsonPath("$.content", hasSize<Any>(1)))
+            .andExpect(jsonPath("$.content[0].id", `is`("1")))
+            .andExpect(jsonPath("$.content[0].description", `is`("main item")))
+            // example for overriding path and preprocessors
+            .andDo(document("{class-name}/search", commonResponsePreprocessor()))
     }
 
     @Test
     fun processAllItems() {
         mockMvc.perform(post("/items/process")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"command\": \"cleanup\" }"))
-                .andExpect(status().isOk)
-                .andExpect(content().json("{ \"output\": \"processed\" }"))
-                .andDo(commonDocumentation().document(
-                        requestFields().requestBodyAsType(Command::class.java),
-                        responseFields().responseBodyAsType(CommandResult::class.java)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{ \"command\": \"cleanup\" }"))
+            .andExpect(status().isOk)
+            .andExpect(content().json("{ \"output\": \"processed\" }"))
+            .andDo(commonDocumentation().document(
+                requestFields().requestBodyAsType(Command::class.java),
+                responseFields().responseBodyAsType(CommandResult::class.java)))
     }
 
     @Test
     fun processSingleItem() {
         mockMvc.perform(post("/items/{itemId}/process", "1")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content("command=increase"))
-                .andExpect(status().isOk)
-                .andExpect(
-                        content().json("""{ "output": "Command executed on item 1: increase" }"""))
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .content("command=increase"))
+            .andExpect(status().isOk)
+            .andExpect(
+                content().json("""{ "output": "Command executed on item 1: increase" }"""))
     }
 
     @Test
     fun validateMetadata() {
         mockMvc.perform(post("/items/validateMetadata")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""{ "type": "1", "tag": "myItem" }"""))
-                .andExpect(status().isOk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""{ "type": "1", "tag": "myItem" }"""))
+            .andExpect(status().isOk)
     }
 
     @Test
     fun cloneItem() {
         mockMvc.perform(post("/items/cloneItem")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"name\": \"xyz\" }"))
-                .andExpect(status().isOk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{ \"name\": \"xyz\" }"))
+            .andExpect(status().isOk)
     }
 
     /**
@@ -179,11 +179,11 @@ class ItemResourceTest : MockMvcBase() {
     @Test
     fun getItemWithRestDocs() {
         mockMvc.perform(RestDocumentationRequestBuilders.get("/items/{id}", 1))
-                .andExpect(status().isOk)
-                .andDo(document("{class-name}/{method-name}", commonResponsePreprocessor(),
-                        pathParameters(
-                                parameterWithName("id").description("ID of the item.")),
-                        relaxedResponseFields(fieldWithPath("id")
-                                .description("There are more fields but only the ID field is documented."))))
+            .andExpect(status().isOk)
+            .andDo(document("{class-name}/{method-name}", commonResponsePreprocessor(),
+                pathParameters(
+                    parameterWithName("id").description("ID of the item.")),
+                relaxedResponseFields(fieldWithPath("id")
+                    .description("There are more fields but only the ID field is documented."))))
     }
 }

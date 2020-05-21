@@ -98,32 +98,32 @@ abstract class MockMvcBase {
     @Throws(Exception::class)
     fun setUp() {
         this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .addFilters<DefaultMockMvcBuilder>(springSecurityFilterChain)
-                .alwaysDo<DefaultMockMvcBuilder>(prepareJackson(objectMapper))
-                .alwaysDo<DefaultMockMvcBuilder>(commonDocumentation())
-                .apply<DefaultMockMvcBuilder>(documentationConfiguration(restDocumentation)
-                        .uris()
-                        .withScheme("http")
-                        .withHost("localhost")
-                        .withPort(8080)
-                        .and().snippets()
-                        .withDefaults(curlRequest(), httpRequest(), httpResponse(),
-                                requestFields(), responseFields(), pathParameters(),
-                                requestParameters(), description(), methodAndPath(),
-                                section(), authorization(DEFAULT_AUTHORIZATION),
-                                modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
-                .build()
+            .webAppContextSetup(context)
+            .addFilters<DefaultMockMvcBuilder>(springSecurityFilterChain)
+            .alwaysDo<DefaultMockMvcBuilder>(prepareJackson(objectMapper))
+            .alwaysDo<DefaultMockMvcBuilder>(commonDocumentation())
+            .apply<DefaultMockMvcBuilder>(documentationConfiguration(restDocumentation)
+                .uris()
+                .withScheme("http")
+                .withHost("localhost")
+                .withPort(8080)
+                .and().snippets()
+                .withDefaults(curlRequest(), httpRequest(), httpResponse(),
+                    requestFields(), responseFields(), pathParameters(),
+                    requestParameters(), description(), methodAndPath(),
+                    section(), authorization(DEFAULT_AUTHORIZATION),
+                    modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
+            .build()
     }
 
     protected fun commonDocumentation(): RestDocumentationResultHandler {
         return document("{class-name}/{method-name}",
-                preprocessRequest(), commonResponsePreprocessor())
+            preprocessRequest(), commonResponsePreprocessor())
     }
 
     protected fun commonResponsePreprocessor(): OperationResponsePreprocessor {
         return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper),
-                prettyPrint())
+            prettyPrint())
     }
 
     protected fun userToken(): RequestPostProcessor {
@@ -148,25 +148,25 @@ abstract class MockMvcBase {
         val contentType = MediaType.APPLICATION_JSON.toString() + ";charset=UTF-8"
 
         val body = mockMvc
-                .perform(
-                        post("/oauth/token")
-                                .header("Authorization", authorization)
-                                .contentType(
-                                        MediaType.APPLICATION_FORM_URLENCODED)
-                                .param("username", username)
-                                .param("password", password)
-                                .param("grant_type", "password")
-                                .param("scope", "read write")
-                                .param("client_id", "app")
-                                .param("client_secret", "very_secret"))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.access_token", `is`(notNullValue())))
-                .andExpect(jsonPath("$.token_type", `is`(equalTo("bearer"))))
-                .andExpect(jsonPath("$.refresh_token", `is`(notNullValue())))
-                .andExpect(jsonPath("$.expires_in", `is`(greaterThan(4000))))
-                .andExpect(jsonPath("$.scope", `is`(equalTo("read write"))))
-                .andReturn().response.contentAsString
+            .perform(
+                post("/oauth/token")
+                    .header("Authorization", authorization)
+                    .contentType(
+                        MediaType.APPLICATION_FORM_URLENCODED)
+                    .param("username", username)
+                    .param("password", password)
+                    .param("grant_type", "password")
+                    .param("scope", "read write")
+                    .param("client_id", "app")
+                    .param("client_secret", "very_secret"))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$.access_token", `is`(notNullValue())))
+            .andExpect(jsonPath("$.token_type", `is`(equalTo("bearer"))))
+            .andExpect(jsonPath("$.refresh_token", `is`(notNullValue())))
+            .andExpect(jsonPath("$.expires_in", `is`(greaterThan(4000))))
+            .andExpect(jsonPath("$.scope", `is`(equalTo("read write"))))
+            .andReturn().response.contentAsString
 
         return body.substring(17, 53)
     }

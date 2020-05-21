@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -291,11 +291,11 @@ public class ConstraintReaderImplTest {
         @DecimalMax("1000")
         private BigDecimal amount;
 
-        @OneOf({ "big", "small" })
+        @OneOf({"big", "small"})
         private String type;
 
         @DecimalMin(value = "10", groups = Update.class)
-        @DecimalMax(value = "1000", groups = { Update.class, Create.class })
+        @DecimalMax(value = "1000", groups = {Update.class, Create.class})
         private BigDecimal amountWithGroup;
 
         @Null(groups = Update.class)
@@ -348,7 +348,7 @@ public class ConstraintReaderImplTest {
                 @Min(value = 1, groups = Create.class)
                 @Max(value = 2, groups = Update.class) Integer count,
                 @NotBlank
-                @OneOf({ "all", "single" }) String type,
+                @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
                 Optional<Enum1> optionalEnum) {
         }

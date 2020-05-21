@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,32 +78,32 @@ public class TypeUtil {
 
     private static String getSimpleName(String canonicalName) {
         switch (canonicalName) {
-        case "java.lang.Byte":
-        case "java.lang.Short":
-        case "java.lang.Long":
-        case "java.lang.Integer":
-        case "java.math.BigInteger":
-            return "Integer";
-        case "java.lang.Float":
-        case "java.lang.Double":
-        case "java.math.BigDecimal":
-            return "Decimal";
-        case "java.lang.Character":
-        case "java.lang.String":
-            return "String";
-        case "java.lang.Boolean":
-            return "Boolean";
-        default:
-            return getSpecialTypeName(canonicalName);
+            case "java.lang.Byte":
+            case "java.lang.Short":
+            case "java.lang.Long":
+            case "java.lang.Integer":
+            case "java.math.BigInteger":
+                return "Integer";
+            case "java.lang.Float":
+            case "java.lang.Double":
+            case "java.math.BigDecimal":
+                return "Decimal";
+            case "java.lang.Character":
+            case "java.lang.String":
+                return "String";
+            case "java.lang.Boolean":
+                return "Boolean";
+            default:
+                return getSpecialTypeName(canonicalName);
         }
     }
 
     private static String getSpecialTypeName(String canonicalName) {
         switch (canonicalName) {
-        case "java.util.Locale":
-            return "String";
-        default:
-            return "Object";
+            case "java.util.Locale":
+                return "String";
+            default:
+                return "Object";
         }
     }
 
@@ -214,7 +214,7 @@ public class TypeUtil {
             if (actualArgument instanceof Class) {
                 return actualArgument;
             } else if (actualArgument instanceof TypeVariable) {
-                TypeVariable typeVariable = (TypeVariable)actualArgument;
+                TypeVariable typeVariable = (TypeVariable) actualArgument;
                 return findTypeFromTypeVariable(typeVariable, containingClass);
             }
             return ((ParameterizedType) type).getActualTypeArguments()[0];

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,7 +59,7 @@ public abstract class JacksonResultHandlers {
         return new JacksonPreparingResultHandler(objectMapper, typeMapping, translationResolver, new ResourceBundleConstraintDescriptionResolver());
     }
 
-    public static ResultHandler prepareJackson(ObjectMapper objectMapper,  SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
+    public static ResultHandler prepareJackson(ObjectMapper objectMapper, SnippetTranslationResolver translationResolver, ConstraintDescriptionResolver constraintDescriptionResolver) {
         return new JacksonPreparingResultHandler(objectMapper, new TypeMapping(), translationResolver, constraintDescriptionResolver);
     }
 

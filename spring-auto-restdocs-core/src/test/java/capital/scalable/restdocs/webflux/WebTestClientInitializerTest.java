@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,9 @@ import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-/** Tests for {@link WebTestClientInitializer}. */
+/**
+ * Tests for {@link WebTestClientInitializer}.
+ */
 public class WebTestClientInitializerTest {
 
     /**
@@ -124,6 +126,7 @@ public class WebTestClientInitializerTest {
     /**
      * Test for method
      * {@link WebTestClientInitializer#prepareSnippets(ApplicationContext)}.
+     *
      * @throws IOException See {@link Snippet#document(Operation)}.
      */
     @Test
@@ -170,6 +173,7 @@ public class WebTestClientInitializerTest {
      * Test for method
      * {@link WebTestClientInitializer#prepareSnippets(ApplicationContext)} in case of
      * multiple invokes.
+     *
      * @throws IOException See {@link Snippet#document(Operation)}.
      */
     @Test
