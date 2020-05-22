@@ -35,7 +35,6 @@ import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
-import org.springframework.util.PropertyPlaceholderHelper;
 
 public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver, GroupDescriptionResolver {
@@ -43,7 +42,6 @@ public class ConstraintAndGroupDescriptionResolver implements
     static final String GROUPS = "groups";
     static final String VALUE = "value";
 
-    private final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
     private final ConstraintDescriptionResolver delegate;
     private final SnippetTranslationResolver translationResolver;
 
