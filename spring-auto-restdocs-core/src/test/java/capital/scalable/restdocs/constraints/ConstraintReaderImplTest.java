@@ -33,6 +33,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -112,6 +113,10 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "optionalEnum");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "sizedString");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be of reasonable size"));
     }
 
     @Test
@@ -161,6 +166,9 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getOptionalMessages(Constraintz.class, "optionalEnum");
         assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "sizedString");
+        assertThat(messages.size(), is(0));
     }
 
     @Test
@@ -168,7 +176,7 @@ public class ConstraintReaderImplTest {
         ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class, Optional.class);
+                Enum1.class, Optional.class, BigDecimal.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
         assertThat(messages.size(), is(2));
@@ -186,6 +194,10 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(new MethodParameter(method, 3));
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(new MethodParameter(method, 4));
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be at least 0.1"));
     }
 
     @Test
@@ -204,7 +216,7 @@ public class ConstraintReaderImplTest {
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
         ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class, Optional.class);
+                Enum1.class, Optional.class, BigDecimal.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
@@ -317,6 +329,9 @@ public class ConstraintReaderImplTest {
         private Enum3 enum3;
 
         private Optional<Enum1> optionalEnum;
+
+        @Size(min = 2, max = 10, message = "Must be of reasonable size")
+        private String sizedString;
     }
 
     enum Enum1 {ONE, TWO}
@@ -350,7 +365,8 @@ public class ConstraintReaderImplTest {
                 @NotBlank
                 @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
-                Optional<Enum1> optionalEnum) {
+                Optional<Enum1> optionalEnum,
+                @DecimalMin(value = "0.1", message = "Must be at least 0.1") BigDecimal min) {
         }
     }
 

@@ -22,6 +22,7 @@ package capital.scalable.restdocs.constraints;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -34,6 +35,7 @@ import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver, GroupDescriptionResolver {
@@ -41,6 +43,7 @@ public class ConstraintAndGroupDescriptionResolver implements
     static final String GROUPS = "groups";
     static final String VALUE = "value";
 
+    private final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
     private final ConstraintDescriptionResolver delegate;
     private final SnippetTranslationResolver translationResolver;
 
@@ -98,6 +101,10 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     private String resolvePlainDescription(Constraint constraint) {
+        String message = (String) constraint.getConfiguration().get("message");
+        if (isNotBlank(message) && !message.startsWith("{")) {
+            return message;
+        }
         try {
             return delegate.resolveDescription(constraint);
         } catch (MissingResourceException e) {

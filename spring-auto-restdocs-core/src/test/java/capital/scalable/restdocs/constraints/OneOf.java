@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = OneOfValidator.class)
 public @interface OneOf {
 
-    String message() default "Must be one of ${value}";
+    String message() default "";
 
     Class<?>[] groups() default {};
 
