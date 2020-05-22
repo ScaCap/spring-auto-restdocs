@@ -197,7 +197,7 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 4));
         assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be at least 0.1"));
+        assertThat(messages.get(0), is("Must not be too small"));
     }
 
     @Test
@@ -366,7 +366,7 @@ public class ConstraintReaderImplTest {
                 @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
                 Optional<Enum1> optionalEnum,
-                @DecimalMin(value = "0.1", message = "Must be at least 0.1") BigDecimal min) {
+                @DecimalMin(value = "0.1", message = "Must not be too small") BigDecimal min) {
         }
     }
 
