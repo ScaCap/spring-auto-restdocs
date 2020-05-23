@@ -116,7 +116,7 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(Constraintz.class, "sizedString");
         assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be of reasonable size"));
+        assertThat(messages.get(0), is("Must be in range [2, 10]"));
     }
 
     @Test
@@ -197,7 +197,7 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 4));
         assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must not be too small"));
+        assertThat(messages.get(0), is("Must exceed 0.1"));
     }
 
     @Test
@@ -330,7 +330,7 @@ public class ConstraintReaderImplTest {
 
         private Optional<Enum1> optionalEnum;
 
-        @Size(min = 2, max = 10, message = "Must be of reasonable size")
+        @Size(min = 2, max = 10, message = "Must be in range [${min}, ${max}]")
         private String sizedString;
     }
 
@@ -366,7 +366,7 @@ public class ConstraintReaderImplTest {
                 @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
                 Optional<Enum1> optionalEnum,
-                @DecimalMin(value = "0.1", message = "Must not be too small") BigDecimal min) {
+                @DecimalMin(value = "0.1", message = "Must exceed ${value}") BigDecimal min) {
         }
     }
 
