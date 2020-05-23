@@ -35,7 +35,7 @@ class ItemUpdateRequest {
      * Some information about the item.
      */
     @NotBlank(groups = English.class)
-    @Length(max = 20)
+    @Length(max = 20, message = "Must be max ${max} characters")
     @Size.List({
             @Size(min = 2, max = 10, groups = German.class),
             @Size(min = 4, max = 12, groups = English.class)
