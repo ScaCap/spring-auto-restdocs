@@ -58,6 +58,7 @@ public class HumanReadableConstraintResolverTest {
         configuration.put("class", CustomConstraint.class);
         configuration.put("groups", new Class<?>[]{Update.class});
         configuration.put("payload", new Class<?>[0]);
+        configuration.put("ref", Entity.class);
         Constraint constraint = new Constraint("Custom", configuration);
 
         when(delegate.resolveForProperty("prop", this.getClass()))
@@ -68,13 +69,13 @@ public class HumanReadableConstraintResolverTest {
         List<Constraint> constraints = resolver.resolveForProperty("prop", this.getClass());
         assertConstraints(constraints);
 
-        constraints = resolver.resolveForParameter(Mockito.mock(MethodParameter.class));
+        constraints = resolver.resolveForParameter(mock(MethodParameter.class));
         assertConstraints(constraints);
     }
 
     private void assertConstraints(List<Constraint> constraints) {
         assertThat(constraints.size(), is(1));
-        assertThat(constraints.get(0).getConfiguration().size(), is(7));
+        assertThat(constraints.get(0).getConfiguration().size(), is(8));
         assertThat(constraints.get(0).getConfiguration().get("primitive").toString(), is("1"));
         assertThat(constraints.get(0).getConfiguration().get("wrapper").toString(), is("1"));
         assertThat(constraints.get(0).getConfiguration().get("object").toString(), is("I'm Peter"));
@@ -85,6 +86,7 @@ public class HumanReadableConstraintResolverTest {
         // groups and payload belong to the fields that is not touched
         assertThat(constraints.get(0).getConfiguration().get("groups"), instanceOf(Class[].class));
         assertThat(constraints.get(0).getConfiguration().get("payload"), instanceOf(Class[].class));
+        assertThat(constraints.get(0).getConfiguration().get("ref").toString(), is("Entity"));
     }
 
     static class CustomObj {
@@ -104,6 +106,11 @@ public class HumanReadableConstraintResolverTest {
         @Override
         public String toString() {
             return "I'm custom constraint";
+        }
+    }
+
+    static class Entity {
+        Entity(String name) {
         }
     }
 }
