@@ -66,7 +66,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
+    protected String resolveDeprecated(HandlerMethod handlerMethod, JavadocReader javadocReader, SnippetTranslationResolver translationResolver) {
         boolean isDeprecated = handlerMethod.getMethod().getAnnotation(Deprecated.class) != null;
         String deprecatedDoc = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "deprecated");
@@ -77,7 +77,7 @@ public class DescriptionSnippet extends TemplatedSnippet {
         }
     }
 
-    private String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
+    protected String resolveComment(HandlerMethod handlerMethod, JavadocReader javadocReader) {
         String methodComment = javadocReader.resolveMethodComment(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName());
         return addDot(capitalize(methodComment));
