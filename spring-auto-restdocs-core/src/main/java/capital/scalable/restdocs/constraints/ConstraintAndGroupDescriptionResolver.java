@@ -22,30 +22,22 @@ package capital.scalable.restdocs.constraints;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.MissingResourceException;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
-import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
-import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
-import org.springframework.util.PropertyPlaceholderHelper;
-import org.springframework.util.StringUtils;
 
 public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver, GroupDescriptionResolver {
-    private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
+
     static final String GROUPS = "groups";
     static final String VALUE = "value";
 
-    private final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
     private final ConstraintDescriptionResolver delegate;
     private final SnippetTranslationResolver translationResolver;
 
@@ -103,42 +95,6 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     private String resolvePlainDescription(Constraint constraint) {
-            String message = (String) constraint.getConfiguration().get("message");
-            if (isNotBlank(message) && !message.startsWith("{")) {
-                return this.propertyPlaceholderHelper.replacePlaceholders(message,
-                        new ConstraintPlaceholderResolver(constraint));
-            }
-
-        try {
-            return delegate.resolveDescription(constraint);
-        } catch (MissingResourceException e) {
-            log.debug("No description found for constraint {}: {}. " +
-                    "Fallback to group description.", constraint.getName(), e.getMessage());
-            return "";
-        }
-    }
-
-    /**
-     * @see ResourceBundleConstraintDescriptionResolver.ConstraintPlaceholderResolver
-     */
-    private static final class ConstraintPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
-
-        private final Constraint constraint;
-
-        private ConstraintPlaceholderResolver(Constraint constraint) {
-            this.constraint = constraint;
-        }
-
-        @Override
-        public String resolvePlaceholder(String placeholderName) {
-            Object replacement = this.constraint.getConfiguration().get(placeholderName);
-            if (replacement == null) {
-                return null;
-            }
-            if (replacement.getClass().isArray()) {
-                return StringUtils.arrayToDelimitedString((Object[]) replacement, ", ");
-            }
-            return replacement.toString();
-        }
+        return delegate.resolveDescription(constraint);
     }
 }
