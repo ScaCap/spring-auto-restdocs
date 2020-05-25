@@ -73,8 +73,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{});
         Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint)))
-                .thenThrow(MissingResourceException.class);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("");
         // when
         String description = resolver.resolveDescription(constraint);
         // then
@@ -87,8 +86,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         Map<String, Object> configuration = new HashMap<>();
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
-        when(delegate.resolveDescription(eq(constraint)))
-                .thenThrow(MissingResourceException.class);
+        when(delegate.resolveDescription(eq(constraint))).thenReturn("");
         // when
         String description = resolver.resolveDescription(constraint);
         // then
@@ -131,8 +129,8 @@ public class ConstraintAndGroupDescriptionResolverTest {
         configuration.put(GROUPS, new Class<?>[]{Update.class});
         Constraint constraint = new Constraint("Constraint", configuration);
         when(delegate.resolveDescription(eq(constraint))).thenReturn("Must be it");
-        when(delegate.resolveDescription(not(eq(constraint))))
-                .thenThrow(MissingResourceException.class);
+        when(delegate.resolveDescription(not(eq(constraint)))).thenReturn("");
+
         // when
         String description = resolver.resolveDescription(constraint);
         // then

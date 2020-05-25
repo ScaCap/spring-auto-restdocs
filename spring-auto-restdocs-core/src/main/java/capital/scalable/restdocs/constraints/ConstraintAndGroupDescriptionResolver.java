@@ -23,21 +23,18 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.MissingResourceException;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
-import org.slf4j.Logger;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
 
 public class ConstraintAndGroupDescriptionResolver implements
         ConstraintDescriptionResolver, GroupDescriptionResolver {
-    private static final Logger log = getLogger(ConstraintAndGroupDescriptionResolver.class);
+
     static final String GROUPS = "groups";
     static final String VALUE = "value";
 
@@ -98,12 +95,6 @@ public class ConstraintAndGroupDescriptionResolver implements
     }
 
     private String resolvePlainDescription(Constraint constraint) {
-        try {
-            return delegate.resolveDescription(constraint);
-        } catch (MissingResourceException e) {
-            log.debug("No description found for constraint {}: {}. " +
-                    "Fallback to group description.", constraint.getName(), e.getMessage());
-            return "";
-        }
+        return delegate.resolveDescription(constraint);
     }
 }

@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
 @Pattern(regexp = "[a-zA-Z0-9]{20}")
 public @interface Id {
 
-    String message() default "Must be a valid ID";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

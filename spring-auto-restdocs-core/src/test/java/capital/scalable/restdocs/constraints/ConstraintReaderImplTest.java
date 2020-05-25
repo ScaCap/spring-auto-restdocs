@@ -19,8 +19,6 @@
  */
 package capital.scalable.restdocs.constraints;
 
-import static capital.scalable.restdocs.constraints.ConstraintReaderImpl.createWithValidation;
-import static capital.scalable.restdocs.constraints.ConstraintReaderImpl.createWithoutValidation;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -33,6 +31,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -48,15 +47,12 @@ import org.junit.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
-import org.springframework.restdocs.constraints.ResourceBundleConstraintDescriptionResolver;
-import org.springframework.util.PropertyPlaceholderHelper;
-import org.springframework.util.StringUtils;
 
 public class ConstraintReaderImplTest {
 
     @Test
     public void getConstraintMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReader reader = createWithValidation();
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(0));
@@ -112,11 +108,15 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(Constraintz.class, "optionalEnum");
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(Constraintz.class, "sizedString");
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must be in range [2, 10]"));
     }
 
     @Test
     public void getOptionalMessages() {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReader reader = createWithValidation();
 
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
         assertThat(messages.size(), is(1));
@@ -161,14 +161,17 @@ public class ConstraintReaderImplTest {
 
         messages = reader.getOptionalMessages(Constraintz.class, "optionalEnum");
         assertThat(messages.size(), is(0));
+
+        messages = reader.getOptionalMessages(Constraintz.class, "sizedString");
+        assertThat(messages.size(), is(0));
     }
 
     @Test
     public void getParameterConstraintMessages() throws NoSuchMethodException {
-        ConstraintReader reader = createWithValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReader reader = createWithValidation();
 
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class, Optional.class);
+                Enum1.class, Optional.class, BigDecimal.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
         assertThat(messages.size(), is(2));
@@ -186,92 +189,83 @@ public class ConstraintReaderImplTest {
         messages = reader.getConstraintMessages(new MethodParameter(method, 3));
         assertThat(messages.size(), is(1));
         assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+
+        messages = reader.getConstraintMessages(new MethodParameter(method, 4));
+        assertThat(messages.size(), is(1));
+        assertThat(messages.get(0), is("Must exceed 0.1"));
     }
 
     @Test
     public void getConstraintMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReaderImpl reader = createWithoutValidation();
         assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
     }
 
     @Test
     public void getOptionalMessages_validationNotPresent() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReaderImpl reader = createWithoutValidation();
         assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
     }
 
     @Test
     public void getParameterConstraintMessages_validationNotPresent() throws NoSuchMethodException {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReaderImpl reader = createWithoutValidation();
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
-                Enum1.class, Optional.class);
+                Enum1.class, Optional.class, BigDecimal.class);
         assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
     }
 
     @Test
     public void getTypeSpecifier_resolved() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReaderImpl reader = createWithoutValidation();
         assertThat(reader.getTypeSpecifier(Plain.class), is("[plain type]"));
     }
 
     @Test
     public void getTypeSpecifier_default() {
-        ConstraintReaderImpl reader = createWithoutValidation(new ObjectMapper(), SnippetTranslationManager.getDefaultResolver(), new ResourceBundleConstraintDescriptionResolver());
+        ConstraintReaderImpl reader = createWithoutValidation();
         assertThat(reader.getTypeSpecifier(Constraintz.class), is(""));
     }
 
     @Test
     public void customConstraintDescriptionResolver() {
-
-        ConstraintReader reader = createWithValidation(new ObjectMapper(),
+        ConstraintReader reader = ConstraintReaderImpl.createWithValidation(new ObjectMapper(),
                 SnippetTranslationManager.getDefaultResolver(),
                 new CustomConstraintDescriptionResolver());
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "index");
         assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Custom must be at least 1"));
+        assertThat(messages.get(0), is("Minimum"));
 
     }
 
+    private ConstraintReaderImpl createWithValidation() {
+        return ConstraintReaderImpl.createWithValidation(
+                new ObjectMapper(),
+                SnippetTranslationManager.getDefaultResolver(),
+                new DynamicResourceBundleConstraintDescriptionResolver()
+        );
+    }
+
+    private ConstraintReaderImpl createWithoutValidation() {
+        return ConstraintReaderImpl.createWithoutValidation(
+                new ObjectMapper(),
+                SnippetTranslationManager.getDefaultResolver(),
+                new DynamicResourceBundleConstraintDescriptionResolver()
+        );
+    }
     static class CustomConstraintDescriptionResolver implements ConstraintDescriptionResolver {
-        private ResourceBundleConstraintDescriptionResolver delegate;
-        private Map<String, String> customDescription;
-        private PropertyPlaceholderHelper propertyPlaceholderHelper;
+
+        private final Map<String, String> customDescription = new HashMap<>();
 
         public CustomConstraintDescriptionResolver() {
-            delegate = new ResourceBundleConstraintDescriptionResolver();
-            customDescription = new HashMap<>();
-            propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
-
-            customDescription.put("javax.validation.constraints.Min.description", "Custom must be at least ${value}");
+            // completely custom storage and key format
+            customDescription.put("javax.validation.constraints.Min", "Minimum");
         }
 
         @Override
         public String resolveDescription(Constraint constraint) {
-            String key = constraint.getName() + ".description";
-            if (customDescription.containsKey(key)) {
-                return propertyPlaceholderHelper.replacePlaceholders(customDescription.get(key), new CustomConstraintDescriptionResolver.ConstraintPlaceholderResolver(constraint));
-            }
-            return delegate.resolveDescription(constraint);
-        }
-
-        private static final class ConstraintPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
-            private final Constraint constraint;
-
-            private ConstraintPlaceholderResolver(Constraint constraint) {
-                this.constraint = constraint;
-            }
-
-            public String resolvePlaceholder(String placeholderName) {
-                Object replacement = this.constraint.getConfiguration().get(placeholderName);
-                if (replacement == null) {
-                    return null;
-                }
-                if (replacement.getClass().isArray()) {
-                    return StringUtils.arrayToDelimitedString((Object[]) replacement, ", ");
-                }
-                return replacement.toString();
-            }
+            return customDescription.getOrDefault(constraint.getName(), "");
         }
     }
 
@@ -317,6 +311,9 @@ public class ConstraintReaderImplTest {
         private Enum3 enum3;
 
         private Optional<Enum1> optionalEnum;
+
+        @Size(min = 2, max = 10, message = "Must be in range [${min}, ${max}]")
+        private String sizedString;
     }
 
     enum Enum1 {ONE, TWO}
@@ -350,7 +347,8 @@ public class ConstraintReaderImplTest {
                 @NotBlank
                 @OneOf({"all", "single"}) String type,
                 Enum1 enumeration,
-                Optional<Enum1> optionalEnum) {
+                Optional<Enum1> optionalEnum,
+                @DecimalMin(value = "0.1", message = "Must exceed ${value}") BigDecimal min) {
         }
     }
 
