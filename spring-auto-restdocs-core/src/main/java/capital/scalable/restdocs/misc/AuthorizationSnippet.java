@@ -47,7 +47,7 @@ public class AuthorizationSnippet extends TemplatedSnippet implements SectionSup
         return model;
     }
 
-    private String authorizationDescription(Operation operation) {
+    protected String authorizationDescription(Operation operation) {
         String requestAuthorization = getAuthorization(operation);
         if (requestAuthorization != null) {
             return requestAuthorization;

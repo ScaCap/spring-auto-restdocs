@@ -55,14 +55,14 @@ public class SectionSnippet extends TemplatedSnippet {
 
     public static final String SECTION = "auto-section";
 
-    private final RestDocumentationContextPlaceholderResolverFactory placeholderResolverFactory =
+    protected final RestDocumentationContextPlaceholderResolverFactory placeholderResolverFactory =
             new RestDocumentationContextPlaceholderResolverFactory();
 
-    private final PropertyPlaceholderHelper propertyPlaceholderHelper =
+    protected final PropertyPlaceholderHelper propertyPlaceholderHelper =
             new PropertyPlaceholderHelper("{", "}");
 
-    private final Collection<String> sectionNames;
-    private final boolean skipEmpty;
+    protected final Collection<String> sectionNames;
+    protected final boolean skipEmpty;
 
     public SectionSnippet(Collection<String> sectionNames, boolean skipEmpty) {
         super(SECTION, null);
@@ -89,7 +89,7 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private Collection<Section> createSections(Operation operation, SnippetTranslationResolver translationResolver) {
+    protected Collection<Section> createSections(Operation operation, SnippetTranslationResolver translationResolver) {
         List<Section> sections = new ArrayList<>();
         for (String sectionName : sectionNames) {
             SectionSupport section = getSectionSnippet(operation, sectionName);
@@ -125,7 +125,7 @@ public class SectionSnippet extends TemplatedSnippet {
         return model;
     }
 
-    private String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader,
+    protected String resolveTitle(HandlerMethod handlerMethod, JavadocReader javadocReader,
             SnippetTranslationResolver translationResolver) {
         String title = javadocReader.resolveMethodTag(handlerMethod.getBeanType(),
                 handlerMethod.getMethod().getName(), "title");
