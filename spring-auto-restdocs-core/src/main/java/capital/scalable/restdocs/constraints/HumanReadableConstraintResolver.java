@@ -88,9 +88,7 @@ class HumanReadableConstraintResolver implements MethodParameterConstraintResolv
             try {
                 return ((Class) o).newInstance().toString();
             } catch (InstantiationException | IllegalAccessException e) {
-                log.error("Failed to create an instance of {}", ((Class) o).getCanonicalName(), e);
-                return "Failed to create an instance of " + ((Class) o).getCanonicalName() +
-                        ". Does the class have a no args constructor?";
+                return ((Class) o).getSimpleName();
             }
         } else {
             return o.toString();
