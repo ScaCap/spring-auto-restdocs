@@ -2,7 +2,7 @@ buildscript {
     ext {
         springAutoRestDocsVersion = "2.0.9-SNAPSHOT"
         springRestDocsVersion = "2.0.4.RELEASE"
-        springBootVersion = "2.2.6.RELEASE"
+        springBootVersion = "2.3.0.RELEASE"
     }
     repositories {
         jcenter()
