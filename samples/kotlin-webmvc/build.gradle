@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        kotlinVersion = "1.3.71"
+        kotlinVersion = "1.3.72"
         springAutoRestDocsVersion = "2.0.9-SNAPSHOT"
         springRestDocsVersion = "2.0.4.RELEASE"
-        springBootVersion = "2.2.6.RELEASE"
+        springBootVersion = "2.3.0.RELEASE"
         dokkaPluginVersion = "0.10.1"
     }
     repositories {
@@ -55,6 +55,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.security.oauth:spring-security-oauth2:2.3.5.RELEASE"
     implementation "org.springframework.data:spring-data-commons"
