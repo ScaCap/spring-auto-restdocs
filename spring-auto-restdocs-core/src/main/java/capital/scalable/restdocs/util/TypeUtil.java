@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.CollectionFactory;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.ReflectionUtils;
@@ -48,23 +49,31 @@ public class TypeUtil {
         // util
     }
 
-    public static String determineTypeName(Class<?> type) {
-        // should return the same as FieldDocumentationVisitorWrapper
-        if (type.isEnum()) {
-            return "String";
+    public static String determineTypeName(Type unknownType) {
+        Class<?> type = Object.class;
+        Class<?> typeArgument = String.class;
+
+        if (unknownType instanceof ParameterizedType) {
+            type = (Class<?>) ((ParameterizedType) unknownType).getRawType();
+            typeArgument = (Class<?>) ((ParameterizedType) unknownType).getActualTypeArguments()[0];
+        } else if (unknownType instanceof Class<?>) {
+            type = (Class<?>) unknownType;
         }
+
         boolean isArray = false;
         String canonicalName = primitiveToWrapper(type).getCanonicalName();
         if (canonicalName.endsWith("[]")) {
             isArray = true;
             canonicalName = chop(chop(canonicalName));
+        } else if (CollectionFactory.isApproximableCollectionType(type)) {
+            isArray = true;
+            if (typeArgument != null) canonicalName = typeArgument.getTypeName();
         }
 
-        String finalName = getSimpleName(canonicalName);
         if (isArray) {
-            return "Array[" + finalName + "]";
+            return "Array[" + getSimpleName(typeArgument, canonicalName) + "]";
         } else {
-            return finalName;
+            return getSimpleName(type, canonicalName);
         }
     }
 
@@ -76,7 +85,12 @@ public class TypeUtil {
         }
     }
 
-    private static String getSimpleName(String canonicalName) {
+    private static String getSimpleName(Class<?> type, String canonicalName) {
+        // should return the same as FieldDocumentationVisitorWrapper
+        if (type.isEnum()) {
+            return "String";
+        }
+
         switch (canonicalName) {
             case "java.lang.Byte":
             case "java.lang.Short":
