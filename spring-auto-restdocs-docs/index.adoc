@@ -75,6 +75,8 @@ Can I regenerate the final HTML without running all tests?::
   in your setup. You might have to remove `dependsOn test` depending on your setup to run it standalone.
 Is HATEOAS supported?::
   Yes, there is basic support for <<snippets-links,links>> and <<snippets-embedded,embedded>> resources.
+What should I do if I get a `NoSuchBeanDefinitionException: No bean named 'webHandler' available` exception?::
+  This means that the servlet stack instead if the reactive one is active. Make sure that `@EnableWebFlux` is used.
 
 include::getting-started.adoc[]
 
