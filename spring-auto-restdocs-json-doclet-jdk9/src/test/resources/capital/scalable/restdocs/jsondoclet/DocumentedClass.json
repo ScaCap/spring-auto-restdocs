@@ -1,5 +1,5 @@
 {
-  "comment": "This is a test class. UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép",
+  "comment": "This is a test class. UTF 8 test: 我能吞下玻璃而不伤身体。Árvíztűrő tükörfúrógép\n\n Usage example:\n ....\n     DocumentedClass dc = new DocumentedClass();\n     dc.location = \"https://example.com/a\";\n     dc.path = new BigDecimal(0);\n ....",
   "fields": {
     "path": {
       "comment": "Path within location",
@@ -18,9 +18,9 @@
   },
   "methods": {
     "initiate": {
-      "comment": "Initiates request (テスト)",
+      "comment": "Initiates request on `something` (テスト)",
       "parameters": {
-        "force": "true if force (テスト)",
+        "force": "`true` if force (テスト)",
         "when": "when to initiate (テスト)"
       },
       "tags": {

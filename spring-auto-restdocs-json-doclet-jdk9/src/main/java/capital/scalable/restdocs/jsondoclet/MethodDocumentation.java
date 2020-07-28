@@ -53,7 +53,7 @@ public class MethodDocumentation {
                     if (tag.getKind().equals(DocTree.Kind.PARAM)) {
                         ParamTree paramTag = (ParamTree) tag;
                         md.parameters.put(paramTag.getName().toString(),
-                                unescapeJava(paramTag.getDescription().toString()));
+                                unescapeJava(cleanupTagValue(paramTag.getDescription().toString())));
                     } else if (tag instanceof BlockTagTree) {
                         md.tags.put(
                                 cleanupTagName(((BlockTagTree) tag).getTagName()),
