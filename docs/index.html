@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 2.0.9-SNAPSHOT</span>
+<span id="revnumber">version 2.0.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -496,6 +496,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#contributing">Contributing</a>
 <ul class="sectlevel2">
+<li><a href="#contributing-pr">Pull Requests</a></li>
 <li><a href="#contributing-building">Building from source</a></li>
 </ul>
 </li>
@@ -605,6 +606,10 @@ in your setup. You might have to remove <code>dependsOn test</code> depending on
 <p><em>Is HATEOAS supported?</em></p>
 <p>Yes, there is basic support for <a href="#snippets-links">links</a> and <a href="#snippets-embedded">embedded</a> resources.</p>
 </li>
+<li>
+<p><em>What should I do if I get a <code>NoSuchBeanDefinitionException: No bean named 'webHandler' available</code> exception?</em></p>
+<p>This means that the servlet stack instead if the reactive one is active. Make sure that <code>@EnableWebFlux</code> is used.</p>
+</li>
 </ol>
 </div>
 </div>
@@ -620,7 +625,7 @@ in your setup. You might have to remove <code>dependsOn test</code> depending on
 <div class="ulist">
 <ul>
 <li>
-<p>Java 8 or Kotlin 1.2</p>
+<p>Java 8 or Kotlin 1.3</p>
 </li>
 <li>
 <p>Spring REST Docs 2.0.4.RELEASE (see <a href="http://docs.spring.io/spring-restdocs/docs/2.0.4.RELEASE/reference/html5/">documentation</a>)</p>
@@ -635,7 +640,9 @@ in your setup. You might have to remove <code>dependsOn test</code> depending on
 please use the 1.0.x version of Spring Auto REST Docs.</p>
 </div>
 <div class="paragraph">
-<p>For Java 9/10/11 support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.</p>
+<p>For Java 9+ support, use <code>spring-auto-restdocs-json-doclet-jdk9</code> as doclet dependency.
+Our support is focused on the latest Kotlin version, Java 8 and 11.
+In addition, we try to support the latest Java version that is supported by Spring.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1366,7 +1373,9 @@ include::auto-description.adoc[]
 
 ==== {{header}}
 
-include::{{fileName}}.adoc[]
+{{#filenames}}
+include::{{.}}.adoc[]
+{{/filenames}}
 {{/sections}}</code></pre>
 </div>
 </div>
@@ -1795,7 +1804,9 @@ include::auto-description.adoc[]
 
 ==== {{header}}
 
-include::{{fileName}}.adoc[]
+{{#filenames}}
+include::{{.}}.adoc[]
+{{/filenames}}
 {{/sections}}</code></pre>
 </div>
 </div>
@@ -2436,13 +2447,19 @@ and thus has to be registered manually.</p>
 <h2 id="contributing"><a class="link" href="#contributing">Contributing</a></h2>
 <div class="sectionbody">
 <div class="sect2">
+<h3 id="contributing-pr"><a class="link" href="#contributing-pr">Pull Requests</a></h3>
+<div class="paragraph">
+<p>For code formatting please use <a href="https://github.com/ScaCap/spring-auto-restdocs/blob/master/intellij-codestyle.xml">intellij-codestyle.xml</a>.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="contributing-building"><a class="link" href="#contributing-building">Building from source</a></h3>
 <div class="sect3">
-<h4 id="contributing-installing-testjar"><a class="link" href="#contributing-installing-testjar">Install Spring REST Docs test JAR</a></h4>
+<h4 id="contributing-installing-restdocs-testjar"><a class="link" href="#contributing-installing-restdocs-testjar">Install Spring REST Docs test JAR</a></h4>
 <div class="paragraph">
 <p>The Spring REST Docs test JAR is not published via Maven, but this project relies on it.
 If you want to build this project yourself, you need to install the test JAR.
-The test JAR is located in the lib folder and can be installed as follow:</p>
+The test JAR is located in the lib folder and can be installed as follows:</p>
 </div>
 <div class="listingblock">
 <div class="title">Bash</div>
@@ -2454,7 +2471,23 @@ The test JAR is located in the lib folder and can be installed as follow:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="contributing-building-testjar"><a class="link" href="#contributing-building-testjar">Build Spring REST Docs test JAR</a></h4>
+<h4 id="contributing-installing-dokka-testjar"><a class="link" href="#contributing-installing-dokka-testjar">Install Dokka Core test JAR</a></h4>
+<div class="paragraph">
+<p>Dokka publishes no test JAR, but the Spring Auto REST Docs Dokka extension uses their test utilities.
+If you want to build this project yourself, you need to install the test JAR.
+The test JAR is located in the lib folder and can be installed as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">Bash</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn install:install-file -Dfile=lib/dokka-core-0.10.1-tests.jar \
+     -DgroupId=org.jetbrains.dokka -DartifactId=dokka-core -Dversion=0.10.1 \
+     -Dpackaging=jar -Dclassifier=test</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="contributing-building-restdocs-testjar"><a class="link" href="#contributing-building-restdocs-testjar">Build Spring REST Docs test JAR</a></h4>
 <div class="paragraph">
 <p>Building the Spring REST Docs test JAR is not required to build the project,
 but if you ever want to upgrade the version of Spring REST Docs in this project this step has to be done.</p>
@@ -2497,6 +2530,56 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 </div>
 <div class="sect3">
+<h4 id="contributing-building-dokka-testjar"><a class="link" href="#contributing-building-dokka-testjar">Build Dokka Core test JAR</a></h4>
+<div class="paragraph">
+<p>Building the Dokka core test JAR is not required to build the project,
+but if you ever want to upgrade the version of Dokka in this project this step has to be done.</p>
+</div>
+<div class="paragraph">
+<p>We use version 0.10.1 of Dokka in this example.</p>
+</div>
+<div class="paragraph">
+<p>Clone and checkout a specific version of Dokka:</p>
+</div>
+<div class="listingblock">
+<div class="title">Bash</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone git@github.com:Kotlin/dokka.git
+cd dokka
+git checkout 0.10.1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following snippet at the end of <code>core/build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To speed the build up and avoid test issues, once can reduce the list of sub-projects in
+<code>settings.gradle</code> to just <code>core</code> and <code>integration</code>.</p>
+</div>
+<div class="paragraph">
+<p>Make sure to use JDK 8 for the build.
+Create the test JAR by running the following command on the top-level:</p>
+</div>
+<div class="listingblock">
+<div class="title">Bash</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew testJar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Afterwards the test JAR is located at
+<code>core/build/libs/core-0.10.1-SNAPSHOT-tests.jar</code></p>
+</div>
+</div>
+<div class="sect3">
 <h4 id="contributing-building-build"><a class="link" href="#contributing-building-build">Build</a></h4>
 <div class="listingblock">
 <div class="title">Bash (in root folder)</div>
@@ -2511,8 +2594,8 @@ and has to be installed with the Maven command shown in the section above.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.9-SNAPSHOT<br>
-Last updated 2020-03-29 23:43:30 +0200
+Version 2.0.9<br>
+Last updated 2020-08-07 14:01:18 +0200
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">
