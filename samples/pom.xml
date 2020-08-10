@@ -6,7 +6,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-samples</artifactId>
-    <version>2.0.9-SNAPSHOT</version>
+    <version>2.0.9</version>
 
     <packaging>pom</packaging>
 
