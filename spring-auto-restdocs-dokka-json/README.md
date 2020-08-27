@@ -36,6 +36,13 @@ Example usage:
                 <configuration>
                     <outputFormat>auto-restdocs-json</outputFormat>
                     <outputDir>${jsonDirectory}</outputDir>
+                    <perPackageOptions>
+                        <packageOptions>
+                            <prefix>com.mainProjectPackage</prefix>
+                            <includeNonPublic>true</includeNonPublic>
+                            <reportUndocumented>false</reportUndocumented>
+                        </packageOptions>
+                    </perPackageOptions>
                 </configuration>
             </plugin>
 ```
@@ -50,8 +57,8 @@ If this extension is set as the `dokkaFatJar` in the dokka task, the output form
 ```groovy
 buildscript {
     ext {
-        springAutoRestDocsVersion = "2.0.2"
-        dokkaVersion = "0.9.16"
+        springAutoRestDocsVersion = "2.0.9"
+        dokkaVersion = "0.10.1"
     }
     repositories {
         jcenter()
@@ -63,9 +70,22 @@ buildscript {
 }
 apply plugin: "org.jetbrains.dokka"
 
+ext {
+    snippetsDir = file("$buildDir/generated-snippets")
+    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+}
+
+dependencies {
+    dokkaRuntime "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
+}
+
 dokka {
     outputFormat = "auto-restdocs-json"
-    dokkaFatJar = "capital.scalable:spring-auto-restdocs-dokka-json:$springAutoRestDocsVersion"
+    outputDirectory = javadocJsonDir
+    configuration {
+        includeNonPublic = true
+        reportUndocumented = false
+    }
 }
 ```
 [Full example](https://github.com/ScaCap/spring-auto-restdocs/blob/master/samples/kotlin-webmvc/build.gradle)

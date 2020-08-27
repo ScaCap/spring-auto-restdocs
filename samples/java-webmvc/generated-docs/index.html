@@ -1201,7 +1201,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 03546d8c-c9b4-4461-b5ab-8ad6ec2c5b8f' \
+    -H 'Authorization: Bearer b19f74a9-6caf-4954-81b9-620c95eba0a0' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1464,7 +1464,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 03546d8c-c9b4-4461-b5ab-8ad6ec2c5b8f' \
+    -H 'Authorization: Bearer b19f74a9-6caf-4954-81b9-620c95eba0a0' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1582,7 +1582,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 03546d8c-c9b4-4461-b5ab-8ad6ec2c5b8f'</code></pre>
+    -H 'Authorization: Bearer b19f74a9-6caf-4954-81b9-620c95eba0a0'</code></pre>
 </div>
 </div>
 </div>
@@ -2120,8 +2120,8 @@ Content-Length: 1072
     "size" : 20,
     "sort" : {
       "orders" : [ ],
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -2135,15 +2135,15 @@ Content-Length: 1072
   "totalPages" : 1,
   "totalElements" : 1,
   "numberOfElements" : 1,
-  "first" : true,
-  "number" : 0,
-  "size" : 20,
   "sort" : {
     "orders" : [ ],
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
+  "number" : 0,
+  "size" : 20,
+  "first" : true,
   "empty" : false
 }</code></pre>
 </div>
@@ -3601,7 +3601,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/items/filtered/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 03546d8c-c9b4-4461-b5ab-8ad6ec2c5b8f' \
+    -H 'Authorization: Bearer b19f74a9-6caf-4954-81b9-620c95eba0a0' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
