@@ -31,7 +31,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 import capital.scalable.restdocs.example.common.Money;
@@ -73,7 +75,7 @@ public class ItemResource {
             new Attributes("first item", 1, true, DECIMAL, Money.of(AMOUNT, "EUR"), ONE);
     private static final Metadata1 META = new Metadata1("1", "meta1");
     private static final ItemResponse ITEM =
-            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[] { "top-level" });
+            new ItemResponse("1", "main item", META, ATTRIBUTES, singletonList(CHILD), new String[]{"top-level"});
 
     /**
      * Returns item by ID.
@@ -105,7 +107,7 @@ public class ItemResource {
      */
     @GetMapping
     public ItemResponse[] allItems() {
-        return new ItemResponse[] { ITEM, CHILD };
+        return new ItemResponse[]{ITEM, CHILD};
     }
 
     /**
@@ -284,7 +286,7 @@ public class ItemResource {
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
         response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
         if (embedded != null && embedded) {
-            response.addEmbedded("children", new Object[] { CHILD });
+            response.addEmbedded("children", new Object[]{CHILD});
             response.addEmbedded("attributes", ATTRIBUTES);
             response.addEmbedded("meta", META);
         }
@@ -330,6 +332,16 @@ public class ItemResource {
     @PutMapping("filtered/{id}")
     public void updateItemWithFilter(@PathVariable("id") @Id String id,
             @RequestBody @Valid ItemUpdateRequest itemUpdate, Filter filter) {
+    }
+
+    /**
+     * Adds a color to an item.
+     * <p>
+     * An example for EnumSet.
+     */
+    @PutMapping("{id}/colored")
+    public ColoredItem colorizeItem(@PathVariable String id, @RequestParam EnumSet<Color> colors) {
+        return new ColoredItem(id, new ArrayList<>(colors));
     }
 
     static class CloneData {
@@ -388,5 +400,21 @@ public class ItemResource {
          * Only items with this tag should be returned.
          */
         private String tag;
+    }
+
+    enum Color {
+        BLACK,
+        WHITE,
+        RED
+    }
+
+    static class ColoredItem {
+        public ColoredItem(String id, List<Color> colors) {
+            this.id = id;
+            this.colors = colors;
+        }
+
+        private String id;
+        private List<Color> colors;
     }
 }

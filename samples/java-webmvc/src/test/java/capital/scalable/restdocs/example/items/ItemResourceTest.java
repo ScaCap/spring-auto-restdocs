@@ -57,6 +57,7 @@ import capital.scalable.restdocs.example.testsupport.MockMvcBase;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 public class ItemResourceTest extends MockMvcBase {
 
@@ -255,5 +256,13 @@ public class ItemResourceTest extends MockMvcBase {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"description\":\"Hot News\"}"))
                 .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void coloredItem() throws Exception {
+        mockMvc.perform(put("/items/1/colored").param("colors", "WHITE,BLACK"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":\"1\",\"colors\":[\"BLACK\",\"WHITE\"]}", true));
     }
 }

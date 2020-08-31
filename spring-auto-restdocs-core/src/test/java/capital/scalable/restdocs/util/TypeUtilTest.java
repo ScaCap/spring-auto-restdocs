@@ -24,6 +24,8 @@ import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.EnumSet;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -48,6 +50,11 @@ public class TypeUtilTest {
         assertThat(TypeUtil.determineTypeName(Character.class), is("String"));
         assertThat(TypeUtil.determineTypeName(boolean.class), is("Boolean"));
         assertThat(TypeUtil.determineTypeName(Boolean.class), is("Boolean"));
+        assertThat(TypeUtil.determineTypeName(TestEnum.class), is("String"));
+
+        EnumSet<TestEnum> enumSet = EnumSet.of(TestEnum.ONE, TestEnum.TWO);
+        assertThat(TypeUtil.determineTypeName(enumSet.getClass()), is("Array[String]"));
+        assertThat(TypeUtil.determineTypeName(List.class), is("Array[String]"));
     }
 
     @Test
@@ -59,5 +66,10 @@ public class TypeUtilTest {
     static class TestClass {
         private boolean primitive;
         private Boolean wrapper;
+    }
+
+    enum TestEnum {
+        ONE,
+        TWO
     }
 }
