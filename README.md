@@ -59,6 +59,9 @@ See the [Getting started](https://scacap.github.io/spring-auto-restdocs/#getting
 * [Java WebFlux](https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/java-webflux): Spring Boot 2.3, WebFlux, JUnit 4, Java 8/11/14, Maven
 * [Kotlin WebMVC](https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/kotlin-webmvc): Spring Boot 2.3, WebMVC, JUnit 5, Kotlin 1.4, Maven/Gradle
 
+All sample projects use [shared POJOs](https://github.com/ScaCap/spring-auto-restdocs/tree/master/samples/shared)
+to demonstarte the usage across projects.
+
 ## Building from source
 
 See the [Building from source](https://scacap.github.io/spring-auto-restdocs/#contributing-building) section in the documentation.
