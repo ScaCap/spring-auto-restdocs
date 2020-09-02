@@ -37,13 +37,14 @@ import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.hamcrest.Matchers.notNullValue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.extension.Extensions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.restdocs.JUnitRestDocumentation
+import org.springframework.restdocs.RestDocumentationContextProvider
+import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.cli.CliDocumentation.curlRequest
 import org.springframework.restdocs.http.HttpDocumentation.httpRequest
 import org.springframework.restdocs.http.HttpDocumentation.httpResponse
@@ -54,7 +55,7 @@ import org.springframework.restdocs.operation.preprocess.OperationResponsePrepro
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.RequestPostProcessor
@@ -73,7 +74,10 @@ private const val DEFAULT_AUTHORIZATION = "Resource is public."
 /**
  * Required set up code for MockMvc tests.
  */
-@RunWith(SpringRunner::class)
+@Extensions(
+    ExtendWith(SpringExtension::class),
+    ExtendWith(RestDocumentationExtension::class)
+)
 @SpringBootTest
 abstract class MockMvcBase {
 
@@ -91,12 +95,9 @@ abstract class MockMvcBase {
 
     protected lateinit var mockMvc: MockMvc
 
-    @get:Rule
-    val restDocumentation = JUnitRestDocumentation()
-
-    @Before
+    @BeforeEach
     @Throws(Exception::class)
-    fun setUp() {
+    fun setUp(restDocumentation: RestDocumentationContextProvider) {
         this.mockMvc = MockMvcBuilders
             .webAppContextSetup(context)
             .addFilters<DefaultMockMvcBuilder>(springSecurityFilterChain)

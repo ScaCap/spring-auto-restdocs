@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.example
 
 import capital.scalable.restdocs.example.testsupport.MockMvcBase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
