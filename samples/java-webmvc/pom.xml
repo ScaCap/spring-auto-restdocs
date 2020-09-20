@@ -144,14 +144,14 @@
             </properties>
         </profile>
         <profile>
-            <id>java14</id>
+            <id>java15</id>
             <activation>
-                <jdk>14</jdk>
+                <jdk>15</jdk>
             </activation>
             <properties>
-                <java.version>14</java.version>
-                <maven.compiler.source>14</maven.compiler.source>
-                <maven.compiler.target>14</maven.compiler.target>
+                <java.version>15</java.version>
+                <maven.compiler.source>15</maven.compiler.source>
+                <maven.compiler.target>15</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
             </properties>
         </profile>
