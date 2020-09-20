@@ -33,7 +33,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-restdocs.version>2.0.4.RELEASE</spring-restdocs.version>
+        <spring-restdocs.version>2.0.5.RELEASE</spring-restdocs.version>
         <spring-auto-restdocs.version>2.0.10-SNAPSHOT</spring-auto-restdocs.version>
         <kotlin.version>1.4.0</kotlin.version>
         <dokka.version>0.10.1</dokka.version>
