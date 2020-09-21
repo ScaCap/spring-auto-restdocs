@@ -2,7 +2,7 @@ buildscript {
     ext {
         kotlinVersion = "1.4.0"
         springAutoRestDocsVersion = "2.0.10-SNAPSHOT"
-        springRestDocsVersion = "2.0.4.RELEASE"
+        springRestDocsVersion = "2.0.5.RELEASE"
         springBootVersion = "2.3.3.RELEASE"
         dokkaPluginVersion = "0.10.1"
     }

@@ -13,8 +13,8 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 before_install:
-- mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.4.RELEASE-test.jar
-  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.4.RELEASE
+- mvn install:install-file -Dfile=lib/spring-restdocs-core-2.0.5.RELEASE-test.jar
+  -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core -Dversion=2.0.5.RELEASE
   -Dpackaging=jar -Dclassifier=test
 - mvn install:install-file -Dfile=lib/dokka-core-0.10.1-tests.jar
   -DgroupId=org.jetbrains.dokka -DartifactId=dokka-core -Dversion=0.10.1
