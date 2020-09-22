@@ -19,8 +19,7 @@
  */
 package capital.scalable.restdocs.response;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,8 @@ public class ArrayLimitingJsonContentModifierTest {
         // when
         modifier.modifyJson(root);
         // then
-        assertThat(root.get("items").size(), is(3));
-        assertThat(root.get("ignore").isNumber(), is(true));
+        assertThat(root.get("items")).hasSize(3);
+        assertThat(root.get("ignore").isNumber()).isTrue();
     }
 
     @Test
@@ -55,8 +54,8 @@ public class ArrayLimitingJsonContentModifierTest {
         // when
         modifier.modifyJson(root);
         // then
-        assertThat(root.get("items").size(), is(2));
-        assertThat(root.get("ignore").isNumber(), is(true));
+        assertThat(root.get("items")).hasSize(2);
+        assertThat(root.get("ignore").isNumber()).isTrue();
     }
 
     private static class WithArray {

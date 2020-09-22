@@ -21,11 +21,9 @@ package capital.scalable.restdocs.constraints;
 
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.GROUPS;
 import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.VALUE;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalMatchers.not;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +31,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
 
 import capital.scalable.restdocs.i18n.SnippetTranslationManager;
 import org.junit.Before;
@@ -64,7 +61,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it"));
+        assertThat(description).isEqualTo("Must be it");
     }
 
     @Test
@@ -77,7 +74,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Constraint"));
+        assertThat(description).isEqualTo("Constraint");
     }
 
     @Test
@@ -90,7 +87,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Constraint (groups: [Update])"));
+        assertThat(description).isEqualTo("Constraint (groups: [Update])");
     }
 
     @Test
@@ -104,7 +101,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it (update)"));
+        assertThat(description).isEqualTo("Must be it (update)");
     }
 
     @Test
@@ -119,7 +116,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it (create), Must be it (update)"));
+        assertThat(description).isEqualTo("Must be it (create), Must be it (update)");
     }
 
     @Test
@@ -134,7 +131,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it (groups: [Update])"));
+        assertThat(description).isEqualTo("Must be it (groups: [Update])");
     }
 
     @Test
@@ -148,7 +145,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it"));
+        assertThat(description).isEqualTo("Must be it");
     }
 
     @Test
@@ -161,7 +158,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Constraint (groups: [Update])"));
+        assertThat(description).isEqualTo("Constraint (groups: [Update])");
     }
 
     @Test
@@ -172,9 +169,9 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveGroupDescription(Create.class, "Must be it");
         // then
-        assertThat(description, is("Must be it (create)"));
-        assertThat(captor.getValue().getName(), is(Create.class.getName()));
-        assertThat((String) captor.getValue().getConfiguration().get(VALUE), is("Must be it"));
+        assertThat(description).isEqualTo("Must be it (create)");
+        assertThat(captor.getValue().getName()).isEqualTo(Create.class.getName());
+        assertThat((String) captor.getValue().getConfiguration().get(VALUE)).isEqualTo("Must be it");
     }
 
     @Test
@@ -185,9 +182,9 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         String description = resolver.resolveGroupDescription(Create.class, "Must be it");
         // then
-        assertThat(description, is("Must be it (groups: [Create])"));
-        assertThat(captor.getValue().getName(), is(Create.class.getName()));
-        assertThat((String) captor.getValue().getConfiguration().get(VALUE), is("Must be it"));
+        assertThat(description).isEqualTo("Must be it (groups: [Create])");
+        assertThat(captor.getValue().getName()).isEqualTo(Create.class.getName());
+        assertThat((String) captor.getValue().getConfiguration().get(VALUE)).isEqualTo("Must be it");
     }
 
     @Test
@@ -198,7 +195,7 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         List<Class<?>> groups = resolver.getGroups(constraint);
         // then
-        assertThat(groups.size(), is(0));
+        assertThat(groups).hasSize(0);
     }
 
     @Test
@@ -210,8 +207,8 @@ public class ConstraintAndGroupDescriptionResolverTest {
         // when
         List<Class<?>> groups = resolver.getGroups(constraint);
         // then
-        assertThat(groups.size(), is(2));
-        assertThat(groups.get(0), equalTo((Class) Update.class));
-        assertThat(groups.get(1), equalTo((Class) Create.class));
+        assertThat(groups).hasSize(2);
+        assertThat(groups.get(0)).isEqualTo(Update.class);
+        assertThat(groups.get(1)).isEqualTo(Create.class);
     }
 }

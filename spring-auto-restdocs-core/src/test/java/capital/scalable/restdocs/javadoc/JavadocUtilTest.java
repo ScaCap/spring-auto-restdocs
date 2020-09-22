@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.javadoc;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import capital.scalable.restdocs.util.TemplateFormatting;
 import org.junit.Test;
