@@ -37,9 +37,6 @@ after_success:
   && test "$TRAVIS_JDK_VERSION" = "openjdk11"
   && cd spring-auto-restdocs-json-doclet-jdk9
   && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
-branches:
-  only:
-  - master
 env:
   global:
   - DEPLOY_DIR="$TRAVIS_BUILD_DIR/deploy"
