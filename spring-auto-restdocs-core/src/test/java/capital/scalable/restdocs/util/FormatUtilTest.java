@@ -20,53 +20,51 @@
 package capital.scalable.restdocs.util;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
 public class FormatUtilTest {
     @Test
     public void arrayToString() {
-        assertThat(FormatUtil.arrayToString(new Object[]{"1", 2, "3"}), is("[1, 2, 3]"));
+        assertThat(FormatUtil.arrayToString(new Object[]{"1", 2, "3"})).isEqualTo("[1, 2, 3]");
     }
 
     @Test
     public void collectionToString() {
-        assertThat(FormatUtil.collectionToString(asList("1", 2, "3")), is("[1, 2, 3]"));
+        assertThat(FormatUtil.collectionToString(asList("1", 2, "3"))).isEqualTo("[1, 2, 3]");
     }
 
     @Test
     public void addDot() {
-        assertThat(FormatUtil.addDot(null), is(nullValue()));
-        assertThat(FormatUtil.addDot(""), is(""));
-        assertThat(FormatUtil.addDot("."), is("."));
-        assertThat(FormatUtil.addDot("text."), is("text."));
-        assertThat(FormatUtil.addDot("text"), is("text."));
-        assertThat(FormatUtil.addDot("text?"), is("text?"));
-        assertThat(FormatUtil.addDot("text!"), is("text!"));
-        assertThat(FormatUtil.addDot("text:"), is("text:"));
-        assertThat(FormatUtil.addDot("text;"), is("text;"));
-        assertThat(FormatUtil.addDot("text)"), is("text)"));
-        assertThat(FormatUtil.addDot("text\""), is("text\""));
-        assertThat(FormatUtil.addDot("text+"), is("text+."));
-        assertThat(FormatUtil.addDot("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>"),
-                is("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>"));
-        assertThat(FormatUtil.addDot("text with html:\r\n<ul>\r\n<li>first</li>\r\n<li>second</li>\r\n</ul>"),
-                is("text with html:\r\n<ul>\r\n<li>first</li>\r\n<li>second</li>\r\n</ul>"));
-        assertThat(FormatUtil.addDot("text with html:\r\n<ol>\r\n<li>first</li>\r\n<li>second</li>\r\n</ol>"),
-                is("text with html:\r\n<ol>\r\n<li>first</li>\r\n<li>second</li>\r\n</ol>"));
-        assertThat(FormatUtil.addDot("text with html:\r\n<p>another paragraph</p>"),
-                is("text with html:\r\n<p>another paragraph</p>"));
+        assertThat(FormatUtil.addDot(null)).isNull();
+        assertThat(FormatUtil.addDot("")).isEqualTo("");
+        assertThat(FormatUtil.addDot(".")).isEqualTo(".");
+        assertThat(FormatUtil.addDot("text.")).isEqualTo("text.");
+        assertThat(FormatUtil.addDot("text")).isEqualTo("text.");
+        assertThat(FormatUtil.addDot("text?")).isEqualTo("text?");
+        assertThat(FormatUtil.addDot("text!")).isEqualTo("text!");
+        assertThat(FormatUtil.addDot("text:")).isEqualTo("text:");
+        assertThat(FormatUtil.addDot("text;")).isEqualTo("text;");
+        assertThat(FormatUtil.addDot("text)")).isEqualTo("text)");
+        assertThat(FormatUtil.addDot("text\"")).isEqualTo("text\"");
+        assertThat(FormatUtil.addDot("text+")).isEqualTo("text+.");
+        assertThat(FormatUtil.addDot("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>"))
+                .isEqualTo("text with html:\n<ul>\n<li>first</li>\n<li>second</li>\n</ul>");
+        assertThat(FormatUtil.addDot("text with html:\r\n<ul>\r\n<li>first</li>\r\n<li>second</li>\r\n</ul>"))
+                .isEqualTo("text with html:\r\n<ul>\r\n<li>first</li>\r\n<li>second</li>\r\n</ul>");
+        assertThat(FormatUtil.addDot("text with html:\r\n<ol>\r\n<li>first</li>\r\n<li>second</li>\r\n</ol>"))
+                .isEqualTo("text with html:\r\n<ol>\r\n<li>first</li>\r\n<li>second</li>\r\n</ol>");
+        assertThat(FormatUtil.addDot("text with html:\r\n<p>another paragraph</p>"))
+                .isEqualTo("text with html:\r\n<p>another paragraph</p>");
     }
 
     @Test
     public void join() {
-        assertThat(FormatUtil.join(""), is(""));
-        assertThat(FormatUtil.join(", "), is(""));
-        assertThat(FormatUtil.join(", ", null, null), is(""));
-        assertThat(FormatUtil.join(", ", "1"), is("1"));
-        assertThat(FormatUtil.join(", ", "1", null, "2", "  ", "3"), is("1, 2, 3"));
+        assertThat(FormatUtil.join("")).isEqualTo("");
+        assertThat(FormatUtil.join(", ")).isEqualTo("");
+        assertThat(FormatUtil.join(", ", null, null)).isEqualTo("");
+        assertThat(FormatUtil.join(", ", "1")).isEqualTo("1");
+        assertThat(FormatUtil.join(", ", "1", null, "2", "  ", "3")).isEqualTo("1, 2, 3");
     }
 }

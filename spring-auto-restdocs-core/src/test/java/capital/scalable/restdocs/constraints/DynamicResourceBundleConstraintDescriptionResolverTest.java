@@ -19,9 +19,7 @@
  */
 package capital.scalable.restdocs.constraints;
 
-import static capital.scalable.restdocs.constraints.ConstraintAndGroupDescriptionResolver.GROUPS;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +30,7 @@ import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;
 
 public class DynamicResourceBundleConstraintDescriptionResolverTest {
 
-    private ConstraintDescriptionResolver resolver =
+    private final ConstraintDescriptionResolver resolver =
             new DynamicResourceBundleConstraintDescriptionResolver();
 
     @Test
@@ -44,7 +42,7 @@ public class DynamicResourceBundleConstraintDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be it"));
+        assertThat(description).isEqualTo("Must be it");
     }
 
     @Test
@@ -55,7 +53,7 @@ public class DynamicResourceBundleConstraintDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is("Must be limited"));
+        assertThat(description).isEqualTo("Must be limited");
     }
 
     @Test
@@ -66,6 +64,6 @@ public class DynamicResourceBundleConstraintDescriptionResolverTest {
         // when
         String description = resolver.resolveDescription(constraint);
         // then
-        assertThat(description, is(""));
+        assertThat(description).isEmpty();
     }
 }
