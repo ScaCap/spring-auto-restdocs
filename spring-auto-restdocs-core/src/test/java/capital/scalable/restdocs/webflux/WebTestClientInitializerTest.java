@@ -186,8 +186,8 @@ public class WebTestClientInitializerTest {
                 ConfigurableListableBeanFactory.class);
         Map<String, WebTestClientInitializer> webTestClientInitializerBeans = new HashMap<>();
         Mockito.doAnswer(invocation -> {
-            webTestClientInitializerBeans.put(invocation.getArgumentAt(0, String.class),
-                    invocation.getArgumentAt(1, WebTestClientInitializer.class));
+            webTestClientInitializerBeans.put(invocation.getArgument(0, String.class),
+                    invocation.getArgument(1, WebTestClientInitializer.class));
             return null;
         }).when(registryMock).registerSingleton(any(), any());
         when(contextMock.getBeansOfType(eq(WebTestClientInitializer.class)))

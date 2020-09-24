@@ -20,8 +20,7 @@
 package capital.scalable.restdocs.response;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -43,6 +42,6 @@ public class BinaryReplacementContentModifierTest {
     public void testModifyContent(MediaType type) {
         BinaryReplacementContentModifier modifier = new BinaryReplacementContentModifier();
         byte[] result = modifier.modifyContent(new byte[10], type);
-        assertThat(result, is("<binary>".getBytes(UTF_8)));
+        assertThat(result).isEqualTo("<binary>".getBytes(UTF_8));
     }
 }

@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.constraints;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

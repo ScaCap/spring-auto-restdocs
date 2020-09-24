@@ -19,8 +19,7 @@
  */
 package capital.scalable.restdocs.constraints;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
@@ -55,63 +54,62 @@ public class ConstraintReaderImplTest {
         ConstraintReader reader = createWithValidation();
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "name");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getConstraintMessages(Constraintz.class, "index");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be at least 1"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be at least 1");
 
         messages = reader.getConstraintMessages(Constraintz.class, "items");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getConstraintMessages(Constraintz.class, "amount");
-        assertThat(messages.size(), is(2));
-        assertThat(messages.get(0), is("Must be at least 10"));
-        assertThat(messages.get(1), is("Must be at most 1000"));
+        assertThat(messages).hasSize(2);
+        assertThat(messages.get(0)).isEqualTo("Must be at least 10");
+        assertThat(messages.get(1)).isEqualTo("Must be at most 1000");
 
         messages = reader.getConstraintMessages(Constraintz.class, "type");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [big, small]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [big, small]");
 
         messages = reader.getConstraintMessages(Constraintz.class, "amountWithGroup");
-        assertThat(messages.size(), is(2));
-        assertThat(messages.get(0), is("Must be at least 10 (update)"));
-        assertThat(messages.get(1),
-                is("Must be at most 1000 (update), Must be at most 1000 (create)"));
+        assertThat(messages).hasSize(2);
+        assertThat(messages.get(0)).isEqualTo("Must be at least 10 (update)");
+        assertThat(messages.get(1)).isEqualTo("Must be at most 1000 (update), Must be at most 1000 (create)");
 
         messages = reader.getConstraintMessages(Constraintz.class, "indexWithGroup");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be null (update)"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be null (update)");
 
         messages = reader.getConstraintMessages(Constraintz.class, "num");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be at most 10 (groups: [UnresolvedGroup])"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be at most 10 (groups: [UnresolvedGroup])");
 
         messages = reader.getConstraintMessages(Constraintz.class, "bool");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getConstraintMessages(Constraintz.class, "str");
-        assertThat(messages.size(), is(0)); // array
+        assertThat(messages).hasSize(0); // array
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum1");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [ONE, TWO]");
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum2");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Custom enum description: [A, B]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Custom enum description: [A, B]");
 
         messages = reader.getConstraintMessages(Constraintz.class, "enum3");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [A first, B second]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [A first, B second]");
 
         messages = reader.getConstraintMessages(Constraintz.class, "optionalEnum");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [ONE, TWO]");
 
         messages = reader.getConstraintMessages(Constraintz.class, "sizedString");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be in range [2, 10]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be in range [2, 10]");
     }
 
     @Test
@@ -119,51 +117,51 @@ public class ConstraintReaderImplTest {
         ConstraintReader reader = createWithValidation();
 
         List<String> messages = reader.getOptionalMessages(Constraintz.class, "name");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("false");
 
         messages = reader.getOptionalMessages(Constraintz.class, "index");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("false");
 
         messages = reader.getOptionalMessages(Constraintz.class, "items");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("false");
 
         messages = reader.getOptionalMessages(Constraintz.class, "amount");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "type");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "amountWithGroup");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "indexWithGroup");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false (create)"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("false (create)");
 
         messages = reader.getOptionalMessages(Constraintz.class, "num");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "bool");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "str");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "enum1");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "enum2");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("false"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("false");
 
         messages = reader.getOptionalMessages(Constraintz.class, "optionalEnum");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
 
         messages = reader.getOptionalMessages(Constraintz.class, "sizedString");
-        assertThat(messages.size(), is(0));
+        assertThat(messages).hasSize(0);
     }
 
     @Test
@@ -174,37 +172,37 @@ public class ConstraintReaderImplTest {
                 Enum1.class, Optional.class, BigDecimal.class);
 
         List<String> messages = reader.getConstraintMessages(new MethodParameter(method, 0));
-        assertThat(messages.size(), is(2));
-        assertThat(messages.get(0), is("Must be at least 1 (create)"));
-        assertThat(messages.get(1), is("Must be at most 2 (update)"));
+        assertThat(messages).hasSize(2);
+        assertThat(messages.get(0)).isEqualTo("Must be at least 1 (create)");
+        assertThat(messages.get(1)).isEqualTo("Must be at most 2 (update)");
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 1));
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [all, single]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [all, single]");
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 2));
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [ONE, TWO]");
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 3));
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must be one of [ONE, TWO]"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must be one of [ONE, TWO]");
 
         messages = reader.getConstraintMessages(new MethodParameter(method, 4));
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Must exceed 0.1"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Must exceed 0.1");
     }
 
     @Test
     public void getConstraintMessages_validationNotPresent() {
         ConstraintReaderImpl reader = createWithoutValidation();
-        assertThat(reader.getConstraintMessages(Constraintz.class, "index").size(), is(0));
+        assertThat(reader.getConstraintMessages(Constraintz.class, "index")).hasSize(0);
     }
 
     @Test
     public void getOptionalMessages_validationNotPresent() {
         ConstraintReaderImpl reader = createWithoutValidation();
-        assertThat(reader.getOptionalMessages(Constraintz.class, "name").size(), is(0));
+        assertThat(reader.getOptionalMessages(Constraintz.class, "name")).hasSize(0);
     }
 
     @Test
@@ -212,19 +210,19 @@ public class ConstraintReaderImplTest {
         ConstraintReaderImpl reader = createWithoutValidation();
         Method method = MethodTest.class.getMethod("exec", Integer.class, String.class,
                 Enum1.class, Optional.class, BigDecimal.class);
-        assertThat(reader.getConstraintMessages(new MethodParameter(method, 0)).size(), is(0));
+        assertThat(reader.getConstraintMessages(new MethodParameter(method, 0))).hasSize(0);
     }
 
     @Test
     public void getTypeSpecifier_resolved() {
         ConstraintReaderImpl reader = createWithoutValidation();
-        assertThat(reader.getTypeSpecifier(Plain.class), is("[plain type]"));
+        assertThat(reader.getTypeSpecifier(Plain.class)).isEqualTo("[plain type]");
     }
 
     @Test
     public void getTypeSpecifier_default() {
         ConstraintReaderImpl reader = createWithoutValidation();
-        assertThat(reader.getTypeSpecifier(Constraintz.class), is(""));
+        assertThat(reader.getTypeSpecifier(Constraintz.class)).isEqualTo("");
     }
 
     @Test
@@ -234,8 +232,8 @@ public class ConstraintReaderImplTest {
                 new CustomConstraintDescriptionResolver());
 
         List<String> messages = reader.getConstraintMessages(Constraintz.class, "index");
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0), is("Minimum"));
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).isEqualTo("Minimum");
 
     }
 

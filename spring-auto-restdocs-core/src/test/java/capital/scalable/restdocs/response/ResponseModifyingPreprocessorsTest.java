@@ -21,8 +21,7 @@ package capital.scalable.restdocs.response;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
@@ -109,7 +108,7 @@ public class ResponseModifyingPreprocessorsTest {
         OperationResponse processedResponse =
                 testData.getPreprocessor().preprocess(unprocessedResponse);
         // then
-        assertThat(processedResponse.getContentAsString(), is(testData.getExpectedResult()));
+        assertThat(processedResponse.getContentAsString()).isEqualTo(testData.getExpectedResult());
     }
 
     private static class TestData {

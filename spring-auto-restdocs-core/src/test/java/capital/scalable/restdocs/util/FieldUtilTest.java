@@ -19,25 +19,24 @@
  */
 package capital.scalable.restdocs.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
 public class FieldUtilTest {
     @Test
     public void fromGetter() throws Exception {
-        assertThat(FieldUtil.fromGetter("GetField"), is("GetField"));
-        assertThat(FieldUtil.fromGetter("getField"), is("field"));
-        assertThat(FieldUtil.fromGetter("IsField"), is("IsField"));
-        assertThat(FieldUtil.fromGetter("isField"), is("field"));
+        assertThat(FieldUtil.fromGetter("GetField")).isEqualTo("GetField");
+        assertThat(FieldUtil.fromGetter("getField")).isEqualTo("field");
+        assertThat(FieldUtil.fromGetter("IsField")).isEqualTo("IsField");
+        assertThat(FieldUtil.fromGetter("isField")).isEqualTo("field");
     }
 
     @Test
     public void isGetter() throws Exception {
-        assertThat(FieldUtil.isGetter("GetField"), is(false));
-        assertThat(FieldUtil.isGetter("getField"), is(true));
-        assertThat(FieldUtil.isGetter("IsField"), is(false));
-        assertThat(FieldUtil.isGetter("isField"), is(true));
+        assertThat(FieldUtil.isGetter("GetField")).isFalse();
+        assertThat(FieldUtil.isGetter("getField")).isTrue();
+        assertThat(FieldUtil.isGetter("IsField")).isFalse();
+        assertThat(FieldUtil.isGetter("isField")).isTrue();
     }
 }
