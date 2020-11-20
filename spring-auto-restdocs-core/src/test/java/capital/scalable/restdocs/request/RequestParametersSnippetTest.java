@@ -32,6 +32,8 @@ import java.util.Optional;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,6 +50,7 @@ import org.springframework.web.method.HandlerMethod;
 public class RequestParametersSnippetTest extends AbstractSnippetTests {
     private JavadocReader javadocReader;
     private ConstraintReader constraintReader;
+    private ObjectMapper mapper;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -58,6 +61,9 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
 
     @Before
     public void setup() {
+        mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
         javadocReader = mock(JavadocReader.class);
         constraintReader = mock(ConstraintReader.class);
     }
@@ -246,6 +252,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
+                .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).isEqualTo(paginationPrefix());
@@ -261,6 +268,7 @@ public class RequestParametersSnippetTest extends AbstractSnippetTests {
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader)
+                .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_REQUEST_PARAMETERS)).is(

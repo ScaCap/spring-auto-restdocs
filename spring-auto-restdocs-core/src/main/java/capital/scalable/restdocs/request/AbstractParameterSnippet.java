@@ -22,7 +22,9 @@ package capital.scalable.restdocs.request;
 import static capital.scalable.restdocs.OperationAttributeHelper.getConstraintReader;
 import static capital.scalable.restdocs.OperationAttributeHelper.getHandlerMethod;
 import static capital.scalable.restdocs.OperationAttributeHelper.getJavadocReader;
+import static capital.scalable.restdocs.OperationAttributeHelper.getObjectMapper;
 import static capital.scalable.restdocs.OperationAttributeHelper.getTranslationResolver;
+import static capital.scalable.restdocs.OperationAttributeHelper.getTypeMapping;
 import static capital.scalable.restdocs.constraints.ConstraintReader.CONSTRAINTS_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEFAULT_VALUE_ATTRIBUTE;
 import static capital.scalable.restdocs.constraints.ConstraintReader.DEPRECATED_ATTRIBUTE;
@@ -35,15 +37,22 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.util.StringUtils.hasLength;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.DeprecatedAttribute;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
+import capital.scalable.restdocs.jackson.FieldDocumentationGenerator;
+import capital.scalable.restdocs.jackson.TypeMapping;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.payload.JacksonFieldProcessingException;
 import capital.scalable.restdocs.section.SectionSupport;
 import capital.scalable.restdocs.snippet.StandardTableSnippet;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -63,6 +72,8 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
         JavadocReader javadocReader = getJavadocReader(operation);
         SnippetTranslationResolver translationResolver = getTranslationResolver(operation);
         ConstraintReader constraintReader = getConstraintReader(operation);
+        ObjectMapper objectMapper = getObjectMapper(operation);
+        TypeMapping typeMapping = getTypeMapping(operation);
 
         FieldDescriptors fieldDescriptors = new FieldDescriptors();
         for (MethodParameter param : handlerMethod.getMethodParameters()) {
@@ -70,6 +81,20 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
             if (annot != null) {
                 addFieldDescriptor(handlerMethod, javadocReader, constraintReader, fieldDescriptors,
                         param, annot);
+            } else if (resolveObjectType() && !param.hasParameterAnnotations()) {
+                try {
+                    FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
+                            objectMapper.writer(), objectMapper.getDeserializationConfig(), javadocReader,
+                            constraintReader, typeMapping, translationResolver, null);
+
+                    FieldDescriptors fieldDescriptorsForParam = generator.generateDocumentation(param.getParameterType(), objectMapper.getTypeFactory());
+
+                    for (FieldDescriptor descriptor : fieldDescriptorsForParam.values()) {
+                        fieldDescriptors.putIfAbsent(descriptor.getPath(), descriptor);
+                    }
+                } catch (JsonMappingException e) {
+                    throw new JacksonFieldProcessingException("Error while parsing fields", e);
+                }
             }
         }
 
@@ -142,6 +167,10 @@ abstract class AbstractParameterSnippet<A extends Annotation> extends StandardTa
     protected abstract String getPath(A annot);
 
     abstract A getAnnotation(MethodParameter param);
+
+    protected boolean resolveObjectType() {
+        return false;
+    }
 
     protected abstract boolean shouldFailOnUndocumentedParams();
 
