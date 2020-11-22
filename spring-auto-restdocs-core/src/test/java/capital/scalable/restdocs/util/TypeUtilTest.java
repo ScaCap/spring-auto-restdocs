@@ -20,9 +20,11 @@
 package capital.scalable.restdocs.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
 
 import org.junit.Test;
 
@@ -47,6 +49,8 @@ public class TypeUtilTest {
         assertThat(TypeUtil.determineTypeName(Character.class)).isEqualTo("String");
         assertThat(TypeUtil.determineTypeName(boolean.class)).isEqualTo("Boolean");
         assertThat(TypeUtil.determineTypeName(Boolean.class)).isEqualTo("Boolean");
+        assertThat(TypeUtil.determineTypeName(Instant.class)).isEqualTo("String");
+        assertThat(TypeUtil.determineTypeName(Instant[].class)).isEqualTo("Array[String]");
     }
 
     @Test

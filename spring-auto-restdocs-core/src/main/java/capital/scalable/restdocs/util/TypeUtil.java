@@ -90,6 +90,7 @@ public class TypeUtil {
                 return "Decimal";
             case "java.lang.Character":
             case "java.lang.String":
+            case "java.time.Instant":
                 return "String";
             case "java.lang.Boolean":
                 return "Boolean";
