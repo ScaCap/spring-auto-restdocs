@@ -19,9 +19,9 @@
  */
 package capital.scalable.restdocs.response;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,8 @@ import org.springframework.restdocs.operation.preprocess.ContentModifier;
 
 public abstract class JsonContentModifier implements ContentModifier {
 
-    private ObjectMapper objectMapper;
+    private static final List<MediaType> supportedMediaTypes = Arrays.asList(MediaType.APPLICATION_JSON, MediaType.valueOf("application/*+json"));
+    private final ObjectMapper objectMapper;
 
     public JsonContentModifier(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -38,8 +39,7 @@ public abstract class JsonContentModifier implements ContentModifier {
 
     @Override
     public byte[] modifyContent(byte[] originalContent, MediaType contentType) {
-        if (originalContent.length > 0 && contentType != null
-                && contentType.includes(APPLICATION_JSON)) {
+        if (originalContent.length > 0 && supportedMediaTypes.stream().anyMatch(type -> type.isCompatibleWith(contentType))) {
             return modifyContent(originalContent);
         } else {
             return originalContent;

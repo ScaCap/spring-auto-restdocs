@@ -74,6 +74,26 @@ public class ResponseModifyingPreprocessorsTest {
     }
 
     @Test
+    public void shouldShortenJsonArraysForHALMediaType() {
+        preprocessorTest(new TestData()
+                .content("[1,2,3,4]")
+                .contentType("application/hal+json")
+                .preprocessor(
+                        ResponseModifyingPreprocessors.limitJsonArrayLength(mapper))
+                .expectedResult("[1,2,3]"));
+    }
+
+    @Test
+    public void shouldShortenJsonArraysForAnyJsonSuffixMediaType() {
+        preprocessorTest(new TestData()
+                .content("[1,2,3,4]")
+                .contentType("application/whatever+json")
+                .preprocessor(
+                        ResponseModifyingPreprocessors.limitJsonArrayLength(mapper))
+                .expectedResult("[1,2,3]"));
+    }
+
+    @Test
     public void shouldShortenNestedJsonArrays() {
         preprocessorTest(new TestData()
                 .content("{\"x\":{\"y\":[1,2,3,4,5]}}")
