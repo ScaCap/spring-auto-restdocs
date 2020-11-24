@@ -134,6 +134,8 @@ public class ConstraintReaderImpl implements ConstraintReader {
 
         if (field.getType().isEnum()) {
             return getEnumConstraintMessage(field.getType());
+        } else if (field.getType().isArray()) {
+            return getEnumConstraintMessage(field.getType().getComponentType());
         } else {
             return getEnumConstraintMessage(firstGenericType(field.getGenericType(), javaBaseClass));
         }
@@ -142,6 +144,8 @@ public class ConstraintReaderImpl implements ConstraintReader {
     private List<String> getEnumConstraintMessage(MethodParameter param) {
         if (param.getParameterType().isEnum()) {
             return getEnumConstraintMessage(param.getParameterType());
+        } else if (param.getParameterType().isArray()) {
+            return getEnumConstraintMessage(param.getParameterType().getComponentType());
         } else {
             return getEnumConstraintMessage(firstGenericType(param));
         }
