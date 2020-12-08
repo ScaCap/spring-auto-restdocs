@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Core
+ * Spring Auto REST Docs Java 8 Support Using Jackson 2.11 and Below
  * %%
  * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
@@ -31,18 +31,22 @@ import com.fasterxml.jackson.databind.introspect.POJOPropertiesCollector;
 import com.fasterxml.jackson.databind.introspect.POJOPropertyBuilder;
 
 /**
- * Overrides class inspector so that we keep properties othewise filtered out via {@link JsonProperty#access()} in
+ * Overrides class inspector so that we keep properties otherwise filtered out via {@link JsonProperty#access()} in
  * {@link POJOPropertiesCollector#_removeUnwantedAccessor(java.util.Map)}.
  * The actual filtering happens now in
  * {@link FieldDocumentationObjectVisitor#skipProperty(com.fasterxml.jackson.databind.BeanProperty)}
  */
-public class SardObjectMapper extends ObjectMapper {
-    public SardObjectMapper(ObjectMapper objectMapper) {
+class Jdk8_Jackson_2_11_ObjectMapperAdapter extends ObjectMapper {
+    private static final long serialVersionUID = 1L;
+
+    public Jdk8_Jackson_2_11_ObjectMapperAdapter(ObjectMapper objectMapper) {
         super(objectMapper);
         this.setConfig(getSerializationConfig().with(new SardClassIntrospector()));
     }
 
     public static class SardClassIntrospector extends BasicClassIntrospector {
+        private static final long serialVersionUID = 1L;
+
         @Override
         protected POJOPropertiesCollector constructPropertyCollector(MapperConfig<?> config, AnnotatedClass ac,
                 JavaType type, boolean forSerialization, String mutatorPrefix) {

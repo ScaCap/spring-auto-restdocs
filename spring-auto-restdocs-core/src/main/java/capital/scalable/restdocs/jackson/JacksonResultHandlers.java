@@ -100,7 +100,7 @@ public abstract class JacksonResultHandlers {
         public JacksonPreparingResultHandler(ObjectMapper objectMapper, TypeMapping typeMapping,
                 SnippetTranslationResolver translationResolver,
                 ConstraintDescriptionResolver constraintDescriptionResolver) {
-            this.objectMapper = new SardObjectMapper(objectMapper);
+            this.objectMapper = ObjectMapperAdapterFactory.instance().adapt(objectMapper);
             this.typeMapping = typeMapping;
             this.translationResolver = translationResolver;
             this.constraintDescriptionResolver = constraintDescriptionResolver;

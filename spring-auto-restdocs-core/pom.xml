@@ -18,6 +18,7 @@
     <description>Spring Auto REST Docs is an extension to Spring REST Docs</description>
 
     <properties>
+        <java.version>1.8</java.version>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
     </properties>
 
@@ -116,7 +117,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
@@ -125,7 +125,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>
@@ -150,4 +149,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

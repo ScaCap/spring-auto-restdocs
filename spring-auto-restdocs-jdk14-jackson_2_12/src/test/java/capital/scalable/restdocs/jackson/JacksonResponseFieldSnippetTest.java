@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Spring Auto REST Docs Core
+ * Spring Auto REST Docs Java Record Support
  * %%
  * Copyright (C) 2015 - 2020 Scalable Capital GmbH
  * %%
@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package capital.scalable.restdocs.payload;
+package capital.scalable.restdocs.jackson;
 
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_RESPONSE_FIELDS;
-import static capital.scalable.restdocs.payload.TableWithPrefixMatcher.tableWithPrefix;
+import static capital.scalable.restdocs.jackson.TableWithPrefixMatcher.tableWithPrefix;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
@@ -44,8 +44,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
-import capital.scalable.restdocs.jackson.SardObjectMapper;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.payload.JacksonResponseFieldSnippet;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -79,6 +80,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
     private ConstraintReader constraintReader;
 
     @Rule
+    @SuppressWarnings("deprecation")
     public ExpectedException thrown = ExpectedException.none();
 
     public JacksonResponseFieldSnippetTest(String name, TemplateFormat templateFormat) {
@@ -87,9 +89,9 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
 
     @Before
     public void setup() {
-        // SardObjectMapper doesn't really matter here as we're using serializer logic
+        // Jdk14_Jackson_2_12_ObjectMapperAdapter doesn't really matter here as we're using serializer logic
         // which skips WRITE_ONLY fields automatically
-        mapper = new SardObjectMapper(new ObjectMapper());
+        mapper = new Jdk14_Jackson_2_12_ObjectMapperAdapter(new ObjectMapper());
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
                 .withGetterVisibility(JsonAutoDetect.Visibility.ANY));
@@ -598,6 +600,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
     }
 
+    @SuppressWarnings("unused")
     // actual method responses do not matter, they are here just for the illustration
     private static class TestResource extends GenericTestResource<Item> {
 
@@ -630,7 +633,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
             return ResponseEntity.ok(new Item("test"));
         }
 
-        public ResponseEntity responseEntityItem2() {
+        public ResponseEntity<?> responseEntityItem2() {
             return ResponseEntity.ok(new Item("test"));
         }
 
@@ -690,6 +693,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
     }
 
+    @SuppressWarnings("unused")
     private static class DeprecatedItem {
         // dep. annot on field, no getter
         @Deprecated
@@ -729,6 +733,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
     }
 
+    @SuppressWarnings("unused")
     private static class CommentedItem {
         // comment on field only, no getter
         private String field;
@@ -753,12 +758,14 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
     }
 
+    @SuppressWarnings("unused")
     private static class ProcessingResponse {
         private String output;
     }
 
     private static class HalItem extends ResourceSupport {
 
+        @SuppressWarnings("unused")
         private String actualContent;
 
         HalItem(String actualContent) {
@@ -774,7 +781,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         @JsonInclude(NON_EMPTY)
         @JsonUnwrapped
         public Resources<EmbeddedWrapper> getEmbeddedResources() {
-            return new Resources(embedded);
+            return new Resources<>(embedded);
         }
 
         public void embed(String rel, Object resource) {
@@ -784,6 +791,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         }
     }
 
+    @SuppressWarnings("unused")
     private static class ReadWriteAccessors {
         @JsonProperty(access = READ_ONLY)
         private String readOnly;
@@ -792,6 +800,7 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         private String bothWays;
     }
 
+    @SuppressWarnings("unused")
     @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type", visible = true)
     @JsonSubTypes({
             @JsonSubTypes.Type(value = BalanceResponse.class, name = "BalanceResponse"),
@@ -800,14 +809,17 @@ public class JacksonResponseFieldSnippetTest extends AbstractSnippetTests {
         private String accountNumber;
     }
 
+    @SuppressWarnings("unused")
     public static class BalanceResponse extends Response {
         private int balance;
     }
 
+    @SuppressWarnings("unused")
     public static class TransactionsResponse extends Response {
         private List<Transaction> transactions;
     }
 
+    @SuppressWarnings("unused")
     public static class Transaction {
         private BigDecimal amount;
     }

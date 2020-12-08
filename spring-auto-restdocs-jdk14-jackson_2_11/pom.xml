@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>capital.scalable</groupId>
+    <artifactId>spring-auto-restdocs-parent</artifactId>
+    <version>2.0.10-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>spring-auto-restdocs-jdk14-jackson_2_11</artifactId>
+  <name>Spring Auto REST Docs Java Record Support</name>
+  <description>Adds support for introspecting Java records when using Jackson prior to version 2.12.0.</description>
+
+  <properties>
+    <java.version>14</java.version>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webflux</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-hateoas</artifactId>
+      <version>2.0.5.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-commons</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.restdocs</groupId>
+      <artifactId>spring-restdocs-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>capital.scalable</groupId>
+      <artifactId>spring-auto-restdocs-core</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.restdocs</groupId>
+      <artifactId>spring-restdocs-core</artifactId>
+      <classifier>test</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <!-- A version that differs from the one used in Spring REST Docs can cause issues -->
+      <version>3.11.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <release>${java.version}</release>
+            <compilerArgs>
+              <!--
+               | Needed by Jackson so that it can identify the names of
+               | constructor parameters when deserializing a JSON object.
+               | It matches JSON fields to constructor parameters by name.
+               +-->
+              <compilerArg>-parameters</compilerArg>
+              <!-- Enables use of record and text blocks -->
+              <compilerArg>--enable-preview</compilerArg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+            <argLine>
+              --enable-preview
+              --illegal-access=permit
+            </argLine>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionalJOption>-J--enable-preview</additionalJOption>
+          <additionalOptions>--enable-preview</additionalOptions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>
