@@ -130,6 +130,14 @@
                 <maven.compiler.target>1.8</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet</json-doclet.artifactId>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>capital.scalable</groupId>
+                    <artifactId>spring-auto-restdocs-jdk8-jackson_2_11</artifactId>
+                    <version>${spring-auto-restdocs.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>java11</id>
@@ -142,6 +150,14 @@
                 <maven.compiler.target>11</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>capital.scalable</groupId>
+                    <artifactId>spring-auto-restdocs-jdk8-jackson_2_11</artifactId>
+                    <version>${spring-auto-restdocs.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>java15</id>
@@ -152,8 +168,16 @@
                 <java.version>15</java.version>
                 <maven.compiler.source>15</maven.compiler.source>
                 <maven.compiler.target>15</maven.compiler.target>
-                <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
+                <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk14</json-doclet.artifactId>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>capital.scalable</groupId>
+                    <artifactId>spring-auto-restdocs-jdk14-jackson_2_11</artifactId>
+                    <version>${spring-auto-restdocs.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 

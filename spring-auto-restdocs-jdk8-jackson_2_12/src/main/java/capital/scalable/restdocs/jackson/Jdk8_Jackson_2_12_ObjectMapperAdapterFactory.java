@@ -21,7 +21,7 @@ package capital.scalable.restdocs.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-class Jdk8_Jackson_2_12_ObjectMapperAdapterFactory extends ObjectMapperAdapterFactory {
+public class Jdk8_Jackson_2_12_ObjectMapperAdapterFactory extends ObjectMapperAdapterFactory {
 
     @Override
     public ObjectMapper adapt(ObjectMapper objectMapper) {
