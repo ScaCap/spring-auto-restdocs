@@ -65,10 +65,16 @@ dependencies {
     testImplementation "com.sun.xml.bind:jaxb-core:2.3.0.1"
     testImplementation "com.sun.xml.bind:jaxb-impl:2.3.1"
     testImplementation "javax.activation:activation:1.1.1"
-    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-        jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
-    } else {
+
+    if (JavaVersion.current() >= JavaVersion.VERSION_14) {
+        jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet-jdk14:$springAutoRestDocsVersion"
+        testImplementation "org.springframework.restdocs:spring-restdocs-jdk14-jackson_2_11:$springRestDocsVersion"
+    } else if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
         jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet-jdk9:$springAutoRestDocsVersion"
+        testImplementation "org.springframework.restdocs:spring-restdocs-jdk8-jackson_2_11:$springRestDocsVersion"
+    } else {
+        jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
+        testImplementation "org.springframework.restdocs:spring-restdocs-jdk8-jackson_2_11:$springRestDocsVersion"
     }
 }
 
