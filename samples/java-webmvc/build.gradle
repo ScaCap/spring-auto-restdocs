@@ -85,6 +85,12 @@ task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
     options.docletpath = configurations.jsondoclet.files.asType(List)
     options.doclet = "capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet"
     options.memberLevel = JavadocMemberLevel.PACKAGE
+
+    if (JavaVersion.current() >= JavaVersion.VERSION_14) {
+        options.addStringOption("-release", "14")
+        options.addBooleanOption("-enable-preview", true)
+        options.jFlags("--enable-preview")
+    }
 }
 
 test {
@@ -92,6 +98,10 @@ test {
     systemProperty "org.springframework.restdocs.javadocJsonDir", javadocJsonDir
 
     dependsOn jsonDoclet
+
+    if (JavaVersion.current() >= JavaVersion.VERSION_14) {
+        jvmArgs += "--enable-preview"
+    }
 }
 
 asciidoctor {

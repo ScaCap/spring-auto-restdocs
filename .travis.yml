@@ -2,8 +2,8 @@ language: java
 dist: xenial
 jdk:
 - openjdk8
-- openjdk11
-- openjdk15
+- openjdk9
+- openjdk14
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -34,8 +34,12 @@ after_success:
   && test "$TRAVIS_JDK_VERSION" = "openjdk8"
   && mvn deploy --settings travis-settings.xml -DskipTests=true -B -V
 - test "$TRAVIS_PULL_REQUEST" = "false"
-  && test "$TRAVIS_JDK_VERSION" = "openjdk11"
+  && test "$TRAVIS_JDK_VERSION" = "openjdk9"
   && cd spring-auto-restdocs-json-doclet-jdk9
+  && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
+- test "$TRAVIS_PULL_REQUEST" = "false"
+  && test "$TRAVIS_JDK_VERSION" = "openjdk14"
+  && cd spring-auto-restdocs-json-doclet-jdk14
   && mvn deploy --settings ../travis-settings.xml -DskipTests=true -B -V
 branches:
   only:

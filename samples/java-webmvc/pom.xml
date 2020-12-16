@@ -140,14 +140,14 @@
             </dependencies>
         </profile>
         <profile>
-            <id>java11</id>
+            <id>java9</id>
             <activation>
-                <jdk>11</jdk>
+                <jdk>[9,14)</jdk>
             </activation>
             <properties>
-                <java.version>11</java.version>
-                <maven.compiler.source>11</maven.compiler.source>
-                <maven.compiler.target>11</maven.compiler.target>
+                <java.version>9</java.version>
+                <maven.compiler.source>9</maven.compiler.source>
+                <maven.compiler.target>9</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk9</json-doclet.artifactId>
             </properties>
             <dependencies>
@@ -160,14 +160,14 @@
             </dependencies>
         </profile>
         <profile>
-            <id>java15</id>
+            <id>java14</id>
             <activation>
-                <jdk>15</jdk>
+                <jdk>[14,)</jdk>
             </activation>
             <properties>
-                <java.version>15</java.version>
-                <maven.compiler.source>15</maven.compiler.source>
-                <maven.compiler.target>15</maven.compiler.target>
+                <java.version>14</java.version>
+                <maven.compiler.source>14</maven.compiler.source>
+                <maven.compiler.target>14</maven.compiler.target>
                 <json-doclet.artifactId>spring-auto-restdocs-json-doclet-jdk14</json-doclet.artifactId>
             </properties>
             <dependencies>
@@ -178,6 +178,30 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <configuration>
+                                <detectJavaApiLink>false</detectJavaApiLink>
+                                <release>14</release>
+                                <additionalJOption>-J--enable-preview</additionalJOption>
+                                <additionalOptions>--enable-preview</additionalOptions>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <argLine>
+                                  --enable-preview
+                                  --illegal-access=permit
+                                </argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
     </profiles>
 

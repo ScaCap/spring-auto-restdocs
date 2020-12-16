@@ -62,6 +62,10 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <extensions>true</extensions>
+                <configuration>
+                    <source>8</source>
+                    <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
                 <executions>
                     <execution>
                         <id>generate-javadoc-json</id>
