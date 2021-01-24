@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Json Doclet for JDK9+
  * %%
- * Copyright (C) 2015 - 2020 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2021 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,17 @@
  */
 package capital.scalable.restdocs.jsondoclet;
 
+import static java.util.Optional.ofNullable;
 import static capital.scalable.restdocs.jsondoclet.DocletUtils.cleanupDocComment;
 
+import com.sun.source.doctree.DocCommentTree;
+import com.sun.source.doctree.ParamTree;
+
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import jdk.javadoc.doclet.DocletEnvironment;
 
@@ -42,14 +47,41 @@ public final class ClassDocumentation {
         ClassDocumentation cd = new ClassDocumentation();
         cd.setComment(cleanupDocComment(docEnv.getElementUtils().getDocComment(element)));
 
-        element.getEnclosedElements().forEach(fieldOrMethod -> {
-            if (fieldOrMethod.getKind().equals(ElementKind.FIELD)) {
-                cd.addField(docEnv, fieldOrMethod);
-            } else if (fieldOrMethod.getKind().equals(ElementKind.METHOD)
-                    || fieldOrMethod.getKind().equals(ElementKind.CONSTRUCTOR)) {
-                cd.addMethod(docEnv, fieldOrMethod);
-            }
-        });
+        if ("RECORD".equals(element.getKind().name())) {
+            ofNullable(docEnv.getDocTrees().getDocCommentTree(element))
+                .stream()
+                .map(DocCommentTree::getBlockTags)
+                .flatMap(List::stream)
+                .filter(ParamTree.class::isInstance)
+                .map(ParamTree.class::cast)
+                .filter(p -> !p.isTypeParameter())
+                .forEach(p -> {
+                    String name = p.getName().getName().toString();
+                    String desc = p.getDescription()
+                        .stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(" "))
+                        ;
+
+                    cd.fields.put(name, FieldDocumentation.fromString(desc));
+                })
+                ;
+        } else {
+            element.getEnclosedElements().forEach(fieldOrMethod -> {
+                switch (fieldOrMethod.getKind()) {
+                    case FIELD:
+                        cd.addField(docEnv, fieldOrMethod);
+                        break;
+                    case METHOD:
+                    case CONSTRUCTOR:
+                        cd.addMethod(docEnv, fieldOrMethod);
+                        break;
+                    default:
+                        // Ignored
+                        break;
+                }
+            });
+        }
 
         return cd;
     }
@@ -67,4 +99,5 @@ public final class ClassDocumentation {
         this.methods.put(element.getSimpleName().toString(),
                 MethodDocumentation.fromMethodDoc(docEnv, element));
     }
+
 }
