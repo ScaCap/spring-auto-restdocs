@@ -28,6 +28,7 @@ import static capital.scalable.restdocs.OperationAttributeHelper.getTypeMapping;
 import static capital.scalable.restdocs.util.FieldDescriptorUtil.assertAllDocumented;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -72,8 +73,8 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
         TypeMapping typeMapping = getTypeMapping(operation);
         JsonProperty.Access skipAcessor = getSkipAcessor();
 
-        Type type = getType(handlerMethod);
-        if (type == null) {
+        Type[] types = getType(handlerMethod);
+        if (types == null || types.length == 0) {
             return new FieldDescriptors();
         }
 
@@ -81,7 +82,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
             FieldDocumentationGenerator generator = new FieldDocumentationGenerator(
                     objectMapper.writer(), objectMapper.getDeserializationConfig(), javadocReader,
                     constraintReader, typeMapping, translationResolver, skipAcessor);
-            FieldDescriptors fieldDescriptors = generator.generateDocumentation(type, objectMapper.getTypeFactory());
+            FieldDescriptors fieldDescriptors = generator.generateDocumentation(types, objectMapper.getTypeFactory());
 
             if (shouldFailOnUndocumentedFields()) {
                 assertAllDocumented(fieldDescriptors.values(),
@@ -93,7 +94,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
         }
     }
 
-    protected abstract Type getType(HandlerMethod method);
+    protected abstract Type[] getType(HandlerMethod method);
 
     protected abstract boolean shouldFailOnUndocumentedFields();
 
@@ -113,6 +114,7 @@ public abstract class AbstractJacksonFieldSnippet extends StandardTableSnippet i
 
     @Override
     public boolean hasContent(Operation operation) {
-        return getType(getHandlerMethod(operation)) != null;
+        Type[] type = getType(getHandlerMethod(operation));
+        return type != null && type.length > 0;
     }
 }

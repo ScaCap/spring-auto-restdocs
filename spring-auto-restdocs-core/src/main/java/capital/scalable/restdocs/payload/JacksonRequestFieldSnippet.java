@@ -24,6 +24,7 @@ import static capital.scalable.restdocs.util.TypeUtil.firstGenericType;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.core.MethodParameter;
@@ -55,17 +56,15 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(HandlerMethod method) {
+    protected Type[] getType(HandlerMethod method) {
         if (requestBodyType != null) {
-            return requestBodyType;
+            return new Type[]{requestBodyType};
         }
 
-        for (MethodParameter param : method.getMethodParameters()) {
-            if (isRequestBody(param)) {
-                return getType(param);
-            }
-        }
-        return null;
+        return Arrays.stream(method.getMethodParameters())
+                .filter(this::isRequestBody)
+                .map(this::getType)
+                .toArray(Type[]::new);
     }
 
     private boolean isRequestBody(MethodParameter param) {

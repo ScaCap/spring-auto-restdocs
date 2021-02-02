@@ -59,13 +59,11 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(HandlerMethod method) {
-        for (MethodParameter param : method.getMethodParameters()) {
-            if (isModelAttribute(param) || isProcessedAsModelAttribute(param)) {
-                return getType(param);
-            }
-        }
-        return null;
+    protected Type[] getType(HandlerMethod method) {
+        return Arrays.stream(method.getMethodParameters())
+                .filter(param -> isModelAttribute(param) || isProcessedAsModelAttribute(param))
+                .map(this::getType)
+                .toArray(Type[]::new);
     }
 
     private boolean isModelAttribute(MethodParameter param) {
@@ -92,10 +90,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     protected boolean isRequestMethodGet(HandlerMethod method) {
         RequestMapping requestMapping = method.getMethodAnnotation(RequestMapping.class);
         return requestMapping == null
-                || requestMapping.method() == null
-                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> {
-            return requestMethod == RequestMethod.GET;
-        });
+                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> requestMethod == RequestMethod.GET);
     }
 
     @Override

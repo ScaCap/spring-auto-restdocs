@@ -73,37 +73,39 @@ public class JacksonResponseFieldSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(final HandlerMethod method) {
+    protected Type[] getType(final HandlerMethod method) {
         if (responseBodyType != null) {
-            return responseBodyType;
+            return new Type[]{responseBodyType};
         }
 
-        Class<?> returnType = method.getReturnType().getParameterType();
-        if (HttpEntity.class.isAssignableFrom(returnType)) {
-            return firstGenericType(method.getReturnType());
-        } else if (SPRING_PAGE_CLASSES.contains(returnType.getCanonicalName())) {
-            return firstGenericType(method.getReturnType());
-        } else if (SPRING_HATEOAS_CLASSES.contains(returnType.getCanonicalName())) {
-            return firstGenericType(method.getReturnType());
-        } else if (isCollection(returnType)) {
-            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
-        } else if ("void".equals(returnType.getName())) {
-            return null;
-        } else if (REACTOR_MONO_CLASS.equals(returnType.getCanonicalName())) {
+        Class<?> methodReturnType = method.getReturnType().getParameterType();
+        Type returnType;
+        if (HttpEntity.class.isAssignableFrom(methodReturnType)) {
+            returnType = firstGenericType(method.getReturnType());
+        } else if (SPRING_PAGE_CLASSES.contains(methodReturnType.getCanonicalName())) {
+            returnType = firstGenericType(method.getReturnType());
+        } else if (SPRING_HATEOAS_CLASSES.contains(methodReturnType.getCanonicalName())) {
+            returnType = firstGenericType(method.getReturnType());
+        } else if (isCollection(methodReturnType)) {
+            returnType = (GenericArrayType) () -> firstGenericType(method.getReturnType());
+        } else if ("void".equals(methodReturnType.getName())) {
+            returnType = null;
+        } else if (REACTOR_MONO_CLASS.equals(methodReturnType.getCanonicalName())) {
             Type type = firstGenericType(method.getReturnType());
             if (type instanceof ParameterizedType) {
                 // can be Mono<ResponseEntity<FooBar>>
-                return ((ParameterizedType) type).getActualTypeArguments()[0];
+                returnType = ((ParameterizedType) type).getActualTypeArguments()[0];
             } else {
-                return type;
+                returnType = type;
             }
-        } else if (REACTOR_FLUX_CLASS.equals(returnType.getCanonicalName())) {
-            return (GenericArrayType) () -> firstGenericType(method.getReturnType());
+        } else if (REACTOR_FLUX_CLASS.equals(methodReturnType.getCanonicalName())) {
+            returnType = (GenericArrayType) () -> firstGenericType(method.getReturnType());
         } else if (method.getReturnType().getGenericParameterType() instanceof TypeVariable) {
-            return firstGenericType(method.getReturnType());
+            returnType =  firstGenericType(method.getReturnType());
         } else {
-            return returnType;
+            returnType = methodReturnType;
         }
+        return returnType == null ? null : new Type[]{returnType};
     }
 
     @Override
