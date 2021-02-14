@@ -60,11 +60,12 @@ public class JacksonRequestFieldSnippet extends AbstractJacksonFieldSnippet {
         if (requestBodyType != null) {
             return new Type[]{requestBodyType};
         }
-
-        return Arrays.stream(method.getMethodParameters())
-                .filter(this::isRequestBody)
-                .map(this::getType)
-                .toArray(Type[]::new);
+        for (MethodParameter param : method.getMethodParameters()) {
+            if (isRequestBody(param)) {
+                return new Type[] {getType(param)};
+            }
+        }
+        return null;
     }
 
     private boolean isRequestBody(MethodParameter param) {
