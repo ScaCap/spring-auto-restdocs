@@ -97,6 +97,27 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
+    public void simpleRequestWithoutAnnotation() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotation", Item.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
+
+        new JacksonModelAttributeSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
+    }
+
+    @Test
     public void simpleRequestWithEnum() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItemWithWeight",
                 ItemWithWeight.class);
@@ -263,7 +284,11 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     }
 
     @Test
-    public void withoutAnnotation() throws Exception {
+    public void multipleModelAttributesWithout() throws Exception {
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+
         HandlerMethod handlerMethod = createHandlerMethod("withoutAnnotation", Item.class, ParentItem.class,
                 DeprecatedItem.class);
 
@@ -277,8 +302,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
-                        .row("field1", "String", "true", "")
-                        .row("field2", "Integer", "true", "")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.")
                         .row("type", "String", "true", "")
                         .row("commonField", "String", "true", "")
                         .row("subItem1Field", "Boolean", "true", "")
@@ -315,6 +340,10 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     private static class TestResource {
 
         public void addItem(@ModelAttribute Item item) {
+            // NOOP
+        }
+
+        public void addItemWithoutAnnotation(Item item) {
             // NOOP
         }
 

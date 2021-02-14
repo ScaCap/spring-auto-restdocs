@@ -34,6 +34,7 @@ import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.HandlerMethodUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -67,7 +68,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private boolean isModelAttribute(MethodParameter param) {
-        return param.getParameterAnnotation(ModelAttribute.class) != null;
+        return !BeanUtils.isSimpleProperty(param.getParameterType()) || param.getParameterAnnotation(ModelAttribute.class) != null;
     }
 
     private boolean isProcessedAsModelAttribute(MethodParameter param) {
