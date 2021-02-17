@@ -68,7 +68,8 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     private boolean isModelAttribute(MethodParameter param) {
-        return !BeanUtils.isSimpleProperty(param.getParameterType()) || param.getParameterAnnotation(ModelAttribute.class) != null;
+        return param.getParameterAnnotation(ModelAttribute.class) != null
+                || param.getParameterAnnotations().length == 0 && !BeanUtils.isSimpleProperty(param.getParameterType());
     }
 
     private boolean isProcessedAsModelAttribute(MethodParameter param) {

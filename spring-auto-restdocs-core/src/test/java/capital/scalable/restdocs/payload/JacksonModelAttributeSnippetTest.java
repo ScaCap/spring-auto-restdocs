@@ -50,6 +50,8 @@ import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
@@ -99,6 +101,27 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequestWithoutAnnotation() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotation", Item.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
+
+        new JacksonModelAttributeSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
+    }
+
+    @Test
+    public void simpleRequestWithoutAnnotationMixedWithOtherAnnotations() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotationMixedWithOtherAnnotations", Item.class, ItemWithWeight.class);
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
         mockOptionalMessage(Item.class, "field1", "false");
@@ -344,6 +367,10 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         }
 
         public void addItemWithoutAnnotation(Item item) {
+            // NOOP
+        }
+
+        public void addItemWithoutAnnotationMixedWithOtherAnnotations(Item item, @RequestBody ItemWithWeight otherParameter) {
             // NOOP
         }
 
