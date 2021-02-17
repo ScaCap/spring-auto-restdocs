@@ -50,7 +50,11 @@ import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
 public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     private ObjectMapper mapper;
@@ -76,6 +80,48 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     @Test
     public void simpleRequest() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
+
+        new JacksonModelAttributeSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
+    }
+
+    @Test
+    public void simpleRequestWithoutAnnotation() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotation", Item.class);
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+        mockConstraintMessage(Item.class, "field2", "A constraint");
+
+        new JacksonModelAttributeSnippet().document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.\n\nA constraint."));
+    }
+
+    @Test
+    public void simpleRequestWithoutAnnotationMixedWithOtherAnnotations() throws Exception {
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotationMixedWithOtherAnnotations", Item.class, ItemWithWeight.class);
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
         mockOptionalMessage(Item.class, "field1", "false");
@@ -260,6 +306,35 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                         .row("bothWays", "String", "true", ""));
     }
 
+    @Test
+    public void multipleModelAttributesWithout() throws Exception {
+        mockFieldComment(Item.class, "field1", "A string");
+        mockFieldComment(Item.class, "field2", "An integer");
+        mockOptionalMessage(Item.class, "field1", "false");
+
+        HandlerMethod handlerMethod = createHandlerMethod("withoutAnnotation", Item.class, ParentItem.class,
+                DeprecatedItem.class);
+
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
+                .attribute(HandlerMethod.class.getName(), handlerMethod)
+                .attribute(ObjectMapper.class.getName(), mapper)
+                .attribute(JavadocReader.class.getName(), javadocReader)
+                .attribute(ConstraintReader.class.getName(), constraintReader)
+                .build());
+
+        assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
+                tableWithHeader("Parameter", "Type", "Optional", "Description")
+                        .row("field1", "String", "false", "A string.")
+                        .row("field2", "Integer", "true", "An integer.")
+                        .row("type", "String", "true", "")
+                        .row("commonField", "String", "true", "")
+                        .row("subItem1Field", "Boolean", "true", "")
+                        .row("subItem2Field", "Integer", "true", "")
+                        .row("index", "Integer", "true", "**Deprecated.**.")
+        );
+    }
+
     private void mockConstraintMessage(Class<?> type, String fieldName, String comment) {
         when(constraintReader.getConstraintMessages(type, fieldName))
                 .thenReturn(singletonList(comment));
@@ -291,6 +366,14 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
+        public void addItemWithoutAnnotation(Item item) {
+            // NOOP
+        }
+
+        public void addItemWithoutAnnotationMixedWithOtherAnnotations(Item item, @RequestBody ItemWithWeight otherParameter) {
+            // NOOP
+        }
+
         @PostMapping
         public void addItemPost(@ModelAttribute Item item) {
             // NOOP
@@ -317,6 +400,14 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         }
 
         public void accessors(@ModelAttribute ReadWriteAccessors accessors) {
+            // NOOP
+        }
+
+        public void withoutAnnotation(
+                Item item,
+                ParentItem parentItem,
+                DeprecatedItem deprecatedItem
+        ) {
             // NOOP
         }
     }

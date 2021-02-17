@@ -34,6 +34,7 @@ import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.jackson.FieldDescriptors;
 import capital.scalable.restdocs.util.HandlerMethodUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,17 +60,16 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(HandlerMethod method) {
-        for (MethodParameter param : method.getMethodParameters()) {
-            if (isModelAttribute(param) || isProcessedAsModelAttribute(param)) {
-                return getType(param);
-            }
-        }
-        return null;
+    protected Type[] getType(HandlerMethod method) {
+        return Arrays.stream(method.getMethodParameters())
+                .filter(param -> isModelAttribute(param) || isProcessedAsModelAttribute(param))
+                .map(this::getType)
+                .toArray(Type[]::new);
     }
 
     private boolean isModelAttribute(MethodParameter param) {
-        return param.getParameterAnnotation(ModelAttribute.class) != null;
+        return param.getParameterAnnotation(ModelAttribute.class) != null
+                || param.getParameterAnnotations().length == 0 && !BeanUtils.isSimpleProperty(param.getParameterType());
     }
 
     private boolean isProcessedAsModelAttribute(MethodParameter param) {
@@ -92,10 +92,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     protected boolean isRequestMethodGet(HandlerMethod method) {
         RequestMapping requestMapping = method.getMethodAnnotation(RequestMapping.class);
         return requestMapping == null
-                || requestMapping.method() == null
-                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> {
-            return requestMethod == RequestMethod.GET;
-        });
+                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> requestMethod == RequestMethod.GET);
     }
 
     @Override

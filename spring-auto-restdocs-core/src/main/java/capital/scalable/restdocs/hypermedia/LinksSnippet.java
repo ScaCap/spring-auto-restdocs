@@ -50,8 +50,8 @@ public class LinksSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(HandlerMethod method) {
-        return documentationType;
+    protected Type[] getType(HandlerMethod method) {
+        return documentationType == null ? null : new Type[] {documentationType};
     }
 
     @Override
