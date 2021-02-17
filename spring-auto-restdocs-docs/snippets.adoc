@@ -13,7 +13,7 @@ The shorthand annotations `GetMapping`, `PostMapping`, etc. are supported as wel
 .Code
 [source,java]
 ----
-@RequestMapping(value = "/items", method = RequestMethod.GET)
+@GetMapping(value = "/items")
 public ItemResponse getItems() { ... }
 ----
 
@@ -40,7 +40,7 @@ Currently only basic `br`, `p`, `ul` and `li` tags are supported.
  *   <li>type</li>
  * </ul>
  */
-@RequestMapping...
+@GetMapping...
 public ItemResponse getItems() { ... }
 ----
 
@@ -96,7 +96,7 @@ link:{core-package}/request/PathParametersSnippet.java[Path parameters snippet] 
 /**
  * @param id ID of the item.
  */
-@RequestMapping("{id}")
+@GetMapping("{id}")
 public ItemResponse getItem(@PathVariable String id) { ... }
 ----
 
@@ -129,7 +129,7 @@ link:{core-package}/request/RequestParametersSnippet.java[Request parameters sni
  * @param descMatch Lookup on description field.
  * @param lang Lookup on language.
  */
-@RequestMapping("search")
+@GetMapping("search")
 public Page<ItemResponse> searchItem(
  @RequestParam("desc") String descMatch,
  @RequestParam(value= "language", required = false, defaultValue = "en") String lang
@@ -160,6 +160,32 @@ Configuration available during MockMvc setup:
 
 - `failOnUndocumentedParams` - if build should fail on at least one undocumented parameter
 
+[[snippets-modelattribute]]
+=== Model Attribute snippet
+
+link:{core-package}/payload/JacksonModelAttributeSnippet.java[Model Attribute snippet] automatically recognises POJOs annotated with `@ModelAttribute` annotation. Depending on HTTP method, it generates either section for <<snippets-request-parameters,request parameters>> (`GET`) or <<snippets-request-fields,request fields>> (non `GET`). This snippet works also for model attributes without annotation, as specified in https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments["any other argument"] section of Spring MVC reference documentation.
+
+.Code
+[source,java]
+----
+@GetMapping("search")
+public SearchResult search(@ModelAttribute SearchCriteria criteria){ ... }
+
+class SearchCriteria {
+    /** Lookup on description field. */
+    @NotBlank
+    String descMatch;
+    /** Lookup on language. */
+    String lang;
+}
+----
+
+==== Configuration
+
+Configuration available during MockMvc setup:
+
+- `failOnUndocumentedFields` - if build should fail on at least one undocumented field
+
 [[snippets-request-headers]]
 === Request headers snippet
 
@@ -171,7 +197,7 @@ link:{core-package}/request/RequestHeaderSnippet.java[Request headers snippet] a
 /**
  * @param lang Language we want the response in.
  */
-@RequestMapping("/all")
+@GetMapping("/all")
 public ItemResponse getItem(
 @RequestHeader(value = "Accept-Language", required = false, defaultValue = "en") String lang
 ) { ... }
@@ -199,7 +225,7 @@ List includes name, type, whether the field is optional, and its Javadoc with co
 .Code
 [source,java]
 ----
-@RequestMapping(method = POST)
+@PostMapping
 public void addItem(@RequestBody ItemUpdateRequest request) { ... }
 
 static class ItemUpdateRequest {
@@ -251,7 +277,7 @@ List includes name, type, whether the field is optional, and its Javadoc with co
 .Code
 [source,java]
 ----
-@RequestMapping("{id}")
+@GetMapping("{id}")
 public ItemResponse getItem(@PathVariable String id) { ... }
 
 static class ItemResponse {
@@ -309,7 +335,7 @@ List includes name, whether the link is optional, and its Javadoc description.
 .Code
 [source,java]
 ----
-@RequestMapping("")
+@GetMapping
 public ItemResponse getItem() {
     ItemResponse response = new ItemResponse();
     response.add(linkTo(methodOn(ItemResource.class).getItem()).withSelfRel());
@@ -378,7 +404,7 @@ List includes name, type, whether the field is optional, and its Javadoc with co
 .Code
 [source,java]
 ----
-@RequestMapping("")
+@GetMapping
 public ItemResponse getItem() {
     ItemResponse response = new ItemResponse();
     response.embed(getAttributes());
