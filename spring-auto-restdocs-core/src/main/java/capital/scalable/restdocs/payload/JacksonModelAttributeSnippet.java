@@ -66,7 +66,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     /**
-     * Iterates over list of method argument resolvers and returns the first the same way as in
+     * Iterates over a list of method argument resolvers and returns the first in the same way as in
      * {@link org.springframework.web.method.support.HandlerMethodArgumentResolverComposite#getArgumentResolver(org.springframework.core.MethodParameter)}
      *
      * ModelAttributeMethodProcessor is always the last in the provided list, therefore we can rely on the fact that if
