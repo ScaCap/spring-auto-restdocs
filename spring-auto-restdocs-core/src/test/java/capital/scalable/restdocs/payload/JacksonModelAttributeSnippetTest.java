@@ -26,6 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,19 +42,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
 public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
@@ -85,7 +91,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -106,7 +113,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -121,13 +129,23 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void simpleRequestWithoutAnnotationMixedWithOtherAnnotations() throws Exception {
-        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotationMixedWithOtherAnnotations", Item.class, ItemWithWeight.class);
+        HandlerMethod handlerMethod = createHandlerMethod("addItemWithoutAnnotationMixedWithOtherAnnotations",
+                String.class, Item.class, ItemWithWeight.class);
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
         mockOptionalMessage(Item.class, "field1", "false");
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        // @PathVariable will be captured by this one
+        HandlerMethodArgumentResolver pathVariableMar = new PathVariableMethodArgumentResolver();
+        // @RequestBody will be captured by this one
+        HandlerMethodArgumentResolver requestResponseBodyMar =
+                new RequestResponseBodyMethodProcessor(singletonList(new MappingJackson2HttpMessageConverter(mapper)));
+        // everything else by this one
+        HandlerMethodArgumentResolver modelAttributeMar = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(
+                list(pathVariableMar, requestResponseBodyMar, modelAttributeMar), false)
+                .document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -147,7 +165,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(ItemWithWeight.class, "weight", "An enum");
         mockConstraintMessage(ItemWithWeight.class, "weight", "Must be one of [LIGHT, HEAVY]");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -164,7 +183,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     public void noParameters() throws Exception {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
-        new JacksonModelAttributeSnippet()
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
                 .document(operationBuilder.attribute(HandlerMethod.class.getName(), handlerMethod)
                         .attribute(ObjectMapper.class.getName(), mapper).build());
 
@@ -173,7 +193,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
 
     @Test
     public void noHandlerMethod() throws Exception {
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .build());
 
@@ -186,7 +207,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field1", "A string");
         mockFieldComment(Item.class, "field2", "An integer");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -207,7 +229,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(SubItem1.class, "subItem1Field", "A sub item 1 field");
         mockFieldComment(SubItem2.class, "subItem2Field", "A sub item 2 field");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -226,7 +249,9 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     public void hasContentWithModelAttributeAnnotation() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
 
-        boolean hasContent = new JacksonModelAttributeSnippet().hasContent(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
+                .hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
         assertThat(hasContent).isTrue();
@@ -236,7 +261,9 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     public void noContent() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("addItem2");
 
-        boolean hasContent = new JacksonModelAttributeSnippet().hasContent(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
+                .hasContent(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .build());
         assertThat(hasContent).isFalse();
@@ -249,7 +276,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         thrown.expect(SnippetException.class);
         thrown.expectMessage("Following query parameters were not documented: [field1, field2]");
 
-        new JacksonModelAttributeSnippet(null, true).document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod).attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
                 .attribute(ConstraintReader.class.getName(), constraintReader).build());
@@ -262,7 +290,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         thrown.expect(SnippetException.class);
         thrown.expectMessage("Following request fields were not documented: [field1, field2]");
 
-        new JacksonModelAttributeSnippet(null, true).document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), true).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -276,7 +305,9 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(DeprecatedItem.class, "index", "item's index");
         mockDeprecated(DeprecatedItem.class, "index", "use index2");
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
+
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -293,7 +324,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     public void accessors() throws Exception {
         HandlerMethod handlerMethod = createHandlerMethod("accessors", ReadWriteAccessors.class);
 
-        new JacksonModelAttributeSnippet().document(operationBuilder
+        HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
@@ -370,7 +402,11 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
             // NOOP
         }
 
-        public void addItemWithoutAnnotationMixedWithOtherAnnotations(Item item, @RequestBody ItemWithWeight otherParameter) {
+        public void addItemWithoutAnnotationMixedWithOtherAnnotations(
+                @PathVariable String id,
+                Item item,
+                @RequestBody ItemWithWeight otherParameter
+                ) {
             // NOOP
         }
 

@@ -151,10 +151,12 @@ public class ItemResourceTest extends MockMvcBase {
     public void processSingleItem() throws Exception {
         mockMvc.perform(post("/items/{itemId}/process", "1")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content("command=increase"))
+                .content("command=increase&tag=processed&page=1&name=myitem"))
                 .andExpect(status().isOk())
                 .andExpect(
-                        content().json("{ \"output\": \"Command executed on item 1: increase\" }"));
+                        content().json("{ \"output\": \"Command executed on item 1: increase, method: POST, " +
+                                "tag: processed, data: myitem, errors: 0, " +
+                                "Page request [number: 1, size 20, sort: UNSORTED]\" }"));
     }
 
     @Test
