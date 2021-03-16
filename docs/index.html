@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Spring Auto REST Docs</h1>
 <div class="details">
 <span id="author" class="author">Scalable Capital</span><br>
-<span id="revnumber">version 2.0.10-SNAPSHOT</span>
+<span id="revnumber">version 2.0.10</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -668,7 +668,7 @@ In addition, we try to support the latest Java version that is supported by Spri
 <pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;dependency&gt;
     &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
     &lt;artifactId&gt;spring-auto-restdocs-core&lt;/artifactId&gt;
-    &lt;version&gt;2.0.9&lt;/version&gt;
+    &lt;version&gt;2.0.10&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;
 
@@ -705,7 +705,7 @@ In addition, we try to support the latest Java version that is supported by Spri
                         &lt;docletArtifact&gt;
                             &lt;groupId&gt;capital.scalable&lt;/groupId&gt;
                             &lt;artifactId&gt;spring-auto-restdocs-json-doclet&lt;/artifactId&gt; <i class="conum" data-value="3"></i><b>(3)</b>
-                            &lt;version&gt;2.0.9&lt;/version&gt;
+                            &lt;version&gt;2.0.10&lt;/version&gt;
                         &lt;/docletArtifact&gt;
                         &lt;destDir&gt;generated-javadoc-json&lt;/destDir&gt; <i class="conum" data-value="2"></i><b>(2)</b>
                         &lt;reportOutputDirectory&gt;${project.build.directory}&lt;/reportOutputDirectory&gt; <i class="conum" data-value="2"></i><b>(2)</b>
@@ -750,8 +750,8 @@ ext {
 }
 
 dependencies {
-    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.9'
-    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.9' <i class="conum" data-value="3"></i><b>(3)</b>
+    testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.10'
+    jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet', version: '2.0.10' <i class="conum" data-value="3"></i><b>(3)</b>
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
@@ -2636,8 +2636,8 @@ Create the test JAR by running the following command on the top-level:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.10-SNAPSHOT<br>
-Last updated 2021-02-17 22:38:31 +0100
+Version 2.0.10<br>
+Last updated 2021-03-16 16:17:26 +0100
 </div>
 </div>
 <link rel="stylesheet" href="highlight/styles/github.min.css">

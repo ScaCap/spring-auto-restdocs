@@ -1156,7 +1156,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 262558be-e737-4bb1-9a14-fd1ed135ccde' \
+    -H 'Authorization: Bearer eced3c1d-2825-4686-9870-5f4a00801068' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1399,7 +1399,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 262558be-e737-4bb1-9a14-fd1ed135ccde' \
+    -H 'Authorization: Bearer eced3c1d-2825-4686-9870-5f4a00801068' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1501,7 +1501,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 262558be-e737-4bb1-9a14-fd1ed135ccde'</code></pre>
+    -H 'Authorization: Bearer eced3c1d-2825-4686-9870-5f4a00801068'</code></pre>
 </div>
 </div>
 </div>
@@ -1832,12 +1832,6 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">paged</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">pageNumber</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -1911,6 +1905,12 @@ Must be at most 100.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sort.empty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">paged</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -2123,13 +2123,13 @@ Content-Length: 1072
     "unpaged" : false
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
+  "last" : true,
   "size" : 20,
   "number" : 0,
-  "numberOfElements" : 1,
   "first" : true,
+  "numberOfElements" : 1,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,

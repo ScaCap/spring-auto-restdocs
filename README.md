@@ -29,7 +29,7 @@ from the Introducing Spring Auto REST Docs talk at Spring IO 2017 are also avail
 Latest master [2.0.10-SNAPSHOT](https://scacap.github.io/spring-auto-restdocs) reference guide.
 
 Older releases:
-[2.0.8](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.8/docs/index.html),
+[2.0.9](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v2.0.9/docs/index.html),
 [1.0.14](https://htmlpreview.github.io/?https://github.com/ScaCap/spring-auto-restdocs/blob/v1.0.14/docs/index.html)
 
 ## Main features

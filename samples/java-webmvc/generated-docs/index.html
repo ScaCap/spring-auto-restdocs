@@ -1207,7 +1207,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 99d6ee1d-c96a-4385-b391-127dbfce4092' \
+    -H 'Authorization: Bearer 7235cfe5-ad41-42c2-801f-c53227e26118' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1470,7 +1470,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 99d6ee1d-c96a-4385-b391-127dbfce4092' \
+    -H 'Authorization: Bearer 7235cfe5-ad41-42c2-801f-c53227e26118' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1588,7 +1588,7 @@ Item must exist.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 99d6ee1d-c96a-4385-b391-127dbfce4092'</code></pre>
+    -H 'Authorization: Bearer 7235cfe5-ad41-42c2-801f-c53227e26118'</code></pre>
 </div>
 </div>
 </div>
@@ -1938,14 +1938,20 @@ Must be at most 100.</p></td>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">offset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pageNumber</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">paged</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pageSize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">offset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -2016,14 +2022,8 @@ Must be at most 100.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pageNumber</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pageSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">paged</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -2247,20 +2247,20 @@ Content-Length: 1072
       "unsorted" : true,
       "empty" : true
     },
-    "offset" : 0,
     "pageNumber" : 0,
     "pageSize" : 20,
+    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
   "total" : 1,
-  "last" : true,
   "totalPages" : 1,
   "totalElements" : 1,
+  "last" : true,
+  "first" : true,
+  "numberOfElements" : 1,
   "size" : 20,
   "number" : 0,
-  "numberOfElements" : 1,
-  "first" : true,
   "sort" : {
     "orders" : [ ],
     "sorted" : false,
@@ -3724,7 +3724,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/filtered/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 99d6ee1d-c96a-4385-b391-127dbfce4092' \
+    -H 'Authorization: Bearer 7235cfe5-ad41-42c2-801f-c53227e26118' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
