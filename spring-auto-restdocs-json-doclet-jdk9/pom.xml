@@ -24,7 +24,16 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.1</version>
+            <!--
+             | Jackson Databind 2.12.0 has a breaking API change that is corrected in 2.12.1
+             | If you are using Java 14 records, you must use version 2.12.1 or later.
+             | Otherwise, you can use any version other than 2.12.0.
+             | 
+             | NOTE:
+             | This version range may be removed once the parent project specifies a range
+             | greater than 2.12.0.
+             +-->
+            <version>[2.11.2,2.12.0),[2.12.1,2.99)</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -70,7 +79,7 @@
         <profile>
             <id>java14</id>
             <activation>
-                <jdk>[14,16)</jdk>
+                <jdk>[14,17)</jdk>
             </activation>
             <build>
 
