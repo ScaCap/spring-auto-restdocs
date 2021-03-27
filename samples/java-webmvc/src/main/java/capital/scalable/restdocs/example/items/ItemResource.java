@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Java Web MVC Example Project
  * %%
- * Copyright (C) 2015 - 2020 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2021 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import capital.scalable.restdocs.example.common.Money;
 import capital.scalable.restdocs.example.constraints.English;
@@ -43,8 +44,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -240,10 +243,19 @@ public class ItemResource {
      * @title Process One Item
      */
     @PostMapping("{itemId}/process")
-    public CommandResult processSingleItem(@PathVariable String itemId,
-            @ModelAttribute Command command) {
+    public CommandResult processSingleItem(
+            @PathVariable String itemId,
+            @ModelAttribute Command command,
+            HttpMethod method,
+            @ModelAttribute Filter filter,
+            Pageable page,
+            Errors errors,
+            CloneData data
+            ) {
         return new CommandResult(
-                String.format("Command executed on item %s: %s", itemId, command.getCommand()));
+                String.format("Command executed on item %s: %s, method: %s, tag: %s, data: %s, errors: %s, %s",
+                        itemId, command.getCommand(), method, filter.tag, data.name,
+                        errors.getAllErrors().size(), page));
     }
 
     /**
@@ -282,7 +294,8 @@ public class ItemResource {
         HypermediaItemResponse response = new HypermediaItemResponse(id, "hypermedia item");
         response.add(linkTo(methodOn(ItemResource.class).getHypermediaItem(id, embedded)).withSelfRel());
         response.add(linkTo(methodOn(ItemResource.class).getItem(id)).withRel("classicItem"));
-        response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null)).withRel("process"));
+        response.add(linkTo(methodOn(ItemResource.class).processSingleItem(id, null, null, null, null, null, null))
+                .withRel("process"));
         if (embedded != null && embedded) {
             response.addEmbedded("children", new Object[] { CHILD });
             response.addEmbedded("attributes", ATTRIBUTES);
@@ -338,6 +351,21 @@ public class ItemResource {
          */
         @Deprecated
         private String name;
+
+        public CloneData() {
+        }
+
+        public CloneData(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     static class Command {
@@ -388,5 +416,20 @@ public class ItemResource {
          * Only items with this tag should be returned.
          */
         private String tag;
+
+        public Filter() {
+        }
+
+        public Filter(String tag) {
+            this.tag = tag;
+        }
+
+        public String getTag() {
+            return tag;
+        }
+
+        public void setTag(String tag) {
+            this.tag = tag;
+        }
     }
 }

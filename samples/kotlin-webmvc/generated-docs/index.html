@@ -1156,7 +1156,7 @@ Size must be between 0 and 1000 inclusive.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 98f372cf-ee8f-4c3b-abb6-7302dc66d6dd' \
+    -H 'Authorization: Bearer f0e896b0-5828-408d-b583-c2e467b62f83' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1399,7 +1399,7 @@ Must be at most 10.</p></td>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer 98f372cf-ee8f-4c3b-abb6-7302dc66d6dd' \
+    -H 'Authorization: Bearer f0e896b0-5828-408d-b583-c2e467b62f83' \
     -d '{"description":"Hot News"}'</code></pre>
 </div>
 </div>
@@ -1501,7 +1501,7 @@ Content-Length: 124
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/items/1' -i -X DELETE \
-    -H 'Authorization: Bearer 98f372cf-ee8f-4c3b-abb6-7302dc66d6dd'</code></pre>
+    -H 'Authorization: Bearer f0e896b0-5828-408d-b583-c2e467b62f83'</code></pre>
 </div>
 </div>
 </div>
@@ -1999,16 +1999,19 @@ Content-Length: 1072
       "unsorted" : true,
       "empty" : true
     },
+    "offset" : 0,
     "pageNumber" : 0,
     "pageSize" : 20,
-    "offset" : 0,
     "paged" : true,
     "unpaged" : false
   },
   "total" : 1,
   "last" : true,
-  "totalElements" : 1,
   "totalPages" : 1,
+  "totalElements" : 1,
+  "numberOfElements" : 1,
+  "size" : 20,
+  "number" : 0,
   "first" : true,
   "sort" : {
     "orders" : [ ],
@@ -2016,9 +2019,6 @@ Content-Length: 1072
     "unsorted" : true,
     "empty" : true
   },
-  "number" : 0,
-  "size" : 20,
-  "numberOfElements" : 1,
   "empty" : false
 }</code></pre>
 </div>
@@ -2595,7 +2595,7 @@ Content-Length: 459
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-10 13:59:32 +0100
+Last updated 2019-10-07 11:41:40 +0200
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

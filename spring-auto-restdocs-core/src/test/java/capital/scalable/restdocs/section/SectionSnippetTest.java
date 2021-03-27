@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2020 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2021 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,10 @@ import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_FIELDS;
 import static capital.scalable.restdocs.SnippetRegistry.RESPONSE_HEADERS;
 import static capital.scalable.restdocs.section.SectionSnippet.SECTION;
 import static capital.scalable.restdocs.util.FormatUtil.fixLineSeparator;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.cli.CliDocumentation.curlRequest;
@@ -58,9 +61,13 @@ import java.util.Map;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
 import capital.scalable.restdocs.i18n.TranslationRule;
 import capital.scalable.restdocs.javadoc.JavadocReader;
+import capital.scalable.restdocs.payload.JacksonModelAttributeSnippet;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.restdocs.templates.TemplateFormats;
@@ -72,6 +79,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
+import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
 public class SectionSnippetTest {
 
@@ -441,7 +453,7 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 requestParameters(),
                                 requestFields(),
-                                modelAttribute(null)))
+                                modelAttribute(standardMarList())))
                         .request("http://localhost/items/1")
                         .build());
 
@@ -473,7 +485,7 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 requestParameters(),
                                 requestFields(),
-                                modelAttribute(null)))
+                                modelAttribute(standardMarList())))
                         .request("http://localhost/items/1")
                         .build());
 
@@ -505,7 +517,7 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 requestParameters(),
                                 requestFields(),
-                                modelAttribute(null)))
+                                modelAttribute(standardMarList())))
                         .request("http://localhost/items/1")
                         .build());
 
@@ -538,7 +550,7 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 requestParameters(),
                                 requestFields(),
-                                modelAttribute(null)))
+                                modelAttribute(standardMarList())))
                         .request("http://localhost/items/1")
                         .build());
 
@@ -570,7 +582,7 @@ public class SectionSnippetTest {
                         .attribute(ATTRIBUTE_NAME_DEFAULT_SNIPPETS, Arrays.asList(
                                 requestParameters(),
                                 requestFields(),
-                                modelAttribute(null)))
+                                modelAttribute(standardMarList())))
                         .request("http://localhost/items/1")
                         .build());
 
@@ -591,7 +603,18 @@ public class SectionSnippetTest {
                                 "include::http-response.adoc[]\n"));
     }
 
+    private ArrayList<HandlerMethodArgumentResolver> standardMarList() {
+        // captures @RequestParam, @RequestBody and @ModelAttribute
+        HandlerMethodArgumentResolver requestParamMar = new RequestParamMethodArgumentResolver(false);
+        HandlerMethodArgumentResolver requestResponseBodyMar =
+                new RequestResponseBodyMethodProcessor(
+                        singletonList(new MappingJackson2HttpMessageConverter(new ObjectMapper())));
+        HandlerMethodArgumentResolver modelAttributeMar = new ServletModelAttributeMethodProcessor(true);
+        return list(requestParamMar, requestResponseBodyMar, modelAttributeMar);
+    }
+
     private static class CustomSnippetTranslationResolver implements SnippetTranslationResolver {
+
 
         private Map<String, String> customTranslations;
 

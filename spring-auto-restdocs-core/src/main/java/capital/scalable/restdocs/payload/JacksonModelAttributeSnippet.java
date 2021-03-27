@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2020 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2021 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,6 @@ import capital.scalable.restdocs.util.HandlerMethodUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.core.MethodParameter;
 import org.springframework.restdocs.operation.Operation;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
@@ -59,19 +58,20 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     }
 
     @Override
-    protected Type getType(HandlerMethod method) {
-        for (MethodParameter param : method.getMethodParameters()) {
-            if (isModelAttribute(param) || isProcessedAsModelAttribute(param)) {
-                return getType(param);
-            }
-        }
-        return null;
+    protected Type[] getType(HandlerMethod method) {
+        return Arrays.stream(method.getMethodParameters())
+                .filter(param -> isProcessedAsModelAttribute(param))
+                .map(this::getType)
+                .toArray(Type[]::new);
     }
 
-    private boolean isModelAttribute(MethodParameter param) {
-        return param.getParameterAnnotation(ModelAttribute.class) != null;
-    }
-
+    /**
+     * Iterates over a list of method argument resolvers and returns the first in the same way as in
+     * {@link org.springframework.web.method.support.HandlerMethodArgumentResolverComposite#getArgumentResolver(org.springframework.core.MethodParameter)}
+     *
+     * ModelAttributeMethodProcessor is always the last in the provided list, therefore we can rely on the fact that if
+     * that one is returned, every other argument resolver failed.
+     */
     private boolean isProcessedAsModelAttribute(MethodParameter param) {
         return handlerMethodArgumentResolvers != null
                 && handlerMethodArgumentResolvers.stream()
@@ -92,10 +92,7 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
     protected boolean isRequestMethodGet(HandlerMethod method) {
         RequestMapping requestMapping = method.getMethodAnnotation(RequestMapping.class);
         return requestMapping == null
-                || requestMapping.method() == null
-                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> {
-            return requestMethod == RequestMethod.GET;
-        });
+                || Arrays.stream(requestMapping.method()).anyMatch(requestMethod -> requestMethod == RequestMethod.GET);
     }
 
     @Override

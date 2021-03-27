@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2020 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2021 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,13 @@ import static capital.scalable.restdocs.util.TypeUtil.resolveAllTypes;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.i18n.SnippetTranslationResolver;
@@ -75,8 +78,16 @@ public class FieldDocumentationGenerator {
 
     public FieldDescriptors generateDocumentation(Type baseType, TypeFactory typeFactory)
             throws JsonMappingException {
-        JavaType javaBaseType = typeFactory.constructType(baseType);
-        List<JavaType> types = resolveAllTypes(javaBaseType, typeFactory, typeMapping);
+        return generateDocumentation(new Type[]{baseType}, typeFactory);
+    }
+
+    public FieldDescriptors generateDocumentation(Type[] baseTypes, TypeFactory typeFactory)
+            throws JsonMappingException {
+        List<JavaType> types = Arrays.stream(baseTypes)
+                .map(typeFactory::constructType)
+                .map(type -> resolveAllTypes(type, typeFactory, typeMapping))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
         FieldDescriptors result = new FieldDescriptors();
 
         FieldDocumentationVisitorWrapper visitorWrapper = FieldDocumentationVisitorWrapper.create(

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springAutoRestDocsVersion = "2.0.10-SNAPSHOT"
+        springAutoRestDocsVersion = "2.0.11-SNAPSHOT"
         springRestDocsVersion = "2.0.5.RELEASE"
         springBootVersion = "2.3.3.RELEASE"
     }
@@ -20,7 +20,7 @@ apply plugin: "io.spring.dependency-management"
 apply plugin: "org.asciidoctor.convert"
 
 group = "capital.scalable"
-version = "2.0.10-SNAPSHOT"
+version = "2.0.11-SNAPSHOT"
 
 description = """Spring Auto REST Docs Java Web MVC Example Project"""
 
