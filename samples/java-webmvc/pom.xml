@@ -13,7 +13,7 @@
 
     <groupId>capital.scalable</groupId>
     <artifactId>spring-auto-restdocs-java-webmvc-example</artifactId>
-    <version>2.0.11</version>
+    <version>2.0.12-SNAPSHOT</version>
 
     <name>Spring Auto REST Docs Java Web MVC Example Project</name>
     <description>Example project for Spring Auto REST Docs</description>
@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>capital.scalable.restdocs.example.Application</start-class>
         <spring-restdocs.version>2.0.5.RELEASE</spring-restdocs.version>
-        <spring-auto-restdocs.version>2.0.11</spring-auto-restdocs.version>
+        <spring-auto-restdocs.version>2.0.12-SNAPSHOT</spring-auto-restdocs.version>
     </properties>
 
     <dependencies>
