@@ -16,6 +16,7 @@
     <description>Doclet exporting JavaDoc to JSON for Spring Auto REST Docs</description>
 
     <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,6 +24,16 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <!--
+             | Jackson Databind 2.12.0 has a breaking API change that is corrected in 2.12.1
+             | If you are using Java 14 records, you must use version 2.12.1 or later.
+             | Otherwise, you can use any version other than 2.12.0.
+             | 
+             | NOTE:
+             | This version range may be removed once the parent project specifies a range
+             | greater than 2.12.0.
+             +-->
+            <version>[2.11.2,2.12.0),[2.12.1,2.99)</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -54,35 +65,70 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>9</release>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>generate-javadoc-json</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>test-javadoc-no-fork</goal>
-                        </goals>
-                        <configuration>
-                            <doclet>capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>capital.scalable</groupId>
-                                <artifactId>spring-auto-restdocs-json-doclet-jdk9</artifactId>
-                                <version>${project.parent.version}</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <show>package</show>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>java14</id>
+            <activation>
+                <jdk>[14,17)</jdk>
+            </activation>
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <argLine>
+                                    --enable-preview
+                                    --illegal-access=permit
+                                </argLine>
+                                <!-- Force alphabetical order to have a reproducible build -->
+                                <runOrder>alphabetical</runOrder>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>test-compile-java-14</id>
+                                <phase>test-compile</phase>
+                                <goals>
+                                    <goal>testCompile</goal>
+                                </goals>
+                                <configuration>
+                                    <release>${java.specification.version}</release>
+                                    <multiReleaseOutput>true</multiReleaseOutput>
+                                    <compilerArgs>
+                                      <!-- Enables use of record and text blocks -->
+                                      <compilerArg>--enable-preview</compilerArg>
+                                    </compilerArgs>
+                                    <compileSourceRoots>
+                                        <compileSourceRoot>${project.basedir}/src/test/java14</compileSourceRoot>
+                                    </compileSourceRoots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
 </project>

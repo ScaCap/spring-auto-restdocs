@@ -37,6 +37,10 @@ public class FieldDocumentation {
     private String comment;
     private final Map<String, String> tags = new HashMap<>();
 
+    private FieldDocumentation(String comment) {
+        this.comment = comment;
+    }
+
     private void addTag(DocTree tag) {
         if (tag instanceof BlockTagTree) {
             tags.put(
@@ -47,13 +51,17 @@ public class FieldDocumentation {
 
     public static FieldDocumentation fromFieldDoc(DocletEnvironment docEnv,
             Element fieldElement) {
-        FieldDocumentation fd = new FieldDocumentation();
-        fd.comment = cleanupDocComment(docEnv.getElementUtils().getDocComment(fieldElement));
+        FieldDocumentation fd = fromString(
+            cleanupDocComment(docEnv.getElementUtils().getDocComment(fieldElement)));
 
         Optional.ofNullable(docEnv.getDocTrees().getDocCommentTree(fieldElement))
                 .ifPresent(docCommentTree -> docCommentTree.getBlockTags()
                         .forEach(tag -> fd.addTag(tag)));
 
         return fd;
+    }
+
+    public static FieldDocumentation fromString(String comment) {
+        return new FieldDocumentation(comment);
     }
 }
