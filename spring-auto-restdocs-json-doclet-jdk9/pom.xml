@@ -16,7 +16,6 @@
     <description>Doclet exporting JavaDoc to JSON for Spring Auto REST Docs</description>
 
     <properties>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
