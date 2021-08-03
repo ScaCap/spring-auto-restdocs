@@ -42,7 +42,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,7 +54,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
@@ -291,7 +289,8 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         thrown.expectMessage("Following request fields were not documented: [field1, field2]");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), true).document(operationBuilder
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor)).failOnUndocumentedFields(true)
+                .document(operationBuilder
                 .attribute(HandlerMethod.class.getName(), handlerMethod)
                 .attribute(ObjectMapper.class.getName(), mapper)
                 .attribute(JavadocReader.class.getName(), javadocReader)
