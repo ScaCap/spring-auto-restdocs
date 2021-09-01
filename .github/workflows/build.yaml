@@ -1,0 +1,60 @@
+name: Build and Publish
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  cleanup-run:
+    name: Cleanup previous run in PRs
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Abort previous action run (branch != master)
+        if: endsWith(github.ref, 'master') == false
+        uses: rokroskar/workflow-run-cleanup-action@v0.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build:
+    name: Build and Run Tests
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+      - name: Prepare dependencies
+        run: |
+          mvn install:install-file \
+            -Dfile=lib/spring-restdocs-core-2.0.5.RELEASE-test.jar \
+            -DgroupId=org.springframework.restdocs \
+            -DartifactId=spring-restdocs-core \
+            -Dversion=2.0.5.RELEASE \
+            -Dpackaging=jar \
+            -Dclassifier=test
+          mvn install:install-file \
+            -Dfile=lib/dokka-core-0.10.1-tests.jar \
+            -DgroupId=org.jetbrains.dokka \
+            -DartifactId=dokka-core -Dversion=0.10.1
+            -Dpackaging=jar \
+            -Dclassifier=test
+      - name: Build and Run Tests
+        run: |
+          mvn install -B -V -fae
+          cd samples
+          mvn install -B -V -fae
+          cd java-webmvc && ./gradlew check && cd ..
+          cd kotlin-webmvc && ./gradlew check && cd ..
+      - name: Publish Test Report
+        uses: scacap/action-surefire-report@v1
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
