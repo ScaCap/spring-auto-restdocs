@@ -43,7 +43,7 @@ jobs:
           mvn install:install-file \
             -Dfile=lib/dokka-core-0.10.1-tests.jar \
             -DgroupId=org.jetbrains.dokka \
-            -DartifactId=dokka-core -Dversion=0.10.1
+            -DartifactId=dokka-core -Dversion=0.10.1 \
             -Dpackaging=jar \
             -Dclassifier=test
       - name: Build and Run Tests
