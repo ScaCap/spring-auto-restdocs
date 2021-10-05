@@ -16,10 +16,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: [ 8, 11, 15 ]
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        jdk: [ 8, 11, 15 ]
     name: Build and Run Tests
     runs-on: ubuntu-18.04
     steps:
@@ -68,7 +68,7 @@ jobs:
         if: endsWith(github.ref, 'master') == true
         run: |
           echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
-          test $IS_MASTER
+          test $IS_MASTER \
             && test $IS_JDK8 \
             && mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
           test $IS_MASTER \
