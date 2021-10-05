@@ -56,9 +56,26 @@ jobs:
           cd samples
           mvn install -B -V -fae
           cd java-webmvc && ./gradlew check && cd ..
-          cd kotlin-webmvc && ./gradlew check && cd ..
+          test $IS_JDK8 && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
+        env:
+          IS_JDK8: ${{ matrix.jdk == '8' }}
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sign and deploy
+        if: endsWith(github.ref, 'master') == true
+        run: |
+          echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
+          test $IS_MASTER
+            && test $IS_JDK8 \
+            && mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
+          test $IS_MASTER \
+            && test $IS_JDK11 \
+            && cd spring-auto-restdocs-json-doclet-jdk9 \
+            && mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
+        env:
+          IS_MASTER: ${{ endsWith(github.ref, 'master') == true }}
+          IS_JDK8: ${{ matrix.jdk == '8' }}
+          IS_JDK11: ${{ matrix.jdk == '11' }}
