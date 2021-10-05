@@ -16,6 +16,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [ 8, 11, 15 ]
     name: Build and Run Tests
     runs-on: ubuntu-18.04
     steps:
@@ -30,7 +34,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: '8'
+          java-version: ${{ matrix.jdk }}
       - name: Prepare dependencies
         run: |
           mvn install:install-file \
