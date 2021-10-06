@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Abort previous action run (branch != master)
-        if: !endsWith(github.ref, 'master')
+        if: endsWith(github.ref, 'master') == false
         uses: rokroskar/workflow-run-cleanup-action@v0.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -25,16 +25,19 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v1
+
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.jdk }}
+
       - name: Prepare dependencies
         run: |
           mvn install:install-file \
@@ -50,51 +53,34 @@ jobs:
             -DartifactId=dokka-core -Dversion=0.10.1 \
             -Dpackaging=jar \
             -Dclassifier=test
+
       - name: Build and Run Tests - Core
         run: |
           mvn install -B -V -fae
+
       - name: Build and Run Tests - Samples
         run: |
           cd samples
           mvn install -B -V -fae
+
       - name: Build and Run Tests - Gradle java-webmvc
         run: |
           cd samples/java-webmvc
           ./gradlew check
+
       - name: Build and Run Tests - Gradle kotlin-webmvc (JDK 8 only)
         if: matrix.jdk == '8'
         run: |
           cd samples/kotlin-webmvc
           ./gradlew check
+
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Test Report (${{ matrix.jdk }})
-#      - name: Sign and publish core libs
-#        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '8' }}
-#        run: |
-#          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
-#          mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
-#        env:
-#          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
-#          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
-#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-#      - name: Sign and publish jdk9 doclet
-#        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '11' }}
-#        run: |
-#          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
-#          cd spring-auto-restdocs-json-doclet-jdk9
-#          mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
-#        env:
-#          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
-#          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
-#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
       - name: Set up Sonatype
         uses: actions/setup-java@v2
         with:
@@ -105,6 +91,7 @@ jobs:
           server-password: SONATYPE_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
+
       - name: Sign and publish core libs (JDK 8 only)
         if: matrix.jdk == '8' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
         run: |
@@ -113,6 +100,7 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
       - name: Sign and publish jdk9 doclet (JDK 11 only)
         if: matrix.jdk == '11' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
         run: |
