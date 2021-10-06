@@ -71,6 +71,7 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: Test Report (${{ matrix.jdk }})
       - name: Sign and deploy
         if: endsWith(github.ref, 'master') == true
         run: |
