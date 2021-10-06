@@ -49,7 +49,7 @@ jobs:
           IS_JDK_8: ${{ matrix.jdk == '8' }}
           IS_JDK_11: ${{ matrix.jdk == '11' }}
           BRANCH: ${{ github.ref }}
-          IS_MASTER: ${{ endsWith(github.ref, 'build-by-gh-actions') }}
+          IS_MASTER: ${{ endsWith(github.ref, 'master') }}
 
       - name: Prepare dependencies
         run: |
@@ -106,7 +106,7 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE
 
       - name: Sign and publish core libs (JDK 8 only)
-        if: matrix.jdk == '8' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
+        if: matrix.jdk == '8' && endsWith(github.ref, 'master')
         run: |
           mvn deploy -DskipTests=true -B -V
         env:
@@ -115,7 +115,7 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Sign and publish jdk9 doclet (JDK 11 only)
-        if: matrix.jdk == '11' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
+        if: matrix.jdk == '11' && endsWith(github.ref, 'master')
         run: |
           cd spring-auto-restdocs-json-doclet-jdk9
           mvn deploy -DskipTests=true -B -V
