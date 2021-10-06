@@ -72,26 +72,45 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Test Report (${{ matrix.jdk }})
+#      - name: Sign and publish core libs
+#        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '8' }}
+#        run: |
+#          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
+#          mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
+#        env:
+#          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+#          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#      - name: Sign and publish jdk9 doclet
+#        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '11' }}
+#        run: |
+#          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
+#          cd spring-auto-restdocs-json-doclet-jdk9
+#          mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
+#        env:
+#          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+#          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      - name: Set up Sonatype
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.jdk }}
+          server-id: ossrh
+          server-username: ${{ secrets.SONATYPE_USERNAME }}
+          server-password: ${{ secrets.SONATYPE_PASSWORD }}
+          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Sign and publish core libs
         if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '8' }}
         run: |
-          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
-          mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
-        env:
-          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
-          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          mvn deploy -DskipTests=true -B -V
       - name: Sign and publish jdk9 doclet
         if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '11' }}
         run: |
-          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
           cd spring-auto-restdocs-json-doclet-jdk9
-          mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
-        env:
-          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
-          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          mvn deploy -DskipTests=true -B -V
