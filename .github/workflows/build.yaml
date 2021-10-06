@@ -59,11 +59,13 @@ jobs:
           mvn install -B -V -fae
       - name: Build and Run Tests - Gradle java-webmvc
         run: |
-          cd java-webmvc && ./gradlew check && cd ..
+          cd samples/java-webmvc
+          ./gradlew check
       - name: Build and Run Tests - Gradle kotlin-webmvc
         if: matrix.jdk == '8'
         run: |
-          cd kotlin-webmvc && ./gradlew check && cd ..
+          cd samples/kotlin-webmvc
+          ./gradlew check
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
