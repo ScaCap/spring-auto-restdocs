@@ -38,19 +38,6 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.jdk }}
 
-      - run: |
-          echo "JDK: $JDK"
-          echo "IS_JDK_8: $IS_JDK_8"
-          echo "IS_JDK_11: $IS_JDK_11"
-          echo "BRANCH: $BRANCH"
-          echo "IS_MASTER: $IS_MASTER"
-        env:
-          JDK: ${{ matrix.jdk }}
-          IS_JDK_8: ${{ matrix.jdk == '8' }}
-          IS_JDK_11: ${{ matrix.jdk == '11' }}
-          BRANCH: ${{ github.ref }}
-          IS_MASTER: ${{ endsWith(github.ref, 'master') }}
-
       - name: Prepare dependencies
         run: |
           mvn install:install-file \
