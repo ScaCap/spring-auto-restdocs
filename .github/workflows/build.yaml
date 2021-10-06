@@ -28,7 +28,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - uses: actions/setup-java@v2
@@ -50,15 +50,20 @@ jobs:
             -DartifactId=dokka-core -Dversion=0.10.1 \
             -Dpackaging=jar \
             -Dclassifier=test
-      - name: Build and Run Tests
+      - name: Build and Run Tests - Core
         run: |
           mvn install -B -V -fae
+      - name: Build and Run Tests - Samples
+        run: |
           cd samples
           mvn install -B -V -fae
+      - name: Build and Run Tests - Gradle java-webmvc
+        run: |
           cd java-webmvc && ./gradlew check && cd ..
-          test $IS_JDK8 && cd kotlin-webmvc && ./gradlew check && cd .. || (exit 0)
-        env:
-          IS_JDK8: ${{ matrix.jdk == '8' }}
+      - name: Build and Run Tests - Gradle kotlin-webmvc
+        if: matrix.jdk == '8'
+        run: |
+          cd kotlin-webmvc && ./gradlew check && cd ..
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
