@@ -101,16 +101,24 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.jdk }}
           server-id: ossrh
-          server-username: ${{ secrets.SONATYPE_USERNAME }}
-          server-password: ${{ secrets.SONATYPE_PASSWORD }}
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-passphrase: GPG_PASSPHRASE
       - name: Sign and publish core libs
-        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '8' }}
+        if: endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '8'
         run: |
           mvn deploy -DskipTests=true -B -V
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       - name: Sign and publish jdk9 doclet
-        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '11' }}
+        if: endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '11'
         run: |
           cd spring-auto-restdocs-json-doclet-jdk9
           mvn deploy -DskipTests=true -B -V
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
