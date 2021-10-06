@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Abort previous action run (branch != master)
-        if: endsWith(github.ref, 'master') == false
+        if: !endsWith(github.ref, 'master')
         uses: rokroskar/workflow-run-cleanup-action@v0.2.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
         run: |
           cd samples/java-webmvc
           ./gradlew check
-      - name: Build and Run Tests - Gradle kotlin-webmvc
+      - name: Build and Run Tests - Gradle kotlin-webmvc (JDK 8 only)
         if: matrix.jdk == '8'
         run: |
           cd samples/kotlin-webmvc
@@ -105,16 +105,16 @@ jobs:
           server-password: SONATYPE_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
-      - name: Sign and publish core libs
-        if: matrix.jdk == '8' # endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '8'
+      - name: Sign and publish core libs (JDK 8 only)
+        if: matrix.jdk == '8' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
         run: |
           mvn deploy -DskipTests=true -B -V
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Sign and publish jdk9 doclet
-        if: matrix.jdk == '11' # endsWith(github.ref, 'build-by-gh-actions') == true &&
+      - name: Sign and publish jdk9 doclet (JDK 11 only)
+        if: matrix.jdk == '11' && endsWith(github.ref, 'build-by-gh-actions') # TODO change to master
         run: |
           cd spring-auto-restdocs-json-doclet-jdk9
           mvn deploy -DskipTests=true -B -V
