@@ -238,7 +238,7 @@
             <id>sign-artifacts</id>
             <activation>
                 <property>
-                    <name>gpg.passphrase</name>
+                    <name>GPG_PASSPHRASE</name>
                 </property>
             </activation>
             <build>
