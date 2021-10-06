@@ -73,8 +73,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Test Report (${{ matrix.jdk }})
       - name: Sign and publish core libs
-        if: endsWith(github.ref, 'build-by-gh-actions') == true
-          && ${{ matrix.jdk == '8' }}
+        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '8' }}
         run: |
           echo $GPG_SECRET_KEY | base64 --decode | gpg --import
           mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
@@ -85,8 +84,7 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
       - name: Sign and publish jdk9 doclet
-        if: endsWith(github.ref, 'build-by-gh-actions') == true
-          && ${{ matrix.jdk == '11' }}
+        if: endsWith(github.ref, 'build-by-gh-actions') == true && ${{ matrix.jdk == '11' }}
         run: |
           echo $GPG_SECRET_KEY | base64 --decode | gpg --import
           cd spring-auto-restdocs-json-doclet-jdk9
