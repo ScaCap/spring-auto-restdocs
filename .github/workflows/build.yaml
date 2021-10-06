@@ -72,18 +72,28 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Test Report (${{ matrix.jdk }})
-      - name: Sign and deploy
-        if: endsWith(github.ref, 'master') == true
+      - name: Sign and publish core libs
+        if: endsWith(github.ref, 'build-by-gh-actions') == true
+          && ${{ matrix.jdk == '8' }}
         run: |
-          echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
-          test $IS_MASTER \
-            && test $IS_JDK8 \
-            && mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
-          test $IS_MASTER \
-            && test $IS_JDK11 \
-            && cd spring-auto-restdocs-json-doclet-jdk9 \
-            && mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
+          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
+          mvn deploy --settings deploy-settings.xml -DskipTests=true -B -V
         env:
-          IS_MASTER: ${{ endsWith(github.ref, 'master') == true }}
-          IS_JDK8: ${{ matrix.jdk == '8' }}
-          IS_JDK11: ${{ matrix.jdk == '11' }}
+          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      - name: Sign and publish jdk9 doclet
+        if: endsWith(github.ref, 'build-by-gh-actions') == true
+          && ${{ matrix.jdk == '11' }}
+        run: |
+          echo $GPG_SECRET_KEY | base64 --decode | gpg --import
+          cd spring-auto-restdocs-json-doclet-jdk9
+          mvn deploy --settings ../deploy-settings.xml -DskipTests=true -B -V
+        env:
+          GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
