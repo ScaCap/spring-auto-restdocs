@@ -106,7 +106,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
       - name: Sign and publish core libs
-        if: endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '8'
+        if: matrix.jdk == '8' # endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '8'
         run: |
           mvn deploy -DskipTests=true -B -V
         env:
@@ -114,7 +114,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       - name: Sign and publish jdk9 doclet
-        if: endsWith(github.ref, 'build-by-gh-actions') == true && matrix.jdk == '11'
+        if: matrix.jdk == '11' # endsWith(github.ref, 'build-by-gh-actions') == true &&
         run: |
           cd spring-auto-restdocs-json-doclet-jdk9
           mvn deploy -DskipTests=true -B -V
