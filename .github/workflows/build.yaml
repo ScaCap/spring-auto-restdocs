@@ -92,7 +92,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
-      - name: Sign and publish core libs (JDK 8 only)
+      - name: Sign and publish core libs (master + JDK 8 only)
         if: matrix.jdk == '8' && endsWith(github.ref, 'master')
         run: |
           mvn deploy -DskipTests=true -B -V
@@ -101,7 +101,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Sign and publish jdk9 doclet (JDK 11 only)
+      - name: Sign and publish jdk9 doclet (master + JDK 11 only)
         if: matrix.jdk == '11' && endsWith(github.ref, 'master')
         run: |
           cd spring-auto-restdocs-json-doclet-jdk9
