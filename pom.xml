@@ -237,7 +237,9 @@
         <profile>
             <id>sign-artifacts</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.GPG_PASSPHRASE</name>
+                </property>
             </activation>
             <build>
                 <plugins>
