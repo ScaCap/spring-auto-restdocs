@@ -8,7 +8,7 @@ on:
 jobs:
   cleanup-run:
     name: Cleanup previous run in PRs
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Abort previous action run (branch != master)
         if: endsWith(github.ref, 'master') == false
@@ -21,7 +21,7 @@ jobs:
       matrix:
         jdk: [ 8, 11, 15 ]
     name: Build and Run Tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v1
