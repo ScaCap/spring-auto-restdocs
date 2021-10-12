@@ -90,12 +90,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -112,12 +113,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(Item.class, "field2", "A constraint");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -141,14 +143,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                 new RequestResponseBodyMethodProcessor(singletonList(new MappingJackson2HttpMessageConverter(mapper)));
         // everything else by this one
         HandlerMethodArgumentResolver modelAttributeMar = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(
-                list(pathVariableMar, requestResponseBodyMar, modelAttributeMar), false)
+        new JacksonModelAttributeSnippet(list(pathVariableMar, requestResponseBodyMar, modelAttributeMar))
                 .document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -164,12 +165,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockConstraintMessage(ItemWithWeight.class, "weight", "Must be one of [LIGHT, HEAVY]");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -182,9 +184,11 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = new HandlerMethod(new TestResource(), "addItem2");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
-                .document(operationBuilder.attribute(HandlerMethod.class.getName(), handlerMethod)
-                        .attribute(ObjectMapper.class.getName(), mapper).build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).isEqualTo("No parameters.");
     }
@@ -192,9 +196,10 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
     @Test
     public void noHandlerMethod() throws Exception {
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).isEqualTo("No parameters.");
     }
@@ -206,12 +211,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(Item.class, "field2", "An integer");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), mock(ConstraintReader.class))
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), mock(ConstraintReader.class))
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -228,12 +234,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockFieldComment(SubItem2.class, "subItem2Field", "A sub item 2 field");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -248,10 +255,10 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("addItem", Item.class);
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
+        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
                 .hasContent(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .build());
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .build());
         assertThat(hasContent).isTrue();
     }
 
@@ -260,10 +267,10 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("addItem2");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false)
+        boolean hasContent = new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
                 .hasContent(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .build());
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .build());
         assertThat(hasContent).isFalse();
     }
 
@@ -275,10 +282,14 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         thrown.expectMessage("Following query parameters were not documented: [field1, field2]");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), true).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod).attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader).build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .failOnUndocumentedFields(true)
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
     }
 
     @Test
@@ -289,13 +300,14 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         thrown.expectMessage("Following request fields were not documented: [field1, field2]");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor)).failOnUndocumentedFields(true)
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .failOnUndocumentedFields(true)
                 .document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
     }
 
     @Test
@@ -305,13 +317,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         mockDeprecated(DeprecatedItem.class, "index", "use index2");
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -324,12 +336,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
         HandlerMethod handlerMethod = createHandlerMethod("accessors", ReadWriteAccessors.class);
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -347,12 +360,13 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                 DeprecatedItem.class);
 
         HandlerMethodArgumentResolver modelAttributeMethodProcessor = new ServletModelAttributeMethodProcessor(true);
-        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor), false).document(operationBuilder
-                .attribute(HandlerMethod.class.getName(), handlerMethod)
-                .attribute(ObjectMapper.class.getName(), mapper)
-                .attribute(JavadocReader.class.getName(), javadocReader)
-                .attribute(ConstraintReader.class.getName(), constraintReader)
-                .build());
+        new JacksonModelAttributeSnippet(singletonList(modelAttributeMethodProcessor))
+                .document(operationBuilder
+                        .attribute(HandlerMethod.class.getName(), handlerMethod)
+                        .attribute(ObjectMapper.class.getName(), mapper)
+                        .attribute(JavadocReader.class.getName(), javadocReader)
+                        .attribute(ConstraintReader.class.getName(), constraintReader)
+                        .build());
 
         assertThat(this.generatedSnippets.snippet(AUTO_MODELATTRIBUTE)).is(
                 tableWithHeader("Parameter", "Type", "Optional", "Description")
@@ -405,7 +419,7 @@ public class JacksonModelAttributeSnippetTest extends AbstractSnippetTests {
                 @PathVariable String id,
                 Item item,
                 @RequestBody ItemWithWeight otherParameter
-                ) {
+        ) {
             // NOOP
         }
 
