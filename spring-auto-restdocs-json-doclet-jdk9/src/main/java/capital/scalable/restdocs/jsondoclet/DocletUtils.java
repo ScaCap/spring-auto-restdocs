@@ -27,7 +27,7 @@ public class DocletUtils {
     }
 
     static String cleanupDocComment(String comment) {
-        return Optional.ofNullable(comment).map(s -> s.replaceAll("[\\r\\n]+\\s*@.*", "").trim()).orElse("");
+        return Optional.ofNullable(comment).map(s -> s.replaceAll("(?:^|[\\r\\n]+)\\s*@.*", "").trim()).orElse("");
     }
 
     public static String cleanupTagValue(String value) {

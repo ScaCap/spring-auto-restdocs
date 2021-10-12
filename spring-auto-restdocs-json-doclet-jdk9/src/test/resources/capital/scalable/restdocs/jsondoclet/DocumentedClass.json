@@ -39,6 +39,13 @@
       "comment": "",
       "parameters": {},
       "tags": {}
+    },
+    "documentedWithOnlyTag": {
+      "comment": "",
+      "parameters": {},
+      "tags": {
+        "title": "Title tag"
+      }
     }
   }
 }
