@@ -65,4 +65,10 @@ class DocumentedClass {
 
     void notDocumented() {
     }
+
+    /**
+     * @title Title tag
+     */
+    void documentedWithOnlyTag() {
+    }
 }
