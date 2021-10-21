@@ -50,6 +50,10 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
         this(null, false);
     }
 
+    public JacksonModelAttributeSnippet(Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers) {
+        this(handlerMethodArgumentResolvers, false);
+    }
+
     public JacksonModelAttributeSnippet(Collection<HandlerMethodArgumentResolver> handlerMethodArgumentResolvers,
             boolean failOnUndocumentedFields) {
         super(AUTO_MODELATTRIBUTE, null);
@@ -57,10 +61,14 @@ public class JacksonModelAttributeSnippet extends AbstractJacksonFieldSnippet {
         this.handlerMethodArgumentResolvers = handlerMethodArgumentResolvers;
     }
 
+    public JacksonModelAttributeSnippet failOnUndocumentedFields(boolean failOnUndocumentedFields) {
+        return new JacksonModelAttributeSnippet(handlerMethodArgumentResolvers, failOnUndocumentedFields);
+    }
+
     @Override
     protected Type[] getType(HandlerMethod method) {
         return Arrays.stream(method.getMethodParameters())
-                .filter(param -> isProcessedAsModelAttribute(param))
+                .filter(this::isProcessedAsModelAttribute)
                 .map(this::getType)
                 .toArray(Type[]::new);
     }
