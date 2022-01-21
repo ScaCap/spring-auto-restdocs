@@ -41,10 +41,10 @@ jobs:
       - name: Prepare dependencies
         run: |
           mvn install:install-file \
-            -Dfile=lib/spring-restdocs-core-2.0.5.RELEASE-test.jar \
+            -Dfile=lib/spring-restdocs-core-2.0.6.RELEASE-test-fixtures.jar \
             -DgroupId=org.springframework.restdocs \
             -DartifactId=spring-restdocs-core \
-            -Dversion=2.0.5.RELEASE \
+            -Dversion=2.0.6.RELEASE \
             -Dpackaging=jar \
             -Dclassifier=test
           mvn install:install-file \

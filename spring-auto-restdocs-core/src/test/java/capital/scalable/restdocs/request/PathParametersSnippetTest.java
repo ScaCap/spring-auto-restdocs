@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Before;
@@ -35,7 +36,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.GetMapping;

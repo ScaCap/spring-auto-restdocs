@@ -24,9 +24,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import capital.scalable.restdocs.javadoc.JavadocReader;
 import org.junit.Test;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
 

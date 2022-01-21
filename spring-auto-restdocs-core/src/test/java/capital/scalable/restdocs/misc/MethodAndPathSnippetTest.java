@@ -23,8 +23,8 @@ import static capital.scalable.restdocs.OperationAttributeHelper.REQUEST_PATTERN
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_METHOD_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import org.junit.Test;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.web.method.HandlerMethod;
