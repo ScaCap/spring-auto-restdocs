@@ -2,7 +2,7 @@
  * #%L
  * Spring Auto REST Docs Core
  * %%
- * Copyright (C) 2015 - 2021 Scalable Capital GmbH
+ * Copyright (C) 2015 - 2022 Scalable Capital GmbH
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AccessorNamingStrategy;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import com.fasterxml.jackson.databind.introspect.POJOPropertiesCollector;
@@ -45,16 +46,16 @@ public class SardObjectMapper extends ObjectMapper {
     public static class SardClassIntrospector extends BasicClassIntrospector {
         @Override
         protected POJOPropertiesCollector constructPropertyCollector(MapperConfig<?> config, AnnotatedClass ac,
-                JavaType type, boolean forSerialization, String mutatorPrefix) {
-            return new SardPOJOPropertiesCollector(config, forSerialization, type, ac, mutatorPrefix);
+                JavaType type, boolean forSerialization, AccessorNamingStrategy accNaming) {
+            return new SardPOJOPropertiesCollector(config, forSerialization, type, ac, accNaming);
         }
     }
 
     public static class SardPOJOPropertiesCollector extends POJOPropertiesCollector {
 
         protected SardPOJOPropertiesCollector(MapperConfig<?> config, boolean forSerialization,
-                JavaType type, AnnotatedClass classDef, String mutatorPrefix) {
-            super(config, forSerialization, type, classDef, mutatorPrefix);
+                JavaType type, AnnotatedClass classDef, AccessorNamingStrategy accNaming) {
+            super(config, forSerialization, type, classDef, accNaming);
         }
 
         @Override
