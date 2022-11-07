@@ -21,7 +21,7 @@ The test JAR is located in the lib folder and can be installed as follows:
 .Bash
 [source,bash]
 ----
-mvn install:install-file -Dfile=lib/spring-restdocs-core-${spring-restdocs.version}-test.jar \
+mvn install:install-file -Dfile=lib/spring-restdocs-core-${spring-restdocs.version}-test-fixtures.jar \
     -DgroupId=org.springframework.restdocs -DartifactId=spring-restdocs-core \
     -Dversion=${spring-restdocs.version} -Dpackaging=test-jar -Dclassifier=test
 ----
@@ -76,7 +76,7 @@ git checkout tags/v${spring-restdocs.version}
 ----
 
 Afterwards the test JAR is located at
-`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-${spring-restdocs.version}-test.jar`
+`spring-restdocs/spring-restdocs-core/build/libs/spring-restdocs-core-${spring-restdocs.version}-test-fixtures.jar`
 and has to be installed with the Maven command shown in the section above.
 
 [[contributing-building-dokka-testjar]]

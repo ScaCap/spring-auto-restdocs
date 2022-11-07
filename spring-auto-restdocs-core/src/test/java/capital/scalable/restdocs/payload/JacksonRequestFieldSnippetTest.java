@@ -33,6 +33,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.SardObjectMapper;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -45,7 +46,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.bind.annotation.RequestBody;

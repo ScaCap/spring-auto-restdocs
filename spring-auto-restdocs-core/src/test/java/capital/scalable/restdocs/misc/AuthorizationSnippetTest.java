@@ -22,8 +22,8 @@ package capital.scalable.restdocs.misc;
 import static capital.scalable.restdocs.SnippetRegistry.AUTO_AUTHORIZATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import org.junit.Test;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.templates.TemplateFormat;
 
 public class AuthorizationSnippetTest extends AbstractSnippetTests {

@@ -20,7 +20,7 @@
 package capital.scalable.restdocs.payload;
 
 import org.assertj.core.api.Condition;
-import org.springframework.restdocs.test.SnippetConditions.TableCondition;
+import org.springframework.restdocs.testfixtures.SnippetConditions.TableCondition;
 
 public class TableWithPrefixMatcher extends Condition<String> {
 

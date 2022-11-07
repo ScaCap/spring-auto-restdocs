@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import capital.scalable.restdocs.AbstractSnippetTests;
 import capital.scalable.restdocs.constraints.ConstraintReader;
 import capital.scalable.restdocs.jackson.SardObjectMapper;
 import capital.scalable.restdocs.javadoc.JavadocReader;
@@ -65,7 +66,6 @@ import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.core.EmbeddedWrapper;
 import org.springframework.hateoas.core.EmbeddedWrappers;
 import org.springframework.http.ResponseEntity;
-import org.springframework.restdocs.AbstractSnippetTests;
 import org.springframework.restdocs.snippet.SnippetException;
 import org.springframework.restdocs.templates.TemplateFormat;
 import org.springframework.web.method.HandlerMethod;
