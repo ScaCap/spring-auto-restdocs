@@ -1,3 +1,14 @@
+This project is officially end-of-life. Users are welcome to maintain it in a
+fork, but there will be no more Scalable-authored changes published. While Spring
+Auto REST Docs helped us over the years to maintain our API documentation,
+we decided to move to [OpenAPI] and phased out the usage internally. At Scalable,
+[springdoc-openapi] helps us now to automate the generation of API documentation.
+
+[OpenAPI]: https://www.openapis.org/
+[springdoc-openapi]: https://springdoc.org/
+
+---
+
 # Spring Auto REST Docs
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build status](https://github.com/ScaCap/spring-auto-restdocs/actions/workflows/build.yaml/badge.svg)](https://github.com/ScaCap/spring-auto-restdocs/actions/workflows/build.yaml)
