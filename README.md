@@ -1,3 +1,5 @@
+# End-of-life Notice
+
 This project is officially end-of-life. Users are welcome to maintain it in a
 fork, but there will be no more Scalable-authored changes published. While Spring
 Auto REST Docs helped us over the years to maintain our API documentation,
